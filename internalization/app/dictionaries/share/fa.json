@@ -1,1 +1,15 @@
-{}
+{
+ "title": "share dictionary",
+ "system": {
+  "modes": {
+   "light": "حالت روز",
+   "dark": "حالت شب",
+   "system": "سیستمی"
+  }
+ },
+ "components": {
+  "modeController": {
+   "description": "تغییر حالت"
+  }
+ }
+}

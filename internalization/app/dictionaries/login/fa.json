@@ -1,0 +1,9 @@
+{
+ "loginWithPassword": {
+  "form": {
+   "userName": "نام کاربری",
+   "password": "رمز عبور",
+   "confirm": "ورود"
+  }
+ }
+}

@@ -8,7 +8,7 @@ interface ShareStore {
  metaDictionary: MetaDictionary;
 }
 
-const shareDictionaryContext = createContext<ShareDictionary | null>(null);
+const shareDictionaryContext = createContext<ShareStore | null>(null);
 
 function useShareDictionary() {
  const val = use(shareDictionaryContext);
