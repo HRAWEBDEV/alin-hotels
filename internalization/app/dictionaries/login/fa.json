@@ -1,4 +1,6 @@
 {
+ "title": "احراز هویت",
+ "forgetPassword": "فراموشی رمز عبور؟",
  "loginWithPassword": {
   "form": {
    "userName": "نام کاربری",
