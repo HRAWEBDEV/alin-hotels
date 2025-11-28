@@ -1,6 +1,5 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { RiBookMarkedFill } from 'react-icons/ri';
 import {
  Tooltip,
  TooltipContent,
@@ -8,12 +7,13 @@ import {
 } from '@/components/ui/tooltip';
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
 import { useQuickAccessContext } from '../services/quick-access/quickAccessContext';
+import { RiLogoutBoxRFill } from 'react-icons/ri';
 
-function QuickAccessControllerButton() {
+function LogoutControllerButton() {
  const { toggle } = useQuickAccessContext();
  const {
   shareDictionary: {
-   components: { quickAccessController },
+   components: { logoutController },
   },
  } = useShareDictionary();
  return (
@@ -23,18 +23,18 @@ function QuickAccessControllerButton() {
      type='button'
      variant='outline'
      size='icon-lg'
-     className='hidden lg:flex rounded-full text-teal-700 dark:text-teal-400'
+     className='hidden lg:flex rounded-full text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
      onClick={() => toggle(true)}
     >
-     <RiBookMarkedFill className='size-5' />
+     <RiLogoutBoxRFill className='size-5' />
     </Button>
    </TooltipTrigger>
 
    <TooltipContent>
-    <p>{quickAccessController.description}</p>
+    <p>{logoutController.description}</p>
    </TooltipContent>
   </Tooltip>
  );
 }
 
-export { QuickAccessControllerButton };
+export { LogoutControllerButton };

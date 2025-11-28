@@ -8,6 +8,12 @@
   }
  },
  "components": {
+  "navList": {
+   "search": "جستجو"
+  },
+  "logoutController": {
+   "description": "خروج"
+  },
   "userProfileController": {
    "description": "پروفایل"
   },

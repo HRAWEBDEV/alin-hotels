@@ -21,11 +21,6 @@ import { Button } from '@/components/ui/button';
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { getModeIcon } from '../../utils/getModeIcons';
-import {
- Tooltip,
- TooltipTrigger,
- TooltipContent,
-} from '@/components/ui/tooltip';
 
 function ModeControllerButton() {
  const { localeInfo } = useBaseConfig();

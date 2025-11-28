@@ -1,5 +1,6 @@
 import NavProfile from './NavProfile';
 import NavList from './NavList';
+import NavExtra from './NavExtra';
 
 export default function Nav() {
  return (
@@ -7,9 +8,10 @@ export default function Nav() {
    <div className='hidden lg:block'>
     <NavProfile />
    </div>
-   <div className='overflow-auto'>
+   <div className='overflow-auto grow'>
     <NavList />
    </div>
+   <NavExtra />
   </nav>
  );
 }

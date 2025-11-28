@@ -9,17 +9,19 @@ export default function NavProfile() {
  return (
   <Button
    variant='ghost'
-   className='text-start p-4 py-[18px] h-auto bg-sky-900 hover:bg-sky-900 hover:dark:bg-sky-900 hover:text-primary-foreground hover:dark:text-foreground rounded-none w-full justify-start'
+   className='flex-col text-start p-4 py-[18px] h-auto bg-sky-900 hover:bg-sky-900 hover:dark:bg-sky-900 hover:text-primary-foreground hover:dark:text-foreground rounded-none w-full justify-start items-start'
    onClick={() => toggle(true)}
   >
-   <Avatar className='size-14'>
-    <AvatarFallback className='text-neutral-300 dark:text-neutral-500'>
-     <FaUserAlt className='size-6' />
-    </AvatarFallback>
-   </Avatar>
-   <span className='grow font-medium text-ellipsis overflow-hidden'>
-    حمیدرضا اکبری
-   </span>
+   <div className='flex gap-4 items-center w-full'>
+    <Avatar className='size-14'>
+     <AvatarFallback className='bg-neutral-400 text-neutral-300 dark:text-neutral-500'>
+      <FaUserAlt className='size-6' />
+     </AvatarFallback>
+    </Avatar>
+    <span className='grow font-medium text-ellipsis overflow-hidden text-neutral-300'>
+     حمیدرضا اکبری
+    </span>
+   </div>
   </Button>
  );
 }
