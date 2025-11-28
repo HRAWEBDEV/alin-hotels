@@ -8,6 +8,9 @@
   }
  },
  "components": {
+  "userProfileController": {
+   "description": "پروفایل"
+  },
   "modeController": {
    "description": "تغییر حالت"
   },

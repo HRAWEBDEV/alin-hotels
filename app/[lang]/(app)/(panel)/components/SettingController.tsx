@@ -16,7 +16,7 @@ function SettingControllerButton() {
  } = useShareDictionary();
  return (
   <Tooltip>
-   <TooltipTrigger>
+   <TooltipTrigger asChild>
     <Button
      type='button'
      variant='outline'
