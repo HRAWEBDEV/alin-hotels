@@ -12,7 +12,7 @@ import { IoArrowBack } from 'react-icons/io5';
 
 export default function Addressbar() {
  return (
-  <nav className='p-1 px-4 border-b border-input bg-neutral-100 dark:bg-neutral-900 shadow-xl flex gap-2 justify-between items-center'>
+  <nav className='shrink-0 p-1 px-4 border-b border-input bg-neutral-100 dark:bg-neutral-900 shadow-xl flex gap-2 justify-between items-center'>
    <div>
     <Breadcrumb>
      <BreadcrumbList>

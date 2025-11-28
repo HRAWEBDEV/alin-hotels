@@ -11,7 +11,7 @@ export default function PanelLayout({
  children,
 }: LayoutProps<'/[lang]/panel'>) {
  return (
-  <div className='h-svh flex'>
+  <div className='h-svh flex overflow-hidden'>
    <SettingProvider>
     <UserProfileProvider>
      <QuickAccessProvider>
@@ -20,7 +20,7 @@ export default function PanelLayout({
        <Header />
        <Addressbar />
        <Main>{children}</Main>
-       {/* <Tabs /> */}
+       <Tabs />
       </div>
      </QuickAccessProvider>
     </UserProfileProvider>

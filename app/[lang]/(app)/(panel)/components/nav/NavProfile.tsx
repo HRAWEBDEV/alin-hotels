@@ -9,7 +9,7 @@ export default function NavProfile() {
  return (
   <Button
    variant='ghost'
-   className='text-start p-4 h-auto bg-sky-800 dark:bg-sky-900 hover:bg-sky-800 hover:dark:bg-sky-900 hover:text-primary-foreground hover:dark:text-foreground rounded-none w-full justify-start'
+   className='text-start p-4 py-[18px] h-auto bg-sky-800 dark:bg-sky-900 hover:bg-sky-800 hover:dark:bg-sky-900 hover:text-primary-foreground hover:dark:text-foreground rounded-none w-full justify-start'
    onClick={() => toggle(true)}
   >
    <Avatar className='size-14'>

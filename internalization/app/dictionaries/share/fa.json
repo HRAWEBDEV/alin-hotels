@@ -11,6 +11,9 @@
   "userProfileController": {
    "description": "پروفایل"
   },
+  "supportController": {
+   "description": "پشتیبانی"
+  },
   "modeController": {
    "description": "تغییر حالت"
   },
@@ -19,6 +22,12 @@
   },
   "quickAccessController": {
    "description": "دسترسی سریع"
+  },
+  "tabs": {
+   "home": "خــانه",
+   "menus": "منــو‌ها",
+   "quickAccess": "دسترسی سریع",
+   "settings": "تنظیمات"
   }
  }
 }
