@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { IoMdSettings } from 'react-icons/io';
+import { MdSupportAgent } from 'react-icons/md';
 import {
  Tooltip,
  TooltipTrigger,
@@ -9,11 +9,11 @@ import {
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
 import { useSettingContext } from '../services/setting/settingContext';
 
-function SettingControllerButton() {
+function SupportControllerButton() {
  const { toggle } = useSettingContext();
  const {
   shareDictionary: {
-   components: { settingController },
+   components: { supportController },
   },
  } = useShareDictionary();
  return (
@@ -23,17 +23,17 @@ function SettingControllerButton() {
      type='button'
      variant='outline'
      size='icon-lg'
-     className='hidden lg:flex rounded-full text-primary'
+     className='rounded-full text-purple-700 dark:text-purple-400'
      onClick={() => toggle(true)}
     >
-     <IoMdSettings className='size-5' />
+     <MdSupportAgent className='size-5' />
     </Button>
    </TooltipTrigger>
    <TooltipContent>
-    <p>{settingController.description}</p>
+    <p>{supportController.description}</p>
    </TooltipContent>
   </Tooltip>
  );
 }
 
-export { SettingControllerButton };
+export { SupportControllerButton };

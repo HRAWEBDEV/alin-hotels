@@ -23,7 +23,7 @@ function QuickAccessControllerButton() {
      type='button'
      variant='outline'
      size='icon-lg'
-     className='rounded-full text-rose-700 dark:text-rose-400'
+     className='hidden lg:flex rounded-full text-rose-700 dark:text-rose-400'
      onClick={() => toggle(true)}
     >
      <RiBookMarkedFill className='size-5' />

@@ -17,11 +17,9 @@ export default function Addressbar() {
     <Breadcrumb>
      <BreadcrumbList>
       <BreadcrumbItem>
-       <BreadcrumbItem>
-        <BreadcrumbPage className='font-light text-xs'>
-         تعاریف اولیه
-        </BreadcrumbPage>
-       </BreadcrumbItem>
+       <BreadcrumbPage className='font-light text-xs'>
+        تعاریف اولیه
+       </BreadcrumbPage>
       </BreadcrumbItem>
       <BreadcrumbSeparator>
        <MdKeyboardArrowLeft className='ltr:rotate-180' />

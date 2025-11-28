@@ -17,7 +17,9 @@ export default function NavProfile() {
      <FaUserAlt className='size-6' />
     </AvatarFallback>
    </Avatar>
-   <span className='grow font-medium'>حمیدرضا اکبری</span>
+   <span className='grow font-medium text-ellipsis overflow-hidden'>
+    حمیدرضا اکبری
+   </span>
   </Button>
  );
 }
