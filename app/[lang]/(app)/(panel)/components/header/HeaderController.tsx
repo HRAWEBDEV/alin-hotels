@@ -4,13 +4,14 @@ import { SettingControllerButton } from '../SettingController';
 import { QuickAccessControllerButton } from '../QuickAccessController';
 import { SupportControllerButton } from '../SupportController';
 import { LogoutControllerButton } from '../LogoutController';
+import { NotificationControllerButton } from '../NotificationsController';
 
 export default function HeaderControllers() {
  return (
   <>
    <LogoutControllerButton />
    <SupportControllerButton />
-   <QuickAccessControllerButton />
+   <NotificationControllerButton />
    <SettingControllerButton />
    <ModeControllerButton />
    <LocaleControllerButton />

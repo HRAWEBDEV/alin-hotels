@@ -9,6 +9,7 @@ import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
 import { IoReload } from 'react-icons/io5';
 import { IoArrowBack } from 'react-icons/io5';
+import { QuickAccessControllerButton } from '../QuickAccessController';
 
 export default function Addressbar() {
  return (
@@ -33,6 +34,7 @@ export default function Addressbar() {
     </Breadcrumb>
    </div>
    <div className='flex items-center gap-2'>
+    <QuickAccessControllerButton />
     <Button
      className='size-8 rounded-full text-orange-700 dark:text-orange-400'
      variant='outline'

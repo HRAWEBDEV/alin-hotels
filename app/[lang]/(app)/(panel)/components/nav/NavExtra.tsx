@@ -15,7 +15,7 @@ export default function NavExtra() {
  }, []);
 
  return (
-  <div className='bg-sky-900 p-2 flex justify-between items-center gap-2'>
+  <div className='bg-sky-900/30 p-2 flex justify-between items-center gap-2'>
    <div className='flex gap-1 items-center text-sm font-light'>
     <IoIosClock className='size-5' />
     <span>

@@ -33,7 +33,9 @@ function LocaleControllerButton() {
    className='relative rounded-full'
   >
    <div className='absolute -top-1 -end-2'>
-    <Badge variant='secondary'>{localeInfo.localeShortName}</Badge>
+    <Badge variant='secondary' className='p-1 rounded-full size-6'>
+     {localeInfo.localeShortName}
+    </Badge>
    </div>
    <FaGlobeAmericas className='size-5' />
   </Button>
