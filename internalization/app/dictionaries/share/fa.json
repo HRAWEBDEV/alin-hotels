@@ -10,6 +10,12 @@
  "components": {
   "modeController": {
    "description": "تغییر حالت"
+  },
+  "settingController": {
+   "description": "تنظیمات"
+  },
+  "quickAccessController": {
+   "description": "دسترسی سریع"
   }
  }
 }
