@@ -1,4 +1,5 @@
 import Header from './components/header/Header';
+import Addressbar from './components/address-bar/Addressbar';
 import Nav from './components/nav/Nav';
 import Tabs from './components/nav/Tabs';
 import Main from './components/main/Main';
@@ -17,6 +18,7 @@ export default function PanelLayout({
       <Nav />
       <div className='grow flex flex-col'>
        <Header />
+       <Addressbar />
        <Main>{children}</Main>
        {/* <Tabs /> */}
       </div>

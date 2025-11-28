@@ -7,8 +7,10 @@ import {
  TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
+import { useQuickAccessContext } from '../services/quick-access/quickAccessContext';
 
 function QuickAccessControllerButton() {
+ const { toggle } = useQuickAccessContext();
  const {
   shareDictionary: {
    components: { quickAccessController },
@@ -22,6 +24,7 @@ function QuickAccessControllerButton() {
      variant='outline'
      size='icon-lg'
      className='rounded-full text-rose-700 dark:text-rose-400'
+     onClick={() => toggle(true)}
     >
      <RiBookMarkedFill className='size-5' />
     </Button>
