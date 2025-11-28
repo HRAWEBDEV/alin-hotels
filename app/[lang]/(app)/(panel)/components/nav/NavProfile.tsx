@@ -10,7 +10,11 @@ export default function NavProfile() {
   <Button
    variant='ghost'
    className='flex-col text-start p-4 py-[18px] h-auto bg-sky-900 hover:bg-sky-900 hover:dark:bg-sky-900 hover:text-primary-foreground hover:dark:text-foreground rounded-none w-full justify-start items-start'
-   onClick={() => toggle(true)}
+   onClick={() =>
+    toggle({
+     open: true,
+    })
+   }
   >
    <div className='flex gap-4 items-center w-full'>
     <Avatar className='size-14'>

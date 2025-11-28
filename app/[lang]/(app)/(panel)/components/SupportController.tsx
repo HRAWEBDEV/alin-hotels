@@ -7,10 +7,10 @@ import {
  TooltipContent,
 } from '@/components/ui/tooltip';
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
-import { useSettingContext } from '../services/setting/settingContext';
+import { useUserProfileContext } from '../services/user-profile/userProfileContext';
 
 function SupportControllerButton() {
- const { toggle } = useSettingContext();
+ const { toggle } = useUserProfileContext();
  const {
   shareDictionary: {
    components: { supportController },
@@ -24,7 +24,12 @@ function SupportControllerButton() {
      variant='outline'
      size='icon-lg'
      className='rounded-full text-purple-700 dark:text-purple-400'
-     onClick={() => toggle(true)}
+     onClick={() =>
+      toggle({
+       open: true,
+       type: 'support',
+      })
+     }
     >
      <MdSupportAgent className='size-5' />
     </Button>

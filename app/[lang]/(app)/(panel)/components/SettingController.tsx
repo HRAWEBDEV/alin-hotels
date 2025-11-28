@@ -7,10 +7,10 @@ import {
  TooltipContent,
 } from '@/components/ui/tooltip';
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
-import { useSettingContext } from '../services/setting/settingContext';
+import { useUserProfileContext } from '../services/user-profile/userProfileContext';
 
 function SettingControllerButton() {
- const { toggle } = useSettingContext();
+ const { toggle } = useUserProfileContext();
  const {
   shareDictionary: {
    components: { settingController },
@@ -24,7 +24,12 @@ function SettingControllerButton() {
      variant='outline'
      size='icon-lg'
      className='hidden lg:flex rounded-full text-primary'
-     onClick={() => toggle(true)}
+     onClick={() =>
+      toggle({
+       open: true,
+       type: 'setting',
+      })
+     }
     >
      <IoMdSettings className='size-5' />
     </Button>

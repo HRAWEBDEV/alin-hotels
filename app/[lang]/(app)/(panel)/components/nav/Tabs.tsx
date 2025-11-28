@@ -5,12 +5,10 @@ import { RiBookMarkedFill } from 'react-icons/ri';
 import { IoMdHome } from 'react-icons/io';
 import { MdOutlineApps } from 'react-icons/md';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
-import { useSettingContext } from '../../services/setting/settingContext';
-import { useQuickAccessContext } from '../../services/quick-access/quickAccessContext';
+import { useUserProfileContext } from '../../services/user-profile/userProfileContext';
 
 export default function Tabs() {
- const { toggle: toggleSetting } = useSettingContext();
- const { toggle: toggleQuickAccess } = useQuickAccessContext();
+ const { toggle } = useUserProfileContext();
  const {
   shareDictionary: {
    components: { tabs },
@@ -31,16 +29,18 @@ export default function Tabs() {
     <span className={tabText}>{tabs.menus}</span>
    </Button>
    <Button variant='ghost' className={tabClass}>
-    <RiBookMarkedFill
-     className={tabIconClass}
-     onClick={() => toggleQuickAccess(true)}
-    />
+    <RiBookMarkedFill className={tabIconClass} />
     <span className={tabText}>{tabs.quickAccess}</span>
    </Button>
    <Button
     variant='ghost'
     className={tabClass}
-    onClick={() => toggleSetting(true)}
+    onClick={() =>
+     toggle({
+      open: true,
+      type: 'setting',
+     })
+    }
    >
     <IoMdSettings className={tabIconClass} />
     <span className={tabText}>{tabs.settings}</span>

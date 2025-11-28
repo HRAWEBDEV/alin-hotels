@@ -1,6 +1,6 @@
 'use client';
 import { useState, ReactNode } from 'react';
-import { userProfileContext } from './userProfileContext';
+import { type UserPorifleTab, userProfileContext } from './userProfileContext';
 import {
  Dialog,
  DialogHeader,
@@ -19,10 +19,18 @@ export default function UserProfileProvider({
    components: { userProfileController },
   },
  } = useShareDictionary();
+ const [profileTab, setProfileTab] = useState<UserPorifleTab>('profile');
  const [isOpen, setIsOpen] = useState(false);
 
- function handleToggle(open?: boolean) {
+ function handleToggle({
+  open,
+  tab,
+ }: {
+  open?: boolean;
+  tab?: UserPorifleTab;
+ }) {
   setIsOpen((pre) => (open === undefined ? !pre : open));
+  setProfileTab(tab || 'profile');
  }
 
  const ctx = {
@@ -36,7 +44,9 @@ export default function UserProfileProvider({
    <Dialog
     open={isOpen}
     onOpenChange={(newValue) => {
-     handleToggle(newValue);
+     handleToggle({
+      open: newValue,
+     });
     }}
    >
     <DialogContent className='p-0'>
