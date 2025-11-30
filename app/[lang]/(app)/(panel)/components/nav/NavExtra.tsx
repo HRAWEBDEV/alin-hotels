@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { IoIosClock } from 'react-icons/io';
+import { appVersion } from '@/services/base-config/baseConfigContext';
 
 export default function NavExtra() {
  const { locale } = useBaseConfig();
@@ -29,7 +30,7 @@ export default function NavExtra() {
     </span>
    </div>
    <div className='flex gap-1 items-center text-sm'>
-    <span>v1.0.0</span>
+    <span>(v{appVersion})</span>
    </div>
   </div>
  );

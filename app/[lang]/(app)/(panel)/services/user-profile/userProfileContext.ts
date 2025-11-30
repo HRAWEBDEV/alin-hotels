@@ -2,17 +2,18 @@ import { OutOfContext } from '@/utils/OutOfContext';
 import { use, createContext } from 'react';
 
 const userProfileTabs = [
- 'profile',
- 'setting',
+ 'generalInfo',
  'quickAccess',
- 'support',
  'notifications',
+ 'support',
+ 'setting',
 ] as const;
 
 type UserPorifleTab = (typeof userProfileTabs)[number];
 
 interface UserProfile {
  isOpen: boolean;
+ activeTabType: UserPorifleTab;
  toggle: (params: { open?: boolean; type?: UserPorifleTab }) => unknown;
 }
 

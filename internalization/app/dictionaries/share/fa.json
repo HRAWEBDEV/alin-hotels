@@ -18,7 +18,14 @@
    "description": "اعلان‌ها"
   },
   "userProfileController": {
-   "description": "پروفایل"
+   "description": "پروفایل",
+   "tabs": {
+    "generalInfo": "عمومی",
+    "setting": "تنظیمات",
+    "quickAccess": "دسترسی سریع",
+    "support": "پشتیبانی",
+    "notifications": "اعلان‌ها"
+   }
   },
   "supportController": {
    "description": "پشتیبانی"

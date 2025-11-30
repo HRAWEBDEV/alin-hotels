@@ -73,7 +73,7 @@ export default function NavList() {
            className='group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
            asChild
           >
-           <Link href='#'>
+           <Link href='#' onClick={() => toggleNav(false)}>
             <div className='absolute size-[0.4rem] rounded-full bg-primary-foreground dark:bg-foreground start-7 top-1/2 translate-x-1/2 -translate-y-1/2'></div>
             <span>هتل</span>
            </Link>

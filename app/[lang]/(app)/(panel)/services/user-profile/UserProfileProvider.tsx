@@ -8,6 +8,7 @@ import {
  DialogContent,
 } from '@/components/ui/dialog';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
+import UserProfileTabs from './components/UserProfileTabs';
 
 export default function UserProfileProvider({
  children,
@@ -19,22 +20,23 @@ export default function UserProfileProvider({
    components: { userProfileController },
   },
  } = useShareDictionary();
- const [profileTab, setProfileTab] = useState<UserPorifleTab>('profile');
+ const [profileTab, setProfileTab] = useState<UserPorifleTab>('generalInfo');
  const [isOpen, setIsOpen] = useState(false);
 
  function handleToggle({
   open,
-  tab,
+  type,
  }: {
   open?: boolean;
-  tab?: UserPorifleTab;
+  type?: UserPorifleTab;
  }) {
   setIsOpen((pre) => (open === undefined ? !pre : open));
-  setProfileTab(tab || 'profile');
+  setProfileTab(type || 'generalInfo');
  }
 
  const ctx = {
   isOpen,
+  activeTabType: profileTab,
   toggle: handleToggle,
  };
 
@@ -49,13 +51,16 @@ export default function UserProfileProvider({
      });
     }}
    >
-    <DialogContent className='p-0'>
+    <DialogContent className='p-0 sm:max-w-160 gap-0'>
      <DialogHeader className='p-4 py-3 border-b border-input'>
       <DialogTitle className='font-medium text-base'>
        {userProfileController.description}
       </DialogTitle>
      </DialogHeader>
-     <div className='p-4'></div>
+     <div className='h-[60svh] overflow-hidden lg:flex'>
+      <UserProfileTabs />
+      <div className='grow'></div>
+     </div>
     </DialogContent>
    </Dialog>
   </userProfileContext.Provider>
