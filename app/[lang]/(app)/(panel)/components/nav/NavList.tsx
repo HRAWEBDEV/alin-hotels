@@ -49,10 +49,7 @@ export default function NavList() {
         <span className='font-normal'>اطلاعات اولیه</span>
        </div>
       </AccordionTrigger>
-      <AccordionContent className='relative text-balance px-12 py-0'>
-       <div className='absolute start-[28px] h-full w-px bg-background'></div>
-       <span className='text-sm'>تعریف هتل</span>
-      </AccordionContent>
+      <AccordionContent className='relative text-balance px-12 py-0'></AccordionContent>
      </AccordionItem>
     </Accordion>
    </div>
