@@ -31,7 +31,7 @@ export default function NavList() {
     <div className='flex gap-2'>
      <Button
       size='icon'
-      className='h-auto text-rose-800 bg-neutral-300'
+      className='lg:hidden h-auto text-rose-800 bg-neutral-300'
       onClick={() => toggleNav()}
      >
       <TbLayoutSidebarRightCollapseFilled className='size-6' />
