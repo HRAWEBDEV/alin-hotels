@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { type AppModes, appModes } from '@/theme/appModes';
 import { useTheme } from 'next-themes';
 import {
@@ -23,6 +24,7 @@ import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { getModeIcon } from '../../utils/getModeIcons';
 
 function ModeControllerButton() {
+ const [isMounted, setIsMounted] = useState(false);
  const { localeInfo } = useBaseConfig();
  const {
   shareDictionary: {
@@ -43,6 +45,12 @@ function ModeControllerButton() {
    {getModeIcon(theme as AppModes, { className: 'size-5' })}
   </Button>
  );
+
+ useEffect(() => {
+  setIsMounted(true);
+ }, []);
+
+ if (!isMounted) <div></div>;
 
  return (
   <>

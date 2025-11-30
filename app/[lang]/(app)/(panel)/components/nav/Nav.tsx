@@ -8,7 +8,7 @@ export default function Nav() {
    <div className='hidden lg:block'>
     <NavProfile />
    </div>
-   <div className='overflow-auto grow'>
+   <div className='overflow-hidden grow flex flex-col'>
     <NavList />
    </div>
    <NavExtra />
