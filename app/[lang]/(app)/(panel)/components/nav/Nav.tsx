@@ -1,10 +1,11 @@
 import NavProfile from './NavProfile';
 import NavList from './NavList';
 import NavExtra from './NavExtra';
+import NavWrapper from './NavWrapper';
 
 export default function Nav() {
  return (
-  <nav className='hidden shrink-0 w-(--panel-nav-width) bg-primary dark:bg-sky-950 text-primary-foreground dark:text-foreground overflow-hidden lg:flex flex-col'>
+  <NavWrapper>
    <div className='hidden lg:block'>
     <NavProfile />
    </div>
@@ -12,6 +13,6 @@ export default function Nav() {
     <NavList />
    </div>
    <NavExtra />
-  </nav>
+  </NavWrapper>
  );
 }

@@ -79,6 +79,7 @@
  --panel-header-height: 3.2rem;
  --panel-tabs-height: 3.2rem;
  --panel-nav-width: 15rem;
+ --panel-nav-zindex: 30;
 }
 
 [data-theme='dark'] {

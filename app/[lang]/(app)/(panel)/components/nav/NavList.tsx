@@ -12,10 +12,11 @@ import {
 } from '@/components/ui/accordion';
 import { FaSearch } from 'react-icons/fa';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
-import { FaHotel } from 'react-icons/fa6';
 import { IoSettings } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { TbLayoutSidebarRightCollapseFilled } from 'react-icons/tb';
+import { useNavigationContext } from '../../services/navigation/navigationContext';
 
 export default function NavList() {
  const {
@@ -23,19 +24,29 @@ export default function NavList() {
    components: { navList },
   },
  } = useShareDictionary();
+ const { toggle: toggleNav } = useNavigationContext();
  return (
   <div className='grow overflow-hidden flex flex-col'>
    <div className='p-2 mb-1'>
-    <InputGroup className='rounded-lg bg-sky-900/50 border-none'>
-     <InputGroupInput
-      type='search'
-      placeholder={navList.search + ' ...'}
-      className='placeholder:text-neutral-400 placeholder:font-light'
-     />
-     <InputGroupAddon align={'inline-end'}>
-      <FaSearch className='size-4' />
-     </InputGroupAddon>
-    </InputGroup>
+    <div className='flex gap-2'>
+     <Button
+      size='icon'
+      className='h-auto text-rose-800 bg-neutral-300'
+      onClick={() => toggleNav()}
+     >
+      <TbLayoutSidebarRightCollapseFilled className='size-6' />
+     </Button>
+     <InputGroup className='grow rounded-lg bg-sky-900/50 border-none'>
+      <InputGroupInput
+       type='search'
+       placeholder={navList.search + ' ...'}
+       className='placeholder:text-neutral-400 placeholder:font-light'
+      />
+      <InputGroupAddon align={'inline-end'}>
+       <FaSearch className='size-4' />
+      </InputGroupAddon>
+     </InputGroup>
+    </div>
    </div>
    <div className='grow overflow-auto overflow-x-hidden'>
     <Accordion
@@ -44,7 +55,7 @@ export default function NavList() {
      className='w-full'
      defaultValue='item-1'
     >
-     {Array.from({ length: 4 }, (_, i) => i).map((i) => (
+     {Array.from({ length: 2 }, (_, i) => i).map((i) => (
       <AccordionItem key={i} value='item-1' className='border-none'>
        <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit'>
         <div className='flex gap-3 items-center'>

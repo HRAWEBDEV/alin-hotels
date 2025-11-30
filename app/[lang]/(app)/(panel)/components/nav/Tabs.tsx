@@ -1,13 +1,17 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { IoMdSettings } from 'react-icons/io';
-import { RiBookMarkedFill } from 'react-icons/ri';
+import { MdSupportAgent } from 'react-icons/md';
 import { IoMdHome } from 'react-icons/io';
 import { MdOutlineApps } from 'react-icons/md';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import { useUserProfileContext } from '../../services/user-profile/userProfileContext';
+import Link from 'next/link';
+import { useBaseConfig } from '@/services/base-config/baseConfigContext';
+import { useNavigationContext } from '../../services/navigation/navigationContext';
 
 export default function Tabs() {
+ const { toggle: toggleNav } = useNavigationContext();
+ const { locale } = useBaseConfig();
  const { toggle } = useUserProfileContext();
  const {
   shareDictionary: {
@@ -19,18 +23,22 @@ export default function Tabs() {
  const tabIconClass = 'size-6';
  const tabText = 'font-light text-sm';
  return (
-  <nav className='grid lg:hidden grid-cols-4 shrink-0 h-(--panel-tabs-height) border-b border-input'>
-   <Button variant='ghost' className={tabClass}>
-    <IoMdHome className={tabIconClass} />
-    <span className={tabText}>{tabs.home}</span>
+  <nav className='grid lg:hidden grid-cols-3 shrink-0 h-(--panel-tabs-height) border-b border-input'>
+   <Button variant='ghost' className={tabClass} asChild>
+    <Link href={`/${locale}`}>
+     <IoMdHome className={tabIconClass} />
+     <span className={tabText}>{tabs.home}</span>
+    </Link>
    </Button>
-   <Button variant='ghost' className={tabClass}>
+   <Button
+    variant='ghost'
+    className={tabClass}
+    onClick={() => {
+     toggleNav(true);
+    }}
+   >
     <MdOutlineApps className={tabIconClass} />
     <span className={tabText}>{tabs.menus}</span>
-   </Button>
-   <Button variant='ghost' className={tabClass}>
-    <RiBookMarkedFill className={tabIconClass} />
-    <span className={tabText}>{tabs.quickAccess}</span>
    </Button>
    <Button
     variant='ghost'
@@ -38,12 +46,12 @@ export default function Tabs() {
     onClick={() =>
      toggle({
       open: true,
-      type: 'setting',
+      type: 'support',
      })
     }
    >
-    <IoMdSettings className={tabIconClass} />
-    <span className={tabText}>{tabs.settings}</span>
+    <MdSupportAgent className={tabIconClass} />
+    <span className={tabText}>{tabs.support}</span>
    </Button>
   </nav>
  );

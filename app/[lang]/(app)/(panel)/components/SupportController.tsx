@@ -23,7 +23,7 @@ function SupportControllerButton() {
      type='button'
      variant='outline'
      size='icon-lg'
-     className='rounded-full text-purple-700 dark:text-purple-400'
+     className='hidden lg:flex rounded-full text-purple-700 dark:text-purple-400'
      onClick={() =>
       toggle({
        open: true,

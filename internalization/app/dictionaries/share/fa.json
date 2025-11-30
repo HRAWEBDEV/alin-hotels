@@ -34,10 +34,11 @@
   },
   "tabs": {
    "home": "خــانه",
-   "menus": "منــو‌ها",
+   "menus": "منـــو",
    "newOrder": "ثبت سفارش",
    "quickAccess": "دسترسی سریع",
-   "settings": "تنظیمات"
+   "settings": "تنظیمات",
+   "support": "پشتیبانی"
   }
  }
 }
