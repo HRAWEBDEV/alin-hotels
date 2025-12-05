@@ -5,12 +5,14 @@ import Tabs from './components/nav/Tabs';
 import Main from './components/main/Main';
 import UserProfileProvider from './services/user-profile/UserProfileProvider';
 import NavigationProvider from './services/navigation/NavigationProvider';
+import AxoisCredentials from './services/axios-credentials/AxiosCredentials';
 
 export default function PanelLayout({
  children,
 }: LayoutProps<'/[lang]/panel'>) {
  return (
   <div className='h-svh flex overflow-hidden'>
+   <AxoisCredentials />
    <UserProfileProvider>
     <NavigationProvider>
      <Nav />
