@@ -12,12 +12,12 @@ import {
 } from '@/components/ui/accordion';
 import { FaSearch } from 'react-icons/fa';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
-import { IoSettings } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { TbLayoutSidebarRightCollapseFilled } from 'react-icons/tb';
 import { useNavigationContext } from '../../services/navigation/navigationContext';
 import { usePagesContext } from '../../../services/pages/pagesContext';
+import { getPageIcon } from '../../../services/pages/utils/getPageIcon';
 
 export default function NavList() {
  const { pagesList } = usePagesContext();
@@ -62,7 +62,9 @@ export default function NavList() {
       <AccordionItem key={page.name} value={page.name} className='border-none'>
        <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit'>
         <div className='flex gap-3 items-center'>
-         <IoSettings className='size-6' />
+         {getPageIcon('generalSetting', {
+          className: 'size-6',
+         })}
          <span className='font-normal'>{pagesDic[page.name]}</span>
         </div>
        </AccordionTrigger>
