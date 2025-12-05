@@ -6,6 +6,9 @@
    "userName": "نام کاربری",
    "password": "رمز عبور",
    "confirm": "ورود"
+  },
+  "formValidation": {
+   "fillRequiredFields": "فیلدهای الزامی را پر کنید"
   }
  }
 }

@@ -1,7 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { type LoginDictionary } from '@/internalization/app/dictionaries/login/dictionary';
-import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import {
+ FieldGroup,
+ Field,
+ FieldLabel,
+ FieldContent,
+ FieldError,
+} from '@/components/ui/field';
 import {
  InputGroup,
  InputGroupInput,
@@ -13,63 +19,151 @@ import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { FaUser } from 'react-icons/fa';
 import { TbLockPassword } from 'react-icons/tb';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
+import {
+ LoginWithPasswordCredentials,
+ loginWithPassword,
+} from '../services/loginApiActions';
+import { z } from 'zod';
+import { useForm } from '@tanstack/react-form';
+import { useMutation } from '@tanstack/react-query';
+import { Spinner } from '@/components/ui/spinner';
+import { AxiosError } from 'axios';
+import { IoIosInformationCircleOutline } from 'react-icons/io';
+
+const formDefaults: LoginWithPasswordCredentials = {
+ userName: '',
+ password: '',
+};
 
 export default function LoginWithPassword({ dic }: { dic: LoginDictionary }) {
  const [showPassword, setShowPassword] = useState(false);
- const { localeInfo } = useBaseConfig();
+ const { locale } = useBaseConfig();
  const router = useRouter();
  const {
-  loginWithPassword: { form: formDic },
+  loginWithPassword: { form: formDic, formValidation },
  } = dic;
+ // * form setup
+ const form = useForm({
+  defaultValues: formDefaults,
+  validators: {
+   onSubmit: z.object({
+    userName: z.string().min(1, formValidation.fillRequiredFields),
+    password: z.string().min(1, formValidation.fillRequiredFields),
+   }),
+  },
+  onSubmit({ value }) {
+   return mutate(value);
+  },
+ });
+ // * mutation setup
+ const { mutate, isPending } = useMutation({
+  mutationFn(credentials: LoginWithPasswordCredentials) {
+   return loginWithPassword(credentials);
+  },
+  onError(err: AxiosError) {
+   console.log(err);
+  },
+  onSuccess(res) {
+   console.log(res);
+   router.push(`/${locale}`);
+  },
+ });
+
  return (
   <form>
    <FieldGroup>
-    <Field>
-     <FieldLabel htmlFor='userName'>{formDic.userName}: </FieldLabel>
-     <InputGroup>
-      <InputGroupAddon align='inline-start'>
-       <FaUser className='text-primary size-4' />
-      </InputGroupAddon>
-      <InputGroupInput id='userName' />
-     </InputGroup>
-    </Field>
-    <Field>
-     <FieldLabel htmlFor='password'>{formDic.password}: </FieldLabel>
-     <InputGroup>
-      <InputGroupAddon align='inline-start'>
-       <TbLockPassword className='text-primary size-5' />
-      </InputGroupAddon>
-      <InputGroupInput
-       id='password'
-       type={showPassword ? 'text' : 'password'}
-      />
-      <InputGroupAddon align='inline-end' className='-me-2'>
+    <form.Field name='userName'>
+     {(field) => (
+      <Field data-invalid={!field.state.meta.isValid}>
+       <FieldLabel htmlFor='userName'>{formDic.userName}</FieldLabel>
+       <InputGroup>
+        <InputGroupAddon align='inline-start'>
+         <FaUser className='text-primary size-4' />
+        </InputGroupAddon>
+        <InputGroupInput
+         id='userName'
+         data-invalid={!field.state.meta.isValid}
+         value={field.state.value}
+         onBlur={field.handleBlur}
+         onChange={(e) => field.handleChange(e.target.value)}
+        />
+       </InputGroup>
+       <FieldContent>
+        {field.state.meta.errorMap.onSubmit?.map((err) => (
+         <FieldError key={err.message}>
+          <div className='flex items-center gap-1 text-xs'>
+           <IoIosInformationCircleOutline className='size-5' />
+           <span>{err.message}</span>
+          </div>
+         </FieldError>
+        ))}
+       </FieldContent>
+      </Field>
+     )}
+    </form.Field>
+    <form.Field name='password'>
+     {(field) => (
+      <Field data-invalid={!field.state.meta.isValid}>
+       <FieldLabel htmlFor='password'>{formDic.password}</FieldLabel>
+       <InputGroup>
+        <InputGroupAddon align='inline-start'>
+         <TbLockPassword className='text-primary size-5' />
+        </InputGroupAddon>
+        <InputGroupInput
+         data-invalid={!field.state.meta.isValid}
+         id='password'
+         type={showPassword ? 'text' : 'password'}
+         value={field.state.value}
+         onBlur={field.handleBlur}
+         onChange={(e) => field.handleChange(e.target.value)}
+        />
+        <InputGroupAddon align='inline-end' className='-me-2'>
+         <Button
+          type='button'
+          size='icon'
+          variant='ghost'
+          onClick={() => setShowPassword((pre) => !pre)}
+         >
+          {showPassword ? (
+           <IoEye className='text-primary size-5' />
+          ) : (
+           <IoEyeOff className='text-primary size-5' />
+          )}
+         </Button>
+        </InputGroupAddon>
+       </InputGroup>
+       <FieldContent>
+        {field.state.meta.errorMap.onSubmit?.map((err) => (
+         <FieldError key={err.message}>
+          <div className='flex items-center gap-1 text-xs'>
+           <IoIosInformationCircleOutline className='size-5' />
+           <span>{err.message}</span>
+          </div>
+         </FieldError>
+        ))}
+       </FieldContent>
+      </Field>
+     )}
+    </form.Field>
+    {
+     <form.Subscribe selector={(state) => [state.isSubmitting]}>
+      {([isSubmitting]) => (
        <Button
-        type='button'
-        size='icon'
-        variant='ghost'
-        onClick={() => setShowPassword((pre) => !pre)}
+        size='lg'
+        className='mt-4'
+        type='submit'
+        disabled={isSubmitting || isPending}
+        onClick={(e) => {
+         e.preventDefault();
+         form.handleSubmit();
+        }}
        >
-        {showPassword ? (
-         <IoEye className='text-primary size-5' />
-        ) : (
-         <IoEyeOff className='text-primary size-5' />
-        )}
+        {(isSubmitting || isPending) && <Spinner />}
+        {formDic.confirm}
        </Button>
-      </InputGroupAddon>
-     </InputGroup>
-    </Field>
-    <Button
-     size='lg'
-     className='mt-4'
-     type='submit'
-     onClick={(e) => {
-      e.preventDefault();
-      router.push(`/${localeInfo.locale}`);
-     }}
-    >
-     {formDic.confirm}
-    </Button>
+      )}
+     </form.Subscribe>
+    }
    </FieldGroup>
   </form>
  );
