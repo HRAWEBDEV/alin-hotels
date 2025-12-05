@@ -49,6 +49,7 @@
   }
  },
  "pages": {
-  "generalSetting": "تنظیمات عمومی"
+  "generalSetting": "تنظیمات عمومی",
+  "test": "تست"
  }
 }

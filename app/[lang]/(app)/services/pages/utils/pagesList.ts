@@ -1,4 +1,10 @@
-const pagesList = [
+type PageName = 'generalSetting' | 'test';
+interface Page {
+ name: PageName;
+ subPages?: Page[];
+}
+
+const pagesList: Page[] = [
  {
   name: 'generalSetting',
   subPages: [
@@ -7,9 +13,7 @@ const pagesList = [
    },
   ],
  },
-] as const;
+];
 
-type Page = (typeof pagesList)[number];
-
-export type { Page };
+export type { Page, PageName };
 export { pagesList };
