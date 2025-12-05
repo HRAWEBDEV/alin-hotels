@@ -23,8 +23,10 @@ import { filterPages } from '../../../services/pages/utils/filterPages';
 import Highlighter from 'react-highlight-words';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { type Pages } from '../../../services/pages/utils/pagesList';
+import { useNavigatorContext } from '../../services/navigator/navigatorContext';
 
 export default function NavList() {
+ const { activePath, activeMenu } = useNavigatorContext();
  const { locale } = useBaseConfig();
  const [searchedPage, setSearchedPage] = useState('');
  const { pages } = usePagesContext();
@@ -75,7 +77,7 @@ export default function NavList() {
     >
      {Object.keys(preveiwPages).map((pageKey) => (
       <AccordionItem key={pageKey} value={pageKey} className='border-none'>
-       <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
+       <AccordionTrigger className='text-neutral-200 p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
          {getPageIcon('general-settings', {
           className: 'size-5',
@@ -85,20 +87,23 @@ export default function NavList() {
        </AccordionTrigger>
        <AccordionContent className='pb-1'>
         <div className='grid relative'>
-         <div className='z-1 absolute top-0 bottom-0 w-px bg-primary-foreground dark:bg-foreground start-7 translate-x-1/2'></div>
+         <div className='z-1 absolute top-0 bottom-0 w-px bg-neutral-200 start-7 translate-x-1/2'></div>
          {Object.values(preveiwPages[pageKey as keyof Pages] || {}).map(
           ({ name }) => (
            <Button
+            data-active-menu={
+             activePath === pageKey && activeMenu?.name === name
+            }
             key={name}
             variant='ghost'
-            className='group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
+            className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
             asChild
            >
             <Link
              href={`/${locale}/${pageKey as keyof Pages}/${name}`}
              onClick={() => toggleNav(false)}
             >
-             <div className='absolute size-[0.4rem] rounded-full bg-primary-foreground dark:bg-foreground start-7 top-1/2 translate-x-1/2 -translate-y-1/2'></div>
+             <div className='absolute size-[0.4rem] rounded-full bg-neutral-200 start-7 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
              <Highlighter
               className='font-normal text-[0.85rem]'
               searchWords={[searchedPage]}
