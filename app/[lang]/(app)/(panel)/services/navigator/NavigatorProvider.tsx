@@ -1,5 +1,9 @@
 'use client';
-import { type Pages, pages } from '../../../services/pages/utils/pagesList';
+import {
+ type Pages,
+ type Path,
+ pages,
+} from '../../../services/pages/utils/pagesList';
 import { ReactNode } from 'react';
 import { type Navigator, navigatorContext } from './navigatorContext';
 import { usePathname } from 'next/navigation';
@@ -12,10 +16,10 @@ export default function NavigatorProvider({
  const pathname = usePathname();
  const pathSegments = pathname.split('/');
 
- const activePath = (pathSegments.at(2) as keyof Pages) || '';
+ const activePath = (pathSegments.at(2) as Path) || '';
  const activePage = pages[activePath] || '';
  const activeMenu = activePage
-  ? activePage[pathSegments.at(3) as keyof Pages[keyof Pages]]
+  ? activePage[pathSegments.at(3) as keyof Pages[Path]]
   : null;
 
  const ctx: Navigator = {

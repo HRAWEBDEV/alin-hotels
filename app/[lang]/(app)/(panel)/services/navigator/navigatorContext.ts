@@ -1,10 +1,10 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
-import { Pages } from '../../../services/pages/utils/pagesList';
+import { type Path, type Page } from '../../../services/pages/utils/pagesList';
 
 interface Navigator {
- activePath: keyof Pages | '';
- activeMenu: Pages[keyof Pages][keyof Pages[keyof Pages]] | null;
+ activePath: Path | '';
+ activeMenu: Page | null;
 }
 
 const navigatorContext = createContext<Navigator | null>(null);
