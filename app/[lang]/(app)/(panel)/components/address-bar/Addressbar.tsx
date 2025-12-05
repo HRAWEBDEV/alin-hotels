@@ -1,3 +1,4 @@
+'use client';
 import {
  Breadcrumb,
  BreadcrumbItem,
@@ -11,28 +12,38 @@ import { IoReload } from 'react-icons/io5';
 import { IoArrowBack } from 'react-icons/io5';
 import { MdHome } from 'react-icons/md';
 import { QuickAccessControllerButton } from '../QuickAccessController';
+import { useNavigatorContext } from '../../services/navigator/navigatorContext';
+import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 
 export default function Addressbar() {
+ const { activePath, activeMenu } = useNavigatorContext();
+ const {
+  shareDictionary: { pages: pagesDic },
+ } = useShareDictionary();
  return (
   <nav className='shrink-0 p-1 px-4 border-b border-input bg-neutral-100 dark:bg-neutral-900 shadow-xl flex gap-2 justify-between items-center'>
    <div>
-    <Breadcrumb>
-     <BreadcrumbList>
-      <BreadcrumbItem>
-       <BreadcrumbPage className='font-light text-xs'>
-        تعاریف اولیه
-       </BreadcrumbPage>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator>
-       <MdKeyboardArrowLeft className='ltr:rotate-180' />
-      </BreadcrumbSeparator>
-      <BreadcrumbItem>
-       <BreadcrumbPage className='text-primary font-medium text-xs'>
-        تعریف هتل
-       </BreadcrumbPage>
-      </BreadcrumbItem>
-     </BreadcrumbList>
-    </Breadcrumb>
+    {activeMenu ? (
+     <Breadcrumb>
+      <BreadcrumbList>
+       <BreadcrumbItem>
+        <BreadcrumbPage className='font-light text-xs'>
+         {activePath ? pagesDic[activePath] : ''}
+        </BreadcrumbPage>
+       </BreadcrumbItem>
+       <BreadcrumbSeparator>
+        <MdKeyboardArrowLeft className='ltr:rotate-180' />
+       </BreadcrumbSeparator>
+       <BreadcrumbItem>
+        <BreadcrumbPage className='text-primary font-medium text-xs'>
+         {pagesDic[activeMenu.name]}
+        </BreadcrumbPage>
+       </BreadcrumbItem>
+      </BreadcrumbList>
+     </Breadcrumb>
+    ) : (
+     <></>
+    )}
    </div>
    <div className='flex items-center gap-2'>
     <QuickAccessControllerButton />
