@@ -49,7 +49,7 @@
   }
  },
  "pages": {
-  "generalSetting": "تنظیمات عمومی",
+  "general-settings": "تعاریف اولیه",
   "users": "کاربران"
  }
 }

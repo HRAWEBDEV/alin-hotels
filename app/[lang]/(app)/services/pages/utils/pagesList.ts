@@ -1,4 +1,5 @@
-type PageName = 'generalSetting' | 'users';
+type PageName = 'general-settings' | 'users';
+
 interface Page {
  name: PageName;
  subPages?: Page[];
@@ -6,7 +7,7 @@ interface Page {
 
 const pagesList: Page[] = [
  {
-  name: 'generalSetting',
+  name: 'general-settings',
   subPages: [
    {
     name: 'users',

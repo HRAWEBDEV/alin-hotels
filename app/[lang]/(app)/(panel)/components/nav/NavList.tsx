@@ -21,8 +21,10 @@ import { usePagesContext } from '../../../services/pages/pagesContext';
 import { getPageIcon } from '../../../services/pages/utils/getPageIcon';
 import { filterPages } from '../../../services/pages/utils/filterPages';
 import Highlighter from 'react-highlight-words';
+import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 
 export default function NavList() {
+ const { locale } = useBaseConfig();
  const [searchedPage, setSearchedPage] = useState('');
  const { pagesList } = usePagesContext();
  const {
@@ -74,7 +76,7 @@ export default function NavList() {
       <AccordionItem key={page.name} value={page.name} className='border-none'>
        <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
-         {getPageIcon('generalSetting', {
+         {getPageIcon('general-settings', {
           className: 'size-5',
          })}
          <span className='font-normal'>{pagesDic[page.name]}</span>
@@ -90,7 +92,10 @@ export default function NavList() {
            className='group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
            asChild
           >
-           <Link href='#' onClick={() => toggleNav(false)}>
+           <Link
+            href={`/${locale}/${page.name as 'general-settings'}/${subPage.name as 'users'}`}
+            onClick={() => toggleNav(false)}
+           >
             <div className='absolute size-[0.4rem] rounded-full bg-primary-foreground dark:bg-foreground start-7 top-1/2 translate-x-1/2 -translate-y-1/2'></div>
             <Highlighter
              className='font-normal text-[0.85rem]'

@@ -1,13 +1,13 @@
-import { Page } from './pagesList';
+import { type Page } from './pagesList';
 import { SVGProps } from 'react';
 import { IoSettings } from 'react-icons/io5';
 
 export function getPageIcon(
- page: Page['name'],
+ pageName: Page['name'],
  iconProps?: SVGProps<SVGSVGElement>,
 ) {
- switch (page) {
-  case 'generalSetting':
+ switch (pageName) {
+  case 'general-settings':
    return <IoSettings {...iconProps} />;
  }
  return <IoSettings {...iconProps} />;
