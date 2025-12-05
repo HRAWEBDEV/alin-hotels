@@ -1,4 +1,4 @@
-type PageName = 'generalSetting' | 'test';
+type PageName = 'generalSetting' | 'users';
 interface Page {
  name: PageName;
  subPages?: Page[];
@@ -9,7 +9,7 @@ const pagesList: Page[] = [
   name: 'generalSetting',
   subPages: [
    {
-    name: 'test',
+    name: 'users',
    },
   ],
  },

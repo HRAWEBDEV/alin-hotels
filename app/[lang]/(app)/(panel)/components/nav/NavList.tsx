@@ -20,6 +20,7 @@ import { useNavigationContext } from '../../services/navigation/navigationContex
 import { usePagesContext } from '../../../services/pages/pagesContext';
 import { getPageIcon } from '../../../services/pages/utils/getPageIcon';
 import { filterPages } from '../../../services/pages/utils/filterPages';
+import Highlighter from 'react-highlight-words';
 
 export default function NavList() {
  const [searchedPage, setSearchedPage] = useState('');
@@ -64,7 +65,11 @@ export default function NavList() {
     </div>
    </div>
    <div className='grow overflow-auto overflow-x-hidden'>
-    <Accordion type='multiple' className='w-full'>
+    <Accordion
+     type='multiple'
+     className='w-full'
+     defaultValue={preveiwPagesList.map((item) => item.name)}
+    >
      {preveiwPagesList.map((page) => (
       <AccordionItem key={page.name} value={page.name} className='border-none'>
        <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
@@ -87,7 +92,12 @@ export default function NavList() {
           >
            <Link href='#' onClick={() => toggleNav(false)}>
             <div className='absolute size-[0.4rem] rounded-full bg-primary-foreground dark:bg-foreground start-7 top-1/2 translate-x-1/2 -translate-y-1/2'></div>
-            <span>{pagesDic[subPage.name]}</span>
+            <Highlighter
+             className='font-normal text-[0.85rem]'
+             searchWords={[searchedPage]}
+             textToHighlight={pagesDic[subPage.name]}
+             autoEscape
+            />
            </Link>
           </Button>
          ))}
