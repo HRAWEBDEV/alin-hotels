@@ -1,20 +1,14 @@
-type PageName = 'general-settings' | 'users';
+import { DeepMutable } from '@/utils/deepMutable';
 
-interface Page {
- name: PageName;
- subPages?: Page[];
-}
+type Pages = DeepMutable<typeof pages>;
 
-const pagesList: Page[] = [
- {
-  name: 'general-settings',
-  subPages: [
-   {
-    name: 'users',
-   },
-  ],
+const pages = {
+ 'general-settings': {
+  users: {
+   name: 'users',
+  },
  },
-];
+} as const;
 
-export type { Page, PageName };
-export { pagesList };
+export type { Pages };
+export { pages };

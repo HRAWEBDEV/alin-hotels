@@ -22,11 +22,12 @@ import { getPageIcon } from '../../../services/pages/utils/getPageIcon';
 import { filterPages } from '../../../services/pages/utils/filterPages';
 import Highlighter from 'react-highlight-words';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
+import { type Pages } from '../../../services/pages/utils/pagesList';
 
 export default function NavList() {
  const { locale } = useBaseConfig();
  const [searchedPage, setSearchedPage] = useState('');
- const { pagesList } = usePagesContext();
+ const { pages } = usePagesContext();
  const {
   shareDictionary: {
    components: { navList },
@@ -35,8 +36,8 @@ export default function NavList() {
  } = useShareDictionary();
  const { toggle: toggleNav } = useNavigationContext();
 
- const preveiwPagesList = filterPages({
-  pages: pagesList,
+ const preveiwPages = filterPages({
+  pages: pages,
   searchedName: searchedPage,
   dic: pagesDic,
  });
@@ -70,42 +71,44 @@ export default function NavList() {
     <Accordion
      type='multiple'
      className='w-full'
-     defaultValue={preveiwPagesList.map((item) => item.name)}
+     defaultValue={Object.keys(preveiwPages)}
     >
-     {preveiwPagesList.map((page) => (
-      <AccordionItem key={page.name} value={page.name} className='border-none'>
+     {Object.keys(preveiwPages).map((pageKey) => (
+      <AccordionItem key={pageKey} value={pageKey} className='border-none'>
        <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
          {getPageIcon('general-settings', {
           className: 'size-5',
          })}
-         <span className='font-normal'>{pagesDic[page.name]}</span>
+         <span className='font-normal'>{pagesDic[pageKey as keyof Pages]}</span>
         </div>
        </AccordionTrigger>
        <AccordionContent className='pb-1'>
         <div className='grid relative'>
          <div className='z-1 absolute top-0 bottom-0 w-px bg-primary-foreground dark:bg-foreground start-7 translate-x-1/2'></div>
-         {page.subPages?.map((subPage) => (
-          <Button
-           key={subPage.name}
-           variant='ghost'
-           className='group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
-           asChild
-          >
-           <Link
-            href={`/${locale}/${page.name as 'general-settings'}/${subPage.name as 'users'}`}
-            onClick={() => toggleNav(false)}
+         {Object.values(preveiwPages[pageKey as keyof Pages] || {}).map(
+          ({ name }) => (
+           <Button
+            key={name}
+            variant='ghost'
+            className='group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
+            asChild
            >
-            <div className='absolute size-[0.4rem] rounded-full bg-primary-foreground dark:bg-foreground start-7 top-1/2 translate-x-1/2 -translate-y-1/2'></div>
-            <Highlighter
-             className='font-normal text-[0.85rem]'
-             searchWords={[searchedPage]}
-             textToHighlight={pagesDic[subPage.name]}
-             autoEscape
-            />
-           </Link>
-          </Button>
-         ))}
+            <Link
+             href={`/${locale}/${pageKey as keyof Pages}/${name}`}
+             onClick={() => toggleNav(false)}
+            >
+             <div className='absolute size-[0.4rem] rounded-full bg-primary-foreground dark:bg-foreground start-7 top-1/2 translate-x-1/2 -translate-y-1/2'></div>
+             <Highlighter
+              className='font-normal text-[0.85rem]'
+              searchWords={[searchedPage]}
+              textToHighlight={pagesDic[name]}
+              autoEscape
+             />
+            </Link>
+           </Button>
+          ),
+         )}
         </div>
        </AccordionContent>
       </AccordionItem>

@@ -1,9 +1,9 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
-import { type Page, pagesList } from './utils/pagesList';
+import { type Pages } from './utils/pagesList';
 
 interface PagesStore {
- pagesList: Page[];
+ pages: Pages;
 }
 
 const pagesContext = createContext<PagesStore | null>(null);

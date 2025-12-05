@@ -1,9 +1,9 @@
-import { type Page } from './pagesList';
+import { type Pages } from './pagesList';
 import { SVGProps } from 'react';
 import { IoSettings } from 'react-icons/io5';
 
 export function getPageIcon(
- pageName: Page['name'],
+ pageName: keyof Pages,
  iconProps?: SVGProps<SVGSVGElement>,
 ) {
  switch (pageName) {
