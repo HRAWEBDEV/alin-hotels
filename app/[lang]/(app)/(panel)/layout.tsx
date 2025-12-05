@@ -6,24 +6,25 @@ import Main from './components/main/Main';
 import UserProfileProvider from './services/user-profile/UserProfileProvider';
 import NavigationProvider from './services/navigation/NavigationProvider';
 import AxoisCredentials from './services/axios-credentials/AxiosCredentials';
+import PagesProvider from '../services/pages/PagesProvider';
 
-export default function PanelLayout({
- children,
-}: LayoutProps<'/[lang]/panel'>) {
+export default function PanelLayout({ children }: LayoutProps<'/[lang]'>) {
  return (
   <div className='h-svh flex overflow-hidden'>
    <AxoisCredentials />
-   <UserProfileProvider>
-    <NavigationProvider>
-     <Nav />
-     <div className='grow flex flex-col'>
-      <Header />
-      <Addressbar />
-      <Main>{children}</Main>
-      <Tabs />
-     </div>
-    </NavigationProvider>
-   </UserProfileProvider>
+   <PagesProvider>
+    <UserProfileProvider>
+     <NavigationProvider>
+      <Nav />
+      <div className='grow flex flex-col'>
+       <Header />
+       <Addressbar />
+       <Main>{children}</Main>
+       <Tabs />
+      </div>
+     </NavigationProvider>
+    </UserProfileProvider>
+   </PagesProvider>
   </div>
  );
 }

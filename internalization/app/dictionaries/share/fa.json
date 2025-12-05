@@ -47,5 +47,8 @@
    "settings": "تنظیمات",
    "support": "پشتیبانی"
   }
+ },
+ "pages": {
+  "generalSetting": "تنظینات عمومی"
  }
 }
