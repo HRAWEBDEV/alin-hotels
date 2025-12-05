@@ -60,10 +60,10 @@ export default function NavList() {
     >
      {pagesList.map((page) => (
       <AccordionItem key={page.name} value={page.name} className='border-none'>
-       <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit'>
+       <AccordionTrigger className='p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
          {getPageIcon('generalSetting', {
-          className: 'size-6',
+          className: 'size-5',
          })}
          <span className='font-normal'>{pagesDic[page.name]}</span>
         </div>
