@@ -5,13 +5,12 @@ import { IoMdHome } from 'react-icons/io';
 import { MdOutlineApps } from 'react-icons/md';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import { useUserProfileContext } from '../../services/user-profile/userProfileContext';
-import Link from 'next/link';
-import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { useNavigationContext } from '../../services/navigation/navigationContext';
+import { useGoHome } from '../../hooks/useGoHome';
 
 export default function Tabs() {
+ const goHome = useGoHome();
  const { toggle: toggleNav } = useNavigationContext();
- const { locale } = useBaseConfig();
  const { toggle } = useUserProfileContext();
  const {
   shareDictionary: {
@@ -24,11 +23,9 @@ export default function Tabs() {
  const tabText = 'font-light text-sm';
  return (
   <nav className='grid lg:hidden grid-cols-3 shrink-0 h-(--panel-tabs-height) border-b border-input'>
-   <Button variant='ghost' className={tabClass} asChild>
-    <Link href={`/${locale}`}>
-     <IoMdHome className={tabIconClass} />
-     <span className={tabText}>{tabs.home}</span>
-    </Link>
+   <Button variant='ghost' className={tabClass} onClick={goHome}>
+    <IoMdHome className={tabIconClass} />
+    <span className={tabText}>{tabs.home}</span>
    </Button>
    <Button
     variant='ghost'

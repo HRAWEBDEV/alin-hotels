@@ -14,8 +14,10 @@ import { MdHome } from 'react-icons/md';
 import { QuickAccessControllerButton } from '../QuickAccessController';
 import { useNavigatorContext } from '../../services/navigator/navigatorContext';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
+import { useGoHome } from '../../hooks/useGoHome';
 
 export default function Addressbar() {
+ const goHome = useGoHome();
  const { activePath, activeMenu } = useNavigatorContext();
  const {
   shareDictionary: { pages: pagesDic },
@@ -51,6 +53,7 @@ export default function Addressbar() {
      className='hidden lg:flex size-8 rounded-full text-primary'
      variant='outline'
      size='icon'
+     onClick={goHome}
     >
      <MdHome />
     </Button>
