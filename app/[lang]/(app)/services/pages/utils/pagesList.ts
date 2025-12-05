@@ -1,9 +1,4 @@
-interface Page {
- readonly name: string;
- readonly subPages?: Page[];
-}
-
-const pagesList: Page[] = [
+const pagesList = [
  {
   name: 'generalSetting',
   subPages: [
@@ -13,6 +8,8 @@ const pagesList: Page[] = [
   ],
  },
 ] as const;
+
+type Page = (typeof pagesList)[number];
 
 export type { Page };
 export { pagesList };
