@@ -17,10 +17,10 @@ export default function UsersTabs({ dic }: { dic: UsersDictionary }) {
     dir={localeInfo.contentDirection}
     value={selectedTab}
    >
-    <TabsList>
+    <TabsList className='dark:bg-background'>
      <TabsTrigger
       value='list'
-      className='w-28 text-primary cursor-pointer'
+      className='w-28 text-primary dark:text-primary cursor-pointer'
       onClick={() => changeSelectedTab('list')}
      >
       <FaClipboardList />
@@ -28,7 +28,7 @@ export default function UsersTabs({ dic }: { dic: UsersDictionary }) {
      </TabsTrigger>
      <TabsTrigger
       value='add'
-      className='w-28 text-secondary cursor-pointer'
+      className='w-28 text-secondary dark:text-secondary cursor-pointer'
       onClick={() => changeSelectedTab('add')}
      >
       <IoMdPersonAdd />
