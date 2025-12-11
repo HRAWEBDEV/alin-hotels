@@ -7,18 +7,18 @@
  },
  "newPerson": {
   "form": {
-   "name": "",
-   "lastName": "",
-   "fatherName": "",
-   "gender": "",
-   "birthDate": "",
-   "naitonality": "",
-   "mobileNo": "",
-   "email": "",
-   "nationalCode": "",
+   "name": "نام",
+   "lastName": "نام خانوادگی",
+   "fatherName": "نام پدر",
+   "gender": "جنسیت",
+   "birthDate": "تاریخ تولد",
+   "naitonality": "ملیت",
+   "mobileNo": "شماره همراه",
+   "email": "ایمیل",
+   "nationalCode": "کدملی",
    "educationGrade": "",
    "educationField": "",
-   "address": ""
+   "address": "آدرس"
   }
  }
 }
