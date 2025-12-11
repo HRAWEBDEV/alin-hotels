@@ -1,6 +1,7 @@
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import PersonsTabs from './PersonsTabs';
 import PersonsConfigProvider from '../services/PersonsConfigProvider';
+import PersonsContent from './PersonsContent';
 
 export default async function PersonsWrapper({
  dic,
@@ -11,6 +12,7 @@ export default async function PersonsWrapper({
   <div>
    <PersonsConfigProvider>
     <PersonsTabs dic={dic} />
+    <PersonsContent dic={dic} />
    </PersonsConfigProvider>
   </div>
  );

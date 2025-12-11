@@ -4,5 +4,21 @@
   "personsList": "لیست اشخاص",
   "editPerson": "ویرایش شخص",
   "addPerson": "افزودن شخص"
+ },
+ "newPerson": {
+  "form": {
+   "name": "",
+   "lastName": "",
+   "fatherName": "",
+   "gender": "",
+   "birthDate": "",
+   "naitonality": "",
+   "mobileNo": "",
+   "email": "",
+   "nationalCode": "",
+   "educationGrade": "",
+   "educationField": "",
+   "address": ""
+  }
  }
 }

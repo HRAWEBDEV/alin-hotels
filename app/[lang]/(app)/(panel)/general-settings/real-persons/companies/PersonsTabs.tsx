@@ -11,7 +11,7 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
  const { selectedTab, changeSelectedTab } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
-  <div className='p-2'>
+  <header className='p-2'>
    <Tabs
     className='items-center'
     dir={localeInfo.contentDirection}
@@ -44,6 +44,6 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
      </TabsTrigger>
     </TabsList>
    </Tabs>
-  </div>
+  </header>
  );
 }
