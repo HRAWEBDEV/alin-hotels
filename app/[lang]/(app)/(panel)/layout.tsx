@@ -8,25 +8,28 @@ import NavigationProvider from './services/navigation/NavigationProvider';
 import AxoisCredentials from './services/axios-credentials/AxiosCredentials';
 import PagesProvider from '../services/pages/PagesProvider';
 import NavigatorProvider from './services/navigator/NavigatorProvider';
+import HistoryTrakcer from './services/history-tracker/HistoryTracker';
 
 export default function PanelLayout({ children }: LayoutProps<'/[lang]'>) {
  return (
   <div className='h-svh flex overflow-hidden'>
    <NavigatorProvider>
-    <AxoisCredentials />
-    <PagesProvider>
-     <UserProfileProvider>
-      <NavigationProvider>
-       <Nav />
-       <div className='grow flex flex-col'>
-        <Header />
-        <Addressbar />
-        <Main>{children}</Main>
-        <Tabs />
-       </div>
-      </NavigationProvider>
-     </UserProfileProvider>
-    </PagesProvider>
+    <HistoryTrakcer>
+     <AxoisCredentials />
+     <PagesProvider>
+      <UserProfileProvider>
+       <NavigationProvider>
+        <Nav />
+        <div className='grow flex flex-col'>
+         <Header />
+         <Addressbar />
+         <Main>{children}</Main>
+         <Tabs />
+        </div>
+       </NavigationProvider>
+      </UserProfileProvider>
+     </PagesProvider>
+    </HistoryTrakcer>
    </NavigatorProvider>
   </div>
  );

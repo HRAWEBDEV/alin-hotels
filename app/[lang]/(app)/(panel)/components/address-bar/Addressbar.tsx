@@ -15,8 +15,10 @@ import { QuickAccessControllerButton } from '../QuickAccessController';
 import { useNavigatorContext } from '../../services/navigator/navigatorContext';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import { useGoHome } from '../../hooks/useGoHome';
+import { useHistoryContext } from '../../services/history-tracker/historyTrackerContext';
 
 export default function Addressbar() {
+ const { canGoBack, goBack } = useHistoryContext();
  const goHome = useGoHome();
  const { activePath, activeMenu } = useNavigatorContext();
  const {
@@ -68,6 +70,8 @@ export default function Addressbar() {
      className='size-8 rounded-full text-rose-700 dark:text-rose-400'
      variant='outline'
      size='icon'
+     disabled={!canGoBack}
+     onClick={goBack}
     >
      <IoArrowBack />
     </Button>

@@ -1,14 +1,14 @@
 'use client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { FaUserEdit } from 'react-icons/fa';
 import { FaClipboardList } from 'react-icons/fa';
-import { useUserConfigContext } from '../serivces/usersConfigContext';
+import { usePersonsConfigContext } from '../services/personsConfigContext';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 
-export default function UsersTabs({ dic }: { dic: UsersDictionary }) {
- const { selectedTab, changeSelectedTab } = useUserConfigContext();
+export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
+ const { selectedTab, changeSelectedTab } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
   <div className='p-2'>
@@ -24,7 +24,7 @@ export default function UsersTabs({ dic }: { dic: UsersDictionary }) {
       onClick={() => changeSelectedTab('list')}
      >
       <FaClipboardList />
-      {dic.tabs.usersList}
+      {dic.tabs.personsList}
      </TabsTrigger>
      <TabsTrigger
       value='add'
@@ -32,7 +32,7 @@ export default function UsersTabs({ dic }: { dic: UsersDictionary }) {
       onClick={() => changeSelectedTab('add')}
      >
       <IoMdPersonAdd />
-      {dic.tabs.addUser}
+      {dic.tabs.addPerson}
      </TabsTrigger>
      <TabsTrigger
       value='edit'
@@ -40,7 +40,7 @@ export default function UsersTabs({ dic }: { dic: UsersDictionary }) {
       onClick={() => changeSelectedTab('edit')}
      >
       <FaUserEdit />
-      {dic.tabs.editUser}
+      {dic.tabs.editPerson}
      </TabsTrigger>
     </TabsList>
    </Tabs>

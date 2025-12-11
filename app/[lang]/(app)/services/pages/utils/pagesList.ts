@@ -9,6 +9,12 @@ const pages = {
   users: {
    name: 'users',
   },
+  'real-persons': {
+   name: 'real-persons',
+  },
+  companies: {
+   name: 'companies',
+  },
  },
 } as const;
 

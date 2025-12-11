@@ -1,4 +1,4 @@
-import { type Pages } from './pagesList';
+import { type Pages, type Page } from './pagesList';
 import { ShareDictionary } from '@/internalization/app/dictionaries/share/dictionary';
 
 type FilteredPages = Partial<{
@@ -27,6 +27,7 @@ export function filterPages({
     if (!(typedPageKey in newPages)) {
      newPages[typedPageKey] = {};
     }
+    // @ts-expect-error
     newPages[typedPageKey]![typedSubPageKey] =
      pages[typedPageKey][typedSubPageKey];
    }

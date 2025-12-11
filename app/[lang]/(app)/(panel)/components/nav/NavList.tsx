@@ -77,17 +77,17 @@ export default function NavList() {
     >
      {Object.keys(preveiwPages).map((pageKey) => (
       <AccordionItem key={pageKey} value={pageKey} className='border-none'>
-       <AccordionTrigger className='text-neutral-200 p-4 py-2 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
+       <AccordionTrigger className='text-neutral-200 p-4 py-3 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
          {getPageIcon('general-settings', {
           className: 'size-5',
          })}
-         <span className='font-normal'>{pagesDic[pageKey as keyof Pages]}</span>
+         <span className='font-medium'>{pagesDic[pageKey as keyof Pages]}</span>
         </div>
        </AccordionTrigger>
        <AccordionContent className='pb-1'>
         <div className='grid relative'>
-         <div className='z-1 absolute top-0 bottom-0 w-px bg-neutral-200 start-7 translate-x-1/2'></div>
+         <div className='z-1 absolute top-0 bottom-0 w-px bg-sky-200 start-12 translate-x-1/2'></div>
          {Object.values(preveiwPages[pageKey as keyof Pages] || {}).map(
           ({ name }) => (
            <Button
@@ -96,16 +96,16 @@ export default function NavList() {
             }
             key={name}
             variant='ghost'
-            className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-14 w-full h-auto justify-start text-start rounded-none'
+            className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-16 w-full h-auto justify-start text-start rounded-none'
             asChild
            >
             <Link
              href={`/${locale}/${pageKey as keyof Pages}/${name}`}
              onClick={() => toggleNav(false)}
             >
-             <div className='absolute size-[0.4rem] rounded-full bg-neutral-200 start-7 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
+             <div className='absolute size-[0.3rem] rounded-full bg-sky-200 start-12 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
              <Highlighter
-              className='font-normal text-[0.85rem]'
+              className='font-medium text-[0.85rem] group-data-[active-menu=true]:text-orange-300'
               searchWords={[searchedPage]}
               textToHighlight={pagesDic[name]}
               autoEscape

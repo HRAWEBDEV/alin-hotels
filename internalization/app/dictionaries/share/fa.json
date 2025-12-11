@@ -50,6 +50,8 @@
  },
  "pages": {
   "general-settings": "تعاریف اولیه",
-  "users": "کاربران"
+  "users": "کاربران",
+  "real-persons": "اشخاص حقیقی",
+  "companies": "اشخاص حقوقی"
  }
 }
