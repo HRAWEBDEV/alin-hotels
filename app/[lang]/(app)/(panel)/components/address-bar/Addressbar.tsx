@@ -31,7 +31,7 @@ export default function Addressbar() {
      <Breadcrumb>
       <BreadcrumbList>
        <BreadcrumbItem>
-        <BreadcrumbPage className='font-light text-xs'>
+        <BreadcrumbPage className='font-light text-[0.8rem]'>
          {activePath ? pagesDic[activePath] : ''}
         </BreadcrumbPage>
        </BreadcrumbItem>
@@ -39,7 +39,7 @@ export default function Addressbar() {
         <MdKeyboardArrowLeft className='ltr:rotate-180' />
        </BreadcrumbSeparator>
        <BreadcrumbItem>
-        <BreadcrumbPage className='text-primary font-medium text-xs'>
+        <BreadcrumbPage className='text-primary font-medium text-[0.8rem]'>
          {pagesDic[activeMenu.name]}
         </BreadcrumbPage>
        </BreadcrumbItem>
@@ -57,14 +57,14 @@ export default function Addressbar() {
      size='icon'
      onClick={goHome}
     >
-     <MdHome />
+     <MdHome className='size-5' />
     </Button>
     <Button
      className='size-8 rounded-full text-orange-700 dark:text-orange-400'
      variant='outline'
      size='icon'
     >
-     <IoReload />
+     <IoReload className='size-5' />
     </Button>
     <Button
      className='size-8 rounded-full text-rose-700 dark:text-rose-400'
@@ -73,7 +73,7 @@ export default function Addressbar() {
      disabled={!canGoBack}
      onClick={goBack}
     >
-     <IoArrowBack />
+     <IoArrowBack className='size-5' />
     </Button>
    </div>
   </nav>
