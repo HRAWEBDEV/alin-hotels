@@ -20,7 +20,7 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
     <TabsList className='dark:bg-background border border-input'>
      <TabsTrigger
       value='list'
-      className='sm:w-32 cursor-pointer text-neutral-600'
+      className='sm:w-32 cursor-pointer text-sky-700 dark:text-sky-400 font-normal'
       onClick={() => changeSelectedTab('list')}
      >
       <FaClipboardList />
@@ -28,7 +28,7 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
      </TabsTrigger>
      <TabsTrigger
       value='add'
-      className='sm:w-32 cursor-pointer text-neutral-600'
+      className='sm:w-32 cursor-pointer text-teal-700 dark:text-teal-400 font-normal'
       onClick={() => changeSelectedTab('add')}
      >
       <IoMdPersonAdd />
@@ -36,7 +36,7 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
      </TabsTrigger>
      <TabsTrigger
       value='edit'
-      className='sm:w-32 cursor-pointer text-neutral-600'
+      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
       onClick={() => changeSelectedTab('edit')}
      >
       <FaUserEdit />
