@@ -25,7 +25,7 @@ export default function PersonsContent({
  return (
   <main
    data-type-list={selectedTab === 'list'}
-   className='pt-0 p-4 pb-2 grow flex flex-col data-[type-list="true"]:overflow-hidden'
+   className='pt-0 p-2 lg:px-4 pb-2 grow flex flex-col data-[type-list="true"]:overflow-hidden'
   >
    {renderContent()}
   </main>
