@@ -35,7 +35,8 @@
    "educationField": "رشته تحصیلی",
    "postalCode": "کدپستی",
    "address": "آدرس",
-   "save": "ذخیره"
+   "save": "ذخیره",
+   "clearForm": "خالی کردن اطلاعات"
   }
  }
 }

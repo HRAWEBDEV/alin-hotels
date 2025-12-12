@@ -296,8 +296,14 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
       </InputGroup>
      </Field>
     </div>
-    <div className='flex justify-end'>
-     <Button className='sm:min-w-32'>{dic.newPerson.form.save}</Button>
+    <div className='flex justify-between items-center gap-4'>
+     <Button
+      variant='outline'
+      className='text-rose-700! dark:text-rose-400! border-rose-700! dark:border-rose-400!'
+     >
+      {dic.newPerson.form.clearForm}
+     </Button>
+     <Button className='min-w-28'>{dic.newPerson.form.save}</Button>
     </div>
    </FieldGroup>
   </form>
