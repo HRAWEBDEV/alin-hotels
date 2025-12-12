@@ -9,7 +9,7 @@ export default async function PersonsWrapper({
  dic: RealPersonsDictionary;
 }) {
  return (
-  <div>
+  <div className='h-full flex flex-col'>
    <PersonsConfigProvider>
     <PersonsTabs dic={dic} />
     <PersonsContent dic={dic} />

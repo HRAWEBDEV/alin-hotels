@@ -151,6 +151,12 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
       </Popover>
      </Field>
      <Field className='gap-2'>
+      <FieldLabel>{dic.newPerson.form.nationalCode}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput />
+      </InputGroup>
+     </Field>
+     <Field className='gap-2'>
       <FieldLabel htmlFor='date' className='px-1'>
        {dic.newPerson.form.birthDate}
       </FieldLabel>
@@ -172,12 +178,6 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
         <Calendar mode='single' captionLayout='dropdown' />
        </PopoverContent>
       </Popover>
-     </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.nationalCode}</FieldLabel>
-      <InputGroup>
-       <InputGroupInput />
-      </InputGroup>
      </Field>
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.mobileNo}</FieldLabel>

@@ -80,6 +80,7 @@
  --panel-tabs-height: 3.2rem;
  --panel-nav-width: 15rem;
  --panel-nav-zindex: 30;
+ --panel-main-overlay-zindex: 29;
 }
 
 [data-theme='dark'] {
