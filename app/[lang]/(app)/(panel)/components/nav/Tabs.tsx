@@ -22,7 +22,7 @@ export default function Tabs() {
  const tabIconClass = 'size-6';
  const tabText = 'font-light text-sm';
  return (
-  <nav className='grid lg:hidden grid-cols-3 shrink-0 h-(--panel-tabs-height) border-b border-input'>
+  <nav className='grid lg:hidden grid-cols-3 shrink-0 h-(--panel-tabs-height) border-t border-input'>
    <Button variant='ghost' className={tabClass} onClick={goHome}>
     <IoMdHome className={tabIconClass} />
     <span className={tabText}>{tabs.home}</span>

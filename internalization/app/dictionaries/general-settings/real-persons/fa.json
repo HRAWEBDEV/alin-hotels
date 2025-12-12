@@ -13,7 +13,12 @@
   "naitonality": "ملیت",
   "mobileNo": "شماره همراه",
   "email": "ایمیل",
-  "nationalCode": "کدملی"
+  "nationalCode": "کدملی",
+  "results": "نتایج"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها"
  },
  "newPerson": {
   "form": {

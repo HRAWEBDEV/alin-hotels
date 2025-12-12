@@ -7,6 +7,8 @@ const tabs: Tab[] = ['list', 'add', 'edit'];
 interface PersonsConfig {
  tabs: Tab[];
  selectedTab: Tab;
+ showFilters: boolean;
+ changeShowFilters: (open?: boolean) => unknown;
  changeSelectedTab: (newTab?: Tab) => unknown;
 }
 

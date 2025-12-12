@@ -17,6 +17,7 @@ export default function PersonsConfigProvider({
  const router = useRouter();
  const { locale } = useBaseConfig();
  const searchParams = useSearchParams();
+ const [showFilters, setShowFilters] = useState(false);
  const [selectedTab, setSelectedTab] =
   useState<PersonsConfig['selectedTab']>('list');
 
@@ -30,9 +31,15 @@ export default function PersonsConfigProvider({
   );
  }
 
+ function handleChangeShowFilters(open?: boolean) {
+  setShowFilters((pre) => (open === undefined ? !pre : open));
+ }
+
  const ctx: PersonsConfig = {
   tabs,
   selectedTab,
+  showFilters,
+  changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
  };
  return (

@@ -11,13 +11,13 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
  const { selectedTab, changeSelectedTab } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
-  <header className='p-1 sticky top-0 z-1 mb-1'>
+  <header className='p-1 sticky top-0 z-1'>
    <Tabs
     className='items-center'
     dir={localeInfo.contentDirection}
     value={selectedTab}
    >
-    <TabsList className='dark:bg-background'>
+    <TabsList className='dark:bg-background border border-input'>
      <TabsTrigger
       value='list'
       className='sm:w-32 cursor-pointer text-neutral-600'
