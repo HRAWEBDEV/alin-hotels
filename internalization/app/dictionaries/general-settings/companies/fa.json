@@ -4,5 +4,13 @@
   "companiesList": "لیست اشخاص",
   "editCompany": "ویرایش شخص",
   "addCompany": "افزودن شخص"
+ },
+ "filters": {
+  "title": "فیلترها",
+  "results": "نتایج"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها"
  }
 }
