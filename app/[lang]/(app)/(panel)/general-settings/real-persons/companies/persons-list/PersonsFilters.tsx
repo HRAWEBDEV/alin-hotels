@@ -2,21 +2,22 @@ import { useState } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import {
  Popover,
- PopoverTrigger,
  PopoverContent,
-} from '@radix-ui/react-popover';
+ PopoverTrigger,
+} from '@/components/ui/popover';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import {
- CommandInput,
- CommandList,
+ Command,
  CommandEmpty,
  CommandGroup,
+ CommandInput,
  CommandItem,
-} from 'cmdk';
-import { ChevronsUpDown, Command, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+ CommandList,
+} from '@/components/ui/command';
 
 export default function PersonsFitlers({
  dic,
