@@ -16,8 +16,9 @@
    "mobileNo": "شماره همراه",
    "email": "ایمیل",
    "nationalCode": "کدملی",
-   "educationGrade": "",
-   "educationField": "",
+   "educationGrade": "سطح تحصیلات",
+   "educationField": "رشته تحصیلی",
+   "postalCode": "کدپستی",
    "address": "آدرس"
   }
  }
