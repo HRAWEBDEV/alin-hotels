@@ -22,10 +22,23 @@ import { getPageIcon } from '../../../services/pages/utils/getPageIcon';
 import { filterPages } from '../../../services/pages/utils/filterPages';
 import Highlighter from 'react-highlight-words';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
-import { type Pages } from '../../../services/pages/utils/pagesList';
+import {
+ type Pages,
+ type Path,
+ type Page,
+} from '../../../services/pages/utils/pagesList';
 import { useNavigatorContext } from '../../services/navigator/navigatorContext';
+import { RiBookMarkedFill } from 'react-icons/ri';
+import { useQuickAccessContext } from '../../services/quick-access/quickAccessContext';
 
 export default function NavList() {
+ const {
+  list: quickAccessList,
+  addItem: addQuickAccessItem,
+  removeItem: removeQuickAccessItem,
+  isMarked: isQuickAccess,
+ } = useQuickAccessContext();
+ console.log(quickAccessList);
  const { activePath, activeMenu } = useNavigatorContext();
  const { locale } = useBaseConfig();
  const [searchedPage, setSearchedPage] = useState('');
@@ -89,30 +102,59 @@ export default function NavList() {
         <div className='grid relative'>
          <div className='z-1 absolute top-0 bottom-0 w-px bg-sky-200 start-12 translate-x-1/2'></div>
          {Object.values(preveiwPages[pageKey as keyof Pages] || {}).map(
-          ({ name }) => (
-           <Button
-            data-active-menu={
-             activePath === pageKey && activeMenu?.name === name
-            }
-            key={name}
-            variant='ghost'
-            className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-16 w-full h-auto justify-start text-start rounded-none'
-            asChild
-           >
-            <Link
-             href={`/${locale}/${pageKey as keyof Pages}/${name}`}
-             onClick={() => toggleNav(false)}
+          (page) => {
+           const { name } = page;
+           const isMarked = isQuickAccess(
+            pageKey as Path,
+            page.name as Page['name'],
+           );
+           return (
+            <Button
+             data-active-menu={
+              activePath === pageKey && activeMenu?.name === name
+             }
+             key={name}
+             variant='ghost'
+             className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-16 pe-7 w-full h-auto justify-start text-start rounded-none'
+             asChild
             >
-             <div className='absolute size-[0.3rem] rounded-full bg-sky-200 start-12 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
-             <Highlighter
-              className='font-medium text-[0.85rem] group-data-[active-menu=true]:text-orange-300'
-              searchWords={[searchedPage]}
-              textToHighlight={pagesDic[name]}
-              autoEscape
-             />
-            </Link>
-           </Button>
-          ),
+             <Link
+              href={`/${locale}/${pageKey as keyof Pages}/${name}`}
+              onClick={() => toggleNav(false)}
+             >
+              <div className='absolute size-[0.3rem] rounded-full bg-sky-200 start-12 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
+              <Highlighter
+               className='font-medium text-[0.85rem] group-data-[active-menu=true]:text-orange-300'
+               searchWords={[searchedPage]}
+               textToHighlight={pagesDic[name]}
+               autoEscape
+              />
+              <div className='absolute end-0'>
+               <Button
+                data-is-marked={isMarked}
+                type='button'
+                variant='ghost'
+                size='icon'
+                className='hover:bg-black/10 hover:text-sky-300 data-[is-marked="true"]:text-orange-300'
+                onClick={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
+                 if (isMarked) {
+                  removeQuickAccessItem(
+                   `${pageKey as Path}-${page.name as Page['name']}`,
+                  );
+                 } else {
+                  addQuickAccessItem(pageKey as Path, page as Page);
+                 }
+                }}
+               >
+                <RiBookMarkedFill />
+               </Button>
+              </div>
+             </Link>
+            </Button>
+           );
+          },
          )}
         </div>
        </AccordionContent>

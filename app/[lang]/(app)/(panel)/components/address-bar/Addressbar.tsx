@@ -16,37 +16,78 @@ import { useNavigatorContext } from '../../services/navigator/navigatorContext';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import { useGoHome } from '../../hooks/useGoHome';
 import { useHistoryContext } from '../../services/history-tracker/historyTrackerContext';
+import { RiBookMarkedFill } from 'react-icons/ri';
+import { useQuickAccessContext } from '../../services/quick-access/quickAccessContext';
 
 export default function Addressbar() {
+ const {
+  isMarked: isQuickAccessitem,
+  addItem,
+  removeItem,
+ } = useQuickAccessContext();
  const { canGoBack, goBack } = useHistoryContext();
  const goHome = useGoHome();
  const { activePath, activeMenu } = useNavigatorContext();
+
+ const isMarked =
+  activeMenu && activePath
+   ? isQuickAccessitem(activePath, activeMenu.name)
+   : false;
+
  const {
   shareDictionary: { pages: pagesDic },
  } = useShareDictionary();
  return (
   <nav className='shrink-0 p-1 px-4 border-b border-input bg-neutral-100 dark:bg-neutral-900 shadow-xl flex gap-2 justify-between items-center'>
-   <div>
-    {activeMenu ? (
-     <Breadcrumb>
-      <BreadcrumbList>
-       <BreadcrumbItem>
-        <BreadcrumbPage className='font-light text-[0.8rem]'>
-         {activePath ? pagesDic[activePath] : ''}
-        </BreadcrumbPage>
-       </BreadcrumbItem>
-       <BreadcrumbSeparator>
-        <MdKeyboardArrowLeft className='ltr:rotate-180' />
-       </BreadcrumbSeparator>
-       <BreadcrumbItem>
-        <BreadcrumbPage className='text-primary font-medium text-[0.8rem]'>
-         {pagesDic[activeMenu.name]}
-        </BreadcrumbPage>
-       </BreadcrumbItem>
-      </BreadcrumbList>
-     </Breadcrumb>
+   <div className='flex items-center'>
+    {activeMenu && activePath ? (
+     <div className='flex items-center gap-1'>
+      <Button
+       data-is-marked={isMarked}
+       className='size-6 rounded-full text-neutral-500 data-[is-marked="true"]:text-primary'
+       variant='ghost'
+       size='icon'
+       onClick={() => {
+        if (!isMarked) {
+         addItem(activePath, activeMenu);
+        } else {
+         removeItem(`${activePath}-${activeMenu.name}`);
+        }
+       }}
+      >
+       <RiBookMarkedFill className='size-5' />
+      </Button>
+      <Breadcrumb>
+       <BreadcrumbList>
+        <BreadcrumbItem>
+         <BreadcrumbPage className='font-light text-[0.8rem]'>
+          {activePath ? pagesDic[activePath] : ''}
+         </BreadcrumbPage>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+         <MdKeyboardArrowLeft className='ltr:rotate-180' />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+         <BreadcrumbPage className='text-primary font-medium text-[0.8rem]'>
+          {pagesDic[activeMenu.name]}
+         </BreadcrumbPage>
+        </BreadcrumbItem>
+       </BreadcrumbList>
+      </Breadcrumb>
+     </div>
     ) : (
-     <></>
+     <div className='flex items-center gap-2'>
+      <MdHome className='size-5 text-primary' />
+      <Breadcrumb>
+       <BreadcrumbList>
+        <BreadcrumbItem>
+         <BreadcrumbPage className='text-primary font-medium text-[0.8rem]'>
+          {pagesDic.home}
+         </BreadcrumbPage>
+        </BreadcrumbItem>
+       </BreadcrumbList>
+      </Breadcrumb>
+     </div>
     )}
    </div>
    <div className='flex items-center gap-2'>

@@ -49,6 +49,7 @@
   }
  },
  "pages": {
+  "home": "خــانه",
   "general-settings": "اطلاعات پایه",
   "users": "کاربران",
   "real-persons": "اشخاص حقیقی",

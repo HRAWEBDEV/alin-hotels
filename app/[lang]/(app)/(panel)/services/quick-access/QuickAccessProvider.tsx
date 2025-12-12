@@ -20,12 +20,10 @@ export default function QuickAccessProvider({
   page: QuickAccessItem['page'],
  ) {
   setQuickAccessItems((pre) => {
-   const lastItem = pre.at(-1);
-   const newId = lastItem?.id || 0;
    return [
     ...pre,
     {
-     id: newId + 1,
+     id: (path + '-' + page.name) as QuickAccessItem['id'],
      path,
      page,
     },
@@ -33,14 +31,23 @@ export default function QuickAccessProvider({
   });
  }
 
- function removeItem(id: number) {
+ function removeItem(id: QuickAccessItem['id']) {
   setQuickAccessItems((pre) => pre.filter((item) => item.id !== id));
+ }
+
+ function isMarked(
+  path: QuickAccessItem['path'],
+  page: QuickAccessItem['page']['name'],
+ ): boolean {
+  console.log();
+  return !!quickAccessItems.find((item) => item.id === `${path}-${page}`);
  }
 
  const ctx: QuickAccess = {
   list: quickAccessItems,
   addItem,
   removeItem,
+  isMarked,
  };
 
  return (

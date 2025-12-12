@@ -3,7 +3,7 @@ import { OutOfContext } from '@/utils/OutOfContext';
 import { type Path, type Page } from '../../../services/pages/utils/pagesList';
 
 interface QuickAccessItem {
- id: number;
+ id: `${Path}-${Page['name']}`;
  path: Path;
  page: Page;
 }
@@ -14,7 +14,11 @@ interface QuickAccess {
   path: QuickAccessItem['path'],
   page: QuickAccessItem['page'],
  ) => unknown;
- removeItem: (id: number) => unknown;
+ isMarked: (
+  path: QuickAccessItem['path'],
+  page: QuickAccessItem['page']['name'],
+ ) => boolean;
+ removeItem: (id: QuickAccessItem['id']) => unknown;
 }
 
 const quickAccessContext = createContext<QuickAccess | null>(null);
