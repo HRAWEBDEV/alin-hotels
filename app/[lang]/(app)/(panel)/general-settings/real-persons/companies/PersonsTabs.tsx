@@ -11,7 +11,7 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
  const { selectedTab, changeSelectedTab } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
-  <header className='p-2'>
+  <header className='p-2 sticky top-0 z-1'>
    <Tabs
     className='items-center'
     dir={localeInfo.contentDirection}

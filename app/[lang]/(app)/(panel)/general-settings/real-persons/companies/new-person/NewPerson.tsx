@@ -35,14 +35,14 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
  const [openEducationFieldCombo, setOpenEducationFieldCombo] = useState(false);
 
  return (
-  <form className='bg-background p-4 border border-input rounded w-[min(35rem,100%)] mx-auto'>
+  <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'>
    <div className='grid place-content-center mb-3'>
     <Avatar className='size-32'>
      <AvatarFallback>H</AvatarFallback>
     </Avatar>
    </div>
    <FieldGroup className='gap-5'>
-    <div className='grid sm:grid-cols-3 gap-3 gap-y-5'>
+    <div className='grid grid-cols-2 md:grid-cols-3 gap-3 gap-y-5'>
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.name}</FieldLabel>
       <InputGroup>
@@ -295,6 +295,9 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
        <InputGroupTextarea />
       </InputGroup>
      </Field>
+    </div>
+    <div className='flex justify-end'>
+     <Button className='sm:min-w-32'>{dic.newPerson.form.save}</Button>
     </div>
    </FieldGroup>
   </form>

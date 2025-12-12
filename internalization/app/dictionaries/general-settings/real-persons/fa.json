@@ -19,7 +19,8 @@
    "educationGrade": "سطح تحصیلات",
    "educationField": "رشته تحصیلی",
    "postalCode": "کدپستی",
-   "address": "آدرس"
+   "address": "آدرس",
+   "save": "ذخیره"
   }
  }
 }
