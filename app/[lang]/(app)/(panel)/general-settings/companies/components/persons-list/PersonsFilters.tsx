@@ -12,11 +12,11 @@ export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
    className='absolute inset-0 lg:static hidden data-[show-filters="true"]:flex bg-background border border-input rounded lg:flex! flex-col overflow-hidden'
   >
    <div className='p-2 border-b border-input flex justify-between items-center min-h-12'>
-    <div className='basis-9'>
+    <div className='basis-9 flex'>
      <Button
       variant='ghost'
       size='icon-lg'
-      className='text-red-700 dark:text-red-400'
+      className='text-red-700 dark:text-red-400 h-auto'
      >
       <FaRegTrashAlt className='size-4' />
      </Button>
@@ -25,7 +25,7 @@ export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
      {dic.filters.title}
      <span className='text-xs'> ({dic.filters.results}: 10)</span>
     </p>
-    <div className='basis-9'>
+    <div className='basis-9 flex'>
      <Button
       variant='ghost'
       size='icon-lg'

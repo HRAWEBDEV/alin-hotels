@@ -27,7 +27,7 @@ export default function PersonsConfigProvider({
   const newSearchParams = new URLSearchParams(searchParams);
   newSearchParams.set('activeTab', activeTab);
   router.replace(
-   `/${locale}/general-settings/real-persons?${newSearchParams.toString()}`,
+   `/${locale}/general-settings/companies?${newSearchParams.toString()}`,
   );
  }
 
