@@ -23,6 +23,11 @@ export default function PersonsContent({
  }
 
  return (
-  <main className='pt-0 p-4 pb-2 grow flex flex-col'>{renderContent()}</main>
+  <main
+   data-type-list={selectedTab === 'list'}
+   className='pt-0 p-4 pb-2 grow flex flex-col data-[type-list="true"]:overflow-hidden'
+  >
+   {renderContent()}
+  </main>
  );
 }

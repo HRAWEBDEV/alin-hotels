@@ -4,7 +4,7 @@ import PersonsTable from './PersonsTable';
 
 export default function PersonsList({ dic }: { dic: RealPersonsDictionary }) {
  return (
-  <div className='grid gap-2 grid-cols-[12rem_1fr] grow'>
+  <div className='relative grid gap-2 lg:grid-cols-[14rem_1fr] grow overflow-hidden'>
    <PersonsFitlers dic={dic} />
    <PersonsTable dic={dic} />
   </div>

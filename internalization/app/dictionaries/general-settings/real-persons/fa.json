@@ -5,6 +5,16 @@
   "editPerson": "ویرایش شخص",
   "addPerson": "افزودن شخص"
  },
+ "filters": {
+  "title": "فیلترها",
+  "name": "نام",
+  "fatherName": "نام پدر",
+  "gender": "جنسیت",
+  "naitonality": "ملیت",
+  "mobileNo": "شماره همراه",
+  "email": "ایمیل",
+  "nationalCode": "کدملی"
+ },
  "newPerson": {
   "form": {
    "name": "نام",

@@ -128,7 +128,7 @@ export default async function RootLayout(props: LayoutProps<'/[lang]'>) {
      />
     )}
    </head>
-   <body className={`antialiased flex flex-col h-svh`}>
+   <body className={`antialiased flex flex-col h-svh text-sm`}>
     <ReactQueryProvider>
      <BaseConfigProvider activeLocale={lang as Locale}>
       {props.children}
