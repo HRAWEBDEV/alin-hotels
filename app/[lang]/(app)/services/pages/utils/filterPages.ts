@@ -20,16 +20,14 @@ export function filterPages({
  Object.keys(pages).forEach((pageKey) => {
   const typedPageKey = pageKey as keyof Pages;
   Object.keys(pages[typedPageKey]).forEach((subPageKey) => {
-   const typedSubPageKey = subPageKey as keyof Pages[keyof Pages];
-   const doesIncludeSearchedText =
-    dic[pages[typedPageKey][typedSubPageKey].name].includes(searchedName);
+   const typedSubPageKey = subPageKey as Page['name'];
+   const doesIncludeSearchedText = dic[typedSubPageKey].includes(searchedName);
    if (doesIncludeSearchedText) {
     if (!(typedPageKey in newPages)) {
      newPages[typedPageKey] = {};
     }
-    // @ts-expect-error
-    newPages[typedPageKey]![typedSubPageKey] =
-     pages[typedPageKey][typedSubPageKey];
+    newPages[typedPageKey as 'general-settings']![typedSubPageKey as 'users'] =
+     pages[typedPageKey as 'general-settings'][typedSubPageKey as 'users'];
    }
   });
  });

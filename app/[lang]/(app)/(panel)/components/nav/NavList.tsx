@@ -33,12 +33,10 @@ import { useQuickAccessContext } from '../../services/quick-access/quickAccessCo
 
 export default function NavList() {
  const {
-  list: quickAccessList,
   addItem: addQuickAccessItem,
   removeItem: removeQuickAccessItem,
   isMarked: isQuickAccess,
  } = useQuickAccessContext();
- console.log(quickAccessList);
  const { activePath, activeMenu } = useNavigatorContext();
  const { locale } = useBaseConfig();
  const [searchedPage, setSearchedPage] = useState('');
@@ -92,7 +90,7 @@ export default function NavList() {
       <AccordionItem key={pageKey} value={pageKey} className='border-none'>
        <AccordionTrigger className='text-neutral-200 p-4 py-3 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
-         {getPageIcon('general-settings', {
+         {getPageIcon(pageKey as keyof Pages, {
           className: 'size-5',
          })}
          <span className='font-medium'>{pagesDic[pageKey as keyof Pages]}</span>
@@ -103,11 +101,9 @@ export default function NavList() {
          <div className='z-1 absolute top-0 bottom-0 w-px bg-sky-200 start-12 translate-x-1/2'></div>
          {Object.values(preveiwPages[pageKey as keyof Pages] || {}).map(
           (page) => {
-           const { name } = page;
-           const isMarked = isQuickAccess(
-            pageKey as Path,
-            page.name as Page['name'],
-           );
+           const typedPage = page as Page;
+           const { name } = typedPage;
+           const isMarked = isQuickAccess(pageKey as Path, name);
            return (
             <Button
              data-active-menu={
@@ -119,7 +115,7 @@ export default function NavList() {
              asChild
             >
              <Link
-              href={`/${locale}/${pageKey as keyof Pages}/${name}`}
+              href={`/${locale}/${pageKey as 'general-settings'}/${name as 'users'}`}
               onClick={() => toggleNav(false)}
              >
               <div className='absolute size-[0.3rem] rounded-full bg-sky-200 start-12 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
@@ -140,11 +136,9 @@ export default function NavList() {
                  e.preventDefault();
                  e.stopPropagation();
                  if (isMarked) {
-                  removeQuickAccessItem(
-                   `${pageKey as Path}-${page.name as Page['name']}`,
-                  );
+                  removeQuickAccessItem(`${pageKey as Path}-${name}`);
                  } else {
-                  addQuickAccessItem(pageKey as Path, page as Page);
+                  addQuickAccessItem(pageKey as Path, typedPage);
                  }
                 }}
                >

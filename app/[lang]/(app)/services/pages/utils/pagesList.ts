@@ -2,7 +2,9 @@ import { DeepMutable } from '@/utils/deepMutable';
 
 type Pages = DeepMutable<typeof pages>;
 type Path = keyof Pages;
-type Page = Pages[keyof Pages][keyof Pages[keyof Pages]];
+type Page = {
+ [P in Path]: Pages[P][keyof Pages[P]];
+}[Path];
 
 const pages = {
  'general-settings': {
@@ -14,6 +16,11 @@ const pages = {
   },
   companies: {
    name: 'companies',
+  },
+ },
+ 'hotel-information': {
+  hotels: {
+   name: 'hotels',
   },
  },
 } as const;
