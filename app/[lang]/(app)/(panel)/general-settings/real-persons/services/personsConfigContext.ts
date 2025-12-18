@@ -1,5 +1,10 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
+import { type RealPerson } from './personsApiActions';
+import {
+ type PagedData,
+ type Pagination,
+} from '@/app/[lang]/(app)/utils/apiBaseTypes';
 
 type Tab = 'list' | 'add' | 'edit';
 const tabs: Tab[] = ['list', 'add', 'edit'];
@@ -10,6 +15,15 @@ interface PersonsConfig {
  showFilters: boolean;
  changeShowFilters: (open?: boolean) => unknown;
  changeSelectedTab: (newTab?: Tab) => unknown;
+ persons: {
+  data?: PagedData<RealPerson[]>;
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  pagination: Pagination;
+  onChangePagination: (newValues: Pagination) => unknown;
+ };
 }
 
 const personsConfigContext = createContext<PersonsConfig | null>(null);

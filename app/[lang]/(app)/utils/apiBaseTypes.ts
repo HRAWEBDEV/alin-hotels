@@ -1,10 +1,10 @@
-type Paginatation = {
+type Pagination = {
  limit: number;
  offset: number;
 };
 type PagedData<T> = {
  rows: T[];
  rowsCount: number;
-} & Paginatation;
+} & Pagination;
 
-export type { PagedData, Paginatation };
+export type { PagedData, Pagination };

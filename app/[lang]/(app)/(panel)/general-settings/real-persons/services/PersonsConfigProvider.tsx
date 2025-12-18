@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { realPersonsBasePath, getPagedRealPersons } from './personsApiActions';
 import { useQuery } from '@tanstack/react-query';
+import { type Pagination } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 
 export default function PersonsConfigProvider({
  children,
@@ -37,11 +38,20 @@ export default function PersonsConfigProvider({
   setShowFilters((pre) => (open === undefined ? !pre : open));
  }
  // data
- const [pagination, setPagination] = useState({
+ const [pagination, setPagination] = useState<Pagination>({
   limit: 10,
   offset: 1,
  });
- const { data, isLoading, isFetching, isError } = useQuery({
+ function handleChangePagination(newValues: Pagination) {
+  setPagination(newValues);
+ }
+ const {
+  data: personsData,
+  isLoading: personsLoading,
+  isFetching: personsFetching,
+  isError: personsError,
+  isSuccess: personsSucess,
+ } = useQuery({
   queryKey: [realPersonsBasePath, 'all', pagination.limit, pagination.offset],
   async queryFn({ signal }) {
    const res = await getPagedRealPersons({
@@ -59,6 +69,15 @@ export default function PersonsConfigProvider({
   showFilters,
   changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
+  persons: {
+   data: personsData,
+   isError: personsError,
+   isFetching: personsFetching,
+   isLoading: personsLoading,
+   isSuccess: personsSucess,
+   pagination,
+   onChangePagination: handleChangePagination,
+  },
  };
  return (
   <personsConfigContext.Provider value={ctx}>

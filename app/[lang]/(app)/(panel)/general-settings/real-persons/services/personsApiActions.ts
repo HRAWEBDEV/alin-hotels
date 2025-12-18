@@ -1,7 +1,7 @@
 import { axios } from '@/app/[lang]/(app)/utils/defaultAxios';
 import {
  type PagedData,
- type Paginatation,
+ type Pagination,
 } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 
 const realPersonsBasePath = '/HotelsUnion/Person';
@@ -56,7 +56,7 @@ function generateGetRealPersonsSearchParams(
 
 function getAllRealPersons({ signal, ...queryProps }: GetRealPersonProps) {
  const searchParams = generateGetRealPersonsSearchParams(queryProps);
- return axios.get<RealPerson>(
+ return axios.get<RealPerson[]>(
   `${realPersonsBasePath}?${searchParams.toString()}`,
   {
    signal,
@@ -69,11 +69,11 @@ function getPagedRealPersons({
  limit,
  offset,
  ...queryProps
-}: GetRealPersonProps & Paginatation) {
+}: GetRealPersonProps & Pagination) {
  const searchParams = generateGetRealPersonsSearchParams(queryProps);
  searchParams.set('limit', limit.toString());
  searchParams.set('offset', offset.toString());
- return axios.get<PagedData<RealPerson>>(
+ return axios.get<PagedData<RealPerson[]>>(
   `${realPersonsBasePath}?${searchParams.toString()}`,
   {
    signal,
