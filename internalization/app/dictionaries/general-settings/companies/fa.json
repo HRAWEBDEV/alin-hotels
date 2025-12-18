@@ -12,5 +12,18 @@
  "table": {
   "columns": "ستون‌ها",
   "filters": "فیلترها"
+ },
+ "newCompany": {
+  "form": {
+   "name": "نام",
+   "postalCode": "کد پستی",
+   "registerCode": "شماره ثبت",
+   "nationalCode": "شناسه ملی",
+   "telephone": "شماره تماس",
+   "fax": "فکس",
+   "address": "آدرس",
+   "save": "ذخیره",
+   "clearForm": "خالی کردن اطلاعات"
+  }
  }
 }
