@@ -3,6 +3,7 @@ import Addressbar from './components/address-bar/Addressbar';
 import Nav from './components/nav/Nav';
 import Tabs from './components/nav/Tabs';
 import Main from './components/main/Main';
+import UserInfoProvider from './services/user-info/UserInfoProvider';
 import UserProfileProvider from './services/user-profile/UserProfileProvider';
 import NavigationProvider from './services/navigation/NavigationProvider';
 import AxoisCredentials from './services/axios-credentials/AxiosCredentials';
@@ -14,26 +15,28 @@ import QuickAccessProvider from './services/quick-access/QuickAccessProvider';
 export default function PanelLayout({ children }: LayoutProps<'/[lang]'>) {
  return (
   <div className='h-svh flex overflow-hidden'>
-   <NavigatorProvider>
-    <HistoryTrakcer>
-     <AxoisCredentials />
-     <PagesProvider>
-      <UserProfileProvider>
-       <QuickAccessProvider>
-        <NavigationProvider>
-         <Nav />
-         <div className='grow flex flex-col'>
-          <Header />
-          <Addressbar />
-          <Main>{children}</Main>
-          <Tabs />
-         </div>
-        </NavigationProvider>
-       </QuickAccessProvider>
-      </UserProfileProvider>
-     </PagesProvider>
-    </HistoryTrakcer>
-   </NavigatorProvider>
+   <AxoisCredentials />
+   <UserInfoProvider>
+    <NavigatorProvider>
+     <HistoryTrakcer>
+      <PagesProvider>
+       <UserProfileProvider>
+        <QuickAccessProvider>
+         <NavigationProvider>
+          <Nav />
+          <div className='grow flex flex-col'>
+           <Header />
+           <Addressbar />
+           <Main>{children}</Main>
+           <Tabs />
+          </div>
+         </NavigationProvider>
+        </QuickAccessProvider>
+       </UserProfileProvider>
+      </PagesProvider>
+     </HistoryTrakcer>
+    </NavigatorProvider>
+   </UserInfoProvider>
   </div>
  );
 }
