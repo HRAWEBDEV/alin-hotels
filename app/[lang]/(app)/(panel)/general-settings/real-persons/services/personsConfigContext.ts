@@ -22,6 +22,7 @@ interface PersonsConfig {
   isError: boolean;
   isSuccess: boolean;
   pagination: Pagination;
+  refetchPersons: () => unknown;
   onChangePagination: (newValues: Pagination) => unknown;
  };
 }

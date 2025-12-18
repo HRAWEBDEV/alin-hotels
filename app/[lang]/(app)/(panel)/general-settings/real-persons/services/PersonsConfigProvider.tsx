@@ -51,6 +51,7 @@ export default function PersonsConfigProvider({
   isFetching: personsFetching,
   isError: personsError,
   isSuccess: personsSucess,
+  refetch: refetchPersons,
  } = useQuery({
   queryKey: [realPersonsBasePath, 'all', pagination.limit, pagination.offset],
   async queryFn({ signal }) {
@@ -76,6 +77,7 @@ export default function PersonsConfigProvider({
    isLoading: personsLoading,
    isSuccess: personsSucess,
    pagination,
+   refetchPersons,
    onChangePagination: handleChangePagination,
   },
  };

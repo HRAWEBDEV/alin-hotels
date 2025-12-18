@@ -13,9 +13,13 @@ import { Table, TableBody, TableHeader, TableRow } from '@/components/ui/table';
 import { usePersonsConfigContext } from '../../services/personsConfigContext';
 import LinearLoading from '../../../../components/LinearLoading';
 import NoItemFound from '../../../../components/NoItemFound';
+import { RxReload } from 'react-icons/rx';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
- const { changeShowFilters } = usePersonsConfigContext();
+ const {
+  changeShowFilters,
+  persons: { isFetching, isSuccess, data, refetchPersons },
+ } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
@@ -23,37 +27,48 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     <div>
      <Button
       variant='outline'
-      className='h-auto text-rose-700! dark:text-rose-400! border-rose-700 dark:border-rose-400'
+      className='h-auto text-rose-700! dark:text-rose-400! border-rose-700 dark:border-rose-400 px-2! gap-1'
       onClick={() => changeShowFilters(true)}
      >
       <TbFilterSearch /> {dic.table.filters} (1)
      </Button>
     </div>
-    <div>
+    <div className='flex gap-2'>
      <DropdownMenu dir={localeInfo.contentDirection}>
       <DropdownMenuTrigger asChild>
        <Button
         variant='outline'
-        className='h-auto text-primary! border-primary'
+        className='h-auto text-primary! border-primary px-2! gap-1'
        >
         <MdViewColumn /> {dic.table.columns} <ChevronDown />
        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'></DropdownMenuContent>
      </DropdownMenu>
+     <Button
+      variant={'outline'}
+      size={'icon'}
+      className='h-auto text-primary border-primary'
+      disabled={isFetching}
+      onClick={() => refetchPersons()}
+     >
+      <RxReload className='size-4' />
+     </Button>
     </div>
    </div>
    <div className='relative grow overflow-auto'>
-    <LinearLoading />
-    <NoItemFound />
-    <Table>
-     <TableHeader>
-      <TableRow></TableRow>
-     </TableHeader>
-     <TableBody>
-      <TableRow></TableRow>
-     </TableBody>
-    </Table>
+    {isFetching && <LinearLoading />}
+    {!data?.rows.length && <NoItemFound />}
+    {isSuccess && !!data?.rows.length && (
+     <Table>
+      <TableHeader>
+       <TableRow></TableRow>
+      </TableHeader>
+      <TableBody>
+       <TableRow></TableRow>
+      </TableBody>
+     </Table>
+    )}
    </div>
   </div>
  );
