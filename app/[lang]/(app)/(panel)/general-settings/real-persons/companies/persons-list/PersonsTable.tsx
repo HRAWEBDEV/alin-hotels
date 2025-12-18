@@ -9,21 +9,14 @@ import {
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { MdViewColumn } from 'react-icons/md';
 import { TbFilterSearch } from 'react-icons/tb';
-import {
- Table,
- TableBody,
- TableCell,
- TableHead,
- TableHeader,
- TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableHeader, TableRow } from '@/components/ui/table';
 import { usePersonsConfigContext } from '../../services/personsConfigContext';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const { changeShowFilters } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
-  <div className='bg-background border border-input rounded flex flex-col overflow-hidden'>
+  <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
    <div className='p-1 border-b border-input flex justify-between items-center min-h-12'>
     <div>
      <Button
