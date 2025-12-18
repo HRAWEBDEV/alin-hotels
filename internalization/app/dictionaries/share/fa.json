@@ -8,6 +8,9 @@
   }
  },
  "components": {
+  "noItemFound": {
+   "description": "آیتمی یافت نشد"
+  },
   "navList": {
    "search": "جستجو"
   },

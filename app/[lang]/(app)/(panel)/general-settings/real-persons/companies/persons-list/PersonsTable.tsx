@@ -11,6 +11,8 @@ import { MdViewColumn } from 'react-icons/md';
 import { TbFilterSearch } from 'react-icons/tb';
 import { Table, TableBody, TableHeader, TableRow } from '@/components/ui/table';
 import { usePersonsConfigContext } from '../../services/personsConfigContext';
+import LinearLoading from '../../../../components/LinearLoading';
+import NoItemFound from '../../../../components/NoItemFound';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const { changeShowFilters } = usePersonsConfigContext();
@@ -41,7 +43,9 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
      </DropdownMenu>
     </div>
    </div>
-   <div className='grow overflow-auto'>
+   <div className='relative grow overflow-auto'>
+    <LinearLoading />
+    <NoItemFound />
     <Table>
      <TableHeader>
       <TableRow></TableRow>
