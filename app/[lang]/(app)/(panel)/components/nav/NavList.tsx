@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
  InputGroup,
  InputGroupInput,
@@ -41,6 +41,9 @@ export default function NavList() {
  const { locale } = useBaseConfig();
  const [searchedPage, setSearchedPage] = useState('');
  const { pages } = usePagesContext();
+ const [openAccordionValues, setOpenAccordionValues] = useState<string[]>(
+  Object.keys(pages),
+ );
  const {
   shareDictionary: {
    components: { navList },
@@ -54,6 +57,11 @@ export default function NavList() {
   searchedName: searchedPage,
   dic: pagesDic,
  });
+
+ useEffect(() => {
+  if (!searchedPage) return;
+  setOpenAccordionValues(Object.keys(pages));
+ }, [searchedPage, pages]);
 
  return (
   <div className='grow overflow-hidden flex flex-col'>
@@ -84,7 +92,8 @@ export default function NavList() {
     <Accordion
      type='multiple'
      className='w-full'
-     defaultValue={Object.keys(preveiwPages)}
+     value={openAccordionValues}
+     onValueChange={(newValue) => setOpenAccordionValues(newValue)}
     >
      {Object.keys(preveiwPages).map((pageKey) => (
       <AccordionItem key={pageKey} value={pageKey} className='border-none'>
