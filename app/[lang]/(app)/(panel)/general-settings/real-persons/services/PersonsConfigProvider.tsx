@@ -8,6 +8,8 @@ import {
 } from './personsConfigContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
+import { realPersonsBasePath, getPagedRealPersons } from './personsApiActions';
+import { useQuery } from '@tanstack/react-query';
 
 export default function PersonsConfigProvider({
  children,
@@ -34,6 +36,22 @@ export default function PersonsConfigProvider({
  function handleChangeShowFilters(open?: boolean) {
   setShowFilters((pre) => (open === undefined ? !pre : open));
  }
+ // data
+ const [pagination, setPagination] = useState({
+  limit: 10,
+  offset: 1,
+ });
+ const { data, isLoading, isFetching, isError } = useQuery({
+  queryKey: [realPersonsBasePath, 'all', pagination.limit, pagination.offset],
+  async queryFn({ signal }) {
+   const res = await getPagedRealPersons({
+    signal,
+    limit: 10,
+    offset: 1,
+   });
+   return res.data;
+  },
+ });
 
  const ctx: PersonsConfig = {
   tabs,
