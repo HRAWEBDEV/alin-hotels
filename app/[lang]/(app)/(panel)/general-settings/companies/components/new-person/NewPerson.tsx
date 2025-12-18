@@ -6,6 +6,7 @@ import {
  InputGroupInput,
  InputGroupTextarea,
 } from '@/components/ui/input-group';
+import { Button } from '@/components/ui/button';
 
 export default function NewPerson({ dic }: { dic: CompaniesDictionary }) {
  const {
@@ -71,6 +72,15 @@ export default function NewPerson({ dic }: { dic: CompaniesDictionary }) {
        <InputGroupTextarea id='address' />
       </InputGroup>
      </Field>
+    </div>
+    <div className='flex justify-between items-center gap-4'>
+     <Button
+      variant='outline'
+      className='text-rose-700! dark:text-rose-400! border-rose-700! dark:border-rose-400!'
+     >
+      {formDic.clearForm}
+     </Button>
+     <Button className='min-w-28'>{formDic.save}</Button>
     </div>
    </FieldGroup>
   </form>
