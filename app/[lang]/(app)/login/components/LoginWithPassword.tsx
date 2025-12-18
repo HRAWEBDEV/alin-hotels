@@ -31,6 +31,7 @@ import { AxiosError } from 'axios';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { toast } from 'sonner';
 import { setUserLoginToken } from '../utils/loginTokenManager';
+import { useLoginContext } from '../services/login/loginContext';
 
 const formDefaults: LoginWithPasswordCredentials = {
  userName: '',
@@ -38,6 +39,7 @@ const formDefaults: LoginWithPasswordCredentials = {
 };
 
 export default function LoginWithPassword({ dic }: { dic: LoginDictionary }) {
+ const { loginModalIsOpen, changeLoginModalIsOpen } = useLoginContext();
  const [showPassword, setShowPassword] = useState(false);
  const { locale } = useBaseConfig();
  const router = useRouter();
@@ -67,7 +69,11 @@ export default function LoginWithPassword({ dic }: { dic: LoginDictionary }) {
   },
   onSuccess({ data }) {
    setUserLoginToken(data.item1);
-   router.push(`/${locale}`);
+   if (loginModalIsOpen) {
+    changeLoginModalIsOpen(false);
+   } else {
+    router.push(`/${locale}`);
+   }
   },
  });
 

@@ -9,12 +9,14 @@ export default function ShareDictionaryProvider({
  children,
  metaDictionary,
  shareDictionary,
+ loginDictionary,
 }: {
  children: ReactNode;
 } & ShareStore) {
  const ctx: ShareStore = {
   metaDictionary,
   shareDictionary,
+  loginDictionary,
  };
  return (
   <shareDictionaryContext.Provider value={ctx}>
