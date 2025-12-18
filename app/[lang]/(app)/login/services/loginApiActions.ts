@@ -6,7 +6,10 @@ interface LoginWithPasswordCredentials {
 }
 
 function loginWithPassword(credentials: LoginWithPasswordCredentials) {
- return axios.post<{ item1: string; item2: number }>('', credentials);
+ return axios.post<{ item1: string; item2: number }>(
+  '/HotelsUnion/Authentication/Signin',
+  credentials,
+ );
 }
 
 export type { LoginWithPasswordCredentials };

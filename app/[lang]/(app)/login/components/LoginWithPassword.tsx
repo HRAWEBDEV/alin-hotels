@@ -29,6 +29,8 @@ import { useMutation } from '@tanstack/react-query';
 import { Spinner } from '@/components/ui/spinner';
 import { AxiosError } from 'axios';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
+import { toast } from 'sonner';
+import { setUserLoginToken } from '../utils/loginTokenManager';
 
 const formDefaults: LoginWithPasswordCredentials = {
  userName: '',
@@ -60,11 +62,11 @@ export default function LoginWithPassword({ dic }: { dic: LoginDictionary }) {
   mutationFn(credentials: LoginWithPasswordCredentials) {
    return loginWithPassword(credentials);
   },
-  onError(err: AxiosError) {
-   console.log(err);
+  onError(err: AxiosError<string>) {
+   toast.error(err.response?.data || '');
   },
-  onSuccess(res) {
-   console.log(res);
+  onSuccess({ data }) {
+   setUserLoginToken(data.item1);
    router.push(`/${locale}`);
   },
  });
