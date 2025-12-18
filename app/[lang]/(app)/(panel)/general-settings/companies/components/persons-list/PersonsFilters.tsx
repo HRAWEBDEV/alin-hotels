@@ -9,7 +9,7 @@ export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
  return (
   <div
    data-show-filters={showFilters}
-   className='absolute inset-0 lg:static hidden data-[show-filters="true"]:flex bg-background border border-input rounded lg:flex! flex-col overflow-hidden'
+   className='absolute inset-0 lg:static hidden data-[show-filters="true"]:flex bg-background border border-input rounded lg:rounded-ee-none lg:rounded-se-none lg:border-e-0 lg:flex! flex-col overflow-hidden'
   >
    <div className='p-2 border-b border-input flex justify-between items-center min-h-12'>
     <div className='basis-9 flex'>

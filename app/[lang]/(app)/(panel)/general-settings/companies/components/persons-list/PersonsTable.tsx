@@ -16,7 +16,7 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
  const { changeShowFilters } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
-  <div className='bg-background border border-input rounded flex flex-col overflow-hidden'>
+  <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
    <div className='p-1 border-b border-input flex justify-between items-center min-h-12'>
     <div>
      <Button
