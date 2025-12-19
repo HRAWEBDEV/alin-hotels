@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,9 +29,12 @@ import {
  useReactTable,
  getCoreRowModel,
  flexRender,
+ RowSelectionState,
 } from '@tanstack/react-table';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
+ const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
  const {
   changeShowFilters,
   persons: { isFetching, isSuccess, data, refetchPersons },
@@ -40,6 +43,35 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
 
  const columns: ColumnDef<RealPerson[]>[] = useMemo(() => {
   return [
+   {
+    id: 'select',
+    header: ({ table }) => (
+     <Checkbox
+      className='border-neutral-400 dark:border-orange-600'
+      disabled
+      checked={
+       table.getIsAllPageRowsSelected() ||
+       (table.getIsSomePageRowsSelected() && 'indeterminate')
+      }
+      onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      aria-label='Select all'
+     />
+    ),
+    cell: ({ row }) => (
+     <Checkbox
+      className='border-neutral-400 dark:border-orange-600'
+      checked={row.getIsSelected()}
+      onCheckedChange={(value) => row.toggleSelected(!!value)}
+      aria-label='Select row'
+     />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+    enableResizing: false,
+    enableColumnFilter: false,
+    size: 10,
+    maxSize: 10,
+   },
    {
     accessorKey: 'name',
     header: dic.newPerson.form.name,
@@ -74,6 +106,10 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   columns,
   columnResizeDirection: localeInfo.contentDirection,
   columnResizeMode: 'onChange',
+  state: {
+   rowSelection,
+  },
+  onRowSelectionChange: setRowSelection,
   getCoreRowModel: getCoreRowModel(),
  });
 
