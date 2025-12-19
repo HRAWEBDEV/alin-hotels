@@ -38,6 +38,8 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { MoreHorizontal } from 'lucide-react';
 import { useCommonPinningStyles } from '../../../../hooks/useCommonPinningStyles';
+import { MdOutlinePushPin } from 'react-icons/md';
+import { RiUnpinLine } from 'react-icons/ri';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const getCommonPinningStyles = useCommonPinningStyles();
@@ -60,6 +62,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   return [
    {
     id: 'select',
+    enablePinning: false,
     header: ({ table }) => (
      <div className='grid place-content-center'>
       <Checkbox
@@ -110,6 +113,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     header: dic.newPerson.form.fatherName,
     minSize: 125,
     size: 125,
+    enablePinning: false,
    },
    {
     accessorKey: 'genderName',
@@ -118,6 +122,8 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     minSize: 60,
     size: 60,
     meta: 'center',
+
+    enablePinning: false,
    },
    {
     accessorKey: 'nationality',
@@ -126,13 +132,14 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     minSize: 60,
     size: 60,
     meta: 'center',
+    enablePinning: false,
    },
    {
     accessorKey: 'nationalCode',
     header: dic.newPerson.form.nationalCode,
     enableResizing: false,
-    minSize: 100,
-    size: 100,
+    minSize: 110,
+    size: 110,
     meta: 'center',
    },
    {
@@ -142,6 +149,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     minSize: 100,
     size: 100,
     meta: 'center',
+    enablePinning: false,
    },
    {
     accessorKey: 'email',
@@ -150,6 +158,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     minSize: 100,
     size: 100,
     meta: 'center',
+    enablePinning: false,
    },
    {
     id: 'actions',
@@ -160,6 +169,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     size: 40,
     maxSize: 40,
     minSize: 40,
+    enablePinning: false,
     cell: ({}) => {
      return (
       <div className='grid place-content-center'>
@@ -167,7 +177,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
         <DropdownMenuTrigger asChild>
          <Button variant='ghost' className='h-8 w-8 p-0'>
           <span className='sr-only'>Open menu</span>
-          <MoreHorizontal />
+          <MoreHorizontal className='size-5 text-primary' />
          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'></DropdownMenuContent>
@@ -261,11 +271,34 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-action={header.column.columnDef.meta === 'action'}
            data-checkbox={header.column.columnDef.meta === 'checkbox'}
            key={header.id}
-           className='group relative not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='group relative not-last:outline outline-input bg-neutral-100 dark:bg-neutral-900  data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            colSpan={header.colSpan}
            style={{ ...getCommonPinningStyles(header.column) }}
           >
            {flexRender(header.column.columnDef.header, header.getContext())}
+           {header.column.getCanPin() && (
+            <div className='absolute end-0 top-1/2 -translate-y-1/2 text-neutral-500'>
+             <Button
+              variant={'ghost'}
+              size={'icon'}
+              onClick={() => {
+               if (header.column.getIsPinned()) {
+                header.column.pin(false);
+               } else {
+                header.column.pin(
+                 localeInfo.contentDirection === 'rtl' ? 'left' : 'right',
+                );
+               }
+              }}
+             >
+              {header.column.getIsPinned() ? (
+               <MdOutlinePushPin />
+              ) : (
+               <RiUnpinLine />
+              )}
+             </Button>
+            </div>
+           )}
            {header.column.getCanResize() && (
             <div
              data-is-resizing={header.column.getIsResizing()}
@@ -302,7 +335,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-action={cell.column.columnDef.meta === 'action'}
            data-checkbox={cell.column.columnDef.meta === 'checkbox'}
            key={cell.id}
-           className='data-[is-pinned="true"]:bg-background not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='data-[is-pinned="true"]:bg-background not-last:outline outline-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            style={{ ...getCommonPinningStyles(cell.column) }}
           >
            {flexRender(cell.column.columnDef.cell, cell.getContext())}
