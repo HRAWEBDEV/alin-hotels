@@ -8,26 +8,35 @@ const realPersonsBasePath = '/HotelsUnion/Person';
 
 interface RealPerson {
  id: number;
- name: string;
- lastName: string;
- fatherName: string;
+ name: string | null;
+ lastName: string | null;
+ fatherName: string | null;
  genderID: number;
  genderName: string;
  birthDate: string | null;
- nationalityZoneID: number;
- educationGradeID: number;
- educationGradeName: string;
- educationFieldID: number;
- educationFieldName: string;
- nationalCode: string;
- mobileNo: string;
- email: string;
- postalCode: string;
- address: string;
- zoneNameID: number;
- zoneName: string;
- personFullName: string;
+ nationalityZoneID: number | null;
+ educationGradeID: number | null;
+ educationGradeName: string | null;
+ educationFieldID: number | null;
+ educationFieldName: string | null;
+ nationalCode: string | null;
+ mobileNo: string | null;
+ email: string | null;
+ postalCode: string | null;
+ address: string | null;
+ zoneNameID: number | null;
+ zoneName: string | null;
+ personFullName: string | null;
 }
+
+type SaveRealPersonPackage = Omit<
+ RealPerson,
+ | 'educationGradeName'
+ | 'educationFieldName'
+ | 'zoneName'
+ | 'personFullName'
+ | 'genderName'
+>;
 
 type GetRealPersonProps = {
  name?: string;
@@ -81,5 +90,15 @@ function getPagedRealPersons({
  );
 }
 
-export type { RealPerson };
-export { realPersonsBasePath, getAllRealPersons, getPagedRealPersons };
+function saveRealPerson(newPerson: SaveRealPersonPackage) {
+ return axios.post(realPersonsBasePath, newPerson);
+}
+function updateRealPerson(updatePerson: Partial<SaveRealPersonPackage>) {}
+
+export type { RealPerson, SaveRealPersonPackage };
+export {
+ realPersonsBasePath,
+ getAllRealPersons,
+ getPagedRealPersons,
+ saveRealPerson,
+};

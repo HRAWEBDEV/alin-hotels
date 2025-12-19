@@ -14,6 +14,8 @@ const defaultValues: Partial<RealPersonSchema> = {
  mobileNo: '',
  nationalCode: '',
  postalCode: '',
+ gender: null,
+ birthDate: null,
 };
 
 function createRealPersonSchema({}: { dic: RealPersonsDictionary }) {
@@ -27,11 +29,13 @@ function createRealPersonSchema({}: { dic: RealPersonsDictionary }) {
     value: z.string(),
    })
    .nullable(),
-  gender: z.object({
-   key: z.string(),
-   value: z.string(),
-  }),
-  birthDate: z.date(),
+  gender: z
+   .object({
+    key: z.string(),
+    value: z.string(),
+   })
+   .nullable(),
+  birthDate: z.date().nullable(),
   nationality: z
    .object({
     key: z.string(),

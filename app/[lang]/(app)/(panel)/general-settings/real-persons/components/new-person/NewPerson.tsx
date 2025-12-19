@@ -26,13 +26,87 @@ import {
  CommandItem,
  CommandList,
 } from '@/components/ui/command';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+ type RealPersonSchema,
+ createRealPersonSchema,
+ defaultValues,
+} from '../../schemas/realPersonSchema';
+import { Spinner } from '@/components/ui/spinner';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+ type SaveRealPersonPackage,
+ realPersonsBasePath,
+ saveRealPerson,
+} from '../../services/personsApiActions';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
+ const queryClient = useQueryClient();
+ // form
+ const { control, register, handleSubmit, formState, reset } =
+  useForm<RealPersonSchema>({
+   resolver: zodResolver(createRealPersonSchema({ dic })),
+   defaultValues: {
+    ...defaultValues,
+   },
+  });
+ //
  const [openBirthDateCalendar, setOpenBirthDateCalendar] = useState(false);
  const [openNationalityCombo, setOpenNationalityCombo] = useState(false);
  const [openGenderCombo, setOpenGenderCombo] = useState(false);
  const [openEducationGradeCombo, setOpenEducationGradeCombo] = useState(false);
  const [openEducationFieldCombo, setOpenEducationFieldCombo] = useState(false);
+ //
+ const { mutate, isPending } = useMutation({
+  mutationFn({
+   name,
+   email,
+   fatherName,
+   gender,
+   mobileNo,
+   nationalCode,
+   address,
+   birthDate,
+   educationField,
+   educationGrade,
+   lastName,
+   nationality,
+   postalCode,
+   zone,
+  }: RealPersonSchema) {
+   const newPerson: SaveRealPersonPackage = {
+    id: 0,
+    name: name || null,
+    address: address || null,
+    birthDate: null,
+    email: email || null,
+    fatherName: fatherName || null,
+    lastName: lastName || null,
+    mobileNo: mobileNo || null,
+    nationalCode: null,
+    postalCode: null,
+    educationFieldID: null,
+    educationGradeID: null,
+    genderID: 1,
+    nationalityZoneID: null,
+    zoneNameID: null,
+   };
+   return saveRealPerson(newPerson);
+  },
+  onSuccess() {
+   reset();
+   queryClient.invalidateQueries({
+    queryKey: [realPersonsBasePath],
+   });
+  },
+  onError(err: AxiosError<string>) {
+   toast.error(err.response?.data);
+  },
+ });
+ //
 
  return (
   <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'>
@@ -46,19 +120,19 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.name}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput {...register('name')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.lastName}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput {...register('lastName')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.fatherName}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput {...register('fatherName')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
@@ -182,13 +256,13 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.mobileNo}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput {...register('mobileNo')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.email}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput {...register('email')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
@@ -292,7 +366,7 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
      <Field className='gap-2 col-span-full'>
       <FieldLabel>{dic.newPerson.form.address}</FieldLabel>
       <InputGroup>
-       <InputGroupTextarea />
+       <InputGroupTextarea {...register('address')} />
       </InputGroup>
      </Field>
     </div>
@@ -300,10 +374,24 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
      <Button
       variant='outline'
       className='text-rose-700! dark:text-rose-400! border-rose-700! dark:border-rose-400!'
+      type='button'
+      onClick={() => reset()}
      >
+      {isPending && <Spinner />}
       {dic.newPerson.form.clearForm}
      </Button>
-     <Button className='min-w-28'>{dic.newPerson.form.save}</Button>
+     <Button
+      className='min-w-28'
+      type='submit'
+      disabled={isPending}
+      onClick={(e) => {
+       e.preventDefault();
+       handleSubmit((data) => mutate(data))();
+      }}
+     >
+      {isPending && <Spinner />}
+      {dic.newPerson.form.save}
+     </Button>
     </div>
    </FieldGroup>
   </form>

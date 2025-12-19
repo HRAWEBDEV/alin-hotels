@@ -306,7 +306,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-action={header.column.columnDef.meta === 'action'}
            data-checkbox={header.column.columnDef.meta === 'checkbox'}
            key={header.id}
-           className='group relative not-last:outline outline-input bg-neutral-100 dark:bg-neutral-900  data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='group relative not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            colSpan={header.colSpan}
            style={{ ...getCommonPinningStyles(header.column) }}
           >
@@ -370,7 +370,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-action={cell.column.columnDef.meta === 'action'}
            data-checkbox={cell.column.columnDef.meta === 'checkbox'}
            key={cell.id}
-           className='data-[is-pinned="true"]:bg-background not-last:outline outline-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='data-[is-pinned="true"]:bg-background not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            style={{ ...getCommonPinningStyles(cell.column) }}
           >
            {flexRender(cell.column.columnDef.cell, cell.getContext())}
