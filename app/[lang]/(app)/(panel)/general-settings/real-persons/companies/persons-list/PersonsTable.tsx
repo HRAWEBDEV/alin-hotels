@@ -215,7 +215,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-action={header.column.columnDef.meta === 'action'}
            data-checkbox={header.column.columnDef.meta === 'checkbox'}
            key={header.id}
-           className='group relative not-last:border-e border-input bg-sky-50 dark:bg-sky-950 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='group relative not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            colSpan={header.colSpan}
            style={{
             width: header.getSize(),
@@ -226,7 +226,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
             <div
              data-is-resizing={header.column.getIsResizing()}
              data-dir={localeInfo.contentDirection}
-             className='group-hover:bg-sky-600/30 dark:group-hover:bg-sky-400/30 data-[is-resizing="true"]:bg-sky-800 dark:data-[is-resizing="true"]:bg-sky-400 absolute top-0 h-full w-1 cursor-col-resize select-none touch-none data-[dir="rtl"]:left-0 data-[dir="ltr"]:right-0'
+             className='group-hover:bg-neutral-600/30 dark:group-hover:bg-neutral-400/30 data-[is-resizing="true"]:bg-neutral-800 dark:data-[is-resizing="true"]:bg-neutral-400 absolute top-0 h-full w-1 cursor-col-resize select-none touch-none data-[dir="rtl"]:left-0 data-[dir="ltr"]:right-0'
              {...{
               onDoubleClick: () => header.column.resetSize(),
               onMouseDown: header.getResizeHandler(),

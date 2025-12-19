@@ -34,14 +34,14 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
       <IoMdPersonAdd />
       {dic.tabs.addPerson}
      </TabsTrigger>
-     <TabsTrigger
-      value='edit'
-      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
-      onClick={() => changeSelectedTab('edit')}
-     >
-      <FaUserEdit />
-      {dic.tabs.editPerson}
-     </TabsTrigger>
+     {/* <TabsTrigger */}
+     {/*  value='edit' */}
+     {/*  className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal' */}
+     {/*  onClick={() => changeSelectedTab('edit')} */}
+     {/* > */}
+     {/*  <FaUserEdit /> */}
+     {/*  {dic.tabs.editPerson} */}
+     {/* </TabsTrigger> */}
     </TabsList>
    </Tabs>
   </header>
