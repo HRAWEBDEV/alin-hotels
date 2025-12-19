@@ -7,8 +7,6 @@ import {
  DropdownMenuCheckboxItem,
  DropdownMenuContent,
  DropdownMenuItem,
- DropdownMenuLabel,
- DropdownMenuSeparator,
  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
@@ -34,6 +32,7 @@ import {
  flexRender,
  RowSelectionState,
  ColumnPinningState,
+ PaginationState,
 } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MoreHorizontal } from 'lucide-react';
@@ -59,7 +58,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const { localeInfo } = useBaseConfig();
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
  const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
-  const startPinned = ['select', 'name', 'lastName'];
+  const startPinned = ['select'];
   const endPinned = ['actions'];
   return {
    right: localeInfo.contentDirection === 'rtl' ? endPinned : startPinned,
@@ -68,8 +67,19 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  });
  const {
   changeShowFilters,
-  persons: { isFetching, isSuccess, data, refetchPersons },
+  persons: {
+   isFetching,
+   isSuccess,
+   data,
+   refetchPersons,
+   pagination,
+   onChangePagination,
+  },
  } = usePersonsConfigContext();
+ const [paginationState, setPaginationState] = useState<PaginationState>({
+  pageIndex: pagination.pageIndex,
+  pageSize: pagination.pageSize,
+ });
 
  const columns: ColumnDef<RealPerson[]>[] = useMemo(() => {
   return [
@@ -215,13 +225,20 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   columnResizeMode: 'onChange',
   state: {
    rowSelection,
+   pagination: paginationState,
    columnPinning: pinnedColumns,
   },
+  rowCount: data?.rowsCount,
+  manualPagination: true,
+  autoResetPageIndex: true,
   onRowSelectionChange: setRowSelection,
   onColumnPinningChange: setPinnedColumns,
+  onPaginationChange: (update) => {
+   setPaginationState(update);
+   onChangePagination(update);
+  },
   getCoreRowModel: getCoreRowModel(),
  });
- console.log(pinnedColumns);
 
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
@@ -368,32 +385,70 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    <div className='shrink-0 border-t border-input p-1 flex justify-between gap-2'>
     <div></div>
     <div className='flex gap-1 items-center text-neutral-600 dark:text-neutral-400'>
-     <div className='basis-24'>
-      <Field className='flex-row gap-1'>
-       <FieldLabel className='text-xs w-auto!'>
-        {components.pagination.search}:
-       </FieldLabel>
-       <InputGroup className='grow'>
-        <InputGroupInput />
-       </InputGroup>
-      </Field>
-     </div>
+     {table.getPageCount() > 1 && (
+      <div className='basis-24'>
+       <Field className='flex-row gap-1'>
+        <FieldLabel className='text-xs w-auto!'>
+         {components.pagination.search}:
+        </FieldLabel>
+        <InputGroup className='grow'>
+         <InputGroupInput
+          defaultValue={table.getState().pagination.pageIndex + 1}
+          onChange={(e) => {
+           const newValue = Number(e.target.value);
+           if (!newValue) return;
+           const newPageIndex = newValue - 1;
+           if (newPageIndex > table.getPageCount() - 1 || newPageIndex < 0)
+            return;
+           table.setPageIndex(newPageIndex);
+          }}
+         />
+        </InputGroup>
+       </Field>
+      </div>
+     )}
      <div className='flex gap-1 items-center'>
-      <Button variant='outline' size='icon'>
+      <Button
+       variant='outline'
+       size='icon'
+       disabled={!table.getCanPreviousPage()}
+       onClick={() => table.firstPage()}
+      >
        <MdKeyboardDoubleArrowRight className='size-4 ltr:rotate-180' />
       </Button>
-      <Button variant='outline' className='gap-1'>
+      <Button
+       variant='outline'
+       className='gap-1'
+       disabled={!table.getCanPreviousPage()}
+       onClick={() => table.previousPage()}
+      >
        <IoIosArrowRoundForward className='size-6' />
        <span className='hidden lg:inline'>{components.pagination.prev}</span>
       </Button>
-      <div className='text-base'>
-       <span>100</span> - <span className='font-medium'>1</span>
+      <div
+       style={{
+        direction: 'ltr',
+       }}
+       className='text-base'
+      >
+       <span>{table.getState().pagination.pageIndex + 1}</span> -{' '}
+       <span>{table.getPageCount()}</span>
       </div>
-      <Button variant='outline' className='gap-1 ltr:rotate-180'>
-       <span className='hidden lg:inline'>{components.pagination.prev}</span>
+      <Button
+       variant='outline'
+       className='gap-1 ltr:rotate-180'
+       disabled={!table.getCanNextPage()}
+       onClick={() => table.nextPage()}
+      >
+       <span className='hidden lg:inline'>{components.pagination.next}</span>
        <IoIosArrowRoundBack className='size-6 ltr:rotate-180' />
       </Button>
-      <Button variant='outline' size='icon'>
+      <Button
+       variant='outline'
+       size='icon'
+       disabled={!table.getCanNextPage()}
+       onClick={() => table.lastPage()}
+      >
        <MdKeyboardDoubleArrowLeft className='size-4 ltr:rotate-180' />
       </Button>
      </div>

@@ -1,10 +1,9 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
 import { type RealPerson } from './personsApiActions';
-import {
- type PagedData,
- type Pagination,
-} from '@/app/[lang]/(app)/utils/apiBaseTypes';
+import { type PagedData } from '@/app/[lang]/(app)/utils/apiBaseTypes';
+import { PaginationState } from '@tanstack/react-table';
+import { Dispatch, SetStateAction } from 'react';
 
 type Tab = 'list' | 'add' | 'edit';
 const tabs: Tab[] = ['list', 'add', 'edit'];
@@ -21,9 +20,9 @@ interface PersonsConfig {
   isFetching: boolean;
   isError: boolean;
   isSuccess: boolean;
-  pagination: Pagination;
+  pagination: PaginationState;
   refetchPersons: () => unknown;
-  onChangePagination: (newValues: Pagination) => unknown;
+  onChangePagination: Dispatch<SetStateAction<PaginationState>>;
  };
 }
 

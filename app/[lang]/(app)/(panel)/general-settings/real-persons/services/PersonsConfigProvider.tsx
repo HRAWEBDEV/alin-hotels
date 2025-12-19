@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { realPersonsBasePath, getPagedRealPersons } from './personsApiActions';
 import { useQuery } from '@tanstack/react-query';
-import { type Pagination } from '@/app/[lang]/(app)/utils/apiBaseTypes';
+import { PaginationState } from '@tanstack/react-table';
 
 export default function PersonsConfigProvider({
  children,
@@ -38,13 +38,11 @@ export default function PersonsConfigProvider({
   setShowFilters((pre) => (open === undefined ? !pre : open));
  }
  // data
- const [pagination, setPagination] = useState<Pagination>({
-  limit: 10,
-  offset: 1,
+ const [pagination, setPagination] = useState<PaginationState>({
+  pageIndex: 0,
+  pageSize: 10,
  });
- function handleChangePagination(newValues: Pagination) {
-  setPagination(newValues);
- }
+
  const {
   data: personsData,
   isLoading: personsLoading,
@@ -53,7 +51,12 @@ export default function PersonsConfigProvider({
   isSuccess: personsSucess,
   refetch: refetchPersons,
  } = useQuery({
-  queryKey: [realPersonsBasePath, 'all', pagination.limit, pagination.offset],
+  queryKey: [
+   realPersonsBasePath,
+   'all',
+   pagination.pageSize,
+   pagination.pageIndex,
+  ],
   async queryFn({ signal }) {
    const res = await getPagedRealPersons({
     signal,
@@ -78,7 +81,7 @@ export default function PersonsConfigProvider({
    isSuccess: personsSucess,
    pagination,
    refetchPersons,
-   onChangePagination: handleChangePagination,
+   onChangePagination: setPagination,
   },
  };
  return (
