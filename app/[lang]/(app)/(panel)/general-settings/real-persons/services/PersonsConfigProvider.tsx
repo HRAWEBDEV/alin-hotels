@@ -40,7 +40,7 @@ export default function PersonsConfigProvider({
  // data
  const [pagination, setPagination] = useState<PaginationState>({
   pageIndex: 0,
-  pageSize: 10,
+  pageSize: 11,
  });
 
  const {
@@ -60,8 +60,8 @@ export default function PersonsConfigProvider({
   async queryFn({ signal }) {
    const res = await getPagedRealPersons({
     signal,
-    limit: 10,
-    offset: 1,
+    limit: pagination.pageSize,
+    offset: pagination.pageIndex + 1,
    });
    return res.data;
   },

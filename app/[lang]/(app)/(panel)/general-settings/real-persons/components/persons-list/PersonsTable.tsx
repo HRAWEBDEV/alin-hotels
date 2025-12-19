@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -42,6 +42,7 @@ import { RiUnpinLine } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { IoIosArrowRoundForward } from 'react-icons/io';
+import { IoTrashOutline } from 'react-icons/io5';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import {
@@ -204,9 +205,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-         <DropdownMenuItem>
-          <FaEdit className='text-secondary size-5' />
+         <DropdownMenuItem className='text-secondary'>
+          <FaEdit className='size-5 text-inherit' />
           {dic.table.edit}
+         </DropdownMenuItem>
+         <DropdownMenuItem className='text-rose-700 dark:text-rose-400'>
+          <IoTrashOutline className='size-5 text-inherit' />
+          {dic.table.remove}
          </DropdownMenuItem>
         </DropdownMenuContent>
        </DropdownMenu>
@@ -230,15 +235,15 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   },
   rowCount: data?.rowsCount,
   manualPagination: true,
-  autoResetPageIndex: true,
   onRowSelectionChange: setRowSelection,
   onColumnPinningChange: setPinnedColumns,
-  onPaginationChange: (update) => {
-   setPaginationState(update);
-   onChangePagination(update);
-  },
+  onPaginationChange: setPaginationState,
   getCoreRowModel: getCoreRowModel(),
  });
+
+ useEffect(() => {
+  onChangePagination(paginationState);
+ }, [paginationState, onChangePagination]);
 
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
@@ -294,7 +299,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    </div>
    <div className='relative grow flex flex-col overflow-auto'>
     {isFetching && <LinearLoading />}
-    {!data?.rows.length && <NoItemFound />}
+    {!data?.rows.length && isSuccess && <NoItemFound />}
     {isSuccess && !!data?.rows.length && (
      <Table className='table-fixed'>
       <TableHeader>
@@ -306,7 +311,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-action={header.column.columnDef.meta === 'action'}
            data-checkbox={header.column.columnDef.meta === 'checkbox'}
            key={header.id}
-           className='group relative not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='group not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0 sticky top-0 z-2! data-[checkbox="true"]:z-3!'
            colSpan={header.colSpan}
            style={{ ...getCommonPinningStyles(header.column) }}
           >
@@ -393,13 +398,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
         </FieldLabel>
         <InputGroup className='grow'>
          <InputGroupInput
-          defaultValue={table.getState().pagination.pageIndex + 1}
+          defaultValue={table.getState().pagination.pageIndex + 1 || ''}
+          value={table.getState().pagination.pageIndex + 1}
+          onClick={(e) => e.currentTarget.select()}
           onChange={(e) => {
            const newValue = Number(e.target.value);
            if (!newValue) return;
            const newPageIndex = newValue - 1;
-           if (newPageIndex > table.getPageCount() - 1 || newPageIndex < 0)
-            return;
            table.setPageIndex(newPageIndex);
           }}
          />
@@ -438,7 +443,9 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
        variant='outline'
        className='gap-1 ltr:rotate-180'
        disabled={!table.getCanNextPage()}
-       onClick={() => table.nextPage()}
+       onClick={() => {
+        table.nextPage();
+       }}
       >
        <span className='hidden lg:inline'>{components.pagination.next}</span>
        <IoIosArrowRoundBack className='size-6 ltr:rotate-180' />
