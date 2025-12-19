@@ -123,8 +123,8 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    {
     accessorKey: 'name',
     header: dic.newPerson.form.name,
-    minSize: 125,
-    size: 125,
+    minSize: 130,
+    size: 130,
    },
    {
     accessorKey: 'lastName',
@@ -143,8 +143,8 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     accessorKey: 'genderName',
     header: dic.newPerson.form.gender,
     enableResizing: false,
-    minSize: 60,
-    size: 60,
+    minSize: 70,
+    size: 70,
     meta: 'center',
 
     enablePinning: false,
@@ -312,7 +312,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            data-checkbox={header.column.columnDef.meta === 'checkbox'}
            data-is-pinned={!!header.column.getIsPinned()}
            key={header.id}
-           className='group not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0 sticky top-0 z-1 data-[is-pinned="true"]:z-2 data-[checkbox="true"]:z-3'
+           className='overflow-hidden text-ellipsis group not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0 sticky top-0 z-1 data-[is-pinned="true"]:z-2 data-[checkbox="true"]:z-3'
            colSpan={header.colSpan}
            style={{ ...getCommonPinningStyles(header.column) }}
           >
@@ -371,12 +371,17 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
         <TableRow key={row.id}>
          {row.getVisibleCells().map((cell) => (
           <TableCell
+           title={
+            typeof cell.getValue() === 'string'
+             ? (cell.getValue() as string)
+             : ''
+           }
+           key={cell.id}
            data-is-pinned={!!cell.column.getIsPinned()}
            data-center={cell.column.columnDef.meta === 'center'}
            data-action={cell.column.columnDef.meta === 'action'}
            data-checkbox={cell.column.columnDef.meta === 'checkbox'}
-           key={cell.id}
-           className='data-[is-pinned="true"]:bg-background not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0 data-[is-pinned="true"]:z-1'
+           className='overflow-hidden text-ellipsis data-[is-pinned="true"]:bg-background not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0 data-[is-pinned="true"]:z-1'
            style={{ ...getCommonPinningStyles(cell.column) }}
           >
            {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -40,7 +40,7 @@ export default function PersonsConfigProvider({
  // data
  const [pagination, setPagination] = useState<PaginationState>({
   pageIndex: 0,
-  pageSize: 14,
+  pageSize: 11,
  });
 
  const {
