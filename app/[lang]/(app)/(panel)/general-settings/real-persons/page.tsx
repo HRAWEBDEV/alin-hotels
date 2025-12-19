@@ -1,7 +1,7 @@
 import { getRealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { Locale } from '@/internalization/app/localization';
 import { Metadata } from 'next';
-import PersonsWrapper from './companies/PersonsWrapper';
+import PersonsWrapper from './components/PersonsWrapper';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/general-settings/real-persons'>,
