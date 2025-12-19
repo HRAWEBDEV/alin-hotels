@@ -18,7 +18,8 @@
  },
  "table": {
   "columns": "ستون‌ها",
-  "filters": "فیلترها"
+  "filters": "فیلترها",
+  "edit": "ویرایش"
  },
  "newPerson": {
   "form": {

@@ -40,6 +40,7 @@ import { MoreHorizontal } from 'lucide-react';
 import { useCommonPinningStyles } from '../../../../hooks/useCommonPinningStyles';
 import { MdOutlinePushPin } from 'react-icons/md';
 import { RiUnpinLine } from 'react-icons/ri';
+import { FaEdit } from 'react-icons/fa';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const getCommonPinningStyles = useCommonPinningStyles();
@@ -180,7 +181,12 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
           <MoreHorizontal className='size-5 text-primary' />
          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'></DropdownMenuContent>
+        <DropdownMenuContent align='end'>
+         <DropdownMenuItem>
+          <FaEdit className='text-secondary size-5' />
+          {dic.table.edit}
+         </DropdownMenuItem>
+        </DropdownMenuContent>
        </DropdownMenu>
       </div>
      );
@@ -347,6 +353,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
      </Table>
     )}
    </div>
+   <div>paging</div>
   </div>
  );
 }
