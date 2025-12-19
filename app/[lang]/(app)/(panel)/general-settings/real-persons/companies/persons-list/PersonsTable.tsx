@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, CSSProperties } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -33,17 +33,28 @@ import {
  getCoreRowModel,
  flexRender,
  RowSelectionState,
+ ColumnPinningState,
 } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MoreHorizontal } from 'lucide-react';
+import { useCommonPinningStyles } from '../../../../hooks/useCommonPinningStyles';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
+ const getCommonPinningStyles = useCommonPinningStyles();
+ const { localeInfo } = useBaseConfig();
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+ const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
+  const startPinned = ['select', 'name', 'lastName'];
+  const endPinned = ['actions'];
+  return {
+   right: localeInfo.contentDirection === 'rtl' ? endPinned : startPinned,
+   left: localeInfo.contentDirection === 'rtl' ? startPinned : endPinned,
+  };
+ });
  const {
   changeShowFilters,
   persons: { isFetching, isSuccess, data, refetchPersons },
  } = usePersonsConfigContext();
- const { localeInfo } = useBaseConfig();
 
  const columns: ColumnDef<RealPerson[]>[] = useMemo(() => {
   return [
@@ -77,35 +88,67 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     enableHiding: false,
     enableResizing: false,
     enableColumnFilter: false,
-    minSize: 30,
-    size: 30,
-    maxSize: 30,
+    minSize: 40,
+    size: 40,
+    maxSize: 40,
     meta: 'checkbox',
    },
    {
     accessorKey: 'name',
     header: dic.newPerson.form.name,
-    minSize: 140,
-    size: 140,
+    minSize: 125,
+    size: 125,
    },
    {
     accessorKey: 'lastName',
     header: dic.newPerson.form.lastName,
-    minSize: 160,
-    size: 160,
+    minSize: 130,
+    size: 130,
    },
    {
     accessorKey: 'fatherName',
     header: dic.newPerson.form.fatherName,
-    minSize: 140,
-    size: 140,
+    minSize: 125,
+    size: 125,
    },
    {
     accessorKey: 'genderName',
     header: dic.newPerson.form.gender,
     enableResizing: false,
-    minSize: 70,
-    size: 70,
+    minSize: 60,
+    size: 60,
+    meta: 'center',
+   },
+   {
+    accessorKey: 'nationality',
+    header: dic.newPerson.form.naitonality,
+    enableResizing: false,
+    minSize: 60,
+    size: 60,
+    meta: 'center',
+   },
+   {
+    accessorKey: 'nationalCode',
+    header: dic.newPerson.form.nationalCode,
+    enableResizing: false,
+    minSize: 100,
+    size: 100,
+    meta: 'center',
+   },
+   {
+    accessorKey: 'phoneNumber',
+    header: dic.newPerson.form.mobileNo,
+    enableResizing: false,
+    minSize: 100,
+    size: 100,
+    meta: 'center',
+   },
+   {
+    accessorKey: 'email',
+    header: dic.newPerson.form.email,
+    enableResizing: false,
+    minSize: 100,
+    size: 100,
     meta: 'center',
    },
    {
@@ -114,9 +157,9 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     enableSorting: false,
     enableResizing: false,
     enableColumnFilter: false,
-    size: 30,
-    maxSize: 30,
-    minSize: 30,
+    size: 40,
+    maxSize: 40,
+    minSize: 40,
     cell: ({}) => {
      return (
       <div className='grid place-content-center'>
@@ -144,10 +187,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   columnResizeMode: 'onChange',
   state: {
    rowSelection,
+   columnPinning: pinnedColumns,
   },
   onRowSelectionChange: setRowSelection,
+  onColumnPinningChange: setPinnedColumns,
   getCoreRowModel: getCoreRowModel(),
  });
+ console.log(pinnedColumns);
 
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
@@ -201,7 +247,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
      </Button>
     </div>
    </div>
-   <div className='relative grow overflow-auto'>
+   <div className='relative grow flex flex-col overflow-auto'>
     {isFetching && <LinearLoading />}
     {!data?.rows.length && <NoItemFound />}
     {isSuccess && !!data?.rows.length && (
@@ -217,9 +263,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
            key={header.id}
            className='group relative not-last:border-e border-input bg-neutral-100 dark:bg-neutral-900 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            colSpan={header.colSpan}
-           style={{
-            width: header.getSize(),
-           }}
+           style={{ ...getCommonPinningStyles(header.column) }}
           >
            {flexRender(header.column.columnDef.header, header.getContext())}
            {header.column.getCanResize() && (
@@ -253,11 +297,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
         <TableRow key={row.id}>
          {row.getVisibleCells().map((cell) => (
           <TableCell
+           data-is-pinned={!!cell.column.getIsPinned()}
            data-center={cell.column.columnDef.meta === 'center'}
            data-action={cell.column.columnDef.meta === 'action'}
            data-checkbox={cell.column.columnDef.meta === 'checkbox'}
            key={cell.id}
-           className='not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           className='data-[is-pinned="true"]:bg-background not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
+           style={{ ...getCommonPinningStyles(cell.column) }}
           >
            {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </TableCell>
