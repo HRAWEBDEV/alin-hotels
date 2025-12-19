@@ -1,4 +1,4 @@
-import { useMemo, useState, CSSProperties } from 'react';
+import { useMemo, useState } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -41,8 +41,20 @@ import { useCommonPinningStyles } from '../../../../hooks/useCommonPinningStyles
 import { MdOutlinePushPin } from 'react-icons/md';
 import { RiUnpinLine } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
+import { IoIosArrowRoundBack } from 'react-icons/io';
+import { IoIosArrowRoundForward } from 'react-icons/io';
+import { Field, FieldLabel } from '@/components/ui/field';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
+import {
+ MdKeyboardDoubleArrowLeft,
+ MdKeyboardDoubleArrowRight,
+} from 'react-icons/md';
+import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
+ const {
+  shareDictionary: { components },
+ } = useShareDictionary();
  const getCommonPinningStyles = useCommonPinningStyles();
  const { localeInfo } = useBaseConfig();
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -213,7 +225,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
 
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
-   <div className='p-1 border-b border-input flex justify-between items-center min-h-12'>
+   <div className='p-1 border-b border-input flex justify-between items-center min-h-12 shrink-0'>
     <div>
      <Button
       variant='outline'
@@ -353,7 +365,40 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
      </Table>
     )}
    </div>
-   <div>paging</div>
+   <div className='shrink-0 border-t border-input p-1 flex justify-between gap-2'>
+    <div></div>
+    <div className='flex gap-1 items-center text-neutral-600 dark:text-neutral-400'>
+     <div className='basis-24'>
+      <Field className='flex-row gap-1'>
+       <FieldLabel className='text-xs w-auto!'>
+        {components.pagination.search}:
+       </FieldLabel>
+       <InputGroup className='grow'>
+        <InputGroupInput />
+       </InputGroup>
+      </Field>
+     </div>
+     <div className='flex gap-1 items-center'>
+      <Button variant='outline' size='icon'>
+       <MdKeyboardDoubleArrowRight className='size-4 ltr:rotate-180' />
+      </Button>
+      <Button variant='outline' className='gap-1'>
+       <IoIosArrowRoundForward className='size-6' />
+       <span className='hidden lg:inline'>{components.pagination.prev}</span>
+      </Button>
+      <div className='text-base'>
+       <span>100</span> - <span className='font-medium'>1</span>
+      </div>
+      <Button variant='outline' className='gap-1 ltr:rotate-180'>
+       <span className='hidden lg:inline'>{components.pagination.prev}</span>
+       <IoIosArrowRoundBack className='size-6 ltr:rotate-180' />
+      </Button>
+      <Button variant='outline' size='icon'>
+       <MdKeyboardDoubleArrowLeft className='size-4 ltr:rotate-180' />
+      </Button>
+     </div>
+    </div>
+   </div>
   </div>
  );
 }

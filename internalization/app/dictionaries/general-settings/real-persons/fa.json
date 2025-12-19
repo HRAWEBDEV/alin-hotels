@@ -19,7 +19,9 @@
  "table": {
   "columns": "ستون‌ها",
   "filters": "فیلترها",
-  "edit": "ویرایش"
+  "edit": "ویرایش",
+  "next": "بعدی",
+  "prev": "قبلی"
  },
  "newPerson": {
   "form": {

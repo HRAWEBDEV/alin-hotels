@@ -8,6 +8,11 @@
   }
  },
  "components": {
+  "pagination": {
+   "next": "بعدی",
+   "prev": "قبلی",
+   "search": "جستجو"
+  },
   "noItemFound": {
    "description": "آیتمی یافت نشد"
   },
