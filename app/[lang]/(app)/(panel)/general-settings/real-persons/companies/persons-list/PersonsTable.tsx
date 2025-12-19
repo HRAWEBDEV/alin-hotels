@@ -4,9 +4,12 @@ import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
  DropdownMenu,
- DropdownMenuContent,
- DropdownMenuTrigger,
  DropdownMenuCheckboxItem,
+ DropdownMenuContent,
+ DropdownMenuItem,
+ DropdownMenuLabel,
+ DropdownMenuSeparator,
+ DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { MdViewColumn } from 'react-icons/md';
@@ -32,6 +35,7 @@ import {
  RowSelectionState,
 } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
+import { MoreHorizontal } from 'lucide-react';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -46,31 +50,37 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    {
     id: 'select',
     header: ({ table }) => (
-     <Checkbox
-      className='border-neutral-400 dark:border-orange-600'
-      disabled
-      checked={
-       table.getIsAllPageRowsSelected() ||
-       (table.getIsSomePageRowsSelected() && 'indeterminate')
-      }
-      onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-      aria-label='Select all'
-     />
+     <div className='grid place-content-center'>
+      <Checkbox
+       className='border-neutral-400 dark:border-orange-600'
+       disabled
+       checked={
+        table.getIsAllPageRowsSelected() ||
+        (table.getIsSomePageRowsSelected() && 'indeterminate')
+       }
+       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+       aria-label='Select all'
+      />
+     </div>
     ),
     cell: ({ row }) => (
-     <Checkbox
-      className='border-neutral-400 dark:border-orange-600'
-      checked={row.getIsSelected()}
-      onCheckedChange={(value) => row.toggleSelected(!!value)}
-      aria-label='Select row'
-     />
+     <div className='grid place-content-center'>
+      <Checkbox
+       className='border-neutral-400 dark:border-orange-600'
+       checked={row.getIsSelected()}
+       onCheckedChange={(value) => row.toggleSelected(!!value)}
+       aria-label='Select row'
+      />
+     </div>
     ),
     enableSorting: false,
     enableHiding: false,
     enableResizing: false,
     enableColumnFilter: false,
-    size: 10,
-    maxSize: 10,
+    minSize: 30,
+    size: 30,
+    maxSize: 30,
+    meta: 'checkbox',
    },
    {
     accessorKey: 'name',
@@ -98,8 +108,34 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     size: 70,
     meta: 'center',
    },
+   {
+    id: 'actions',
+    enableHiding: false,
+    enableSorting: false,
+    enableResizing: false,
+    enableColumnFilter: false,
+    size: 30,
+    maxSize: 30,
+    minSize: 30,
+    cell: ({}) => {
+     return (
+      <div className='grid place-content-center'>
+       <DropdownMenu dir={localeInfo.contentDirection}>
+        <DropdownMenuTrigger asChild>
+         <Button variant='ghost' className='h-8 w-8 p-0'>
+          <span className='sr-only'>Open menu</span>
+          <MoreHorizontal />
+         </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end'></DropdownMenuContent>
+       </DropdownMenu>
+      </div>
+     );
+    },
+    meta: 'action',
+   },
   ] as ColumnDef<RealPerson[]>[];
- }, [dic]);
+ }, [dic, localeInfo]);
 
  const table = useReactTable({
   data: data?.rows || [],
@@ -169,15 +205,17 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     {isFetching && <LinearLoading />}
     {!data?.rows.length && <NoItemFound />}
     {isSuccess && !!data?.rows.length && (
-     <Table>
+     <Table className='table-fixed'>
       <TableHeader>
        {table.getHeaderGroups().map((group) => (
         <TableRow key={group.id}>
          {group.headers.map((header) => (
           <TableHead
            data-center={header.column.columnDef.meta === 'center'}
+           data-action={header.column.columnDef.meta === 'action'}
+           data-checkbox={header.column.columnDef.meta === 'checkbox'}
            key={header.id}
-           className='group relative not-last:border-e border-input bg-sky-50 dark:bg-sky-950 data-[center="true"]:text-center'
+           className='group relative not-last:border-e border-input bg-sky-50 dark:bg-sky-950 data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
            colSpan={header.colSpan}
            style={{
             width: header.getSize(),
@@ -216,8 +254,10 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
          {row.getVisibleCells().map((cell) => (
           <TableCell
            data-center={cell.column.columnDef.meta === 'center'}
+           data-action={cell.column.columnDef.meta === 'action'}
+           data-checkbox={cell.column.columnDef.meta === 'checkbox'}
            key={cell.id}
-           className='not-last:border-e border-input data-[center="true"]:text-center'
+           className='not-last:border-e border-input data-[center="true"]:text-center data-[action="true"]:p-0 data-[checkbox="true"]:p-0'
           >
            {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </TableCell>
