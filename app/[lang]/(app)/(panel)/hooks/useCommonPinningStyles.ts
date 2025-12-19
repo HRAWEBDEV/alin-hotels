@@ -47,7 +47,6 @@ function getCommonPinningStyles<T>(
   opacity: isPinned ? 0.95 : 1,
   position: isPinned ? 'sticky' : undefined,
   width: column.getSize(),
-  zIndex: isPinned ? 1 : 0,
  };
 }
 
