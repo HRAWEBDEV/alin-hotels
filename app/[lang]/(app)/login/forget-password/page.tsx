@@ -1,11 +1,11 @@
 import { getLoginDictionary } from '@/internalization/app/dictionaries/login/dictionary';
 import { type Locale } from '@/internalization/app/localization';
-import Login from './components/Login';
 import { Metadata } from 'next';
+import ForgetPasswordWrapper from './components/ForgetPasswordWrapper';
 
 export async function generateMetadata({
  params,
-}: PageProps<'/[lang]/login'>): Promise<Metadata> {
+}: PageProps<'/[lang]/login/forget-password'>): Promise<Metadata> {
  const { lang } = await params;
  const dic = await getLoginDictionary({
   locale: lang as Locale,
@@ -13,12 +13,12 @@ export async function generateMetadata({
  return { title: dic.title };
 }
 
-export default async function LoginPage({
+export default async function ForgetPassword({
  params,
-}: PageProps<'/[lang]/login'>) {
+}: PageProps<'/[lang]/login/forget-password'>) {
  const { lang } = await params;
  const dic = await getLoginDictionary({
   locale: lang as Locale,
  });
- return <Login dic={dic} />;
+ return <ForgetPasswordWrapper dic={dic} />;
 }
