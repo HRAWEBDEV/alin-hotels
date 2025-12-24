@@ -119,14 +119,14 @@ export default function ForgetPasswordWrapper({
     <form>
      <FieldGroup className='mb-3 gap-4'>
       <Field data-invalid={!!confirmPasswordErrors.confirmOTP}>
-       <FieldLabel htmlFor='confirmOTP' className='text-md'>
+       <FieldLabel htmlFor='confirmOTP'>
         {dic.forgetPassword.OTPCode}
        </FieldLabel>
        <Controller
         control={confirmPasswordControl}
         name='confirmOTP'
         render={({ field: { value, onChange, ...other } }) => (
-         <InputGroup className='h-11'>
+         <InputGroup>
           <InputGroupAddon align={'inline-start'}>
            <RiLockPasswordLine className='size-6 text-primary' />
           </InputGroupAddon>
@@ -147,14 +147,12 @@ export default function ForgetPasswordWrapper({
        )}
       </Field>
       <Field data-invalid={!!confirmPasswordErrors.password}>
-       <FieldLabel htmlFor='password' className='text-md'>
-        {dic.forgetPassword.password}
-       </FieldLabel>
+       <FieldLabel htmlFor='password'>{dic.forgetPassword.password}</FieldLabel>
        <Controller
         control={confirmPasswordControl}
         name='password'
         render={({ field: { value, onChange, ...other } }) => (
-         <InputGroup className='h-11'>
+         <InputGroup>
           <InputGroupAddon align={'inline-start'}>
            <RiLockPasswordLine className='size-6 text-primary' />
           </InputGroupAddon>
@@ -173,14 +171,14 @@ export default function ForgetPasswordWrapper({
        )}
       </Field>
       <Field data-invalid={!!confirmPasswordErrors.confirmPassword}>
-       <FieldLabel htmlFor='confirmPassword' className='text-md'>
+       <FieldLabel htmlFor='confirmPassword'>
         {dic.forgetPassword.confirmPassword}
        </FieldLabel>
        <Controller
         control={confirmPasswordControl}
         name='confirmPassword'
         render={({ field: { value, onChange, ...other } }) => (
-         <InputGroup className='h-11'>
+         <InputGroup>
           <InputGroupAddon align={'inline-start'}>
            <RiLockPasswordFill className='size-6 text-primary' />
           </InputGroupAddon>
@@ -216,13 +214,13 @@ export default function ForgetPasswordWrapper({
       <div>
        {confirmPasswordIsError && (
         <Alert variant='destructive'>
-         <AlertDescription className='text-base'>
+         <AlertDescription>
           {confirmPasswordError.response?.data}
          </AlertDescription>
         </Alert>
        )}
        <Button
-        className='w-full mt-4 text-base h-11'
+        className='w-full mt-4'
         disabled={confirmPasswordPending}
         type='submit'
         onClick={(e) => {
@@ -255,14 +253,12 @@ export default function ForgetPasswordWrapper({
     <form>
      <FieldGroup>
       <Field data-invalid={!!OTPErrors.phoneNo}>
-       <FieldLabel htmlFor='phoneNo' className='text-md'>
-        {dic.forgetPassword.phoneNo}
-       </FieldLabel>
+       <FieldLabel htmlFor='phoneNo'>{dic.forgetPassword.phoneNo}</FieldLabel>
        <Controller
         control={OTPControl}
         name='phoneNo'
         render={({ field: { value, onChange, ...other } }) => (
-         <InputGroup className='h-11'>
+         <InputGroup>
           <InputGroupAddon align={'inline-start'}>
            <LiaSmsSolid className='size-6 text-primary' />
           </InputGroupAddon>
@@ -289,13 +285,11 @@ export default function ForgetPasswordWrapper({
       <div>
        {OTPIsError && (
         <Alert variant='destructive'>
-         <AlertDescription className='text-base'>
-          {OTPError.response?.data}
-         </AlertDescription>
+         <AlertDescription>{OTPError.response?.data}</AlertDescription>
         </Alert>
        )}
        <Button
-        className='w-full mt-4 text-base h-11'
+        className='w-full mt-4'
         type='submit'
         disabled={OTPIsPending}
         onClick={(e) => {
