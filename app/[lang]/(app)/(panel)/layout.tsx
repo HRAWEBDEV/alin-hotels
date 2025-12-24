@@ -11,12 +11,14 @@ import PagesProvider from '../services/pages/PagesProvider';
 import NavigatorProvider from './services/navigator/NavigatorProvider';
 import HistoryTrakcer from './services/history-tracker/HistoryTracker';
 import QuickAccessProvider from './services/quick-access/QuickAccessProvider';
+import LoginAxiosInterceptor from '../login/services/LoginAxiosInterceptor';
 
 export default function PanelLayout({ children }: LayoutProps<'/[lang]'>) {
  return (
   <div className='h-svh flex overflow-hidden'>
    <AxoisCredentials />
    <UserInfoProvider>
+    <LoginAxiosInterceptor />
     <NavigatorProvider>
      <HistoryTrakcer>
       <PagesProvider>
