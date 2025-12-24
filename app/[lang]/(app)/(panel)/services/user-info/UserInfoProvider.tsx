@@ -6,12 +6,14 @@ import { useQuery } from '@tanstack/react-query';
 import { userInfoBasePath, getUserInfo } from './userInfoApiActions';
 import Loading from '../../components/Loading';
 import { toast } from 'sonner';
+import useLogout from '../../../login/hooks/useLogout';
 
 export default function UserInfoProvider({
  children,
 }: {
  children: ReactNode;
 }) {
+ const logout = useLogout();
  // get user info
  const { data, isLoading, isFetching, isError, isSuccess, error } = useQuery({
   staleTime: 'static',
@@ -33,7 +35,8 @@ export default function UserInfoProvider({
  useEffect(() => {
   if (!isError) return;
   toast.error(error.message);
- }, [isError, error]);
+  logout();
+ }, [isError, error, logout]);
 
  if (isLoading || !isSuccess) return <Loading />;
 
