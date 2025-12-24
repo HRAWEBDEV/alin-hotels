@@ -1,11 +1,15 @@
 import { OutOfContext } from '@/utils/OutOfContext';
 import { use, createContext } from 'react';
+import { type UserInfo } from './userInfoApiActions';
 
-interface UserInfo {
- loggedIn: boolean;
+interface UserInfoContext {
+ data: UserInfo;
+ isLoading: boolean;
+ isFetching: boolean;
+ isError: boolean;
 }
 
-const userInfoContext = createContext<UserInfo | null>(null);
+const userInfoContext = createContext<UserInfoContext | null>(null);
 
 function useUserInfoContext() {
  const val = use(userInfoContext);
@@ -13,5 +17,5 @@ function useUserInfoContext() {
  return val;
 }
 
-export type { UserInfo };
+export type { UserInfoContext };
 export { userInfoContext, useUserInfoContext };
