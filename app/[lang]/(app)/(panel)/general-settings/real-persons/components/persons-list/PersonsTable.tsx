@@ -79,10 +79,6 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    onEditPerson,
   },
  } = usePersonsConfigContext();
- const [paginationState, setPaginationState] = useState<PaginationState>({
-  pageIndex: pagination.pageIndex,
-  pageSize: pagination.pageSize,
- });
 
  const columns: ColumnDef<RealPerson[]>[] = useMemo(() => {
   return [
@@ -245,29 +241,26 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     meta: 'action',
    },
   ] as ColumnDef<RealPerson[]>[];
- }, [dic, localeInfo, onRemovePerson]);
+ }, [dic, localeInfo, onRemovePerson, locale, onEditPerson]);
 
+ const defaultData = useMemo(() => [], []);
  const table = useReactTable({
-  data: data?.rows || [],
+  data: data?.rows || defaultData,
   columns,
   columnResizeDirection: localeInfo.contentDirection,
   columnResizeMode: 'onChange',
   state: {
    rowSelection,
-   pagination: paginationState,
+   pagination: pagination,
    columnPinning: pinnedColumns,
   },
   rowCount: data?.rowsCount,
   manualPagination: true,
   onRowSelectionChange: setRowSelection,
   onColumnPinningChange: setPinnedColumns,
-  onPaginationChange: setPaginationState,
+  onPaginationChange: onChangePagination,
   getCoreRowModel: getCoreRowModel(),
  });
-
- useEffect(() => {
-  onChangePagination(paginationState);
- }, [paginationState, onChangePagination]);
 
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ReactNode } from 'react';
 import {
@@ -15,7 +15,12 @@ import {
  getPagedRealPersons,
  removeRealPerson,
 } from './personsApiActions';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+ useQuery,
+ useMutation,
+ useQueryClient,
+ keepPreviousData,
+} from '@tanstack/react-query';
 import { PaginationState } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import {
@@ -137,6 +142,7 @@ export default function PersonsConfigProvider({
   isSuccess: personsSucess,
   refetch: refetchPersons,
  } = useQuery({
+  placeholderData: keepPreviousData,
   queryKey: [
    realPersonsBasePath,
    'all',
@@ -254,6 +260,19 @@ export default function PersonsConfigProvider({
    onCancelNewPerson: handleCancelPerson,
   },
  };
+
+ useEffect(() => {
+  if (!personsData || !personsData.limit) return;
+  const allPages = Math.ceil(personsData.rowsCount / personsData.limit);
+  const actviePage = pagination.pageIndex + 1;
+  if (actviePage > allPages) {
+   setPagination((pre) => ({
+    ...pre,
+    pageIndex: allPages - 1,
+   }));
+  }
+ }, [pagination, personsData]);
+
  return (
   <personsConfigContext.Provider value={ctx}>
    <FormProvider {...realPersonFilters}>{children}</FormProvider>
