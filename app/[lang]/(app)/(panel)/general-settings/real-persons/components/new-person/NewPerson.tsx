@@ -47,6 +47,7 @@ import { toast } from 'sonner';
 import NoItemFound from '../../../../components/NoItemFound';
 import { PersonsConfig } from '../../services/personsConfigContext';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
+import { NumericFormat } from 'react-number-format';
 
 export default function NewPerson({
  dic,
@@ -109,8 +110,8 @@ export default function NewPerson({
     fatherName: fatherName || null,
     lastName: lastName || null,
     mobileNo: mobileNo || null,
-    nationalCode: null,
-    postalCode: null,
+    nationalCode: nationalCode || null,
+    postalCode: postalCode || null,
     educationFieldID: null,
     educationGradeID: null,
     genderID: 1,
@@ -305,12 +306,26 @@ export default function NewPerson({
        </PopoverContent>
       </Popover>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.nationalCode}</FieldLabel>
-      <InputGroup>
-       <InputGroupInput />
-      </InputGroup>
-     </Field>
+     <Controller
+      control={control}
+      name='nationalCode'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='nationalCode'>
+         {dic.newPerson.form.nationalCode}
+        </FieldLabel>
+        <InputGroup>
+         <NumericFormat
+          value={value}
+          onValueChange={({ value }) => onChange(value)}
+          {...other}
+          id='nationalCode'
+          customInput={InputGroupInput}
+         />
+        </InputGroup>
+       </Field>
+      )}
+     />
      <Controller
       control={control}
       name='birthDate'
@@ -449,12 +464,26 @@ export default function NewPerson({
        </PopoverContent>
       </Popover>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.postalCode}</FieldLabel>
-      <InputGroup>
-       <InputGroupInput />
-      </InputGroup>
-     </Field>
+     <Controller
+      control={control}
+      name='postalCode'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='postalCode'>
+         {dic.newPerson.form.postalCode}
+        </FieldLabel>
+        <InputGroup>
+         <NumericFormat
+          id='postalCode'
+          {...other}
+          value={value}
+          onValueChange={({ value }) => onChange(value)}
+          customInput={InputGroupInput}
+         />
+        </InputGroup>
+       </Field>
+      )}
+     />
      <Field className='gap-2 col-span-full'>
       <FieldLabel>{dic.newPerson.form.address}</FieldLabel>
       <InputGroup>
