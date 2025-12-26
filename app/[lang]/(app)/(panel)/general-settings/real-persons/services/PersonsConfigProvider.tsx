@@ -10,6 +10,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import {
+ getInitialData,
  realPersonsBasePath,
  getPagedRealPersons,
  removeRealPerson,
@@ -57,12 +58,16 @@ export default function PersonsConfigProvider({
   nationalCodeValue,
   mobileNoValue,
   emailValue,
+  genderValue,
+  nationalityValue,
  ] = realPersonFilters.watch([
   'name',
   'fatherName',
   'nationalCode',
   'mobileNo',
   'email',
+  'gender',
+  'nationality',
  ]);
  const [nameDbValue] = useDebouncedValue(nameValue, {
   wait: 500,
@@ -108,7 +113,22 @@ export default function PersonsConfigProvider({
   pageIndex: 0,
   pageSize: 11,
  });
+ // init data
+ const {
+  data: initialData,
+  isLoading: initialDataLoading,
+  isError: initialDataError,
+  isSuccess: initialDataSuccess,
+ } = useQuery({
+  staleTime: 'static',
+  queryKey: [realPersonsBasePath, 'initial-data'],
+  async queryFn({ signal }) {
+   const res = await getInitialData({ signal });
+   return res.data;
+  },
+ });
 
+ // data
  const {
   data: personsData,
   isLoading: personsLoading,
@@ -127,6 +147,8 @@ export default function PersonsConfigProvider({
    nationalCodeDbValue,
    mobileNoDbValue,
    emailDbValue,
+   nationalityValue?.key || 'all',
+   genderValue?.key || 'all',
   ],
   async queryFn({ signal }) {
    const res = await getPagedRealPersons({
@@ -135,6 +157,8 @@ export default function PersonsConfigProvider({
     fatherName: fatherNameDbValue,
     name: nameDbValue,
     nationalCode: nationalCodeDbValue,
+    genderID: genderValue?.key,
+    nationalityZoneID: nationalityValue?.key,
     mobileNo: mobileNoDbValue,
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
@@ -200,6 +224,12 @@ export default function PersonsConfigProvider({
   showFilters,
   changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
+  initialData: {
+   data: initialData,
+   isLoading: initialDataLoading,
+   isError: initialDataError,
+   isSuccess: initialDataSuccess,
+  },
   persons: {
    queries: {
     name: nameDbValue,

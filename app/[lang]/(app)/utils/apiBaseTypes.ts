@@ -7,4 +7,9 @@ type PagedData<T> = {
  rowsCount: number;
 } & Pagination;
 
-export type { PagedData, Pagination };
+type Combo = {
+ key: string;
+ value: string;
+};
+
+export type { PagedData, Pagination, Combo };

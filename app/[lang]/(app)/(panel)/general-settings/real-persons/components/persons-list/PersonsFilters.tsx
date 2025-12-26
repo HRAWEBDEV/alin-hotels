@@ -12,7 +12,6 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
  Command,
- CommandEmpty,
  CommandGroup,
  CommandInput,
  CommandItem,
@@ -30,10 +29,11 @@ export default function PersonsFitlers({
 }: {
  dic: RealPersonsDictionary;
 }) {
- const { register, reset } = useFormContext<RealPersonSchema>();
+ const { register, reset, control } = useFormContext<RealPersonSchema>();
  const {
   showFilters,
   changeShowFilters,
+  initialData: { data: initialData, isLoading: initialDataLoading },
   persons: { data, isLoading },
  } = usePersonsConfigContext();
  const [openGenderCombo, setOpenGenderCombo] = useState(false);
@@ -95,95 +95,142 @@ export default function PersonsFitlers({
        />
       </InputGroup>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.gender}</FieldLabel>
-      <Popover open={openGenderCombo} onOpenChange={setOpenGenderCombo}>
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         role='combobox'
-         aria-expanded={openGenderCombo}
-         className='justify-between'
+     <Controller
+      control={control}
+      name='gender'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='gender'>{dic.newPerson.form.gender}</FieldLabel>
+        <Popover open={openGenderCombo} onOpenChange={setOpenGenderCombo}>
+         <PopoverTrigger asChild>
+          <Button
+           id='gender'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openGenderCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span>{value?.value || ''}</span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialDataLoading && <Spinner />}
+            {value && (
+             <Button
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.genders.map((gender) => (
+              <CommandItem
+               key={gender.key}
+               value={gender.key}
+               onSelect={() => {
+                setOpenGenderCombo(false);
+                onChange(gender);
+               }}
+              >
+               {gender.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === gender.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='nationality'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='nationality'>
+         {dic.newPerson.form.naitonality}
+        </FieldLabel>
+        <Popover
+         open={openNationalityCombo}
+         onOpenChange={setOpenNationalityCombo}
         >
-         Select framework...
-         <ChevronsUpDown className='opacity-50' />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-[200px] p-0'>
-        <Command>
-         <CommandInput placeholder='Search framework...' className='h-9' />
-         <CommandList>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-           {[{ value: 'test' }].map((framework) => (
-            <CommandItem
-             key={framework.value}
-             value={framework.value}
-             onSelect={(currentValue) => {
-              setOpenGenderCombo(false);
-             }}
-            >
-             test
-             <Check
-              className={cn(
-               'ml-auto',
-               '' === framework.value ? 'opacity-100' : 'opacity-0',
-              )}
-             />
-            </CommandItem>
-           ))}
-          </CommandGroup>
-         </CommandList>
-        </Command>
-       </PopoverContent>
-      </Popover>
-     </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.naitonality}</FieldLabel>
-      <Popover
-       open={openNationalityCombo}
-       onOpenChange={setOpenNationalityCombo}
-      >
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         role='combobox'
-         aria-expanded={openNationalityCombo}
-         className='justify-between'
-        >
-         Select framework...
-         <ChevronsUpDown className='opacity-50' />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-[200px] p-0'>
-        <Command>
-         <CommandInput placeholder='Search framework...' className='h-9' />
-         <CommandList>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-           {[{ value: 'test' }].map((framework) => (
-            <CommandItem
-             key={framework.value}
-             value={framework.value}
-             onSelect={(currentValue) => {
-              setOpenNationalityCombo(false);
-             }}
-            >
-             test
-             <Check
-              className={cn(
-               'ml-auto',
-               '' === framework.value ? 'opacity-100' : 'opacity-0',
-              )}
-             />
-            </CommandItem>
-           ))}
-          </CommandGroup>
-         </CommandList>
-        </Command>
-       </PopoverContent>
-      </Popover>
-     </Field>
+         <PopoverTrigger asChild>
+          <Button
+           id='nationality'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openNationalityCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span>{value?.value || ''}</span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialDataLoading && <Spinner />}
+            {value && (
+             <Button
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-9' />
+           <CommandList>
+            <CommandGroup>
+             {initialData?.nationalityZones.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setOpenNationalityCombo(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
      <Field className='gap-2'>
       <FieldLabel htmlFor='nationalCode'>{dic.filters.nationalCode}</FieldLabel>
       <InputGroup>

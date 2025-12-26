@@ -2,9 +2,17 @@ import { axios } from '@/app/[lang]/(app)/utils/defaultAxios';
 import {
  type PagedData,
  type Pagination,
+ type Combo,
 } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 
 const realPersonsBasePath = '/HotelsUnion/Person';
+
+interface InitialData {
+ genders: Combo[];
+ educationalGrades: Combo[];
+ educationalFields: Combo[];
+ nationalityZones: Combo[];
+}
 
 interface RealPerson {
  id: number;
@@ -48,6 +56,12 @@ type GetRealPersonProps = {
  email?: string;
  signal?: AbortSignal;
 };
+
+function getInitialData({ signal }: { signal: AbortSignal }) {
+ return axios.get<InitialData>('/HotelsUnion/Person/InitData', {
+  signal,
+ });
+}
 
 // get list
 function generateGetRealPersonsSearchParams(
@@ -109,13 +123,20 @@ function removeRealPerson(personID: number) {
 function saveRealPerson(newPerson: SaveRealPersonPackage) {
  return axios.post<number>(realPersonsBasePath, newPerson);
 }
+
 function updateRealPerson(updatePerson: Partial<SaveRealPersonPackage>) {
  return axios.put<number>(realPersonsBasePath, updatePerson);
 }
 
-export type { RealPerson, SaveRealPersonPackage, GetRealPersonProps };
+export type {
+ RealPerson,
+ InitialData,
+ SaveRealPersonPackage,
+ GetRealPersonProps,
+};
 export {
  realPersonsBasePath,
+ getInitialData,
  getAllRealPersons,
  getPagedRealPersons,
  saveRealPerson,
