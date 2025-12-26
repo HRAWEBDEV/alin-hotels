@@ -90,14 +90,28 @@ function getPagedRealPersons({
  );
 }
 
+function getPerson({
+ personID,
+ signal,
+}: {
+ signal: AbortSignal;
+ personID: number;
+}) {
+ return axios.get<RealPerson>(`${realPersonsBasePath}/${personID}`, {
+  signal,
+ });
+}
+
 function removeRealPerson(personID: number) {
  return axios.delete(`${realPersonsBasePath}/${personID}`);
 }
 
 function saveRealPerson(newPerson: SaveRealPersonPackage) {
- return axios.post(realPersonsBasePath, newPerson);
+ return axios.post<number>(realPersonsBasePath, newPerson);
 }
-function updateRealPerson(updatePerson: Partial<SaveRealPersonPackage>) {}
+function updateRealPerson(updatePerson: Partial<SaveRealPersonPackage>) {
+ return axios.put<number>(realPersonsBasePath, updatePerson);
+}
 
 export type { RealPerson, SaveRealPersonPackage };
 export {
@@ -106,4 +120,6 @@ export {
  getPagedRealPersons,
  saveRealPerson,
  removeRealPerson,
+ getPerson,
+ updateRealPerson,
 };

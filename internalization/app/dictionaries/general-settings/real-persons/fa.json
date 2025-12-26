@@ -25,6 +25,7 @@
   "prev": "قبلی"
  },
  "newPerson": {
+  "newPersonAdded": "شخص اضافه شد",
   "form": {
    "name": "نام",
    "lastName": "نام خانوادگی",

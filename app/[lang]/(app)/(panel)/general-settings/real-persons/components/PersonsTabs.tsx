@@ -8,7 +8,11 @@ import { usePersonsConfigContext } from '../services/personsConfigContext';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 
 export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
- const { selectedTab, changeSelectedTab } = usePersonsConfigContext();
+ const {
+  selectedTab,
+  changeSelectedTab,
+  persons: { selectedPersonID },
+ } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
  return (
   <header className='p-1 px-0 lg:px-4 sticky top-0 z-1'>
@@ -34,14 +38,16 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
       <IoMdPersonAdd />
       {dic.tabs.addPerson}
      </TabsTrigger>
-     <TabsTrigger
-      value='edit'
-      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
-      onClick={() => changeSelectedTab('edit')}
-     >
-      <FaUserEdit />
-      {dic.tabs.editPerson}
-     </TabsTrigger>
+     {selectedPersonID && (
+      <TabsTrigger
+       value='edit'
+       className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+       onClick={() => changeSelectedTab('edit')}
+      >
+       <FaUserEdit />
+       {dic.tabs.editPerson}
+      </TabsTrigger>
+     )}
     </TabsList>
    </Tabs>
   </header>

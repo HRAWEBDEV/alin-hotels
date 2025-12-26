@@ -24,10 +24,7 @@ import { usePersonsConfigContext } from '../../services/personsConfigContext';
 import LinearLoading from '../../../../components/LinearLoading';
 import NoItemFound from '../../../../components/NoItemFound';
 import { RxReload } from 'react-icons/rx';
-import {
- type RealPerson,
- removeRealPerson,
-} from '../../services/personsApiActions';
+import { type RealPerson } from '../../services/personsApiActions';
 import {
  ColumnDef,
  useReactTable,
@@ -79,6 +76,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    pagination,
    onChangePagination,
    onRemovePerson,
+   onEditPerson,
   },
  } = usePersonsConfigContext();
  const [paginationState, setPaginationState] = useState<PaginationState>({
@@ -209,7 +207,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-         <DropdownMenuItem className='text-secondary'>
+         <DropdownMenuItem
+          className='text-secondary'
+          onClick={() => {
+           const typedOriginal = row.original as unknown as RealPerson;
+           onEditPerson(typedOriginal.id);
+          }}
+         >
           <FaEdit className='size-5 text-inherit' />
           {dic.table.edit}
          </DropdownMenuItem>
@@ -378,7 +382,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
       </TableHeader>
       <TableBody>
        {table.getRowModel().rows.map((row) => (
-        <TableRow key={row.id}>
+        <TableRow
+         key={row.id}
+         onDoubleClick={() => {
+          const typedOriginal = row.original as unknown as RealPerson;
+          onEditPerson(typedOriginal.id);
+         }}
+        >
          {row.getVisibleCells().map((cell) => (
           <TableCell
            title={

@@ -10,7 +10,10 @@ export default function PersonsContent({
 }: {
  dic: RealPersonsDictionary;
 }) {
- const { selectedTab } = usePersonsConfigContext();
+ const {
+  selectedTab,
+  persons: { selectedPersonID },
+ } = usePersonsConfigContext();
 
  return (
   <main
@@ -24,7 +27,7 @@ export default function PersonsContent({
     <NewPerson dic={dic} />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
-    <NewPerson dic={dic} />
+    <NewPerson dic={dic} personID={selectedPersonID} />
    </Activity>
   </main>
  );

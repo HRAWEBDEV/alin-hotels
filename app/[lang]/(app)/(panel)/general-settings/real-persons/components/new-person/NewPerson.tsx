@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FieldLabel, Field, FieldGroup } from '@/components/ui/field';
@@ -34,19 +34,28 @@ import {
  defaultValues,
 } from '../../schemas/realPersonSchema';
 import { Spinner } from '@/components/ui/spinner';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import {
  type SaveRealPersonPackage,
  realPersonsBasePath,
  saveRealPerson,
+ getPerson,
+ updateRealPerson,
 } from '../../services/personsApiActions';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import NoItemFound from '../../../../components/NoItemFound';
 
-export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
+export default function NewPerson({
+ dic,
+ personID,
+}: {
+ dic: RealPersonsDictionary;
+ personID?: number | null;
+}) {
  const queryClient = useQueryClient();
  // form
- const { control, register, handleSubmit, formState, reset } =
+ const { control, register, handleSubmit, formState, reset, setValue } =
   useForm<RealPersonSchema>({
    resolver: zodResolver(createRealPersonSchema({ dic })),
    defaultValues: {
@@ -78,7 +87,7 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
    zone,
   }: RealPersonSchema) {
    const newPerson: SaveRealPersonPackage = {
-    id: 0,
+    id: personID || 0,
     name: name || null,
     address: address || null,
     birthDate: null,
@@ -94,20 +103,69 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
     nationalityZoneID: null,
     zoneNameID: null,
    };
-   return saveRealPerson(newPerson);
+   return personID ? updateRealPerson(newPerson) : saveRealPerson(newPerson);
   },
   onSuccess() {
    reset();
    queryClient.invalidateQueries({
     queryKey: [realPersonsBasePath, 'all'],
    });
+   if (personID) {
+    queryClient.invalidateQueries({
+     queryKey: [realPersonsBasePath, 'person', personID.toString()],
+    });
+   } else {
+    toast.success(dic.newPerson.newPersonAdded);
+   }
   },
   onError(err: AxiosError<string>) {
    toast.error(err.response?.data);
   },
  });
  //
+ const { data, isLoading, isError, isSuccess } = useQuery({
+  enabled: !!personID,
+  queryKey: [realPersonsBasePath, 'person', personID?.toString()],
+  async queryFn({ signal }) {
+   const res = await getPerson({ signal, personID: personID! });
+   return res.data;
+  },
+ });
 
+ useEffect(() => {
+  if (!personID) return;
+  reset();
+ }, [personID, reset]);
+
+ useEffect(() => {
+  if (!personID || !isSuccess) return;
+  const {
+   name,
+   lastName,
+   address,
+   email,
+   fatherName,
+   mobileNo,
+   nationalCode,
+   postalCode,
+  } = data;
+  setValue('name', name || '');
+  setValue('lastName', lastName || '');
+  setValue('address', address || '');
+  setValue('email', email || '');
+  setValue('fatherName', fatherName || '');
+  setValue('mobileNo', mobileNo || '');
+  setValue('nationalCode', nationalCode || '');
+  setValue('postalCode', postalCode || '');
+ }, [personID, isSuccess, data, setValue]);
+
+ if (personID && isError) return <NoItemFound />;
+ if (personID && isLoading)
+  return (
+   <div className='min-h-40 grid place-content-center text-primary'>
+    <Spinner className='size-12' />
+   </div>
+  );
  return (
   <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'>
    <div className='grid place-content-center mb-3'>
@@ -372,8 +430,10 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
     </div>
     <div className='flex justify-between items-center gap-4'>
      <Button
+      data-disabled={!!personID}
+      disabled={!!personID}
       variant='outline'
-      className='text-rose-700! dark:text-rose-400! border-rose-700! dark:border-rose-400!'
+      className='text-rose-700! dark:text-rose-400! border-rose-700! dark:border-rose-400! data-[disabled="true"]:opacity-0'
       type='button'
       onClick={() => reset()}
      >
@@ -383,13 +443,13 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
      <Button
       className='min-w-28'
       type='submit'
-      disabled={isPending}
+      disabled={isPending || isLoading}
       onClick={(e) => {
        e.preventDefault();
        handleSubmit((data) => mutate(data))();
       }}
      >
-      {isPending && <Spinner />}
+      {(isPending || isLoading) && <Spinner />}
       {dic.newPerson.form.save}
      </Button>
     </div>

@@ -120,6 +120,11 @@ export default function PersonsConfigProvider({
     toast.error(err.response?.data);
    },
   });
+ //
+ function handleEditPerson(id: number) {
+  setSelectedPersonID(id);
+  setSelectedTab('edit');
+ }
 
  const ctx: PersonsConfig = {
   tabs,
@@ -139,6 +144,7 @@ export default function PersonsConfigProvider({
    onChangePagination: setPagination,
    onChangeSelectedPersonID: handleChangeSelectedPersonID,
    onRemovePerson: handleRemovePerson,
+   onEditPerson: handleEditPerson,
   },
  };
  return (
