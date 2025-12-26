@@ -412,6 +412,7 @@ export default function NewPerson({
           onValueChange={({ value }) => onChange(value)}
           {...other}
           id='nationalCode'
+          decimalScale={0}
           customInput={InputGroupInput}
          />
         </InputGroup>
@@ -629,6 +630,7 @@ export default function NewPerson({
          <NumericFormat
           id='postalCode'
           {...other}
+          decimalScale={0}
           value={value}
           onValueChange={({ value }) => onChange(value)}
           customInput={InputGroupInput}
