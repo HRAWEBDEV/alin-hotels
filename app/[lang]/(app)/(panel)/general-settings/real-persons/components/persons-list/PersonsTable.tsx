@@ -66,6 +66,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   };
  });
  const {
+  wrapperType,
   changeShowFilters,
   persons: {
    isFetching,
@@ -80,43 +81,49 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  } = usePersonsConfigContext();
 
  const columns: ColumnDef<RealPerson[]>[] = useMemo(() => {
+  const defaultColumns: ColumnDef<RealPerson[]>[] =
+   wrapperType.mode === 'page'
+    ? []
+    : [
+       {
+        id: 'select',
+        enablePinning: false,
+        header: ({ table }) => (
+         <div className='grid place-content-center'>
+          <Checkbox
+           className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
+           disabled
+           checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+           }
+           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+           aria-label='Select all'
+          />
+         </div>
+        ),
+        cell: ({ row }) => (
+         <div className='grid place-content-center'>
+          <Checkbox
+           className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
+           checked={row.getIsSelected()}
+           onCheckedChange={(value) => row.toggleSelected(!!value)}
+           aria-label='Select row'
+          />
+         </div>
+        ),
+        enableSorting: false,
+        enableHiding: false,
+        enableResizing: false,
+        enableColumnFilter: false,
+        minSize: 40,
+        size: 40,
+        maxSize: 40,
+        meta: 'checkbox',
+       },
+      ];
   return [
-   {
-    id: 'select',
-    enablePinning: false,
-    header: ({ table }) => (
-     <div className='grid place-content-center'>
-      <Checkbox
-       className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
-       disabled
-       checked={
-        table.getIsAllPageRowsSelected() ||
-        (table.getIsSomePageRowsSelected() && 'indeterminate')
-       }
-       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-       aria-label='Select all'
-      />
-     </div>
-    ),
-    cell: ({ row }) => (
-     <div className='grid place-content-center'>
-      <Checkbox
-       className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
-       checked={row.getIsSelected()}
-       onCheckedChange={(value) => row.toggleSelected(!!value)}
-       aria-label='Select row'
-      />
-     </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-    enableResizing: false,
-    enableColumnFilter: false,
-    minSize: 40,
-    size: 40,
-    maxSize: 40,
-    meta: 'checkbox',
-   },
+   ...defaultColumns,
    {
     accessorKey: 'name',
     header: dic.newPerson.form.name,
@@ -240,7 +247,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     meta: 'action',
    },
   ] as ColumnDef<RealPerson[]>[];
- }, [dic, localeInfo, onRemovePerson, locale, onEditPerson]);
+ }, [dic, localeInfo, onRemovePerson, locale, onEditPerson, wrapperType]);
 
  const defaultData = useMemo(() => [], []);
  const table = useReactTable({

@@ -44,14 +44,16 @@ import {
 } from '../schemas/realPersonSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebouncedValue } from '@tanstack/react-pacer';
+import { type WrapperTypes } from '../utils/wrapperTypes';
 
 export default function PersonsConfigProvider({
  children,
  dic,
+ ...wrapperType
 }: {
  children: ReactNode;
  dic: RealPersonsDictionary;
-}) {
+} & WrapperTypes) {
  // queries
  const router = useRouter();
  const searchParams = useSearchParams();
@@ -297,6 +299,7 @@ export default function PersonsConfigProvider({
  ]);
 
  const ctx: PersonsConfig = {
+  wrapperType: wrapperType,
   tabs,
   selectedTab,
   showFilters,

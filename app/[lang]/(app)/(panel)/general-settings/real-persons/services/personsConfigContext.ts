@@ -8,12 +8,14 @@ import {
 import { type PagedData } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 import { PaginationState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
+import { type WrapperTypes } from '../utils/wrapperTypes';
 
 type Tab = 'list' | 'add' | 'edit';
 type NewPersonModes = 'add' | 'edit';
 const tabs: Tab[] = ['list', 'add', 'edit'];
 
 interface PersonsConfig {
+ wrapperType: WrapperTypes;
  tabs: Tab[];
  selectedTab: Tab;
  showFilters: boolean;
