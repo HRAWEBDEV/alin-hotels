@@ -192,30 +192,42 @@ export default function NewPerson({
   setValue('nationalCode', nationalCode || '');
   setValue('postalCode', postalCode || '');
   setValue('birthDate', birthDate ? new Date(birthDate) : null);
-  if (educationFieldID && educationFieldName) {
-   setValue('educationField', {
-    key: educationFieldID.toString(),
-    value: educationFieldName,
-   });
-  }
-  if (genderID && genderName) {
-   setValue('gender', {
-    key: genderID.toString(),
-    value: genderName,
-   });
-  }
-  if (nationalityZoneID && zoneName) {
-   setValue('nationality', {
-    key: nationalityZoneID.toString(),
-    value: zoneName,
-   });
-  }
-  if (educationGradeID && educationGradeName) {
-   setValue('educationGrade', {
-    key: educationGradeID.toString(),
-    value: educationGradeName,
-   });
-  }
+  setValue(
+   'educationField',
+   educationFieldID && educationFieldName
+    ? {
+       key: educationFieldID.toString(),
+       value: educationFieldName,
+      }
+    : null,
+  );
+  setValue(
+   'gender',
+   genderID && genderName
+    ? {
+       key: genderID.toString(),
+       value: genderName,
+      }
+    : null,
+  );
+  setValue(
+   'nationality',
+   nationalityZoneID && zoneName
+    ? {
+       key: nationalityZoneID.toString(),
+       value: zoneName,
+      }
+    : null,
+  );
+  setValue(
+   'educationGrade',
+   educationGradeID && educationGradeName
+    ? {
+       key: educationGradeID.toString(),
+       value: educationGradeName,
+      }
+    : null,
+  );
  }, [personID, isSuccess, data, setValue, initialData]);
 
  if (personID && isError) return <NoItemFound />;
