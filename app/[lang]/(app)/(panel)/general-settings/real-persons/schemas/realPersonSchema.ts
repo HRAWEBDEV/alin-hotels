@@ -19,47 +19,56 @@ const defaultValues: Partial<RealPersonSchema> = {
 };
 
 function createRealPersonSchema({}: { dic: RealPersonsDictionary }) {
- return z.object({
-  name: z.string().min(1),
-  lastName: z.string().min(1),
-  fatherName: z.string(),
-  zone: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  gender: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  birthDate: z.date().nullable(),
-  nationality: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  educationGrade: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  educationField: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  nationalCode: z.string(),
-  mobileNo: z.string(),
-  email: z.email(),
-  postalCode: z.string(),
-  address: z.string(),
- });
+ return z
+  .object({
+   name: z.string().min(1),
+   lastName: z.string().min(1),
+   fatherName: z.string(),
+   zone: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   gender: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   birthDate: z.date().nullable(),
+   nationality: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   educationGrade: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   educationField: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   nationalCode: z.string(),
+   mobileNo: z.string(),
+   email: z.literal('').or(z.email()),
+   postalCode: z.string(),
+   address: z.string(),
+  })
+  .refine(
+   ({ gender }) => {
+    return !!gender;
+   },
+   {
+    path: ['gender'],
+   },
+  );
 }
 
 type RealPersonSchema = z.infer<ReturnType<typeof createRealPersonSchema>>;

@@ -12,6 +12,7 @@ export default function PersonsContent({
 }) {
  const {
   selectedTab,
+  initialData,
   persons: { selectedPersonID, onNewPersonSuccess, onCancelNewPerson },
  } = usePersonsConfigContext();
 
@@ -28,6 +29,7 @@ export default function PersonsContent({
      dic={dic}
      onSuccess={onNewPersonSuccess}
      onCancel={onCancelNewPerson}
+     initialData={initialData}
     />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
@@ -36,6 +38,7 @@ export default function PersonsContent({
      personID={selectedPersonID}
      onSuccess={onNewPersonSuccess}
      onCancel={onCancelNewPerson}
+     initialData={initialData}
     />
    </Activity>
   </main>

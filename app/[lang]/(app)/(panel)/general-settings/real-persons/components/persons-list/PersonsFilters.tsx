@@ -111,13 +111,16 @@ export default function PersonsFitlers({
            className='justify-between'
            {...other}
           >
-           <span>{value?.value || ''}</span>
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
            <div className='flex gap-1 items-center -me-2'>
             {initialDataLoading && <Spinner />}
             {value && (
              <Button
               variant={'ghost'}
               size={'icon'}
+              className='text-rose-700 dark:text-rose-400'
               onClick={(e) => {
                e.stopPropagation();
                onChange(null);
@@ -181,7 +184,9 @@ export default function PersonsFitlers({
            className='justify-between'
            {...other}
           >
-           <span>{value?.value || ''}</span>
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
            <div className='flex gap-1 items-center -me-2'>
             {initialDataLoading && <Spinner />}
             {value && (
@@ -192,6 +197,7 @@ export default function PersonsFitlers({
                e.stopPropagation();
                onChange(null);
               }}
+              className='text-rose-700 dark:text-rose-400'
              >
               <FaRegTrashAlt />
              </Button>

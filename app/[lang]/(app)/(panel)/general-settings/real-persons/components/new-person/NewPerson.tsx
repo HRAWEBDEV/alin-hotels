@@ -20,7 +20,6 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
  Command,
- CommandEmpty,
  CommandGroup,
  CommandInput,
  CommandItem,
@@ -48,15 +47,18 @@ import NoItemFound from '../../../../components/NoItemFound';
 import { PersonsConfig } from '../../services/personsConfigContext';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { NumericFormat } from 'react-number-format';
+import { FaRegTrashAlt } from 'react-icons/fa';
 
 export default function NewPerson({
  dic,
  personID,
  onSuccess,
  onCancel,
+ initialData,
 }: {
  dic: RealPersonsDictionary;
  personID?: number | null;
+ initialData: PersonsConfig['initialData'];
  onSuccess?: PersonsConfig['persons']['onNewPersonSuccess'];
  onCancel?: PersonsConfig['persons']['onCancelNewPerson'];
 }) {
@@ -112,11 +114,11 @@ export default function NewPerson({
     mobileNo: mobileNo || null,
     nationalCode: nationalCode || null,
     postalCode: postalCode || null,
-    educationFieldID: null,
-    educationGradeID: null,
-    genderID: 1,
-    nationalityZoneID: null,
-    zoneNameID: null,
+    educationFieldID: educationField ? Number(educationField.key) : null,
+    educationGradeID: educationGrade ? Number(educationGrade.key) : null,
+    genderID: Number(gender!.key),
+    nationalityZoneID: nationality ? Number(nationality.key) : null,
+    zoneNameID: zone ? Number(zone.key) : null,
    };
    return personID ? updateRealPerson(newPerson) : saveRealPerson(newPerson);
   },
@@ -171,6 +173,14 @@ export default function NewPerson({
    nationalCode,
    postalCode,
    birthDate,
+   genderID,
+   genderName,
+   nationalityZoneID,
+   educationFieldID,
+   educationFieldName,
+   educationGradeID,
+   educationGradeName,
+   zoneName,
   } = data;
   setValue('name', name || '');
   setValue('lastName', lastName || '');
@@ -181,6 +191,30 @@ export default function NewPerson({
   setValue('nationalCode', nationalCode || '');
   setValue('postalCode', postalCode || '');
   setValue('birthDate', birthDate ? new Date(birthDate) : null);
+  if (educationFieldID && educationFieldName) {
+   setValue('educationField', {
+    key: educationFieldID.toString(),
+    value: educationFieldName,
+   });
+  }
+  if (genderID && genderName) {
+   setValue('gender', {
+    key: genderID.toString(),
+    value: genderName,
+   });
+  }
+  if (nationalityZoneID && zoneName) {
+   setValue('nationality', {
+    key: nationalityZoneID.toString(),
+    value: zoneName,
+   });
+  }
+  if (educationGradeID && educationGradeName) {
+   setValue('educationGrade', {
+    key: educationGradeID.toString(),
+    value: educationGradeName,
+   });
+  }
  }, [personID, isSuccess, data, setValue]);
 
  if (personID && isError) return <NoItemFound />;
@@ -217,95 +251,139 @@ export default function NewPerson({
        <InputGroupInput {...register('fatherName')} />
       </InputGroup>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.gender}</FieldLabel>
-      <Popover open={openGenderCombo} onOpenChange={setOpenGenderCombo}>
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         role='combobox'
-         aria-expanded={openGenderCombo}
-         className='justify-between'
+     <Controller
+      control={control}
+      name='gender'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2' data-invalid={!!errors.gender}>
+        <FieldLabel htmlFor='gender'>{dic.newPerson.form.gender} *</FieldLabel>
+        <Popover open={openGenderCombo} onOpenChange={setOpenGenderCombo}>
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           data-invalid={!!errors.gender}
+           id='gender'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openGenderCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.data?.genders.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setOpenGenderCombo(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='nationality'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='nationality'>
+         {dic.newPerson.form.naitonality}
+        </FieldLabel>
+        <Popover
+         open={openNationalityCombo}
+         onOpenChange={setOpenNationalityCombo}
         >
-         Select framework...
-         <ChevronsUpDown className='opacity-50' />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-[200px] p-0'>
-        <Command>
-         <CommandInput placeholder='Search framework...' className='h-9' />
-         <CommandList>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-           {[{ value: 'test' }].map((framework) => (
-            <CommandItem
-             key={framework.value}
-             value={framework.value}
-             onSelect={(currentValue) => {
-              setOpenNationalityCombo(false);
-             }}
-            >
-             test
-             <Check
-              className={cn(
-               'ml-auto',
-               '' === framework.value ? 'opacity-100' : 'opacity-0',
-              )}
-             />
-            </CommandItem>
-           ))}
-          </CommandGroup>
-         </CommandList>
-        </Command>
-       </PopoverContent>
-      </Popover>
-     </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.naitonality}</FieldLabel>
-      <Popover
-       open={openNationalityCombo}
-       onOpenChange={setOpenNationalityCombo}
-      >
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         role='combobox'
-         aria-expanded={openNationalityCombo}
-         className='justify-between'
-        >
-         Select framework...
-         <ChevronsUpDown className='opacity-50' />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-[200px] p-0'>
-        <Command>
-         <CommandInput placeholder='Search framework...' className='h-9' />
-         <CommandList>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-           {[{ value: 'test' }].map((framework) => (
-            <CommandItem
-             key={framework.value}
-             value={framework.value}
-             onSelect={(currentValue) => {
-              setOpenNationalityCombo(false);
-             }}
-            >
-             test
-             <Check
-              className={cn(
-               'ml-auto',
-               '' === framework.value ? 'opacity-100' : 'opacity-0',
-              )}
-             />
-            </CommandItem>
-           ))}
-          </CommandGroup>
-         </CommandList>
-        </Command>
-       </PopoverContent>
-      </Popover>
-     </Field>
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           id='nationality'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openNationalityCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.data?.nationalityZones.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setOpenNationalityCombo(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
      <Controller
       control={control}
       name='nationalCode'
@@ -340,6 +418,7 @@ export default function NewPerson({
         >
          <PopoverTrigger asChild>
           <Button
+           type='button'
            variant='outline'
            id='date'
            className='justify-between font-normal'
@@ -372,98 +451,158 @@ export default function NewPerson({
        <InputGroupInput {...register('email')} />
       </InputGroup>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.educationGrade}</FieldLabel>
-      <Popover
-       open={openEducationGradeCombo}
-       onOpenChange={setOpenEducationGradeCombo}
-      >
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         role='combobox'
-         aria-expanded={openEducationGradeCombo}
-         className='justify-between'
+     <Controller
+      control={control}
+      name='educationGrade'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='educationGrade'>
+         {dic.newPerson.form.educationGrade}
+        </FieldLabel>
+        <Popover
+         open={openEducationGradeCombo}
+         onOpenChange={setOpenEducationGradeCombo}
         >
-         Select framework...
-         <ChevronsUpDown className='opacity-50' />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-[200px] p-0'>
-        <Command>
-         <CommandInput placeholder='Search framework...' className='h-9' />
-         <CommandList>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-           {[{ value: 'test' }].map((framework) => (
-            <CommandItem
-             key={framework.value}
-             value={framework.value}
-             onSelect={(currentValue) => {
-              setOpenNationalityCombo(false);
-             }}
-            >
-             test
-             <Check
-              className={cn(
-               'ml-auto',
-               '' === framework.value ? 'opacity-100' : 'opacity-0',
-              )}
-             />
-            </CommandItem>
-           ))}
-          </CommandGroup>
-         </CommandList>
-        </Command>
-       </PopoverContent>
-      </Popover>
-     </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.educationField}</FieldLabel>
-      <Popover
-       open={openEducationFieldCombo}
-       onOpenChange={setOpenEducationFieldCombo}
-      >
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         role='combobox'
-         aria-expanded={openEducationFieldCombo}
-         className='justify-between'
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           id='educationGrade'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openEducationGradeCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.data?.educationalGrades.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setOpenEducationGradeCombo(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='educationField'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='educationField'>
+         {dic.newPerson.form.educationField}
+        </FieldLabel>
+        <Popover
+         open={openEducationFieldCombo}
+         onOpenChange={setOpenEducationFieldCombo}
         >
-         Select framework...
-         <ChevronsUpDown className='opacity-50' />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-[200px] p-0'>
-        <Command>
-         <CommandInput placeholder='Search framework...' className='h-9' />
-         <CommandList>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-           {[{ value: 'test' }].map((framework) => (
-            <CommandItem
-             key={framework.value}
-             value={framework.value}
-             onSelect={(currentValue) => {
-              setOpenNationalityCombo(false);
-             }}
-            >
-             test
-             <Check
-              className={cn(
-               'ml-auto',
-               '' === framework.value ? 'opacity-100' : 'opacity-0',
-              )}
-             />
-            </CommandItem>
-           ))}
-          </CommandGroup>
-         </CommandList>
-        </Command>
-       </PopoverContent>
-      </Popover>
-     </Field>
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           id='educationField'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openEducationFieldCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.data?.educationalFields.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setOpenEducationFieldCombo(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
      <Controller
       control={control}
       name='postalCode'
