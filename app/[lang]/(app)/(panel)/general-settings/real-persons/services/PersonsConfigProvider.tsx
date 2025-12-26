@@ -133,11 +133,14 @@ export default function PersonsConfigProvider({
     setSelectedPersonID(null);
    }
   };
- const handleCancelPerson: PersonsConfig['persons']['onCancelNewPerson'] =
-  ({}) => {
-   setSelectedTab('list');
+ const handleCancelPerson: PersonsConfig['persons']['onCancelNewPerson'] = ({
+  mode,
+ }) => {
+  if (mode === 'edit') {
    setSelectedPersonID(null);
-  };
+  }
+  setSelectedTab('list');
+ };
 
  const ctx: PersonsConfig = {
   tabs,
