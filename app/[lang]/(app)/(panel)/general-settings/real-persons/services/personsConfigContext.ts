@@ -23,6 +23,7 @@ interface PersonsConfig {
   selectedPersonID: number | null;
   pagination: PaginationState;
   refetchPersons: () => unknown;
+  onRemovePerson: (personID: number) => unknown;
   onChangePagination: Dispatch<SetStateAction<PaginationState>>;
   onChangeSelectedPersonID: (id: number | null) => unknown;
  };

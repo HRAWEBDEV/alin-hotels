@@ -42,5 +42,11 @@
    "save": "ذخیره",
    "clearForm": "خالی کردن اطلاعات"
   }
+ },
+ "removePerson": {
+  "title": "حذف شخص",
+  "confirmRemovePerson": "آیا از حذف شخص اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
  }
 }

@@ -99,7 +99,7 @@ export default function NewPerson({ dic }: { dic: RealPersonsDictionary }) {
   onSuccess() {
    reset();
    queryClient.invalidateQueries({
-    queryKey: [realPersonsBasePath],
+    queryKey: [realPersonsBasePath, 'all'],
    });
   },
   onError(err: AxiosError<string>) {

@@ -10,7 +10,7 @@ export default async function PersonsWrapper({
 }) {
  return (
   <div className='h-full flex flex-col'>
-   <PersonsConfigProvider>
+   <PersonsConfigProvider dic={dic}>
     <PersonsTabs dic={dic} />
     <PersonsContent dic={dic} />
    </PersonsConfigProvider>

@@ -24,7 +24,10 @@ import { usePersonsConfigContext } from '../../services/personsConfigContext';
 import LinearLoading from '../../../../components/LinearLoading';
 import NoItemFound from '../../../../components/NoItemFound';
 import { RxReload } from 'react-icons/rx';
-import { type RealPerson } from '../../services/personsApiActions';
+import {
+ type RealPerson,
+ removeRealPerson,
+} from '../../services/personsApiActions';
 import {
  ColumnDef,
  useReactTable,
@@ -75,6 +78,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    refetchPersons,
    pagination,
    onChangePagination,
+   onRemovePerson,
   },
  } = usePersonsConfigContext();
  const [paginationState, setPaginationState] = useState<PaginationState>({
@@ -194,7 +198,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     maxSize: 40,
     minSize: 40,
     enablePinning: false,
-    cell: ({}) => {
+    cell: ({ row }) => {
      return (
       <div className='grid place-content-center'>
        <DropdownMenu dir={localeInfo.contentDirection}>
@@ -209,7 +213,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
           <FaEdit className='size-5 text-inherit' />
           {dic.table.edit}
          </DropdownMenuItem>
-         <DropdownMenuItem className='text-rose-700 dark:text-rose-400'>
+         <DropdownMenuItem
+          className='text-rose-700 dark:text-rose-400'
+          onClick={() => {
+           const typedOriginal = row.original as unknown as RealPerson;
+           onRemovePerson(typedOriginal.id);
+          }}
+         >
           <IoTrashOutline className='size-5 text-inherit' />
           {dic.table.remove}
          </DropdownMenuItem>
