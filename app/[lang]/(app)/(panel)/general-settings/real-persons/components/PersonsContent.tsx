@@ -12,7 +12,7 @@ export default function PersonsContent({
 }) {
  const {
   selectedTab,
-  persons: { selectedPersonID },
+  persons: { selectedPersonID, onNewPersonSuccess },
  } = usePersonsConfigContext();
 
  return (
@@ -24,10 +24,14 @@ export default function PersonsContent({
     <PersonsList dic={dic} />
    </Activity>
    <Activity mode={selectedTab === 'add' ? 'visible' : 'hidden'}>
-    <NewPerson dic={dic} />
+    <NewPerson dic={dic} onSuccess={onNewPersonSuccess} />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
-    <NewPerson dic={dic} personID={selectedPersonID} />
+    <NewPerson
+     dic={dic}
+     personID={selectedPersonID}
+     onSuccess={onNewPersonSuccess}
+    />
    </Activity>
   </main>
  );

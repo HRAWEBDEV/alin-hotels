@@ -45,13 +45,16 @@ import {
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import NoItemFound from '../../../../components/NoItemFound';
+import { PersonsConfig } from '../../services/personsConfigContext';
 
 export default function NewPerson({
  dic,
  personID,
+ onSuccess,
 }: {
  dic: RealPersonsDictionary;
  personID?: number | null;
+ onSuccess?: PersonsConfig['persons']['onNewPersonSuccess'];
 }) {
  const queryClient = useQueryClient();
  // form
@@ -105,11 +108,17 @@ export default function NewPerson({
    };
    return personID ? updateRealPerson(newPerson) : saveRealPerson(newPerson);
   },
-  onSuccess() {
+  onSuccess(res) {
    reset();
    queryClient.invalidateQueries({
     queryKey: [realPersonsBasePath, 'all'],
    });
+   if (onSuccess) {
+    onSuccess({
+     mode: personID ? 'edit' : 'add',
+     personID: res.data,
+    });
+   }
    if (personID) {
     queryClient.invalidateQueries({
      queryKey: [realPersonsBasePath, 'person', personID.toString()],

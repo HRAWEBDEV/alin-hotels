@@ -125,6 +125,14 @@ export default function PersonsConfigProvider({
   setSelectedPersonID(id);
   setSelectedTab('edit');
  }
+ //
+ const handleNewPersonSuccess: PersonsConfig['persons']['onNewPersonSuccess'] =
+  ({ mode }) => {
+   if (mode === 'edit') {
+    setSelectedTab('list');
+    setSelectedPersonID(null);
+   }
+  };
 
  const ctx: PersonsConfig = {
   tabs,
@@ -145,6 +153,7 @@ export default function PersonsConfigProvider({
    onChangeSelectedPersonID: handleChangeSelectedPersonID,
    onRemovePerson: handleRemovePerson,
    onEditPerson: handleEditPerson,
+   onNewPersonSuccess: handleNewPersonSuccess,
   },
  };
  return (

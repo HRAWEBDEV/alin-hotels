@@ -6,6 +6,7 @@ import { PaginationState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 
 type Tab = 'list' | 'add' | 'edit';
+type NewPersonModes = 'add' | 'edit';
 const tabs: Tab[] = ['list', 'add', 'edit'];
 
 interface PersonsConfig {
@@ -27,7 +28,10 @@ interface PersonsConfig {
   onChangePagination: Dispatch<SetStateAction<PaginationState>>;
   onChangeSelectedPersonID: (id: number | null) => unknown;
   onEditPerson: (id: number) => unknown;
-  onNewPersonSuccess: () => unknown;
+  onNewPersonSuccess: (params: {
+   mode: 'edit' | 'add';
+   personID: number;
+  }) => unknown;
  };
 }
 
