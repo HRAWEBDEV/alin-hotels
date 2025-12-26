@@ -30,6 +30,13 @@ import { IoIosWarning } from 'react-icons/io';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
+import { useForm, FormProvider } from 'react-hook-form';
+import {
+ type RealPersonSchema,
+ defaultValues,
+ createRealPersonSchema,
+} from '../schemas/realPersonSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function PersonsConfigProvider({
  children,
@@ -38,6 +45,25 @@ export default function PersonsConfigProvider({
  children: ReactNode;
  dic: RealPersonsDictionary;
 }) {
+ // filters setup
+ const realPersonFilters = useForm<RealPersonSchema>({
+  resolver: zodResolver(createRealPersonSchema({ dic })),
+  defaultValues: defaultValues,
+ });
+ const [
+  nameValue,
+  fatherNameValue,
+  nationalCodeValue,
+  mobileNoValue,
+  emailValue,
+ ] = realPersonFilters.watch([
+  'name',
+  'fatherName',
+  'nationalCode',
+  'mobileNo',
+  'email',
+ ]);
+ //
  const queryClient = useQueryClient();
  const router = useRouter();
  const { locale } = useBaseConfig();
@@ -167,7 +193,7 @@ export default function PersonsConfigProvider({
  };
  return (
   <personsConfigContext.Provider value={ctx}>
-   {children}
+   <FormProvider {...realPersonFilters}>{children}</FormProvider>
    <Dialog
     open={showRemovePersonConfirm}
     onOpenChange={(newValue) => setShowRemovePersonConfirm(newValue)}

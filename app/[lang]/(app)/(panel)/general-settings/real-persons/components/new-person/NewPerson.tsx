@@ -137,6 +137,7 @@ export default function NewPerson({
  const { data, isLoading, isError, isSuccess } = useQuery({
   enabled: !!personID,
   queryKey: [realPersonsBasePath, 'person', personID?.toString()],
+  refetchOnWindowFocus: false,
   async queryFn({ signal }) {
    const res = await getPerson({ signal, personID: personID! });
    return res.data;

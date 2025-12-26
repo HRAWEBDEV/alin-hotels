@@ -22,12 +22,15 @@ import { usePersonsConfigContext } from '../../services/personsConfigContext';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { Spinner } from '@/components/ui/spinner';
+import { type RealPersonSchema } from '../../schemas/realPersonSchema';
+import { useFormContext, Controller } from 'react-hook-form';
 
 export default function PersonsFitlers({
  dic,
 }: {
  dic: RealPersonsDictionary;
 }) {
+ const { register, reset } = useFormContext<RealPersonSchema>();
  const {
   showFilters,
   changeShowFilters,
@@ -46,6 +49,9 @@ export default function PersonsFitlers({
       variant='ghost'
       size='icon-lg'
       className='text-red-700 dark:text-red-400 h-auto'
+      onClick={() => {
+       reset();
+      }}
      >
       <FaRegTrashAlt className='size-4' />
      </Button>
@@ -74,15 +80,19 @@ export default function PersonsFitlers({
    <div className='grow overflow-auto p-2 py-4'>
     <FieldGroup className='gap-5'>
      <Field className='gap-2'>
-      <FieldLabel>{dic.filters.name}</FieldLabel>
+      <FieldLabel htmlFor='name'>{dic.filters.name}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput type='search' id='name' {...register('name')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
-      <FieldLabel>{dic.filters.fatherName}</FieldLabel>
+      <FieldLabel htmlFor='fatherName'>{dic.filters.fatherName}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput
+        type='search'
+        id='fatherName'
+        {...register('fatherName')}
+       />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
@@ -175,21 +185,25 @@ export default function PersonsFitlers({
       </Popover>
      </Field>
      <Field className='gap-2'>
-      <FieldLabel>{dic.filters.nationalCode}</FieldLabel>
+      <FieldLabel htmlFor='nationalCode'>{dic.filters.nationalCode}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput
+        type='search'
+        id='nationalCode'
+        {...register('nationalCode')}
+       />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
-      <FieldLabel>{dic.filters.mobileNo}</FieldLabel>
+      <FieldLabel id='mobileNo'>{dic.filters.mobileNo}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput type='search' id='mobileNo' {...register('mobileNo')} />
       </InputGroup>
      </Field>
      <Field className='gap-2'>
-      <FieldLabel>{dic.filters.email}</FieldLabel>
+      <FieldLabel htmlFor='email'>{dic.filters.email}</FieldLabel>
       <InputGroup>
-       <InputGroupInput />
+       <InputGroupInput type='search' id='email' {...register('email')} />
       </InputGroup>
      </Field>
     </FieldGroup>
