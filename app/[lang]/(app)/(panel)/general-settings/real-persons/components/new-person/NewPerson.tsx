@@ -162,6 +162,7 @@ export default function NewPerson({
  }, [personID, reset]);
 
  useEffect(() => {
+  setValue('gender', initialData.data?.genders[0] || null);
   if (!personID || !isSuccess) return;
   const {
    name,
@@ -215,7 +216,7 @@ export default function NewPerson({
     value: educationGradeName,
    });
   }
- }, [personID, isSuccess, data, setValue]);
+ }, [personID, isSuccess, data, setValue, initialData]);
 
  if (personID && isError) return <NoItemFound />;
  if (personID && isLoading)
