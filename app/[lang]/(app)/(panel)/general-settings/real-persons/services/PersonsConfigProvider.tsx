@@ -37,6 +37,7 @@ import {
  createRealPersonSchema,
 } from '../schemas/realPersonSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useDebouncedValue } from '@tanstack/react-pacer';
 
 export default function PersonsConfigProvider({
  children,
@@ -63,6 +64,21 @@ export default function PersonsConfigProvider({
   'mobileNo',
   'email',
  ]);
+ const [nameDbValue] = useDebouncedValue(nameValue, {
+  wait: 500,
+ });
+ const [fatherNameDbValue] = useDebouncedValue(fatherNameValue, {
+  wait: 500,
+ });
+ const [nationalCodeDbValue] = useDebouncedValue(nationalCodeValue, {
+  wait: 500,
+ });
+ const [mobileNoDbValue] = useDebouncedValue(mobileNoValue, {
+  wait: 500,
+ });
+ const [emailDbValue] = useDebouncedValue(emailValue, {
+  wait: 500,
+ });
  //
  const queryClient = useQueryClient();
  const router = useRouter();
@@ -106,10 +122,20 @@ export default function PersonsConfigProvider({
    'all',
    pagination.pageSize,
    pagination.pageIndex,
+   nameDbValue,
+   fatherNameDbValue,
+   nationalCodeDbValue,
+   mobileNoDbValue,
+   emailDbValue,
   ],
   async queryFn({ signal }) {
    const res = await getPagedRealPersons({
     signal,
+    email: emailDbValue,
+    fatherName: fatherNameDbValue,
+    name: nameDbValue,
+    nationalCode: nationalCodeDbValue,
+    mobileNo: mobileNoDbValue,
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
    });
