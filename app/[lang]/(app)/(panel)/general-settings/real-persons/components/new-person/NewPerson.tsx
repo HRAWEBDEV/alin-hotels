@@ -46,6 +46,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import NoItemFound from '../../../../components/NoItemFound';
 import { PersonsConfig } from '../../services/personsConfigContext';
+import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 
 export default function NewPerson({
  dic,
@@ -74,6 +75,8 @@ export default function NewPerson({
   },
  });
  //
+ const { locale } = useBaseConfig();
+ //
  const [openBirthDateCalendar, setOpenBirthDateCalendar] = useState(false);
  const [openNationalityCombo, setOpenNationalityCombo] = useState(false);
  const [openGenderCombo, setOpenGenderCombo] = useState(false);
@@ -101,7 +104,7 @@ export default function NewPerson({
     id: personID || 0,
     name: name || null,
     address: address || null,
-    birthDate: null,
+    birthDate: birthDate ? birthDate.toISOString() : null,
     email: email || null,
     fatherName: fatherName || null,
     lastName: lastName || null,
@@ -166,6 +169,7 @@ export default function NewPerson({
    mobileNo,
    nationalCode,
    postalCode,
+   birthDate,
   } = data;
   setValue('name', name || '');
   setValue('lastName', lastName || '');
@@ -175,6 +179,7 @@ export default function NewPerson({
   setValue('mobileNo', mobileNo || '');
   setValue('nationalCode', nationalCode || '');
   setValue('postalCode', postalCode || '');
+  setValue('birthDate', birthDate ? new Date(birthDate) : null);
  }, [personID, isSuccess, data, setValue]);
 
  if (personID && isError) return <NoItemFound />;
@@ -306,38 +311,49 @@ export default function NewPerson({
        <InputGroupInput />
       </InputGroup>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel htmlFor='date' className='px-1'>
-       {dic.newPerson.form.birthDate}
-      </FieldLabel>
-      <Popover
-       open={openBirthDateCalendar}
-       onOpenChange={setOpenBirthDateCalendar}
-      >
-       <PopoverTrigger asChild>
-        <Button
-         variant='outline'
-         id='date'
-         className='justify-between font-normal'
+     <Controller
+      control={control}
+      name='birthDate'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='date' className='px-1'>
+         {dic.newPerson.form.birthDate}
+        </FieldLabel>
+        <Popover
+         open={openBirthDateCalendar}
+         onOpenChange={setOpenBirthDateCalendar}
         >
-         <span></span>
-         <ChevronDownIcon />
-        </Button>
-       </PopoverTrigger>
-       <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
-        <Calendar mode='single' captionLayout='dropdown' />
-       </PopoverContent>
-      </Popover>
-     </Field>
+         <PopoverTrigger asChild>
+          <Button
+           variant='outline'
+           id='date'
+           className='justify-between font-normal'
+          >
+           <span>{value ? value.toLocaleDateString(locale) : ''}</span>
+           <ChevronDownIcon />
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+          <Calendar
+           mode='single'
+           selected={value || undefined}
+           onSelect={(selected) => onChange(selected)}
+           captionLayout='dropdown'
+          />
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
      <Field className='gap-2'>
       <FieldLabel>{dic.newPerson.form.mobileNo}</FieldLabel>
       <InputGroup>
        <InputGroupInput {...register('mobileNo')} />
       </InputGroup>
      </Field>
-     <Field className='gap-2'>
+     <Field className='gap-2' data-invalid={!!errors.email}>
       <FieldLabel>{dic.newPerson.form.email}</FieldLabel>
-      <InputGroup>
+      <InputGroup data-invalid={!!errors.email}>
        <InputGroupInput {...register('email')} />
       </InputGroup>
      </Field>

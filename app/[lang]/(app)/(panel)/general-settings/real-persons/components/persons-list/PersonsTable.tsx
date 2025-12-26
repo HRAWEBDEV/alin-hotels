@@ -180,7 +180,6 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    {
     accessorKey: 'email',
     header: dic.newPerson.form.email,
-    enableResizing: false,
     minSize: 100,
     size: 100,
     meta: 'center',

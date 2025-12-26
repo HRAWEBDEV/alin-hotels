@@ -56,7 +56,7 @@ function createRealPersonSchema({}: { dic: RealPersonsDictionary }) {
    .nullable(),
   nationalCode: z.string(),
   mobileNo: z.string(),
-  email: z.string(),
+  email: z.email(),
   postalCode: z.string(),
   address: z.string(),
  });
