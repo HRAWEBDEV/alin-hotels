@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { getUsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import { type Locale } from '@/internalization/app/localization';
-import UsersWrapper from './components/UsersWrapper';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/general-settings/users'>,
@@ -22,5 +21,5 @@ export default async function Users(
  const dic = await getUsersDictionary({
   locale: lang as Locale,
  });
- return <UsersWrapper dic={dic} />;
+ return <></>;
 }
