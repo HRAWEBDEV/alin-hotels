@@ -56,7 +56,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   shareDictionary: { components },
  } = useShareDictionary();
  const getCommonPinningStyles = useCommonPinningStyles();
- const { localeInfo } = useBaseConfig();
+ const { localeInfo, locale } = useBaseConfig();
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
  const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
   const startPinned = ['select'];
@@ -184,6 +184,18 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     size: 100,
     meta: 'center',
     enablePinning: false,
+   },
+   {
+    accessorKey: 'birthDate',
+    header: dic.newPerson.form.birthDate,
+    minSize: 100,
+    size: 100,
+    meta: 'center',
+    enablePinning: false,
+    cell({ getValue }) {
+     const val = getValue() as string;
+     return val && new Date(val).toLocaleDateString(locale);
+    },
    },
    {
     id: 'actions',
