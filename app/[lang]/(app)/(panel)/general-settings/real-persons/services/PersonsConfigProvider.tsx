@@ -76,25 +76,30 @@ export default function PersonsConfigProvider({
   resolver: zodResolver(createRealPersonSchema({ dic })),
   defaultValues: {
    ...defaultValues,
-   name: nameQuery || '',
-   fatherName: fatherNameQuery || '',
-   mobileNo: mobileNoQuery || '',
-   email: emailQuery || '',
-   nationalCode: nationalCodeQuery || '',
-   gender:
-    genderIDQuery && genderNameQuery
-     ? {
-        key: genderIDQuery,
-        value: genderNameQuery,
-       }
-     : null,
-   nationality:
-    nationalityIDQuery && nationalityNameQuery
-     ? {
-        key: nationalityIDQuery,
-        value: nationalityNameQuery,
-       }
-     : null,
+   ...(() => {
+    if (wrapperType.mode === 'find') return {};
+    return {
+     name: nameQuery || '',
+     fatherName: fatherNameQuery || '',
+     mobileNo: mobileNoQuery || '',
+     email: emailQuery || '',
+     nationalCode: nationalCodeQuery || '',
+     gender:
+      genderIDQuery && genderNameQuery
+       ? {
+          key: genderIDQuery,
+          value: genderNameQuery,
+         }
+       : null,
+     nationality:
+      nationalityIDQuery && nationalityNameQuery
+       ? {
+          key: nationalityIDQuery,
+          value: nationalityNameQuery,
+         }
+       : null,
+    };
+   })(),
   },
  });
  const [
@@ -279,6 +284,7 @@ export default function PersonsConfigProvider({
 
  // set queries
  useEffect(() => {
+  if (wrapperType.mode === 'find') return;
   const newSearchParams = new URLSearchParams(location.search);
   newSearchParams.set('name', nameDbValue);
   newSearchParams.set('fatherName', fatherNameDbValue);
@@ -295,6 +301,7 @@ export default function PersonsConfigProvider({
    `/${locale}/general-settings/real-persons?${newSearchParams.toString()}`,
   );
  }, [
+  wrapperType.mode,
   nameDbValue,
   fatherNameDbValue,
   mobileNoDbValue,

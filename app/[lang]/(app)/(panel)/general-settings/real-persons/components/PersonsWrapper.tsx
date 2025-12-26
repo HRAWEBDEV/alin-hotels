@@ -14,7 +14,10 @@ export default async function PersonsWrapper({
  wrapperType?: WrapperTypes;
 }) {
  return (
-  <div className='h-full flex flex-col'>
+  <div
+   data-type={wrapperType.mode}
+   className='data-[type="find"]:grow h-full flex flex-col data-[type="find"]:overflow-auto'
+  >
    <PersonsConfigProvider dic={dic} {...wrapperType}>
     <PersonsTabs dic={dic} />
     <PersonsContent dic={dic} />
