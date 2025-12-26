@@ -12,5 +12,29 @@ function loginWithPassword(credentials: LoginWithPasswordCredentials) {
  );
 }
 
+function sendForgetPasswordOTPCode(phoneNo: string) {
+ return axios.get(
+  `/HotelsUnion/Authentication/SendRecoverOTP?phoneNumber=${phoneNo}`,
+ );
+}
+
+function confirmOTPCode(props: { phoneNumber: string; securityStamp: string }) {
+ return axios.post('/HotelsUnion/Authentication/ConfirmOTP', props);
+}
+
+function changePassword(props: {
+ phoneNumber: string;
+ securityStamp: string;
+ newPassword: string;
+ confirmNewPassword: string;
+}) {
+ return axios.post('/HotelsUnion/Authentication/ChangePassword', props);
+}
+
 export type { LoginWithPasswordCredentials };
-export { loginWithPassword };
+export {
+ loginWithPassword,
+ sendForgetPasswordOTPCode,
+ confirmOTPCode,
+ changePassword,
+};

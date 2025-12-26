@@ -27,6 +27,11 @@ import {
  getOTPSchema,
  getConfirmPasswordSchema,
 } from '../schemas/forgetPasswordSchema';
+import {
+ sendForgetPasswordOTPCode,
+ confirmOTPCode,
+ changePassword,
+} from '../../services/loginApiActions';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
@@ -70,40 +75,38 @@ export default function ForgetPasswordWrapper({
  });
 
  const {
-  mutate: confirmSendOTPCode,
+  mutate: confirmSendOTPCodeMutate,
   isPending: OTPIsPending,
   isError: OTPIsError,
   error: OTPError,
  } = useMutation({
   async mutationFn(data: OTPSchema) {
-   return false;
-   // return getForgotPasswordOTP(data.phoneNo);
+   return sendForgetPasswordOTPCode(data.phoneNo);
   },
-  // onSuccess(res) {
-  //  if (res.data) {
-  //   setStage('editPassword');
-  //  }
-  // },
+  onSuccess(res) {
+   if (res.data) {
+    setStage('editPassword');
+   }
+  },
   onError(err: AxiosError<string>) {
    toast.error(err.response?.data);
   },
  });
 
  const {
-  mutate: confirmPassword,
+  mutate: confirmPasswordMutate,
   isPending: confirmPasswordPending,
   isError: confirmPasswordIsError,
   error: confirmPasswordError,
  } = useMutation({
   async mutationFn(data: CofirmPasswordSchema) {
    const phoneNo = getValues('phoneNo');
-   // return confirmLoginRecoveryWithPassword({
-   //  phoneNumber: phoneNo,
-   //  otpCode: data.confirmOTP,
-   //  confirmNewPassword: data.confirmPassword,
-   //  newPassword: data.password,
-   // });
-   return false;
+   return changePassword({
+    phoneNumber: phoneNo,
+    securityStamp: data.confirmOTP,
+    confirmNewPassword: data.confirmPassword,
+    newPassword: data.password,
+   });
   },
   onSuccess() {
    router.push(`/${locale}/login`);
@@ -226,7 +229,7 @@ export default function ForgetPasswordWrapper({
         onClick={(e) => {
          e.preventDefault();
          confirmPasswordHandleSubmit((data) => {
-          confirmPassword(data);
+          confirmPasswordMutate(data);
          })();
         }}
        >
@@ -295,7 +298,7 @@ export default function ForgetPasswordWrapper({
         onClick={(e) => {
          e.preventDefault();
          OTPHandleSubmit((data) => {
-          confirmSendOTPCode(data);
+          confirmSendOTPCodeMutate(data);
          })();
         }}
        >
