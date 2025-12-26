@@ -293,6 +293,7 @@ export default function NewPerson({
          </PopoverTrigger>
          <PopoverContent className='w-[200px] p-0'>
           <Command>
+           <CommandInput />
            <CommandList>
             <CommandGroup>
              {initialData?.data?.genders.map((item) => (

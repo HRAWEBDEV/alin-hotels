@@ -135,12 +135,13 @@ export default function PersonsFitlers({
          </PopoverTrigger>
          <PopoverContent className='w-[200px] p-0'>
           <Command>
+           <CommandInput />
            <CommandList>
             <CommandGroup>
              {initialData?.genders.map((gender) => (
               <CommandItem
                key={gender.key}
-               value={gender.key}
+               value={gender.value}
                onSelect={() => {
                 setOpenGenderCombo(false);
                 onChange(gender);
