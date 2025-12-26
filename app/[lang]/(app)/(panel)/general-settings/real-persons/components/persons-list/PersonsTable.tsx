@@ -40,14 +40,14 @@ import { useCommonPinningStyles } from '../../../../hooks/useCommonPinningStyles
 import { MdOutlinePushPin } from 'react-icons/md';
 import { RiUnpinLine } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
-import { IoIosArrowRoundBack } from 'react-icons/io';
-import { IoIosArrowRoundForward } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import {
  MdKeyboardDoubleArrowLeft,
  MdKeyboardDoubleArrowRight,
+ MdKeyboardArrowLeft,
+ MdKeyboardArrowRight,
 } from 'react-icons/md';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 
@@ -266,6 +266,18 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  });
 
  useEffect(() => {
+  if (!data || !data.limit) return;
+  const pagesCount = Math.ceil(data.rowsCount / data.limit);
+  const activePage = table.getState().pagination.pageIndex + 1;
+  if (activePage > pagesCount) {
+   table.setPagination({
+    ...table.getState().pagination,
+    pageIndex: pagesCount - 1,
+   });
+  }
+ }, [data, table]);
+
+ useEffect(() => {
   onChangePagination(paginationState);
  }, [paginationState, onChangePagination]);
 
@@ -463,7 +475,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
        disabled={!table.getCanPreviousPage()}
        onClick={() => table.previousPage()}
       >
-       <IoIosArrowRoundForward className='size-6' />
+       <MdKeyboardArrowRight />
        <span className='hidden lg:inline'>{components.pagination.prev}</span>
       </Button>
       <div
@@ -472,7 +484,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
        }}
        className='text-base'
       >
-       <span>{table.getState().pagination.pageIndex + 1}</span> -{' '}
+       <span>{table.getState().pagination.pageIndex + 1}</span> /{' '}
        <span>{table.getPageCount()}</span>
       </div>
       <Button
@@ -484,7 +496,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
        }}
       >
        <span className='hidden lg:inline'>{components.pagination.next}</span>
-       <IoIosArrowRoundBack className='size-6 ltr:rotate-180' />
+       <MdKeyboardArrowLeft className='ltr:rotate-180' />
       </Button>
       <Button
        variant='outline'
