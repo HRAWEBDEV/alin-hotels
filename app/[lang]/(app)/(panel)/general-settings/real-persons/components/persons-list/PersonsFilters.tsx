@@ -21,13 +21,18 @@ import {
 import { usePersonsConfigContext } from '../../services/personsConfigContext';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function PersonsFitlers({
  dic,
 }: {
  dic: RealPersonsDictionary;
 }) {
- const { showFilters, changeShowFilters } = usePersonsConfigContext();
+ const {
+  showFilters,
+  changeShowFilters,
+  persons: { data, isLoading },
+ } = usePersonsConfigContext();
  const [openGenderCombo, setOpenGenderCombo] = useState(false);
  const [openNationalityCombo, setOpenNationalityCombo] = useState(false);
  return (
@@ -45,10 +50,16 @@ export default function PersonsFitlers({
       <FaRegTrashAlt className='size-4' />
      </Button>
     </div>
-    <p className='text-base font-medium text-neutral-600 dark:text-neutral-400 grow text-center'>
-     {dic.filters.title}
-     <span className='text-xs'> ({dic.filters.results}: 10)</span>
-    </p>
+    <div className='flex gap-2 items-center'>
+     <p className='text-base font-medium text-neutral-600 dark:text-neutral-400 grow text-center'>
+      {dic.filters.title}
+     </p>
+     <div className='text-xs flex items-center'>
+      ({dic.filters.results}:{' '}
+      {isLoading ? <Spinner className='text-primary' /> : data?.rowsCount || ''}
+      )
+     </div>
+    </div>
     <div className='basis-9 flex'>
      <Button
       variant='ghost'
