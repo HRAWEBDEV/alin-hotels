@@ -20,8 +20,8 @@ const defaultValues: Partial<RealPersonSchema> = {
 
 function createRealPersonSchema({}: { dic: RealPersonsDictionary }) {
  return z.object({
-  name: z.string(),
-  lastName: z.string(),
+  name: z.string().min(1),
+  lastName: z.string().min(1),
   fatherName: z.string(),
   zone: z
    .object({

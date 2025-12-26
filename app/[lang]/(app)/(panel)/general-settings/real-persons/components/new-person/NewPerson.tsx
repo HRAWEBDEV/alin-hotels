@@ -60,13 +60,19 @@ export default function NewPerson({
 }) {
  const queryClient = useQueryClient();
  // form
- const { control, register, handleSubmit, formState, reset, setValue } =
-  useForm<RealPersonSchema>({
-   resolver: zodResolver(createRealPersonSchema({ dic })),
-   defaultValues: {
-    ...defaultValues,
-   },
-  });
+ const {
+  control,
+  register,
+  handleSubmit,
+  formState: { errors },
+  reset,
+  setValue,
+ } = useForm<RealPersonSchema>({
+  resolver: zodResolver(createRealPersonSchema({ dic })),
+  defaultValues: {
+   ...defaultValues,
+  },
+ });
  //
  const [openBirthDateCalendar, setOpenBirthDateCalendar] = useState(false);
  const [openNationalityCombo, setOpenNationalityCombo] = useState(false);
@@ -187,15 +193,15 @@ export default function NewPerson({
    </div>
    <FieldGroup className='gap-5'>
     <div className='grid grid-cols-2 md:grid-cols-3 gap-3 gap-y-5'>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.name}</FieldLabel>
-      <InputGroup>
+     <Field className='gap-2' data-invalid={!!errors.name}>
+      <FieldLabel>{dic.newPerson.form.name} *</FieldLabel>
+      <InputGroup data-invalid={!!errors.name}>
        <InputGroupInput {...register('name')} />
       </InputGroup>
      </Field>
-     <Field className='gap-2'>
-      <FieldLabel>{dic.newPerson.form.lastName}</FieldLabel>
-      <InputGroup>
+     <Field className='gap-2' data-invalid={!!errors.lastName}>
+      <FieldLabel>{dic.newPerson.form.lastName} *</FieldLabel>
+      <InputGroup data-invalid={!!errors.lastName}>
        <InputGroupInput {...register('lastName')} />
       </InputGroup>
      </Field>
