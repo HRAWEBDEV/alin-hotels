@@ -169,6 +169,16 @@ export default function PersonsConfigProvider({
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
    });
+
+   if (!res.data || !res.data.limit) return;
+   const allPages = Math.ceil(res.data.rowsCount / res.data.limit);
+   const actviePage = pagination.pageIndex + 1;
+   if (actviePage > allPages) {
+    setPagination((pre) => ({
+     ...pre,
+     pageIndex: allPages - 1,
+    }));
+   }
    return res.data;
   },
  });
@@ -260,18 +270,6 @@ export default function PersonsConfigProvider({
    onCancelNewPerson: handleCancelPerson,
   },
  };
-
- useEffect(() => {
-  if (!personsData || !personsData.limit) return;
-  const allPages = Math.ceil(personsData.rowsCount / personsData.limit);
-  const actviePage = pagination.pageIndex + 1;
-  if (actviePage > allPages) {
-   setPagination((pre) => ({
-    ...pre,
-    pageIndex: allPages - 1,
-   }));
-  }
- }, [pagination, personsData]);
 
  return (
   <personsConfigContext.Provider value={ctx}>

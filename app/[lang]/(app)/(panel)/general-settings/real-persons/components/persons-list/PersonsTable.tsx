@@ -32,7 +32,6 @@ import {
  flexRender,
  RowSelectionState,
  ColumnPinningState,
- PaginationState,
 } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { MoreHorizontal } from 'lucide-react';
@@ -316,7 +315,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    </div>
    <div className='relative grow flex flex-col overflow-auto'>
     {isFetching && <LinearLoading />}
-    {!data?.rows.length && isSuccess && <NoItemFound />}
+    {!data?.rows.length && isSuccess && !isFetching && <NoItemFound />}
     {isSuccess && !!data?.rows.length && (
      <Table className='table-fixed'>
       <TableHeader>
