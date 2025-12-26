@@ -458,15 +458,19 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
        <MdKeyboardArrowRight />
        <span className='hidden lg:inline'>{components.pagination.prev}</span>
       </Button>
-      <div
-       style={{
-        direction: 'ltr',
-       }}
-       className='text-base'
-      >
-       <span>{table.getState().pagination.pageIndex + 1}</span> /{' '}
-       <span>{table.getPageCount()}</span>
-      </div>
+      {table.getPageCount() ? (
+       <div
+        style={{
+         direction: 'ltr',
+        }}
+        className='text-base'
+       >
+        <span>{table.getState().pagination.pageIndex + 1}</span> /{' '}
+        <span>{table.getPageCount()}</span>
+       </div>
+      ) : (
+       <div>...</div>
+      )}
       <Button
        variant='outline'
        className='gap-1 ltr:rotate-180'

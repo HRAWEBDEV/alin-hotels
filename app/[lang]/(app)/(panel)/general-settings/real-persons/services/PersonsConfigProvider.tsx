@@ -173,7 +173,7 @@ export default function PersonsConfigProvider({
    if (!res.data || !res.data.limit) return;
    const allPages = Math.ceil(res.data.rowsCount / res.data.limit);
    const actviePage = pagination.pageIndex + 1;
-   if (actviePage > allPages) {
+   if (allPages && actviePage > allPages) {
     setPagination((pre) => ({
      ...pre,
      pageIndex: allPages - 1,

@@ -62,8 +62,7 @@ export default function PersonsFitlers({
      </p>
      <div className='text-xs flex items-center'>
       ({dic.filters.results}:{' '}
-      {isLoading ? <Spinner className='text-primary' /> : data?.rowsCount || ''}
-      )
+      {isLoading ? <Spinner className='text-primary' /> : data?.rowsCount || 0})
      </div>
     </div>
     <div className='basis-9 flex'>
