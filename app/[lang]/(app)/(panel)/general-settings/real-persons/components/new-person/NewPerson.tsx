@@ -51,10 +51,12 @@ export default function NewPerson({
  dic,
  personID,
  onSuccess,
+ onCancel,
 }: {
  dic: RealPersonsDictionary;
  personID?: number | null;
  onSuccess?: PersonsConfig['persons']['onNewPersonSuccess'];
+ onCancel?: PersonsConfig['persons']['onCancelNewPerson'];
 }) {
  const queryClient = useQueryClient();
  // form
@@ -437,7 +439,7 @@ export default function NewPerson({
       </InputGroup>
      </Field>
     </div>
-    <div className='flex justify-between items-center gap-4'>
+    <div className='flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4'>
      <Button
       data-disabled={!!personID}
       disabled={!!personID}
@@ -449,18 +451,35 @@ export default function NewPerson({
       {isPending && <Spinner />}
       {dic.newPerson.form.clearForm}
      </Button>
-     <Button
-      className='min-w-28'
-      type='submit'
-      disabled={isPending || isLoading}
-      onClick={(e) => {
-       e.preventDefault();
-       handleSubmit((data) => mutate(data))();
-      }}
-     >
-      {(isPending || isLoading) && <Spinner />}
-      {dic.newPerson.form.save}
-     </Button>
+     <div className='flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4'>
+      <Button
+       className='sm:min-w-28'
+       type='button'
+       variant='outline'
+       disabled={isPending || isLoading}
+       onClick={() => {
+        onCancel?.({
+         mode: personID ? 'edit' : 'add',
+         personID: personID || 0,
+        });
+       }}
+      >
+       {(isPending || isLoading) && <Spinner />}
+       {dic.newPerson.form.cancel}
+      </Button>
+      <Button
+       className='sm:min-w-28'
+       type='submit'
+       disabled={isPending || isLoading}
+       onClick={(e) => {
+        e.preventDefault();
+        handleSubmit((data) => mutate(data))();
+       }}
+      >
+       {(isPending || isLoading) && <Spinner />}
+       {dic.newPerson.form.save}
+      </Button>
+     </div>
     </div>
    </FieldGroup>
   </form>

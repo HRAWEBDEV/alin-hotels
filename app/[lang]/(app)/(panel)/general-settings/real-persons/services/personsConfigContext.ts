@@ -28,6 +28,10 @@ interface PersonsConfig {
   onChangePagination: Dispatch<SetStateAction<PaginationState>>;
   onChangeSelectedPersonID: (id: number | null) => unknown;
   onEditPerson: (id: number) => unknown;
+  onCancelNewPerson: (params: {
+   mode: 'edit' | 'add';
+   personID: number;
+  }) => unknown;
   onNewPersonSuccess: (params: {
    mode: 'edit' | 'add';
    personID: number;

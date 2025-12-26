@@ -133,6 +133,11 @@ export default function PersonsConfigProvider({
     setSelectedPersonID(null);
    }
   };
+ const handleCancelPerson: PersonsConfig['persons']['onCancelNewPerson'] =
+  ({}) => {
+   setSelectedTab('list');
+   setSelectedPersonID(null);
+  };
 
  const ctx: PersonsConfig = {
   tabs,
@@ -154,6 +159,7 @@ export default function PersonsConfigProvider({
    onRemovePerson: handleRemovePerson,
    onEditPerson: handleEditPerson,
    onNewPersonSuccess: handleNewPersonSuccess,
+   onCancelNewPerson: handleCancelPerson,
   },
  };
  return (
