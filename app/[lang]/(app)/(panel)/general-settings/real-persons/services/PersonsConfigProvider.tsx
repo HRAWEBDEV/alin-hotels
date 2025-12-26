@@ -69,6 +69,8 @@ export default function PersonsConfigProvider({
  const genderNameQuery = searchParams.get('genderName');
  const nationalityIDQuery = searchParams.get('nationalityID');
  const nationalityNameQuery = searchParams.get('nationalityName');
+ const paginationIndexQuery = searchParams.get('paginationIndex');
+ const paginationSizeQuery = searchParams.get('paginationSize');
  // filters setup
  const realPersonFilters = useForm<RealPersonSchema>({
   resolver: zodResolver(createRealPersonSchema({ dic })),
@@ -151,9 +153,13 @@ export default function PersonsConfigProvider({
   setShowFilters((pre) => (open === undefined ? !pre : open));
  }
  // data
- const [pagination, setPagination] = useState<PaginationState>({
-  pageIndex: 0,
-  pageSize: 11,
+ const [pagination, setPagination] = useState<PaginationState>(() => {
+  const pageIndex = paginationIndexQuery ? Number(paginationIndexQuery) : 0;
+  const pageSize = paginationSizeQuery ? Number(paginationSizeQuery) : 10;
+  return {
+   pageIndex: pageIndex,
+   pageSize: pageSize,
+  };
  });
  // init data
  const {
@@ -283,6 +289,8 @@ export default function PersonsConfigProvider({
   newSearchParams.set('nationalityID', nationalityValue?.key || '');
   newSearchParams.set('nationalityName', nationalityValue?.value || '');
   newSearchParams.set('nationalCode', nationalCodeValue || '');
+  newSearchParams.set('paginationSize', pagination.pageSize.toString());
+  newSearchParams.set('paginationIndex', pagination.pageIndex.toString());
   router.replace(
    `/${locale}/general-settings/real-persons?${newSearchParams.toString()}`,
   );
@@ -296,6 +304,7 @@ export default function PersonsConfigProvider({
   nationalCodeValue,
   locale,
   router,
+  pagination,
  ]);
 
  const ctx: PersonsConfig = {
