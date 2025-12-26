@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ReactNode } from 'react';
 import {
@@ -52,10 +52,46 @@ export default function PersonsConfigProvider({
  children: ReactNode;
  dic: RealPersonsDictionary;
 }) {
+ // queries
+ const router = useRouter();
+ const searchParams = useSearchParams();
+ const activeTabQuery = searchParams.get(
+  'activeTab',
+ ) as PersonsConfig['selectedTab'];
+ const nameQuery = searchParams.get('name');
+ const fatherNameQuery = searchParams.get('fatherName');
+ const nationalCodeQuery = searchParams.get('nationalCode');
+ const mobileNoQuery = searchParams.get('mobileNo');
+ const emailQuery = searchParams.get('email');
+ const genderIDQuery = searchParams.get('genderID');
+ const genderNameQuery = searchParams.get('genderName');
+ const nationalityIDQuery = searchParams.get('nationalityID');
+ const nationalityNameQuery = searchParams.get('nationalityName');
  // filters setup
  const realPersonFilters = useForm<RealPersonSchema>({
   resolver: zodResolver(createRealPersonSchema({ dic })),
-  defaultValues: defaultValues,
+  defaultValues: {
+   ...defaultValues,
+   name: nameQuery || '',
+   fatherName: fatherNameQuery || '',
+   mobileNo: mobileNoQuery || '',
+   email: emailQuery || '',
+   nationalCode: nationalCodeQuery || '',
+   gender:
+    genderIDQuery && genderNameQuery
+     ? {
+        key: genderIDQuery,
+        value: genderNameQuery,
+       }
+     : null,
+   nationality:
+    nationalityIDQuery && nationalityNameQuery
+     ? {
+        key: nationalityIDQuery,
+        value: nationalityNameQuery,
+       }
+     : null,
+  },
  });
  const [
   nameValue,
@@ -91,12 +127,11 @@ export default function PersonsConfigProvider({
  });
  //
  const queryClient = useQueryClient();
- const router = useRouter();
  const { locale } = useBaseConfig();
- const searchParams = useSearchParams();
  const [showFilters, setShowFilters] = useState(false);
- const [selectedTab, setSelectedTab] =
-  useState<PersonsConfig['selectedTab']>('list');
+ const [selectedTab, setSelectedTab] = useState<PersonsConfig['selectedTab']>(
+  activeTabQuery || 'list',
+ );
  const [selectedPersonID, setSelectedPersonID] = useState<number | null>(null);
  const [showRemovePersonConfirm, setShowRemovePersonConfirm] = useState(false);
 
@@ -127,12 +162,12 @@ export default function PersonsConfigProvider({
  } = useQuery({
   staleTime: 'static',
   queryKey: [realPersonsBasePath, 'initial-data'],
+
   async queryFn({ signal }) {
    const res = await getInitialData({ signal });
    return res.data;
   },
  });
-
  // data
  const {
   data: personsData,
@@ -233,6 +268,33 @@ export default function PersonsConfigProvider({
   }
   setSelectedTab('list');
  };
+
+ // set queries
+ useEffect(() => {
+  const newSearchParams = new URLSearchParams(location.search);
+  newSearchParams.set('name', nameDbValue);
+  newSearchParams.set('fatherName', fatherNameDbValue);
+  newSearchParams.set('mobileNo', mobileNoDbValue);
+  newSearchParams.set('email', emailDbValue);
+  newSearchParams.set('genderID', genderValue?.key || '');
+  newSearchParams.set('genderName', genderValue?.value || '');
+  newSearchParams.set('nationalityID', nationalityValue?.key || '');
+  newSearchParams.set('nationalityName', nationalityValue?.value || '');
+  newSearchParams.set('nationalCode', nationalCodeValue || '');
+  router.replace(
+   `/${locale}/general-settings/real-persons?${newSearchParams.toString()}`,
+  );
+ }, [
+  nameDbValue,
+  fatherNameDbValue,
+  mobileNoDbValue,
+  emailDbValue,
+  genderValue,
+  nationalityValue,
+  nationalCodeValue,
+  locale,
+  router,
+ ]);
 
  const ctx: PersonsConfig = {
   tabs,

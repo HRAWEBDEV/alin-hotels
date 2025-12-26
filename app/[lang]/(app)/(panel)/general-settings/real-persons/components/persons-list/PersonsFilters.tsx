@@ -21,7 +21,10 @@ import { usePersonsConfigContext } from '../../services/personsConfigContext';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { Spinner } from '@/components/ui/spinner';
-import { type RealPersonSchema } from '../../schemas/realPersonSchema';
+import {
+ type RealPersonSchema,
+ defaultValues,
+} from '../../schemas/realPersonSchema';
 import { useFormContext, Controller } from 'react-hook-form';
 
 export default function PersonsFitlers({
@@ -29,7 +32,7 @@ export default function PersonsFitlers({
 }: {
  dic: RealPersonsDictionary;
 }) {
- const { register, reset, control } = useFormContext<RealPersonSchema>();
+ const { register, setValue, control } = useFormContext<RealPersonSchema>();
  const {
   showFilters,
   changeShowFilters,
@@ -50,7 +53,13 @@ export default function PersonsFitlers({
       size='icon-lg'
       className='text-red-700 dark:text-red-400 h-auto'
       onClick={() => {
-       reset();
+       Object.keys(defaultValues).forEach((key) => {
+        const typedKey = key as keyof RealPersonSchema;
+        setValue(
+         typedKey,
+         defaultValues[typedKey] as RealPersonSchema[keyof RealPersonSchema],
+        );
+       });
       }}
      >
       <FaRegTrashAlt className='size-4' />
