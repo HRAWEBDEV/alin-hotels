@@ -1,6 +1,6 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
-import { type RealPerson } from './personsApiActions';
+import { type RealPerson, type GetRealPersonProps } from './personsApiActions';
 import { type PagedData } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 import { PaginationState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
@@ -16,6 +16,7 @@ interface PersonsConfig {
  changeShowFilters: (open?: boolean) => unknown;
  changeSelectedTab: (newTab?: Tab) => unknown;
  persons: {
+  queries: Omit<GetRealPersonProps, 'signal'>;
   data?: PagedData<RealPerson[]>;
   isLoading: boolean;
   isFetching: boolean;
@@ -47,5 +48,5 @@ function usePersonsConfigContext() {
  return val;
 }
 
-export type { PersonsConfig };
+export type { PersonsConfig, NewPersonModes };
 export { tabs, personsConfigContext, usePersonsConfigContext };

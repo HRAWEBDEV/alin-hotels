@@ -113,7 +113,7 @@ function updateRealPerson(updatePerson: Partial<SaveRealPersonPackage>) {
  return axios.put<number>(realPersonsBasePath, updatePerson);
 }
 
-export type { RealPerson, SaveRealPersonPackage };
+export type { RealPerson, SaveRealPersonPackage, GetRealPersonProps };
 export {
  realPersonsBasePath,
  getAllRealPersons,

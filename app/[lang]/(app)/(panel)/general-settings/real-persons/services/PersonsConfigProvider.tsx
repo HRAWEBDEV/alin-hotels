@@ -201,6 +201,13 @@ export default function PersonsConfigProvider({
   changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
   persons: {
+   queries: {
+    name: nameDbValue,
+    email: emailDbValue,
+    fatherName: fatherNameDbValue,
+    mobileNo: mobileNoDbValue,
+    nationalCode: nationalCodeDbValue,
+   },
    data: personsData,
    isError: personsError,
    isFetching: personsFetching,
