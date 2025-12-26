@@ -90,7 +90,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     header: ({ table }) => (
      <div className='grid place-content-center'>
       <Checkbox
-       className='border-neutral-400 dark:border-orange-600'
+       className='border-neutral-400 dark:border-orange-600 scale-150 cursor-pointer'
        disabled
        checked={
         table.getIsAllPageRowsSelected() ||
@@ -104,7 +104,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     cell: ({ row }) => (
      <div className='grid place-content-center'>
       <Checkbox
-       className='border-neutral-400 dark:border-orange-600'
+       className='border-neutral-400 dark:border-orange-600 scale-150 cursor-pointer'
        checked={row.getIsSelected()}
        onCheckedChange={(value) => row.toggleSelected(!!value)}
        aria-label='Select row'

@@ -90,6 +90,10 @@ function getPagedRealPersons({
  );
 }
 
+function removeRealPerson(personID: number) {
+ return axios.delete(`${realPersonsBasePath}/${personID}`);
+}
+
 function saveRealPerson(newPerson: SaveRealPersonPackage) {
  return axios.post(realPersonsBasePath, newPerson);
 }
@@ -101,4 +105,5 @@ export {
  getAllRealPersons,
  getPagedRealPersons,
  saveRealPerson,
+ removeRealPerson,
 };

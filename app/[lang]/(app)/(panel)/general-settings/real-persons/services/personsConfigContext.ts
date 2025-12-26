@@ -20,9 +20,11 @@ interface PersonsConfig {
   isFetching: boolean;
   isError: boolean;
   isSuccess: boolean;
+  selectedPersonID: number | null;
   pagination: PaginationState;
   refetchPersons: () => unknown;
   onChangePagination: Dispatch<SetStateAction<PaginationState>>;
+  onChangeSelectedPersonID: (id: number | null) => unknown;
  };
 }
 

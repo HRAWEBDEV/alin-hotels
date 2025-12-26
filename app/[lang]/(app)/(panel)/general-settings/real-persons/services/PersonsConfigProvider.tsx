@@ -23,6 +23,7 @@ export default function PersonsConfigProvider({
  const [showFilters, setShowFilters] = useState(false);
  const [selectedTab, setSelectedTab] =
   useState<PersonsConfig['selectedTab']>('list');
+ const [selectedPersonID, setSelectedPersonID] = useState<number | null>(null);
 
  function handleChangeTab(newTab?: PersonsConfig['selectedTab']) {
   const activeTab = newTab === undefined ? 'list' : newTab;
@@ -66,6 +67,10 @@ export default function PersonsConfigProvider({
    return res.data;
   },
  });
+ //
+ function handleChangeSelectedPersonID(id: number | null) {
+  setSelectedPersonID(id);
+ }
 
  const ctx: PersonsConfig = {
   tabs,
@@ -79,9 +84,11 @@ export default function PersonsConfigProvider({
    isFetching: personsFetching,
    isLoading: personsLoading,
    isSuccess: personsSucess,
+   selectedPersonID,
    pagination,
    refetchPersons,
    onChangePagination: setPagination,
+   onChangeSelectedPersonID: handleChangeSelectedPersonID,
   },
  };
  return (
