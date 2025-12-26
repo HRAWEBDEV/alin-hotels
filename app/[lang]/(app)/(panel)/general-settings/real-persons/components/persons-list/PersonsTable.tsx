@@ -266,18 +266,6 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  });
 
  useEffect(() => {
-  if (!data || !data.limit) return;
-  const pagesCount = Math.ceil(data.rowsCount / data.limit);
-  const activePage = table.getState().pagination.pageIndex + 1;
-  if (activePage > pagesCount) {
-   table.setPagination({
-    ...table.getState().pagination,
-    pageIndex: pagesCount - 1,
-   });
-  }
- }, [data, table]);
-
- useEffect(() => {
   onChangePagination(paginationState);
  }, [paginationState, onChangePagination]);
 
