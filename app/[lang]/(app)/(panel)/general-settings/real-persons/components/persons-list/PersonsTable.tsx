@@ -231,7 +231,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     meta: 'action',
    },
   ] as ColumnDef<RealPerson[]>[];
- }, [dic, localeInfo]);
+ }, [dic, localeInfo, onRemovePerson]);
 
  const table = useReactTable({
   data: data?.rows || [],
