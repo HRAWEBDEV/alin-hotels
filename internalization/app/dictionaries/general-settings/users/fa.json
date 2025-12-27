@@ -4,5 +4,11 @@
   "usersList": "لیست کاربران",
   "editUser": "ویرایش کاربر",
   "addUser": "افزودن کاربر"
+ },
+ "removeUser": {
+  "title": "حذف شخص",
+  "confirmRemoveUser": "آیا از حذف کاربر اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
  }
 }
