@@ -3,30 +3,9 @@ import { useState, useEffect } from 'react';
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { FieldLabel, Field, FieldGroup } from '@/components/ui/field';
-import {
- InputGroup,
- InputGroupInput,
- InputGroupTextarea,
-} from '@/components/ui/input-group';
-import { Calendar } from '@/components/ui/calendar';
-import { ChevronDownIcon } from 'lucide-react';
+import { FieldGroup } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
-import {
- Popover,
- PopoverContent,
- PopoverTrigger,
-} from '@/components/ui/popover';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import {
- Command,
- CommandGroup,
- CommandInput,
- CommandItem,
- CommandList,
-} from '@/components/ui/command';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
  type UserSchema,
@@ -147,50 +126,7 @@ export default function NewUser({
      <AvatarFallback>H</AvatarFallback>
     </Avatar>
    </div>
-   <FieldGroup className='gap-5'>
-    <div className='flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4'>
-     <Button
-      data-disabled={!!userID}
-      disabled={!!userID}
-      variant='outline'
-      className='text-rose-700! dark:text-rose-400! border-rose-700! dark:border-rose-400! data-[disabled="true"]:opacity-0'
-      type='button'
-      onClick={() => reset()}
-     >
-      {isPending && <Spinner />}
-      {dic.newUser.form.clearForm}
-     </Button>
-     <div className='flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4'>
-      <Button
-       className='sm:min-w-28'
-       type='button'
-       variant='outline'
-       disabled={isPending || isLoading}
-       onClick={() => {
-        onCancel?.({
-         mode: userID ? 'edit' : 'add',
-         userID: userID || 0,
-        });
-       }}
-      >
-       {(isPending || isLoading) && <Spinner />}
-       {dic.newUser.form.cancel}
-      </Button>
-      <Button
-       className='sm:min-w-28'
-       type='submit'
-       disabled={isPending || isLoading}
-       onClick={(e) => {
-        e.preventDefault();
-        handleSubmit((data) => mutate(data))();
-       }}
-      >
-       {(isPending || isLoading) && <Spinner />}
-       {dic.newUser.form.save}
-      </Button>
-     </div>
-    </div>
-   </FieldGroup>
+   <FieldGroup className='gap-5'></FieldGroup>
   </form>
  );
 }
