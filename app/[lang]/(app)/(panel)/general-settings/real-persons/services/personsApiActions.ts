@@ -125,7 +125,7 @@ function saveRealPerson(newPerson: SaveRealPersonPackage) {
 }
 
 function updateRealPerson(updatePerson: Partial<SaveRealPersonPackage>) {
- return axios.put<number>(realPersonsBasePath, updatePerson);
+ return axios.post<number>(realPersonsBasePath, updatePerson);
 }
 
 export type {

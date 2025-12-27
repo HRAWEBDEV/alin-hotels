@@ -147,6 +147,8 @@ export default function PersonsTable({ dic }: { dic: UsersDictionary }) {
     header: dic.filters.phoneNumber,
     minSize: 150,
     size: 150,
+    enableResizing: false,
+    enablePinning: false,
    },
    {
     id: 'actions',
