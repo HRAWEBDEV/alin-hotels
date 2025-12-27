@@ -1,12 +1,18 @@
 'use client';
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { useUsersConfigContext } from '../services/usersConfigContext';
 import UsersList from './users-list/UsersList';
-// import NewPerson from './new-person/NewPerson';
-// import PersonsList from './persons-list/PersonsList';
+import NewUser from './new-user/NewUser';
 import { Activity } from 'react';
 
-export default function UsersContent({ dic }: { dic: UsersDictionary }) {
+export default function UsersContent({
+ dic,
+ realPersonDic,
+}: {
+ dic: UsersDictionary;
+ realPersonDic: RealPersonsDictionary;
+}) {
  const {
   selectedTab,
   users: { selectedUserID, onNewUserSuccess, onCancelNewUser },
@@ -21,23 +27,21 @@ export default function UsersContent({ dic }: { dic: UsersDictionary }) {
     <UsersList dic={dic} />
    </Activity>
    <Activity mode={selectedTab === 'add' ? 'visible' : 'hidden'}>
-    <></>
-    {/* <NewPerson */}
-    {/*  dic={dic} */}
-    {/*  onSuccess={onNewPersonSuccess} */}
-    {/*  onCancel={onCancelNewPerson} */}
-    {/*  initialData={initialData} */}
-    {/* /> */}
+    <NewUser
+     dic={dic}
+     realPersonDic={realPersonDic}
+     onSuccess={onNewUserSuccess}
+     onCancel={onCancelNewUser}
+    />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
-    <></>
-    {/* <NewPerson */}
-    {/*  dic={dic} */}
-    {/*  personID={selectedPersonID} */}
-    {/*  onSuccess={onNewPersonSuccess} */}
-    {/*  onCancel={onCancelNewPerson} */}
-    {/*  initialData={initialData} */}
-    {/* /> */}
+    <NewUser
+     dic={dic}
+     userID={selectedUserID}
+     realPersonDic={realPersonDic}
+     onSuccess={onNewUserSuccess}
+     onCancel={onCancelNewUser}
+    />
    </Activity>
   </main>
  );

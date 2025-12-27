@@ -50,7 +50,7 @@ import {
 } from 'react-icons/md';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 
-export default function PersonsTable({ dic }: { dic: UsersDictionary }) {
+export default function UsersTable({ dic }: { dic: UsersDictionary }) {
  const {
   shareDictionary: { components },
  } = useShareDictionary();

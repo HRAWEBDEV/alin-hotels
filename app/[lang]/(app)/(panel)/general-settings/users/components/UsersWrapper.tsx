@@ -1,4 +1,5 @@
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import UsersConfigProvider from '../services/UsersConfigProvider';
 import UsersTabs from './UsersTabs';
 import UsersContent from './UsersContent';
@@ -6,11 +7,13 @@ import { type WrapperTypes } from '../utils/wrapperTypes';
 
 export default async function UsersWrapper({
  dic,
+ realPersonDic,
  wrapperType = {
   mode: 'page',
  },
 }: {
  dic: UsersDictionary;
+ realPersonDic: RealPersonsDictionary;
  wrapperType?: WrapperTypes;
 }) {
  return (
@@ -20,7 +23,7 @@ export default async function UsersWrapper({
   >
    <UsersConfigProvider dic={dic} {...wrapperType}>
     <UsersTabs dic={dic} />
-    <UsersContent dic={dic} />
+    <UsersContent dic={dic} realPersonDic={realPersonDic} />
    </UsersConfigProvider>
   </div>
  );

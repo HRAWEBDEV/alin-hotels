@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FieldLabel, Field, FieldGroup } from '@/components/ui/field';
 import {
@@ -52,11 +53,13 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 export default function NewUser({
  dic,
  userID,
+ realPersonDic,
  onSuccess,
  onCancel,
 }: {
  dic: UsersDictionary;
  userID?: number | null;
+ realPersonDic: RealPersonsDictionary;
  onSuccess?: UsersConfig['users']['onNewUserSuccess'];
  onCancel?: UsersConfig['users']['onCancelNewUser'];
 }) {
