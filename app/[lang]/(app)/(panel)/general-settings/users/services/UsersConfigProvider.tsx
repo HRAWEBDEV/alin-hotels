@@ -55,19 +55,23 @@ export default function UsersConfigProvider({
  const activeTabQuery = searchParams.get(
   'activeTab',
  ) as UsersConfig['selectedTab'];
+ const userNameValueQuery = searchParams.get('userName');
  const paginationIndexQuery = searchParams.get('paginationIndex');
  const paginationSizeQuery = searchParams.get('paginationSize');
  // filters setup
- const realPersonFilters = useForm<UserSchema>({
+ const userFilters = useForm<UserSchema>({
   resolver: zodResolver(createUserSchema({ dic })),
   defaultValues: {
    ...defaultValues,
    ...(() => {
     if (wrapperType.mode === 'find') return {};
-    return {};
+    return {
+     userName: userNameValueQuery || '',
+    };
    })(),
   },
  });
+ const [userNameValue] = userFilters.watch(['userName']);
  //
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
@@ -110,10 +114,17 @@ export default function UsersConfigProvider({
   refetch: refetchUsers,
  } = useQuery({
   placeholderData: keepPreviousData,
-  queryKey: [usersBasePath, 'all', pagination.pageSize, pagination.pageIndex],
+  queryKey: [
+   usersBasePath,
+   'all',
+   pagination.pageSize,
+   pagination.pageIndex,
+   userNameValue,
+  ],
   async queryFn({ signal }) {
    const res = await getPagedUsers({
     signal,
+    userName: userNameValue,
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
    });
@@ -194,6 +205,16 @@ export default function UsersConfigProvider({
   );
  }, [wrapperType.mode, locale, router, pagination]);
 
+ // set queries
+ useEffect(() => {
+  if (wrapperType.mode === 'find') return;
+  const newSearchParams = new URLSearchParams(location.search);
+  newSearchParams.set('userName', userNameValue);
+  router.replace(
+   `/${locale}/general-settings/users?${newSearchParams.toString()}`,
+  );
+ }, [wrapperType.mode, locale, router, pagination, userNameValue]);
+
  const ctx: UsersConfig = {
   wrapperType: wrapperType,
   tabs,
@@ -226,7 +247,7 @@ export default function UsersConfigProvider({
 
  return (
   <usersConfigContext.Provider value={ctx}>
-   <FormProvider {...realPersonFilters}>{children}</FormProvider>
+   <FormProvider {...userFilters}>{children}</FormProvider>
    <Dialog
     open={showRemoveUserConfirm}
     onOpenChange={(newValue) => setShowRemoveUserConfirm(newValue)}

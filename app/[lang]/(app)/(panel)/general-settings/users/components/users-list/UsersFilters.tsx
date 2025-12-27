@@ -1,5 +1,7 @@
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import { Button } from '@/components/ui/button';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import { useUsersConfigContext } from '../../services/usersConfigContext';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { FaRegTrashAlt } from 'react-icons/fa';
@@ -8,7 +10,7 @@ import { type UserSchema, defaultValues } from '../../schemas/userSchema';
 import { useFormContext } from 'react-hook-form';
 
 export default function UsersFitlers({ dic }: { dic: UsersDictionary }) {
- const { setValue } = useFormContext<UserSchema>();
+ const { setValue, register } = useFormContext<UserSchema>();
  const {
   showFilters,
   changeShowFilters,
@@ -58,7 +60,16 @@ export default function UsersFitlers({ dic }: { dic: UsersDictionary }) {
      </Button>
     </div>
    </div>
-   <div className='grow overflow-auto p-2 py-4'></div>
+   <div className='grow overflow-auto p-2 py-4'>
+    <FieldGroup className='gap-5'>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='userName'>{dic.filters.userName}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput type='search' id='userName' {...register('userName')} />
+      </InputGroup>
+     </Field>
+    </FieldGroup>
+   </div>
   </div>
  );
 }

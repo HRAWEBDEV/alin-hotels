@@ -125,6 +125,30 @@ export default function PersonsTable({ dic }: { dic: UsersDictionary }) {
   return [
    ...defaultColumns,
    {
+    accessorKey: 'userName',
+    header: dic.filters.userName,
+    minSize: 180,
+    size: 200,
+   },
+   {
+    accessorKey: 'name',
+    header: dic.filters.name,
+    minSize: 180,
+    size: 200,
+   },
+   {
+    accessorKey: 'lastName',
+    header: dic.filters.lastName,
+    minSize: 180,
+    size: 200,
+   },
+   {
+    accessorKey: 'phoneNumber',
+    header: dic.filters.phoneNumber,
+    minSize: 150,
+    size: 150,
+   },
+   {
     id: 'actions',
     enableHiding: false,
     enableSorting: false,
@@ -144,7 +168,28 @@ export default function PersonsTable({ dic }: { dic: UsersDictionary }) {
           <MoreHorizontal className='size-5 text-primary' />
          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'></DropdownMenuContent>
+        <DropdownMenuContent align='end'>
+         <DropdownMenuItem
+          className='text-secondary'
+          onClick={() => {
+           const typedOriginal = row.original as unknown as User;
+           onEditUser(typedOriginal.personID);
+          }}
+         >
+          <FaEdit className='size-5 text-inherit' />
+          {dic.table.edit}
+         </DropdownMenuItem>
+         <DropdownMenuItem
+          className='text-rose-700 dark:text-rose-400'
+          onClick={() => {
+           const typedOriginal = row.original as unknown as User;
+           onRemoveUser(typedOriginal.personID);
+          }}
+         >
+          <IoTrashOutline className='size-5 text-inherit' />
+          {dic.table.remove}
+         </DropdownMenuItem>
+        </DropdownMenuContent>
        </DropdownMenu>
       </div>
      );
@@ -300,7 +345,7 @@ export default function PersonsTable({ dic }: { dic: UsersDictionary }) {
          key={row.id}
          onDoubleClick={() => {
           const typedOriginal = row.original as unknown as User;
-          onEditUser(typedOriginal.id);
+          onEditUser(typedOriginal.personID);
          }}
         >
          {row.getVisibleCells().map((cell) => (

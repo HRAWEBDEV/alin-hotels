@@ -22,5 +22,9 @@ export default async function Users(
  const dic = await getUsersDictionary({
   locale: lang as Locale,
  });
- return <UsersWrapper dic={dic} />;
+ return (
+  <div className='mx-auto w-[min(100%,70rem)] h-full flex flex-col'>
+   <UsersWrapper dic={dic} />
+  </div>
+ );
 }

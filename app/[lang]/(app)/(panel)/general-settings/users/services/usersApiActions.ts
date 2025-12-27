@@ -7,7 +7,11 @@ import {
 const usersBasePath = '/HotelsUnion/User';
 
 interface User {
- id: number;
+ personID: number;
+ userName: string;
+ name: string;
+ lastName: string;
+ phoneNumber: string;
 }
 
 type SaveUserPackage = unknown;

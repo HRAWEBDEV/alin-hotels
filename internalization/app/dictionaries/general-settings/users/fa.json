@@ -5,10 +5,13 @@
   "editUser": "ویرایش کاربر",
   "addUser": "افزودن کاربر"
  },
-
  "filters": {
   "title": "فیلترها",
-  "results": "نتایج"
+  "results": "نتایج",
+  "userName": "نام کاربر",
+  "name": "نام",
+  "lastName": "نام خانوادگی",
+  "phoneNumber": "شماره همراه"
  },
  "table": {
   "columns": "ستون‌ها",
