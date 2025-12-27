@@ -5,6 +5,19 @@
   "editUser": "ویرایش کاربر",
   "addUser": "افزودن کاربر"
  },
+
+ "filters": {
+  "title": "فیلترها",
+  "results": "نتایج"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها",
+  "edit": "ویرایش",
+  "remove": "حذف",
+  "next": "بعدی",
+  "prev": "قبلی"
+ },
  "removeUser": {
   "title": "حذف شخص",
   "confirmRemoveUser": "آیا از حذف کاربر اطمینان دارید؟",

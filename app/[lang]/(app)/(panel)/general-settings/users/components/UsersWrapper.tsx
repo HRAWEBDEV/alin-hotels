@@ -1,6 +1,7 @@
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import UsersConfigProvider from '../services/UsersConfigProvider';
 import UsersTabs from './UsersTabs';
+import UsersContent from './UsersContent';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
 export default async function UsersWrapper({
@@ -19,6 +20,7 @@ export default async function UsersWrapper({
   >
    <UsersConfigProvider dic={dic} {...wrapperType}>
     <UsersTabs dic={dic} />
+    <UsersContent dic={dic} />
    </UsersConfigProvider>
   </div>
  );
