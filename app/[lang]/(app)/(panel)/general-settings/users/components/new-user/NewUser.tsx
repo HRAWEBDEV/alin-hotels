@@ -1,10 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { FieldGroup } from '@/components/ui/field';
-import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -25,16 +22,11 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import NoItemFound from '../../../../components/NoItemFound';
 import { type UsersConfig } from '../../services/usersConfigContext';
-import { useBaseConfig } from '@/services/base-config/baseConfigContext';
-import { NumericFormat } from 'react-number-format';
-import { FaRegTrashAlt } from 'react-icons/fa';
 
 export default function NewUser({
  dic,
  userID,
- realPersonDic,
  onSuccess,
- onCancel,
 }: {
  dic: UsersDictionary;
  userID?: number | null;
@@ -44,29 +36,14 @@ export default function NewUser({
 }) {
  const queryClient = useQueryClient();
  // form
- const {
-  control,
-  register,
-  handleSubmit,
-  formState: { errors },
-  reset,
-  setValue,
- } = useForm<UserSchema>({
+ const { reset } = useForm<UserSchema>({
   resolver: zodResolver(createUserSchema({ dic })),
   defaultValues: {
    ...defaultValues,
   },
  });
  //
- const { locale } = useBaseConfig();
- //
- const [openBirthDateCalendar, setOpenBirthDateCalendar] = useState(false);
- const [openNationalityCombo, setOpenNationalityCombo] = useState(false);
- const [openGenderCombo, setOpenGenderCombo] = useState(false);
- const [openEducationGradeCombo, setOpenEducationGradeCombo] = useState(false);
- const [openEducationFieldCombo, setOpenEducationFieldCombo] = useState(false);
- //
- const { mutate, isPending } = useMutation({
+ const {} = useMutation({
   mutationFn({}: UserSchema) {
    const newUser: SaveUserPackage = {
     personID: 0,
@@ -97,7 +74,7 @@ export default function NewUser({
   },
  });
  //
- const { data, isLoading, isError, isSuccess } = useQuery({
+ const { isLoading, isError } = useQuery({
   enabled: !!userID,
   queryKey: [usersBasePath, 'user', userID?.toString()],
   refetchOnWindowFocus: false,
@@ -120,13 +97,6 @@ export default function NewUser({
    </div>
   );
  return (
-  <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'>
-   <div className='grid place-content-center mb-3'>
-    <Avatar className='size-32'>
-     <AvatarFallback>H</AvatarFallback>
-    </Avatar>
-   </div>
-   <FieldGroup className='gap-5'></FieldGroup>
-  </form>
+  <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'></form>
  );
 }
