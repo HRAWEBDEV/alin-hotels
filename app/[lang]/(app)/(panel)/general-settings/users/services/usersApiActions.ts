@@ -74,7 +74,7 @@ function saveUser(newPerson: SaveUserPackage) {
 }
 
 function updateUser(updatePerson: Partial<SaveUserPackage>) {
- return axios.put<number>(usersBasePath, updatePerson);
+ return axios.post<number>(usersBasePath, updatePerson);
 }
 
 export type { User, SaveUserPackage, GetUsersProps };
