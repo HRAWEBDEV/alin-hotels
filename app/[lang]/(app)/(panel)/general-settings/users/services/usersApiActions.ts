@@ -14,7 +14,7 @@ interface User {
  phoneNumber: string;
 }
 
-type SaveUserPackage = unknown;
+type SaveUserPackage = Pick<User, 'personID'>;
 
 type GetUsersProps = {
  userName?: string;

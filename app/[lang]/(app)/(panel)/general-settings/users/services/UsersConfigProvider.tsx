@@ -161,7 +161,7 @@ export default function UsersConfigProvider({
      queryKey: [usersBasePath, 'all'],
     });
     queryClient.invalidateQueries({
-     queryKey: [usersBasePath, 'person', selectedUserID!.toString()],
+     queryKey: [usersBasePath, 'user', selectedUserID!.toString()],
     });
     setSelectedUserID(null);
     setSelectedTab('list');

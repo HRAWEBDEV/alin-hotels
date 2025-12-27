@@ -33,11 +33,11 @@ interface UsersConfig {
   onEditUser: (id: number) => unknown;
   onCancelNewUser: (params: {
    mode: 'edit' | 'add';
-   personID: number;
+   userID: number;
   }) => unknown;
   onNewUserSuccess: (params: {
    mode: 'edit' | 'add';
-   personID: number;
+   userID: number;
   }) => unknown;
  };
 }

@@ -21,6 +21,14 @@
   "next": "بعدی",
   "prev": "قبلی"
  },
+ "newUser": {
+  "newUserAdded": "کاربر اضافه شد",
+  "form": {
+   "save": "ذخیره",
+   "cancel": "انصراف",
+   "clearForm": "خالی کردن اطلاعات"
+  }
+ },
  "removeUser": {
   "title": "حذف شخص",
   "confirmRemoveUser": "آیا از حذف کاربر اطمینان دارید؟",
