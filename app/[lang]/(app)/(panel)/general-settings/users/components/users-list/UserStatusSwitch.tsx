@@ -5,8 +5,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
+import { useUsersConfigContext } from '../../services/usersConfigContext';
 
 export default function UserStatusSwitch({ user }: { user: User }) {
+ const {
+  users: { onChangeSelectedUserID },
+ } = useUsersConfigContext();
  const queryClient = useQueryClient();
  const { mutate, isPending } = useMutation({
   mutationFn() {
@@ -19,6 +23,7 @@ export default function UserStatusSwitch({ user }: { user: User }) {
    queryClient.invalidateQueries({
     queryKey: [usersBasePath, 'user', user.personID.toString()],
    });
+   onChangeSelectedUserID(null);
   },
   onError(err: AxiosError<string>) {
    toast.error(err.message);
