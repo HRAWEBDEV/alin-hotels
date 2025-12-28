@@ -225,7 +225,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
           <MoreHorizontal className='size-5 text-primary' />
          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
+        <DropdownMenuContent align='end' onClick={(e) => e.stopPropagation()}>
          <DropdownMenuItem
           className='text-secondary'
           onClick={() => {
@@ -401,7 +401,13 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
        {table.getRowModel().rows.map((row) => (
         <TableRow
          key={row.id}
+         onClick={() => {
+          if (wrapperType.mode === 'page') return;
+          const typedOriginal = row.original as unknown as RealPerson;
+          wrapperType.onChangePerson(typedOriginal.id);
+         }}
          onDoubleClick={() => {
+          if (wrapperType.mode === 'find') return;
           const typedOriginal = row.original as unknown as RealPerson;
           onEditPerson(typedOriginal.id);
          }}
