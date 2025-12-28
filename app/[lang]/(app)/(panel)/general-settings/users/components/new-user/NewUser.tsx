@@ -18,6 +18,7 @@ import {
  saveUser,
  getUser,
  updateUser,
+ updateUserPassword,
 } from '../../services/usersApiActions';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -75,8 +76,16 @@ export default function NewUser({
   formState: { errors: userCredentialsErrors },
   handleSubmit: handleSubmitUserCredentials,
  } = useForm<UserCredentialsSchema>({
-  resolver: zodResolver(createUserCredentialsSchema({ dic })),
+  resolver: zodResolver(
+   createUserCredentialsSchema({ dic, editMode: !!userID }),
+  ),
+  defaultValues: {
+   confirmPassword: '',
+   password: '',
+   oldPassword: '',
+  },
  });
+
  //
  const { mutate: mutateUserInfo, isPending: mutateUserInfoPending } =
   useMutation({
@@ -93,8 +102,6 @@ export default function NewUser({
    },
    onSuccess(res) {
     reset();
-    resetUserCredentials();
-    setPersonID(0);
     queryClient.invalidateQueries({
      queryKey: [usersBasePath, 'all'],
     });
@@ -110,12 +117,55 @@ export default function NewUser({
      });
     } else {
      toast.success(dic.newUser.newUserAdded);
+     resetUserCredentials();
+     setPersonID(0);
     }
    },
    onError(err: AxiosError<string>) {
     toast.error(err.response?.data);
    },
   });
+ //
+
+ const {
+  mutate: mutateUserCredentials,
+  isPending: mutateUserCredentialsPending,
+ } = useMutation({
+  mutationFn({
+   confirmPassword,
+   password,
+   oldPassword,
+  }: UserCredentialsSchema) {
+   return updateUserPassword({
+    personID: personID,
+    confirmNewPassword: confirmPassword,
+    oldPassword: oldPassword!,
+    newPassword: password,
+   });
+  },
+  onSuccess(res) {
+   resetUserCredentials();
+   queryClient.invalidateQueries({
+    queryKey: [usersBasePath, 'all'],
+   });
+   if (onSuccess) {
+    onSuccess({
+     mode: userID ? 'edit' : 'add',
+     userID: res.data,
+    });
+   }
+   if (userID) {
+    queryClient.invalidateQueries({
+     queryKey: [usersBasePath, 'user', userID.toString()],
+    });
+   } else {
+    toast.success(dic.newUser.updatePasswordSuccess);
+   }
+  },
+  onError(err: AxiosError<string>) {
+   toast.error(err.response?.data);
+  },
+ });
  // get person
  const {
   data: personData,
@@ -284,8 +334,28 @@ export default function NewUser({
    {getWrapperBox(
     <div>
      <FieldGroup className='gap-5'>
+      {userID && (
+       <Field
+        className='gap-2'
+        data-invalid={!!userCredentialsErrors.oldPassword}
+       >
+        <FieldLabel htmlFor='oldPassword'>
+         {dic.newUser.form.oldPassword} *
+        </FieldLabel>
+        <InputGroup data-invalid={!!userCredentialsErrors.oldPassword}>
+         <InputGroupInput
+          id='oldPassword'
+          autoComplete='off'
+          type='password'
+          {...registerUserCredentials('oldPassword')}
+         />
+        </InputGroup>
+       </Field>
+      )}
       <Field className='gap-2' data-invalid={!!userCredentialsErrors.password}>
-       <FieldLabel htmlFor='password'>{dic.newUser.form.password} *</FieldLabel>
+       <FieldLabel htmlFor='password'>
+        {dic.newUser.form.password} {userID ? dic.newUser.form.new : ''} *
+       </FieldLabel>
        <InputGroup data-invalid={!!userCredentialsErrors.password}>
         <InputGroupInput
          id='password'
@@ -300,7 +370,8 @@ export default function NewUser({
        data-invalid={!!userCredentialsErrors.confirmPassword}
       >
        <FieldLabel htmlFor='confirmPassword'>
-        {dic.newUser.form.confirmPassword} *
+        {dic.newUser.form.confirmPassword} {userID ? dic.newUser.form.new : ''}{' '}
+        *
        </FieldLabel>
        <InputGroup data-invalid={!!userCredentialsErrors.confirmPassword}>
         <InputGroupInput
@@ -317,7 +388,17 @@ export default function NewUser({
      </FieldGroup>
      {userID && (
       <div className='mt-4 flex sm:justify-end'>
-       <Button type='submit' className='w-full sm:w-28'>
+       <Button
+        disabled={mutateUserCredentialsPending}
+        type='submit'
+        className='w-full sm:w-28'
+        onClick={() => {
+         handleSubmitUserCredentials((data) => {
+          mutateUserCredentials(data);
+         })();
+        }}
+       >
+        {mutateUserCredentialsPending && <Spinner />}
         {dic.newUser.form.confirm}
        </Button>
       </div>

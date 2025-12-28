@@ -23,13 +23,16 @@
  },
  "newUser": {
   "newUserAdded": "کاربر اضافه شد",
+  "updatePasswordSuccess": "رمز عبور با موفقیت ویرایش شn",
   "form": {
    "userName": "نام کاربری",
    "name": "نام",
    "lastName": "نام خانوادگی",
-   "password": "رمز عبور",
    "phoneNumber": "شماره همراه",
+   "oldPassword": "رمز عبور فعلی",
+   "password": "رمز عبور",
    "confirmPassword": "تکرار رمز عبور",
+   "new": "جدید",
    "addPerson": "افزودن شخص",
    "editPerson": "ویرایش شخص",
    "confirm": "ذخیره"

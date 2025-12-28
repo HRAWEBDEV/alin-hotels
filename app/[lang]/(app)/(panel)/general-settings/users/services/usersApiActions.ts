@@ -83,6 +83,23 @@ function updateUser(updatePerson: Partial<SaveUserPackage>) {
  return axios.put<number>(usersBasePath, updatePerson);
 }
 
+function updateUserPassword({
+ personID,
+ ...other
+}: {
+ personID: number;
+ oldPassword: string;
+ newPassword: string;
+ confirmNewPassword: string;
+}) {
+ return axios.put(
+  `${usersBasePath}/UpdateUserPassword?personID=${personID.toString()}`,
+  {
+   ...other,
+  },
+ );
+}
+
 export type { User, SaveUserPackage, GetUsersProps };
 export {
  usersBasePath,
@@ -91,5 +108,6 @@ export {
  saveUser,
  removeUser,
  getUser,
+ updateUserPassword,
  updateUser,
 };

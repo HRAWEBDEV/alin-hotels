@@ -17,14 +17,29 @@ function createUserSchema({}: { dic: UsersDictionary }) {
  });
 }
 
-function createUserCredentialsSchema({ dic }: { dic: UsersDictionary }) {
+function createUserCredentialsSchema({
+ dic,
+ editMode,
+}: {
+ dic: UsersDictionary;
+ editMode: boolean;
+}) {
  return z
   .object({
+   oldPassword: z.string().optional(),
    password: z.string().min(1),
    confirmPassword: z
     .string()
     .min(1, dic.newUser.formValidation.invalidConfirmPassword),
   })
+  .refine(
+   ({ oldPassword }) => {
+    return editMode ? !!oldPassword : true;
+   },
+   {
+    path: ['oldPassword'],
+   },
+  )
   .refine(
    ({ password, confirmPassword }) => {
     return password === confirmPassword;
