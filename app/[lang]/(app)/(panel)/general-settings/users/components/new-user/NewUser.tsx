@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { useForm } from 'react-hook-form';
@@ -135,6 +135,24 @@ export default function NewUser({
   setPersonID(data.personID);
  }, [isSuccess, userID, data, setValue]);
 
+ function getWrapper(children: ReactNode) {
+  const className = 'w-[min(25rem,100%)] mx-auto';
+  return userID ? (
+   <div className={className}>{children}</div>
+  ) : (
+   <form className={className}>{children}</form>
+  );
+ }
+
+ function getWrapperBox(children: ReactNode) {
+  const className = 'mb-2 p-4 bg-background border border-input rounded-md';
+  return userID ? (
+   <form className={className}>{children}</form>
+  ) : (
+   <div className={className}>{children}</div>
+  );
+ }
+
  if (userID && isError) return <NoItemFound />;
  if (userID && isLoading)
   return (
@@ -142,121 +160,130 @@ export default function NewUser({
     <Spinner className='size-12' />
    </div>
   );
- return (
-  <div role={userID ? 'none' : 'form'} className='w-[min(25rem,100%)] mx-auto'>
-   <div
-    role={userID ? 'form' : 'none'}
-    className='p-4 mb-1 bg-background border border-input rounded-md'
-   >
-    <Field className='gap-2' data-invalid={!!errors.userName}>
-     <FieldLabel htmlFor='userName'>{dic.newUser.form.userName} *</FieldLabel>
-     <InputGroup data-invalid={!!errors.userName}>
-      <InputGroupInput id='userName' {...register('userName')} />
-     </InputGroup>
-    </Field>
-    <div className='mt-4'>
-     {personData && personIsSuccess ? (
-      <div className='p-4 border-2 border-dashed border-teal-400 dark:border-teal-600 bg-teal-50 dark:bg-teal-950 rounded-md'>
-       <div>
-        <FieldGroup className='gap-5 mb-4'>
-         <div className='grid gap-2 grid-cols-2'>
+
+ return getWrapper(
+  <>
+   {getWrapperBox(
+    <div>
+     <Field className='gap-2' data-invalid={!!errors.userName}>
+      <FieldLabel htmlFor='userName'>{dic.newUser.form.userName} *</FieldLabel>
+      <InputGroup data-invalid={!!errors.userName}>
+       <InputGroupInput id='userName' {...register('userName')} />
+      </InputGroup>
+     </Field>
+     <div className='mt-4'>
+      {personData && personIsSuccess ? (
+       <div className='p-4 border-2 border-dashed border-teal-400 dark:border-teal-600 bg-teal-50 dark:bg-teal-950 rounded-md'>
+        <div>
+         <FieldGroup className='gap-5 mb-4'>
+          <div className='grid gap-2 grid-cols-2'>
+           <Field className='gap-2'>
+            <FieldLabel htmlFor='name'>{dic.newUser.form.name}</FieldLabel>
+            <InputGroup>
+             <InputGroupInput
+              id='name'
+              readOnly
+              value={personData.name || ''}
+             />
+            </InputGroup>
+           </Field>
+           <Field className='gap-2'>
+            <FieldLabel htmlFor='lastName'>
+             {dic.newUser.form.lastName}
+            </FieldLabel>
+            <InputGroup>
+             <InputGroupInput
+              id='lastName'
+              readOnly
+              value={personData.lastName || ''}
+             />
+            </InputGroup>
+           </Field>
+          </div>
           <Field className='gap-2'>
-           <FieldLabel htmlFor='name'>{dic.newUser.form.name}</FieldLabel>
-           <InputGroup>
-            <InputGroupInput id='name' readOnly value={personData.name || ''} />
-           </InputGroup>
-          </Field>
-          <Field className='gap-2'>
-           <FieldLabel htmlFor='lastName'>
-            {dic.newUser.form.lastName}
+           <FieldLabel htmlFor='phoneNumber'>
+            {dic.newUser.form.phoneNumber}
            </FieldLabel>
            <InputGroup>
             <InputGroupInput
-             id='lastName'
+             id='phoneNumber'
              readOnly
-             value={personData.lastName || ''}
+             value={personData.mobileNo || ''}
             />
            </InputGroup>
           </Field>
-         </div>
-         <Field className='gap-2'>
-          <FieldLabel htmlFor='phoneNumber'>
-           {dic.newUser.form.phoneNumber}
-          </FieldLabel>
-          <InputGroup>
-           <InputGroupInput
-            id='phoneNumber'
-            readOnly
-            value={personData.mobileNo || ''}
-           />
-          </InputGroup>
-         </Field>
-        </FieldGroup>
+         </FieldGroup>
+        </div>
+        <div className='flex justify-end'>
+         <Button
+          disabled={isLoading}
+          type='button'
+          variant={'outline'}
+          onClick={() => setShowRealPerson(true)}
+         >
+          {isLoading && <Spinner />}
+          {dic.newUser.form.editPerson}
+         </Button>
+        </div>
        </div>
-       <div className='flex justify-end'>
+      ) : (
+       <div className='h-20 border-2 border-dashed border-primary bg-sky-100 dark:bg-sky-900 rounded-md grid place-content-center'>
         <Button
-         disabled={isLoading}
+         disabled={personLoading}
          type='button'
-         variant={'outline'}
          onClick={() => setShowRealPerson(true)}
         >
-         {isLoading && <Spinner />}
-         {dic.newUser.form.editPerson}
+         {personLoading && <Spinner />}
+         {dic.newUser.form.addPerson}
         </Button>
        </div>
-      </div>
-     ) : (
-      <div className='h-20 border-2 border-dashed border-primary bg-sky-100 dark:bg-sky-900 rounded-md grid place-content-center'>
-       <Button
-        disabled={personLoading}
-        type='button'
-        onClick={() => setShowRealPerson(true)}
-       >
-        {personLoading && <Spinner />}
-        {dic.newUser.form.addPerson}
+      )}
+     </div>
+     {userID && (
+      <div className='mt-4 flex sm:justify-end'>
+       <Button type='submit' className='w-full sm:w-28'>
+        {dic.newUser.form.confirm}
        </Button>
       </div>
      )}
-    </div>
-    {userID && (
-     <div className='mt-4 flex sm:justify-end'>
-      <Button type='submit' className='w-full sm:w-28'>
-       {dic.newUser.form.confirm}
-      </Button>
-     </div>
-    )}
-   </div>
-   <div
-    role={userID ? 'form' : 'none'}
-    className='p-4 bg-background border border-input rounded-md'
-   >
-    <FieldGroup className='gap-5'>
-     <Field className='gap-2'>
-      <FieldLabel htmlFor='password'>{dic.newUser.form.password} *</FieldLabel>
-      <InputGroup>
-       <InputGroupInput id='password' />
-      </InputGroup>
-     </Field>
-     <Field className='gap-2'>
-      <FieldLabel htmlFor='confirmPassword'>
-       {dic.newUser.form.confirmPassword} *
-      </FieldLabel>
-      <InputGroup>
-       <InputGroupInput id='confirmPassword' />
-      </InputGroup>
-     </Field>
-    </FieldGroup>
-    {userID && (
-     <div className='mt-4 flex sm:justify-end'>
-      <Button type='submit' className='w-full sm:w-28'>
-       {dic.newUser.form.confirm}
-      </Button>
-     </div>
-    )}
-   </div>
+    </div>,
+   )}
+   {getWrapperBox(
+    <div>
+     <FieldGroup className='gap-5'>
+      <Field className='gap-2'>
+       <FieldLabel htmlFor='password'>{dic.newUser.form.password} *</FieldLabel>
+       <InputGroup>
+        <InputGroupInput id='password' />
+       </InputGroup>
+      </Field>
+      <Field className='gap-2'>
+       <FieldLabel htmlFor='confirmPassword'>
+        {dic.newUser.form.confirmPassword} *
+       </FieldLabel>
+       <InputGroup>
+        <InputGroupInput id='confirmPassword' />
+       </InputGroup>
+      </Field>
+     </FieldGroup>
+     {userID && (
+      <div className='mt-4 flex sm:justify-end'>
+       <Button type='submit' className='w-full sm:w-28'>
+        {dic.newUser.form.confirm}
+       </Button>
+      </div>
+     )}
+    </div>,
+   )}
    {!userID && (
     <div className='mt-4 flex sm:justify-end'>
-     <Button type='submit' className='w-full sm:w-28'>
+     <Button
+      type='submit'
+      className='w-full sm:w-28'
+      onClick={() => {
+       console.log('here');
+      }}
+     >
       {dic.newUser.form.confirm}
      </Button>
     </div>
@@ -274,6 +301,6 @@ export default function NewUser({
      },
     }}
    />
-  </div>
+  </>,
  );
 }
