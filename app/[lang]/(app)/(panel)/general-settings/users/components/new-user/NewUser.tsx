@@ -75,6 +75,7 @@ export default function NewUser({
   register: registerUserCredentials,
   formState: { errors: userCredentialsErrors },
   handleSubmit: handleSubmitUserCredentials,
+  setFocus,
  } = useForm<UserCredentialsSchema>({
   resolver: zodResolver(
    createUserCredentialsSchema({ dic, editMode: !!userID }),
@@ -392,7 +393,8 @@ export default function NewUser({
         disabled={mutateUserCredentialsPending}
         type='submit'
         className='w-full sm:w-28'
-        onClick={() => {
+        onClick={(e) => {
+         e.preventDefault();
          handleSubmitUserCredentials((data) => {
           mutateUserCredentials(data);
          })();
@@ -413,6 +415,10 @@ export default function NewUser({
       className='w-full sm:w-28'
       onClick={(e) => {
        e.preventDefault();
+       if (!personID) {
+        toast.error(dic.newUser.selectPerson);
+        return;
+       }
        handleSubmit((data) => {
         handleSubmitUserCredentials((credit) => {
          mutateUserInfo({ ...data, password: credit.password });
@@ -435,6 +441,9 @@ export default function NewUser({
      onChangePerson(personID) {
       setPersonID(personID);
       setShowRealPerson(false);
+      setTimeout(() => {
+       setFocus('password');
+      }, 100);
      },
     }}
    />

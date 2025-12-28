@@ -23,6 +23,7 @@
  },
  "newUser": {
   "newUserAdded": "کاربر اضافه شد",
+  "selectPerson": "شخص انتخاب نشده است",
   "updatePasswordSuccess": "رمز عبور با موفقیت ویرایش شn",
   "form": {
    "userName": "نام کاربری",
