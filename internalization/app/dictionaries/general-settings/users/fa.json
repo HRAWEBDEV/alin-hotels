@@ -31,7 +31,8 @@
    "phoneNumber": "شماره همراه",
    "confirmPassword": "تکرار رمز عبور",
    "addPerson": "افزودن شخص",
-   "editPerson": "ویرایش شخص"
+   "editPerson": "ویرایش شخص",
+   "confirm": "ذخیره"
   }
  },
  "removeUser": {

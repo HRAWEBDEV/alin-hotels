@@ -143,8 +143,11 @@ export default function NewUser({
    </div>
   );
  return (
-  <div className='w-[min(25rem,100%)] mx-auto'>
-   <div className='p-4 mb-1 bg-background border border-input rounded-md'>
+  <div role={userID ? 'none' : 'form'} className='w-[min(25rem,100%)] mx-auto'>
+   <div
+    role={userID ? 'form' : 'none'}
+    className='p-4 mb-1 bg-background border border-input rounded-md'
+   >
     <Field className='gap-2' data-invalid={!!errors.userName}>
      <FieldLabel htmlFor='userName'>{dic.newUser.form.userName} *</FieldLabel>
      <InputGroup data-invalid={!!errors.userName}>
@@ -215,8 +218,18 @@ export default function NewUser({
       </div>
      )}
     </div>
+    {userID && (
+     <div className='mt-4 flex sm:justify-end'>
+      <Button type='submit' className='w-full sm:w-28'>
+       {dic.newUser.form.confirm}
+      </Button>
+     </div>
+    )}
    </div>
-   <div className='p-4 bg-background border border-input rounded-md'>
+   <div
+    role={userID ? 'form' : 'none'}
+    className='p-4 bg-background border border-input rounded-md'
+   >
     <FieldGroup className='gap-5'>
      <Field className='gap-2'>
       <FieldLabel htmlFor='password'>{dic.newUser.form.password} *</FieldLabel>
@@ -233,7 +246,21 @@ export default function NewUser({
       </InputGroup>
      </Field>
     </FieldGroup>
+    {userID && (
+     <div className='mt-4 flex sm:justify-end'>
+      <Button type='submit' className='w-full sm:w-28'>
+       {dic.newUser.form.confirm}
+      </Button>
+     </div>
+    )}
    </div>
+   {!userID && (
+    <div className='mt-4 flex sm:justify-end'>
+     <Button type='submit' className='w-full sm:w-28'>
+      {dic.newUser.form.confirm}
+     </Button>
+    </div>
+   )}
    <RealPersonFinder
     dic={realPersonDic}
     open={showRealPerson}
