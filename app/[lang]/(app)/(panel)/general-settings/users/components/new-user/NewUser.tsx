@@ -44,6 +44,7 @@ export default function NewUser({
  userID,
  onSuccess,
  realPersonDic,
+ onCancel,
 }: {
  dic: UsersDictionary;
  userID?: number | null;
@@ -315,7 +316,19 @@ export default function NewUser({
       )}
      </div>
      {userID && (
-      <div className='mt-4 flex sm:justify-end'>
+      <div className='mt-4 flex flex-col-reverse sm:flex-row sm:justify-end gap-4'>
+       <Button
+        type='button'
+        disabled={mutateUserInfoPending}
+        className='w-full sm:w-28'
+        variant='outline'
+        onClick={() => {
+         onCancel?.({ mode: 'edit', userID });
+        }}
+       >
+        {mutateUserInfoPending && <Spinner />}
+        {dic.newUser.form.cancel}
+       </Button>
        <Button
         type='submit'
         disabled={mutateUserInfoPending}

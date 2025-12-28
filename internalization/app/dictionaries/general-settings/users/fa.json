@@ -36,7 +36,8 @@
    "new": "جدید",
    "addPerson": "افزودن شخص",
    "editPerson": "ویرایش شخص",
-   "confirm": "ذخیره"
+   "confirm": "ذخیره",
+   "cancel": "انصراف"
   },
   "formValidation": {
    "invalidConfirmPassword": "تکرار رمز عبور اشتباه است"
