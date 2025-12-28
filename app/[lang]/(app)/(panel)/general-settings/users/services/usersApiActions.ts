@@ -14,11 +14,12 @@ interface User {
  lastName: string;
  phoneNumber: string;
  disabled: boolean;
+ addByPersonID: number;
 }
 
 type SaveUserPackage = Pick<
  User,
- 'personID' | 'userName' | 'disabled' | 'password'
+ 'personID' | 'userName' | 'disabled' | 'password' | 'addByPersonID'
 >;
 
 type GetUsersProps = {

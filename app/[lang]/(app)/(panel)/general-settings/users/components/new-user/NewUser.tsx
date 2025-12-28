@@ -36,6 +36,7 @@ import {
  realPersonsBasePath,
  getPerson,
 } from '../../../real-persons/services/personsApiActions';
+import { useUserInfoContext } from '../../../../services/user-info/userInfoContext';
 
 export default function NewUser({
  dic,
@@ -49,6 +50,9 @@ export default function NewUser({
  onSuccess?: UsersConfig['users']['onNewUserSuccess'];
  onCancel?: UsersConfig['users']['onCancelNewUser'];
 }) {
+ const {
+  data: { personID: activeUserID },
+ } = useUserInfoContext();
  const [showRealPerson, setShowRealPerson] = useState(false);
  const [personID, setPersonID] = useState(0);
  const queryClient = useQueryClient();
@@ -81,6 +85,7 @@ export default function NewUser({
      personID,
      userName,
      disabled: false,
+     addByPersonID: activeUserID,
     };
     return userID
      ? updateUser({ ...newUser })
@@ -89,6 +94,7 @@ export default function NewUser({
    onSuccess(res) {
     reset();
     resetUserCredentials();
+    setPersonID(0);
     queryClient.invalidateQueries({
      queryKey: [usersBasePath, 'all'],
     });
@@ -189,7 +195,7 @@ export default function NewUser({
       </InputGroup>
      </Field>
      <div className='mt-4'>
-      {personData && personIsSuccess ? (
+      {personID && personData && personIsSuccess ? (
        <div className='p-4 border-2 border-dashed border-teal-400 dark:border-teal-600 bg-teal-50 dark:bg-teal-950 rounded-md'>
         <div>
          <FieldGroup className='gap-5 mb-4'>
@@ -261,12 +267,14 @@ export default function NewUser({
       <div className='mt-4 flex sm:justify-end'>
        <Button
         type='submit'
+        disabled={mutateUserInfoPending}
         className='w-full sm:w-28'
         onClick={(e) => {
          e.preventDefault();
          handleSubmit((data) => mutateUserInfo({ ...data, password: '' }))();
         }}
        >
+        {mutateUserInfoPending && <Spinner />}
         {dic.newUser.form.confirm}
        </Button>
       </div>
@@ -319,6 +327,7 @@ export default function NewUser({
    {!userID && (
     <div className='mt-4 flex sm:justify-end'>
      <Button
+      disabled={mutateUserInfoPending}
       type='submit'
       className='w-full sm:w-28'
       onClick={(e) => {
@@ -330,6 +339,7 @@ export default function NewUser({
        })();
       }}
      >
+      {mutateUserInfoPending && <Spinner />}
       {dic.newUser.form.confirm}
      </Button>
     </div>
