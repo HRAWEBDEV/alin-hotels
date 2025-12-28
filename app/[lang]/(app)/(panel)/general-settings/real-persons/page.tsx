@@ -2,7 +2,6 @@ import { getRealPersonsDictionary } from '@/internalization/app/dictionaries/gen
 import { Locale } from '@/internalization/app/localization';
 import { Metadata } from 'next';
 import PersonsWrapper from './components/PersonsWrapper';
-import RealPersonFinder from './components/real-person-finder/RealPersonFinder';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/general-settings/real-persons'>,
@@ -23,10 +22,5 @@ export default async function RealPersons(
  const dic = await getRealPersonsDictionary({
   locale: lang as Locale,
  });
- return (
-  <>
-   <PersonsWrapper dic={dic} />
-   <RealPersonFinder dic={dic} />
-  </>
- );
+ return <PersonsWrapper dic={dic} />;
 }
