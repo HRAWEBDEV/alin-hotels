@@ -10,7 +10,6 @@
   "results": "نتایج",
   "userName": "نام کاربر",
   "name": "نام",
-  "lastName": "نام خانوادگی",
   "phoneNumber": "شماره همراه"
  },
  "table": {
@@ -24,6 +23,11 @@
  "newUser": {
   "newUserAdded": "کاربر اضافه شد",
   "form": {
+   "userName": "نام کاربر",
+   "name": "نام",
+   "lastName": "نام خانوادگی",
+   "password": "رمز عبور",
+   "confirmPassword": "تکرار رمز عبور",
    "save": "ذخیره",
    "cancel": "انصراف",
    "clearForm": "خالی کردن اطلاعات"

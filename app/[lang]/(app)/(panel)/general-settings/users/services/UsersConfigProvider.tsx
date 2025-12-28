@@ -56,8 +56,11 @@ export default function UsersConfigProvider({
   'activeTab',
  ) as UsersConfig['selectedTab'];
  const userNameValueQuery = searchParams.get('userName');
+ const nameValueQuery = searchParams.get('name');
+ const phoneNumberValueQuery = searchParams.get('phoneNumber');
  const paginationIndexQuery = searchParams.get('paginationIndex');
  const paginationSizeQuery = searchParams.get('paginationSize');
+
  // filters setup
  const userFilters = useForm<UserSchema>({
   resolver: zodResolver(createUserSchema({ dic })),
@@ -67,11 +70,27 @@ export default function UsersConfigProvider({
     if (wrapperType.mode === 'find') return {};
     return {
      userName: userNameValueQuery || '',
+     name: nameValueQuery || '',
+     phoneNumber: phoneNumberValueQuery || '',
     };
    })(),
   },
  });
- const [userNameValue] = userFilters.watch(['userName']);
+ const [userNameValue, nameValue, phoneNumberValue] = userFilters.watch([
+  'userName',
+  'name',
+  'phoneNumber',
+ ]);
+
+ const [userNameDbValue] = useDebouncedValue(userNameValue, {
+  wait: 500,
+ });
+ const [nameDbValue] = useDebouncedValue(nameValue, {
+  wait: 500,
+ });
+ const [phoneNumberDbValue] = useDebouncedValue(phoneNumberValue, {
+  wait: 500,
+ });
  //
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
@@ -119,12 +138,16 @@ export default function UsersConfigProvider({
    'all',
    pagination.pageSize,
    pagination.pageIndex,
-   userNameValue,
+   userNameDbValue,
+   nameDbValue,
+   phoneNumberDbValue,
   ],
   async queryFn({ signal }) {
    const res = await getPagedUsers({
     signal,
-    userName: userNameValue,
+    userName: userNameDbValue,
+    personName: nameDbValue,
+    phoneNumber: phoneNumberDbValue,
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
    });
@@ -200,10 +223,21 @@ export default function UsersConfigProvider({
   const newSearchParams = new URLSearchParams(location.search);
   newSearchParams.set('paginationSize', pagination.pageSize.toString());
   newSearchParams.set('paginationIndex', pagination.pageIndex.toString());
+  newSearchParams.set('userName', userNameDbValue);
+  newSearchParams.set('name', nameDbValue);
+  newSearchParams.set('phoneNumber', phoneNumberDbValue);
   router.replace(
    `/${locale}/general-settings/users?${newSearchParams.toString()}`,
   );
- }, [wrapperType.mode, locale, router, pagination]);
+ }, [
+  wrapperType.mode,
+  locale,
+  router,
+  pagination,
+  userNameDbValue,
+  nameDbValue,
+  phoneNumberDbValue,
+ ]);
 
  // set queries
  useEffect(() => {
@@ -224,9 +258,9 @@ export default function UsersConfigProvider({
   changeSelectedTab: handleChangeTab,
   users: {
    queries: {
-    userName: '',
-    personName: '',
-    phoneNumber: '',
+    userName: userNameDbValue,
+    personName: nameDbValue,
+    phoneNumber: phoneNumberDbValue,
    },
    data: usersData,
    isError: usersError,

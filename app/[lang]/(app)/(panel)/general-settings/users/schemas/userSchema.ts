@@ -3,11 +3,17 @@ import { type UsersDictionary } from '@/internalization/app/dictionaries/general
 
 const defaultValues: Partial<UserSchema> = {
  userName: '',
+ name: '',
+ lastName: '',
+ phoneNumber: '',
 };
 
 function createUserSchema({}: { dic: UsersDictionary }) {
  return z.object({
-  userName: z.string(),
+  userName: z.string().min(1),
+  name: z.string(),
+  lastName: z.string(),
+  phoneNumber: z.string(),
  });
 }
 

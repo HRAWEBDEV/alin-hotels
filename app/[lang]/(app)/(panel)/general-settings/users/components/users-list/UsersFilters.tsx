@@ -68,6 +68,22 @@ export default function UsersFitlers({ dic }: { dic: UsersDictionary }) {
        <InputGroupInput type='search' id='userName' {...register('userName')} />
       </InputGroup>
      </Field>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='name'>{dic.filters.name}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput type='search' id='name' {...register('name')} />
+      </InputGroup>
+     </Field>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='phoneNumber'>{dic.filters.phoneNumber}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput
+        type='search'
+        id='phoneNumber'
+        {...register('phoneNumber')}
+       />
+      </InputGroup>
+     </Field>
     </FieldGroup>
    </div>
   </div>
