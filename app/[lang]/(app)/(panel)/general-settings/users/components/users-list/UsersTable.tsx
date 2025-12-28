@@ -49,6 +49,7 @@ import {
  MdKeyboardArrowRight,
 } from 'react-icons/md';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
+import UserStatusSwitch from './UserStatusSwitch';
 
 export default function UsersTable({ dic }: { dic: UsersDictionary }) {
  const {
@@ -59,7 +60,7 @@ export default function UsersTable({ dic }: { dic: UsersDictionary }) {
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
  const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
   const startPinned = ['select'];
-  const endPinned = ['actions'];
+  const endPinned = ['disabled', 'actions'];
   return {
    right: localeInfo.contentDirection === 'rtl' ? endPinned : startPinned,
    left: localeInfo.contentDirection === 'rtl' ? startPinned : endPinned,
@@ -133,14 +134,14 @@ export default function UsersTable({ dic }: { dic: UsersDictionary }) {
    {
     accessorKey: 'name',
     header: dic.filters.name,
-    minSize: 180,
-    size: 200,
+    minSize: 150,
+    size: 150,
    },
    {
     accessorKey: 'lastName',
     header: dic.filters.lastName,
-    minSize: 180,
-    size: 200,
+    minSize: 160,
+    size: 160,
    },
    {
     accessorKey: 'phoneNumber',
@@ -149,6 +150,20 @@ export default function UsersTable({ dic }: { dic: UsersDictionary }) {
     size: 150,
     enableResizing: false,
     enablePinning: false,
+   },
+   {
+    accessorKey: 'disabled',
+    header: dic.table.status,
+    cell({ row }) {
+     const typedUser = row.original as unknown as User;
+     return <UserStatusSwitch user={typedUser} />;
+    },
+    minSize: 70,
+    size: 70,
+    enableHiding: false,
+    enablePinning: false,
+    enableResizing: false,
+    meta: 'center',
    },
    {
     id: 'actions',
