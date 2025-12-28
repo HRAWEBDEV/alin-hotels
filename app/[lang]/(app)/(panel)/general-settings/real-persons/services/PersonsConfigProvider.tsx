@@ -143,7 +143,12 @@ export default function PersonsConfigProvider({
    return wrapperType.mode === 'page' ? activeTabQuery || 'list' : 'list';
   },
  );
- const [selectedPersonID, setSelectedPersonID] = useState<number | null>(null);
+ const [selectedPersonID, setSelectedPersonID] = useState<number | null>(() => {
+  if (wrapperType.mode === 'find' && wrapperType.personID) {
+   return wrapperType.personID;
+  }
+  return null;
+ });
  const [showRemovePersonConfirm, setShowRemovePersonConfirm] = useState(false);
 
  function handleChangeTab(newTab?: PersonsConfig['selectedTab']) {

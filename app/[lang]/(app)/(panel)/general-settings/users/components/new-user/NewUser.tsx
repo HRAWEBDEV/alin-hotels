@@ -438,6 +438,7 @@ export default function NewUser({
      setShowRealPerson((pre) => (open === undefined ? !pre : open))
     }
     wrapperType={{
+     personID,
      onChangePerson(personID) {
       setPersonID(personID);
       setShowRealPerson(false);
