@@ -1,1 +1,3 @@
-export type WrapperTypes = { mode: 'page' } | { mode: 'find' };
+export type WrapperTypes =
+ | { mode: 'page' }
+ | { mode: 'find'; onChangePerson: (personID: number) => unknown };

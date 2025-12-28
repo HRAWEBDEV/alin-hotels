@@ -8,8 +8,9 @@
  "filters": {
   "title": "فیلترها",
   "results": "نتایج",
-  "userName": "نام کاربر",
+  "userName": "نام کاربری",
   "name": "نام",
+  "lastName": "نام خانوادگی",
   "phoneNumber": "شماره همراه"
  },
  "table": {
@@ -23,14 +24,14 @@
  "newUser": {
   "newUserAdded": "کاربر اضافه شد",
   "form": {
-   "userName": "نام کاربر",
+   "userName": "نام کاربری",
    "name": "نام",
    "lastName": "نام خانوادگی",
    "password": "رمز عبور",
+   "phoneNumber": "شماره همراه",
    "confirmPassword": "تکرار رمز عبور",
-   "save": "ذخیره",
-   "cancel": "انصراف",
-   "clearForm": "خالی کردن اطلاعات"
+   "addPerson": "افزودن شخص",
+   "editPerson": "ویرایش شخص"
   }
  },
  "removeUser": {

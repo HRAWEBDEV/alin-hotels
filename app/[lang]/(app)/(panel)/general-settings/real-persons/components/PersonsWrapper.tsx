@@ -4,7 +4,7 @@ import PersonsConfigProvider from '../services/PersonsConfigProvider';
 import PersonsContent from './PersonsContent';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
-export default async function PersonsWrapper({
+export default function PersonsWrapper({
  dic,
  wrapperType = {
   mode: 'page',

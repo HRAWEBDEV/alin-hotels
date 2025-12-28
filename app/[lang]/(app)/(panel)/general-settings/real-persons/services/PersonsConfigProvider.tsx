@@ -139,7 +139,9 @@ export default function PersonsConfigProvider({
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
  const [selectedTab, setSelectedTab] = useState<PersonsConfig['selectedTab']>(
-  activeTabQuery || 'list',
+  () => {
+   return wrapperType.mode === 'page' ? activeTabQuery || 'list' : 'list';
+  },
  );
  const [selectedPersonID, setSelectedPersonID] = useState<number | null>(null);
  const [showRemovePersonConfirm, setShowRemovePersonConfirm] = useState(false);
@@ -147,6 +149,7 @@ export default function PersonsConfigProvider({
  function handleChangeTab(newTab?: PersonsConfig['selectedTab']) {
   const activeTab = newTab === undefined ? 'list' : newTab;
   setSelectedTab(activeTab);
+  if (wrapperType.mode === 'find') return;
   const newSearchParams = new URLSearchParams(searchParams);
   newSearchParams.set('activeTab', activeTab);
   router.replace(
@@ -267,10 +270,13 @@ export default function PersonsConfigProvider({
  }
  //
  const handleNewPersonSuccess: PersonsConfig['persons']['onNewPersonSuccess'] =
-  ({ mode }) => {
+  ({ mode, personID }) => {
    if (mode === 'edit') {
     setSelectedTab('list');
     setSelectedPersonID(null);
+   }
+   if (wrapperType.mode === 'find') {
+    wrapperType.onChangePerson(personID);
    }
   };
  const handleCancelPerson: PersonsConfig['persons']['onCancelNewPerson'] = ({

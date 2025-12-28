@@ -107,7 +107,14 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
           <Checkbox
            className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
            checked={row.getIsSelected()}
-           onCheckedChange={(value) => row.toggleSelected(!!value)}
+           onCheckedChange={(value) => {
+            row.toggleSelected(!!value);
+            if (value) {
+             wrapperType.onChangePerson(
+              (row.original as unknown as RealPerson).id,
+             );
+            }
+           }}
            aria-label='Select row'
           />
          </div>
@@ -260,6 +267,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
    pagination: pagination,
    columnPinning: pinnedColumns,
   },
+  enableMultiRowSelection: false,
   rowCount: data?.rowsCount,
   manualPagination: true,
   onRowSelectionChange: setRowSelection,
