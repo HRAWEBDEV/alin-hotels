@@ -34,7 +34,11 @@ export default function UserStatusSwitch({ user }: { user: User }) {
    {isPending ? (
     <Spinner className='text-primary' />
    ) : (
-    <Switch checked={!user.disabled} onCheckedChange={() => mutate()} />
+    <Switch
+     className='cursor-pointer'
+     checked={!user.disabled}
+     onCheckedChange={() => mutate()}
+    />
    )}
   </div>
  );
