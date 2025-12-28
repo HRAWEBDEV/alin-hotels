@@ -6,13 +6,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
  type UserSchema,
+ type UserCredentialsSchema,
  createUserSchema,
+ createUserCredentialsSchema,
  defaultValues,
 } from '../../schemas/userSchema';
 import { Spinner } from '@/components/ui/spinner';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import {
- type SaveUserPackage,
  usersBasePath,
  saveUser,
  getUser,
@@ -57,43 +58,58 @@ export default function NewUser({
   register,
   setValue,
   formState: { errors },
+  handleSubmit,
  } = useForm<UserSchema>({
   resolver: zodResolver(createUserSchema({ dic })),
   defaultValues: {
    ...defaultValues,
   },
  });
- //
- const {} = useMutation({
-  mutationFn({}: UserSchema) {
-   const newUser: SaveUserPackage = {
-    personID: 0,
-   };
-   return userID ? updateUser(newUser) : saveUser(newUser);
-  },
-  onSuccess(res) {
-   reset();
-   queryClient.invalidateQueries({
-    queryKey: [usersBasePath, 'all'],
-   });
-   if (onSuccess) {
-    onSuccess({
-     mode: userID ? 'edit' : 'add',
-     userID: res.data,
-    });
-   }
-   if (userID) {
-    queryClient.invalidateQueries({
-     queryKey: [usersBasePath, 'user', userID.toString()],
-    });
-   } else {
-    toast.success(dic.newUser.newUserAdded);
-   }
-  },
-  onError(err: AxiosError<string>) {
-   toast.error(err.response?.data);
-  },
+ const {
+  reset: resetUserCredentials,
+  register: registerUserCredentials,
+  formState: { errors: userCredentialsErrors },
+  handleSubmit: handleSubmitUserCredentials,
+ } = useForm<UserCredentialsSchema>({
+  resolver: zodResolver(createUserCredentialsSchema({ dic })),
  });
+ //
+ const { mutate: mutateUserInfo, isPending: mutateUserInfoPending } =
+  useMutation({
+   mutationFn({ userName, password }: UserSchema & { password: string }) {
+    const newUser = {
+     personID,
+     userName,
+     disabled: false,
+    };
+    return userID
+     ? updateUser({ ...newUser })
+     : saveUser({ ...newUser, password });
+   },
+   onSuccess(res) {
+    reset();
+    resetUserCredentials();
+    queryClient.invalidateQueries({
+     queryKey: [usersBasePath, 'all'],
+    });
+    if (onSuccess) {
+     onSuccess({
+      mode: userID ? 'edit' : 'add',
+      userID: res.data,
+     });
+    }
+    if (userID) {
+     queryClient.invalidateQueries({
+      queryKey: [usersBasePath, 'user', userID.toString()],
+     });
+    } else {
+     toast.success(dic.newUser.newUserAdded);
+    }
+   },
+   onError(err: AxiosError<string>) {
+    toast.error(err.response?.data);
+   },
+  });
  // get person
  const {
   data: personData,
@@ -124,7 +140,8 @@ export default function NewUser({
  useEffect(() => {
   if (!userID) return;
   reset();
- }, [userID, reset]);
+  resetUserCredentials();
+ }, [userID, reset, resetUserCredentials]);
 
  useEffect(() => {
   if (!userID || !isSuccess) return;
@@ -182,6 +199,7 @@ export default function NewUser({
             <InputGroup>
              <InputGroupInput
               id='name'
+              autoComplete='off'
               readOnly
               value={personData.name || ''}
              />
@@ -241,7 +259,14 @@ export default function NewUser({
      </div>
      {userID && (
       <div className='mt-4 flex sm:justify-end'>
-       <Button type='submit' className='w-full sm:w-28'>
+       <Button
+        type='submit'
+        className='w-full sm:w-28'
+        onClick={(e) => {
+         e.preventDefault();
+         handleSubmit((data) => mutateUserInfo({ ...data, password: '' }))();
+        }}
+       >
         {dic.newUser.form.confirm}
        </Button>
       </div>
@@ -251,19 +276,35 @@ export default function NewUser({
    {getWrapperBox(
     <div>
      <FieldGroup className='gap-5'>
-      <Field className='gap-2'>
+      <Field className='gap-2' data-invalid={!!userCredentialsErrors.password}>
        <FieldLabel htmlFor='password'>{dic.newUser.form.password} *</FieldLabel>
-       <InputGroup>
-        <InputGroupInput id='password' />
+       <InputGroup data-invalid={!!userCredentialsErrors.password}>
+        <InputGroupInput
+         id='password'
+         autoComplete='off'
+         type='password'
+         {...registerUserCredentials('password')}
+        />
        </InputGroup>
       </Field>
-      <Field className='gap-2'>
+      <Field
+       className='gap-2'
+       data-invalid={!!userCredentialsErrors.confirmPassword}
+      >
        <FieldLabel htmlFor='confirmPassword'>
         {dic.newUser.form.confirmPassword} *
        </FieldLabel>
-       <InputGroup>
-        <InputGroupInput id='confirmPassword' />
+       <InputGroup data-invalid={!!userCredentialsErrors.confirmPassword}>
+        <InputGroupInput
+         autoComplete='off'
+         type='password'
+         id='confirmPassword'
+         {...registerUserCredentials('confirmPassword')}
+        />
        </InputGroup>
+       {!!userCredentialsErrors.confirmPassword && (
+        <FieldError>{userCredentialsErrors.confirmPassword.message}</FieldError>
+       )}
       </Field>
      </FieldGroup>
      {userID && (
@@ -280,8 +321,13 @@ export default function NewUser({
      <Button
       type='submit'
       className='w-full sm:w-28'
-      onClick={() => {
-       console.log('here');
+      onClick={(e) => {
+       e.preventDefault();
+       handleSubmit((data) => {
+        handleSubmitUserCredentials((credit) => {
+         mutateUserInfo({ ...data, password: credit.password });
+        })();
+       })();
       }}
      >
       {dic.newUser.form.confirm}

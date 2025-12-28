@@ -10,11 +10,16 @@ interface User {
  personID: number;
  userName: string;
  name: string;
+ password: string;
  lastName: string;
  phoneNumber: string;
+ disabled: boolean;
 }
 
-type SaveUserPackage = Pick<User, 'personID'>;
+type SaveUserPackage = Pick<
+ User,
+ 'personID' | 'userName' | 'disabled' | 'password'
+>;
 
 type GetUsersProps = {
  userName?: string;
@@ -74,7 +79,7 @@ function saveUser(newPerson: SaveUserPackage) {
 }
 
 function updateUser(updatePerson: Partial<SaveUserPackage>) {
- return axios.post<number>(usersBasePath, updatePerson);
+ return axios.put<number>(usersBasePath, updatePerson);
 }
 
 export type { User, SaveUserPackage, GetUsersProps };

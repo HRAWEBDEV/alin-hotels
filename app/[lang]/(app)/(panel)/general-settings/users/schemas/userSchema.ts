@@ -17,7 +17,29 @@ function createUserSchema({}: { dic: UsersDictionary }) {
  });
 }
 
-type UserSchema = z.infer<ReturnType<typeof createUserSchema>>;
+function createUserCredentialsSchema({ dic }: { dic: UsersDictionary }) {
+ return z
+  .object({
+   password: z.string().min(1),
+   confirmPassword: z
+    .string()
+    .min(1, dic.newUser.formValidation.invalidConfirmPassword),
+  })
+  .refine(
+   ({ password, confirmPassword }) => {
+    return password === confirmPassword;
+   },
+   {
+    path: ['confirmPassword'],
+    message: dic.newUser.formValidation.invalidConfirmPassword,
+   },
+  );
+}
 
-export type { UserSchema };
-export { defaultValues, createUserSchema };
+type UserSchema = z.infer<ReturnType<typeof createUserSchema>>;
+type UserCredentialsSchema = z.infer<
+ ReturnType<typeof createUserCredentialsSchema>
+>;
+
+export type { UserSchema, UserCredentialsSchema };
+export { defaultValues, createUserSchema, createUserCredentialsSchema };

@@ -33,6 +33,9 @@
    "addPerson": "افزودن شخص",
    "editPerson": "ویرایش شخص",
    "confirm": "ذخیره"
+  },
+  "formValidation": {
+   "invalidConfirmPassword": "تکرار رمز عبور اشتباه است"
   }
  },
  "removeUser": {
