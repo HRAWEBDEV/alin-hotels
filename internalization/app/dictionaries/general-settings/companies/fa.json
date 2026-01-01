@@ -4,5 +4,11 @@
   "companiesList": "لیست اشخاص",
   "editCompany": "ویرایش شخص",
   "addCompany": "افزودن شخص"
+ },
+ "removePerson": {
+  "title": "حذف شخص",
+  "confirmRemovePerson": "آیا از حذف شخص اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
  }
 }
