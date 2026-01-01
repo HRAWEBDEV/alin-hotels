@@ -1,9 +1,21 @@
 {
  "title": "اشخاص حقوقی",
+ "filters": {
+  "title": "فیلترها",
+  "results": "نتایج"
+ },
  "tabs": {
   "companiesList": "لیست اشخاص",
   "editCompany": "ویرایش شخص",
   "addCompany": "افزودن شخص"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها",
+  "edit": "ویرایش",
+  "remove": "حذف",
+  "next": "بعدی",
+  "prev": "قبلی"
  },
  "removePerson": {
   "title": "حذف شخص",

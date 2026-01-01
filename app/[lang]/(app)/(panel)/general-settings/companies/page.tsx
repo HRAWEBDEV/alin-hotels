@@ -1,6 +1,7 @@
 import { getCompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
 import { Locale } from '@/internalization/app/localization';
 import { Metadata } from 'next';
+import PersonsWrapper from './components/PersonsWrapper';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/general-settings/real-persons'>,
@@ -21,5 +22,5 @@ export default async function Companies(
  const dic = await getCompaniesDictionary({
   locale: lang as Locale,
  });
- return <></>;
+ return <PersonsWrapper dic={dic} />;
 }
