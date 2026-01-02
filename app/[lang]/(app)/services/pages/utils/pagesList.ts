@@ -17,6 +17,9 @@ const pages = {
   companies: {
    name: 'companies',
   },
+  owners: {
+   name: 'owners',
+  },
  },
  'hotel-information': {
   hotels: {

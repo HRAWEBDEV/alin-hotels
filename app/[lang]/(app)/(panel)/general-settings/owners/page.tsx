@@ -1,0 +1,25 @@
+import { getOwnersDictionary } from '@/internalization/app/dictionaries/general-settings/owners/dictionary';
+import { Locale } from '@/internalization/app/localization';
+import { Metadata } from 'next';
+
+export async function generateMetadata(
+ props: PageProps<'/[lang]/general-settings/real-persons'>,
+): Promise<Metadata> {
+ const { lang } = await props.params;
+ const dic = await getOwnersDictionary({
+  locale: lang as Locale,
+ });
+ return {
+  title: dic.title,
+ };
+}
+
+export default async function Companies(
+ props: PageProps<'/[lang]/general-settings/real-persons'>,
+) {
+ const { lang } = await props.params;
+ const dic = await getOwnersDictionary({
+  locale: lang as Locale,
+ });
+ return <>{dic.title}</>;
+}
