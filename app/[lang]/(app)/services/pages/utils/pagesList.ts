@@ -8,14 +8,14 @@ type Page = {
 
 const pages = {
  'general-settings': {
-  users: {
-   name: 'users',
-  },
   'real-persons': {
    name: 'real-persons',
   },
   companies: {
    name: 'companies',
+  },
+  users: {
+   name: 'users',
   },
   owners: {
    name: 'owners',
