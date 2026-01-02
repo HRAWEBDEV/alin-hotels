@@ -13,6 +13,7 @@ type SaveOwnerPackage = Pick<Dictionary, 'id' | 'defaultValue'> &
  Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
 
 type GetOwnerProps = {
+ name?: string;
  signal?: AbortSignal;
 };
 

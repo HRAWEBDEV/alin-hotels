@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import { type OwnersDictionary } from '@/internalization/app/dictionaries/general-settings/owners/dictionary';
 import { Field } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
@@ -37,7 +38,13 @@ export default function OwnersItem({
  } = useOwnersConfigContext();
  const queryClient = useQueryClient();
  const { localeInfo } = useBaseConfig();
- const { register, handleSubmit, reset } = useForm<OwnerSchema>({
+ const {
+  register,
+  handleSubmit,
+  reset,
+  setValue,
+  formState: { errors },
+ } = useForm<OwnerSchema>({
   resolver: zodResolver(createOwnerSchema({ dic })),
   defaultValues: {
    ...defaultValues,
@@ -73,10 +80,10 @@ export default function OwnersItem({
  return (
   <form
    data-add-form={!owner?.id}
-   className='grid grid-cols-1 md:grid-cols-[1fr_max-content] gap-2 mb-4'
+   className='grid grid-cols-1 md:grid-cols-[1fr_max-content] gap-2 data-[add-from="false"]:mb-4'
   >
-   <Field className='gap-2'>
-    <InputGroup>
+   <Field className='gap-2' data-invalid={!!errors.name}>
+    <InputGroup data-invalid={!!errors.name}>
      <InputGroupInput
       placeholder={dic.newOwner.form.nameOwner + ' ...'}
       id='name'

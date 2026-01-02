@@ -43,6 +43,10 @@ export default function OwnersConfigProvider({
    ...defaultValues,
   },
  });
+ const nameValue = realPersonFilters.watch('name');
+ const [nameDbValue] = useDebouncedValue(nameValue, {
+  wait: 500,
+ });
  //
  const queryClient = useQueryClient();
  const [selectedOwnerID, setSelectedOwnerID] = useState<number | null>(null);
@@ -92,7 +96,9 @@ export default function OwnersConfigProvider({
 
  const ctx: OwnersConfig = {
   owners: {
-   queries: {},
+   queries: {
+    name: nameDbValue,
+   },
    data: ownersData,
    isError: ownersError,
    isFetching: ownersFetching,
