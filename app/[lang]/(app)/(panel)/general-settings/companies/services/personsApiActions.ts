@@ -15,17 +15,17 @@ interface Company {
  id: number;
  name: string;
  nameID: number;
- registerNo: string;
- nationalCode: string;
- postalCode: string;
- nationalityZoneID: number;
- nationalityZoneName: string;
- tel1: string;
- tel2: string;
- tel3: string;
- fax: string;
- address: string;
- createDateTimeOffset: string;
+ registerNo: string | null;
+ nationalCode: string | null;
+ postalCode: string | null;
+ nationalityZoneID: number | null;
+ nationalityZoneName: string | null;
+ tel1: string | null;
+ tel2: string | null;
+ tel3: string | null;
+ fax: string | null;
+ address: string | null;
+ createDateTimeOffset: string | null;
 }
 
 type SaveCompanyPackage = Omit<
