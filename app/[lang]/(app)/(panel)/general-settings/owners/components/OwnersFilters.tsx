@@ -26,9 +26,9 @@ export default function OwnersFilters({ dic }: { dic: OwnersDictionary }) {
  } = useShareDictionary();
  const { register } = useFormContext<OwnerSchema>();
  return (
-  <div className='w-[min(35rem,100%)] mx-auto md:sticky top-0 z-1 bg-teal-50 dark:bg-teal-900 p-2 relative mb-4 border border-teal-300 dark:border-teal-700 rounded-md'>
+  <div className='w-[min(35rem,100%)] mx-auto md:sticky top-0 z-1 bg-teal-50 dark:bg-teal-900 p-3 relative mb-4 border border-teal-300 dark:border-teal-700 rounded-md'>
    <div>
-    <div className='mb-2 pb-2 border-b border-teal-300 dark:border-teal-700 flex gap-2'>
+    <div className='mb-3 pb-3 border-b border-teal-300 dark:border-teal-700 flex gap-2'>
      <InputGroup className='grow'>
       <InputGroupAddon align='inline-start' className='text-primary'>
        <FaSearch />
