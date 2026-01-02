@@ -71,6 +71,7 @@ export default function NewPerson({
   formState: { errors },
   reset,
   setValue,
+  setFocus,
  } = useForm<RealPersonSchema>({
   resolver: zodResolver(createRealPersonSchema({ dic })),
   defaultValues: {
@@ -140,6 +141,9 @@ export default function NewPerson({
    } else {
     toast.success(dic.newPerson.newPersonAdded);
    }
+   setTimeout(() => {
+    setFocus('name');
+   }, 200);
   },
   onError(err: AxiosError<string>) {
    toast.error(err.response?.data);
