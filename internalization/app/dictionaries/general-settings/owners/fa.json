@@ -1,3 +1,9 @@
 {
- "title": "صاحبان کسب‌و‌کار"
+ "title": "صاحبان کسب‌و‌کار",
+ "removeOwner": {
+  "title": "حذف شخص",
+  "confirmRemovePerson": "آیا از حذف آیتم اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
+ }
 }
