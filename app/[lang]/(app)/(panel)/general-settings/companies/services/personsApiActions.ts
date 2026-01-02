@@ -7,13 +7,31 @@ import {
 
 const companyBasePath = '/HotelsUnion/Company';
 
-type InitialData = unknown;
+type InitialData = {
+ nationalityZones: Combo[];
+};
 
 interface Company {
  id: number;
+ name: string;
+ nameID: number;
+ registerNo: string;
+ nationalCode: string;
+ postalCode: string;
+ nationalityZoneID: number;
+ nationalityZoneName: string;
+ tel1: string;
+ tel2: string;
+ tel3: string;
+ fax: string;
+ address: string;
+ createDateTimeOffset: string;
 }
 
-type SaveCompanyPackage = Omit<Company, ''>;
+type SaveCompanyPackage = Omit<
+ Company,
+ 'nameID' | 'nationalityZoneName' | 'createDateTimeOffset'
+>;
 
 type GetCompanyProps = {
  nationalityZoneID?: string;
