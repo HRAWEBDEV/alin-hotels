@@ -83,10 +83,13 @@ export default function OwnersItem({
  return (
   <form
    data-add-edit={!!owner?.id}
-   className='grid grid-cols-1 md:grid-cols-[1fr_max-content] gap-2 data-[add-edit="true"]:mb-4'
+   className='group grid grid-cols-1 md:grid-cols-[1fr_max-content] gap-2 data-[add-edit="true"]:mb-4'
   >
    <Field className='gap-2' data-invalid={!!errors.name}>
-    <InputGroup data-invalid={!!errors.name}>
+    <InputGroup
+     data-invalid={!!errors.name}
+     className='group-data-[add-edit="false"]:bg-background'
+    >
      <InputGroupInput
       placeholder={dic.newOwner.form.nameOwner + ' ...'}
       id='name'
