@@ -1,12 +1,16 @@
+import { type Dictionary } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 import { axios } from '@/app/[lang]/(app)/utils/defaultAxios';
 
 const ownersBasePath = '/HotelsUnion/Owner';
 
-interface Owner {
+type Owner = {
  id: number;
-}
+ nameID: number;
+ name: string;
+};
 
-type SaveOwnerPackage = Omit<Owner, ''>;
+type SaveOwnerPackage = Pick<Dictionary, 'id' | 'defaultValue'> &
+ Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
 
 type GetOwnerProps = {
  signal?: AbortSignal;
@@ -53,8 +57,8 @@ function saveOwner(newOwner: SaveOwnerPackage) {
  return axios.post<number>(ownersBasePath, newOwner);
 }
 
-function updateOwner(updateOwner: Partial<SaveOwnerPackage>) {
- return axios.put<number>(ownersBasePath, updateOwner);
+function updateOwner(ownerID: number, updateOwner: Partial<SaveOwnerPackage>) {
+ return axios.put<number>(`${ownersBasePath}?ownerID=${ownerID}`, updateOwner);
 }
 
 export type { Owner, SaveOwnerPackage, GetOwnerProps };

@@ -1,5 +1,13 @@
 {
  "title": "صاحبان کسب‌و‌کار",
+ "newOwner": {
+  "form": {
+   "nameOwner": "نام کسب‌و‌کار",
+   "deleteOwner": "حذف",
+   "addOwner": "افزودن",
+   "updateOwner": "ذخیره"
+  }
+ },
  "removeOwner": {
   "title": "حذف شخص",
   "confirmRemovePerson": "آیا از حذف آیتم اطمینان دارید؟",

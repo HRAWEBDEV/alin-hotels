@@ -111,7 +111,6 @@ export default function NewPerson({
      tel3: tel3 || null,
     },
     dictionaryData: {
-     ...dictionaryDefaultValues,
      id: data?.nameID || 0,
      defaultValue: name,
      [localeInfo.latinName]: name,

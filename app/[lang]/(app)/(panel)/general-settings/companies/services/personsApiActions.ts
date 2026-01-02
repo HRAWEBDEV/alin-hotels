@@ -35,7 +35,8 @@ type SaveCompanyPackage = {
   Company,
   'nationalityZoneName' | 'createDateTimeOffset' | 'dictionay'
  >;
- dictionaryData: Dictionary;
+ dictionaryData: Pick<Dictionary, 'id' | 'defaultValue'> &
+  Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
 };
 type GetCompanyProps = {
  nationalityZoneID?: string;

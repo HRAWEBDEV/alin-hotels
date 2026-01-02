@@ -45,8 +45,6 @@ export default function OwnersConfigProvider({
  });
  //
  const queryClient = useQueryClient();
- const { locale } = useBaseConfig();
- const [showFilters, setShowFilters] = useState(false);
  const [selectedOwnerID, setSelectedOwnerID] = useState<number | null>(null);
  const [showRemoveOwnerConfirm, setShowRemoveOwnerConfirm] = useState(false);
  // data

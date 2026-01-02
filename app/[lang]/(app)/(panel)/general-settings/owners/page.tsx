@@ -1,6 +1,7 @@
 import { getOwnersDictionary } from '@/internalization/app/dictionaries/general-settings/owners/dictionary';
 import { Locale } from '@/internalization/app/localization';
 import { Metadata } from 'next';
+import OwnersWrapper from './components/OwnersWrapper';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/general-settings/real-persons'>,
@@ -21,5 +22,5 @@ export default async function Companies(
  const dic = await getOwnersDictionary({
   locale: lang as Locale,
  });
- return <>{dic.title}</>;
+ return <OwnersWrapper dic={dic} />;
 }
