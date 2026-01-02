@@ -46,6 +46,7 @@ import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { NumericFormat } from 'react-number-format';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { dictionaryDefaultValues } from '@/app/[lang]/(app)/utils/apiBaseTypes';
+import { setTimeout } from 'timers';
 
 export default function NewPerson({
  dic,
@@ -69,6 +70,7 @@ export default function NewPerson({
   formState: { errors },
   reset,
   setValue,
+  setFocus,
  } = useForm<CompanySchema>({
   resolver: zodResolver(createCompanySchema({ dic })),
   defaultValues: {
@@ -135,6 +137,9 @@ export default function NewPerson({
    } else {
     toast.success(dic.newPerson.newPersonAdded);
    }
+   setTimeout(() => {
+    setFocus('name');
+   }, 200);
   },
   onError(err: AxiosError<string>) {
    toast.error(err.response?.data);
