@@ -3,6 +3,7 @@ import {
  type PagedData,
  type Pagination,
  type Combo,
+ type Dictionary,
 } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 
 const companyBasePath = '/HotelsUnion/Company';
@@ -26,13 +27,16 @@ interface Company {
  fax: string | null;
  address: string | null;
  createDateTimeOffset: string | null;
+ dictionay: Dictionary;
 }
 
-type SaveCompanyPackage = Omit<
- Company,
- 'nameID' | 'nationalityZoneName' | 'createDateTimeOffset'
->;
-
+type SaveCompanyPackage = {
+ mainData: Omit<
+  Company,
+  'nationalityZoneName' | 'createDateTimeOffset' | 'dictionay'
+ >;
+ dictionaryData: Dictionary;
+};
 type GetCompanyProps = {
  nationalityZoneID?: string;
  nationalCode?: string;
