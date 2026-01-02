@@ -5,6 +5,7 @@ const defaultValues: Partial<CompanySchema> = {
  name: '',
  nationalCode: '',
  postalCode: '',
+ registerNo: '',
  fax: '',
  tel1: '',
  tel2: '',
@@ -17,6 +18,7 @@ function createCompanySchema({}: { dic: CompaniesDictionary }) {
  return z.object({
   name: z.string(),
   nationalCode: z.string(),
+  registerNo: z.string(),
   postalCode: z.string(),
   fax: z.string(),
   tel1: z.string(),

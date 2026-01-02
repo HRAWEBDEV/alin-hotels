@@ -7,6 +7,23 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { Spinner } from '@/components/ui/spinner';
 import { type CompanySchema, defaultValues } from '../../schemas/companySchema';
 import { useFormContext, Controller } from 'react-hook-form';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
+import { NumericFormat } from 'react-number-format';
+import {
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
+} from '@/components/ui/popover';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+ Command,
+ CommandGroup,
+ CommandInput,
+ CommandItem,
+ CommandList,
+} from '@/components/ui/command';
 
 export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
  const { register, setValue, control } = useFormContext<CompanySchema>();
@@ -16,7 +33,6 @@ export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
   initialData: { data: initialData, isLoading: initialDataLoading },
   persons: { data, isLoading },
  } = usePersonsConfigContext();
- const [openGenderCombo, setOpenGenderCombo] = useState(false);
  const [openNationalityCombo, setOpenNationalityCombo] = useState(false);
  return (
   <div
@@ -62,7 +78,130 @@ export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
      </Button>
     </div>
    </div>
-   <div className='grow overflow-auto p-2 py-4'></div>
+   <div className='grow overflow-auto p-2 py-4'>
+    <FieldGroup className='gap-5'>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='name'>{dic.filters.name}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput type='search' id='name' {...register('name')} />
+      </InputGroup>
+     </Field>
+     <Controller
+      control={control}
+      name='registerNo'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='registerNo'>{dic.filters.registerNo}</FieldLabel>
+        <InputGroup>
+         <NumericFormat
+          id='registerNo'
+          decimalScale={0}
+          {...other}
+          value={value}
+          onValueChange={({ value }) => onChange(value)}
+          customInput={InputGroupInput}
+         />
+        </InputGroup>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='nationalCode'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='nationalCode'>
+         {dic.filters.nationalCode}
+        </FieldLabel>
+        <InputGroup>
+         <NumericFormat
+          id='nationalCode'
+          decimalScale={0}
+          {...other}
+          value={value}
+          onValueChange={({ value }) => onChange(value)}
+          customInput={InputGroupInput}
+         />
+        </InputGroup>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='nationality'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='nationality'>{dic.filters.nationality}</FieldLabel>
+        <Popover
+         open={openNationalityCombo}
+         onOpenChange={setOpenNationalityCombo}
+        >
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           id='nationality'
+           variant='outline'
+           role='combobox'
+           aria-expanded={openNationalityCombo}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialDataLoading && <Spinner />}
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.nationalityZones?.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setOpenNationalityCombo(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+    </FieldGroup>
+   </div>
   </div>
  );
 }
