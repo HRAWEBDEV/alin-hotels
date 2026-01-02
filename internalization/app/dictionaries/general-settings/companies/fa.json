@@ -2,6 +2,10 @@
  "title": "اشخاص حقوقی",
  "filters": {
   "title": "فیلترها",
+  "name": "نام",
+  "nationality": "کشور",
+  "registerNo": "شماره ثبت",
+  "nationalCode": "شناسه ملی",
   "results": "نتایج"
  },
  "tabs": {
@@ -16,6 +20,22 @@
   "remove": "حذف",
   "next": "بعدی",
   "prev": "قبلی"
+ },
+ "newPerson": {
+  "newPersonAdded": "شخص اضافه شد",
+  "form": {
+   "name": "نام",
+   "nationality": "کشور",
+   "registerNo": "شماره ثبت",
+   "nationalCode": "شناسه ملی",
+   "postalCode": "کد پستی",
+   "tel": "تلفن",
+   "fax": "فکس",
+   "address": "آدرس",
+   "save": "ذخیره",
+   "cancel": "انصراف",
+   "clearForm": "خالی کردن اطلاعات"
+  }
  },
  "removePerson": {
   "title": "حذف شخص",
