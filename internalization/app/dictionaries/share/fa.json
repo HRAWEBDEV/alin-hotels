@@ -1,5 +1,9 @@
 {
  "title": "share dictionary",
+ "mutilLangTypes": {
+  "persian": "فارسی",
+  "english": "انگلیسی"
+ },
  "system": {
   "modes": {
    "light": "حالت روز",
