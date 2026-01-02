@@ -5,7 +5,8 @@
    "nameOwner": "نام کسب‌و‌کار",
    "deleteOwner": "حذف",
    "addOwner": "افزودن",
-   "updateOwner": "ذخیره"
+   "updateOwner": "ذخیره",
+   "cancel": "انصراف"
   }
  },
  "removeOwner": {

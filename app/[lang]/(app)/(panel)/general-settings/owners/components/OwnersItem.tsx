@@ -1,5 +1,4 @@
 'use client';
-import { useEffect } from 'react';
 import { type OwnersDictionary } from '@/internalization/app/dictionaries/general-settings/owners/dictionary';
 import { Field } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
@@ -25,6 +24,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
 import { useOwnersConfigContext } from '../services/ownersConfigContext';
+import { IoTrashOutline } from 'react-icons/io5';
 
 export default function OwnersItem({
  dic,
@@ -44,6 +44,7 @@ export default function OwnersItem({
   reset,
   setValue,
   formState: { errors },
+  watch,
  } = useForm<OwnerSchema>({
   resolver: zodResolver(createOwnerSchema({ dic })),
   defaultValues: {
@@ -51,6 +52,8 @@ export default function OwnersItem({
    name: owner?.name || '',
   },
  });
+
+ const nameValue = watch('name');
 
  const { mutate, isPending } = useMutation({
   mutationFn({ name }: OwnerSchema) {
@@ -91,12 +94,12 @@ export default function OwnersItem({
      />
     </InputGroup>
    </Field>
-   <div className='flex flex-col md:flex-row gap-2'>
+   <div className='flex justify-end gap-2'>
     <Button
      type='submit'
      variant={owner ? 'secondary' : 'default'}
-     className='md:w-24'
-     disabled={isPending}
+     className='md:w-20'
+     disabled={isPending || Boolean(owner && owner.name === nameValue)}
      onClick={(e) => {
       e.preventDefault();
       handleSubmit((data) => {
@@ -108,18 +111,32 @@ export default function OwnersItem({
      {owner ? dic.newOwner.form.updateOwner : dic.newOwner.form.addOwner}
     </Button>
     {owner && (
-     <Button
-      type='button'
-      variant='outline'
-      disabled={isPending}
-      className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400 md:w-24'
-      onClick={() => {
-       onRemoveOwner(owner.id);
-      }}
-     >
-      {isPending && <Spinner />}
-      {dic.newOwner.form.deleteOwner}
-     </Button>
+     <>
+      <Button
+       type='button'
+       variant='outline'
+       className='md:20'
+       disabled={isPending || Boolean(owner && owner.name === nameValue)}
+       onClick={() => {
+        setValue('name', owner.name);
+       }}
+      >
+       {isPending && <Spinner />}
+       {dic.newOwner.form.cancel}
+      </Button>
+      <Button
+       type='button'
+       variant='outline'
+       size='icon'
+       disabled={isPending}
+       className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
+       onClick={() => {
+        onRemoveOwner(owner.id);
+       }}
+      >
+       {isPending ? <Spinner /> : <IoTrashOutline />}
+      </Button>
+     </>
     )}
    </div>
   </form>
