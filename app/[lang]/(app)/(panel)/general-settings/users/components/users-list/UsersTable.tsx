@@ -50,13 +50,20 @@ import {
 } from 'react-icons/md';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 import UserStatusSwitch from './UserStatusSwitch';
+import { useFormContext } from 'react-hook-form';
+import { type UserSchema } from '../../schemas/userSchema';
 
 export default function UsersTable({ dic }: { dic: UsersDictionary }) {
+ const { getValues } = useFormContext<UserSchema>();
+ const validFilters = Object.keys(getValues()).filter(
+  (key) => getValues()[key as keyof UserSchema],
+ );
+ //
  const {
   shareDictionary: { components },
  } = useShareDictionary();
  const getCommonPinningStyles = useCommonPinningStyles();
- const { localeInfo, locale } = useBaseConfig();
+ const { localeInfo } = useBaseConfig();
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
  const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
   const startPinned = ['select'];
@@ -245,7 +252,8 @@ export default function UsersTable({ dic }: { dic: UsersDictionary }) {
       onClick={() => changeShowFilters(true)}
      >
       <TbFilterSearch />{' '}
-      <span className='hidden lg:inline'>{dic.table.filters}</span> (1)
+      <span className='hidden lg:inline'>{dic.table.filters}</span> (
+      {validFilters.length})
      </Button>
     </div>
     <div className='flex gap-2'>

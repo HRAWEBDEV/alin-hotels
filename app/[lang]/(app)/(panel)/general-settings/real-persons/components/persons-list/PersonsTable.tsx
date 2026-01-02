@@ -49,8 +49,14 @@ import {
  MdKeyboardArrowRight,
 } from 'react-icons/md';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
+import { useFormContext } from 'react-hook-form';
+import { type RealPersonSchema } from '../../schemas/realPersonSchema';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
+ const { getValues } = useFormContext<RealPersonSchema>();
+ const validFilters = Object.keys(getValues()).filter(
+  (key) => getValues()[key as keyof RealPersonSchema],
+ );
  const {
   shareDictionary: { components },
  } = useShareDictionary();
@@ -286,7 +292,8 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
       onClick={() => changeShowFilters(true)}
      >
       <TbFilterSearch />{' '}
-      <span className='hidden lg:inline'>{dic.table.filters}</span> (1)
+      <span className='hidden lg:inline'>{dic.table.filters}</span> (
+      {validFilters.length})
      </Button>
     </div>
     <div className='flex gap-2'>
