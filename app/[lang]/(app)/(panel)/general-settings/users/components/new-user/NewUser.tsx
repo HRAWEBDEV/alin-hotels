@@ -65,6 +65,7 @@ export default function NewUser({
   setValue,
   formState: { errors },
   handleSubmit,
+  setFocus: userInfoSetFocus,
  } = useForm<UserSchema>({
   resolver: zodResolver(createUserSchema({ dic })),
   defaultValues: {
@@ -104,6 +105,7 @@ export default function NewUser({
    },
    onSuccess(res) {
     reset();
+    userInfoSetFocus('userName');
     queryClient.invalidateQueries({
      queryKey: [usersBasePath, 'all'],
     });
@@ -122,6 +124,9 @@ export default function NewUser({
      resetUserCredentials();
      setPersonID(0);
     }
+    setTimeout(() => {
+     userInfoSetFocus('userName');
+    }, 200);
    },
    onError(err: AxiosError<string>) {
     toast.error(err.response?.data);

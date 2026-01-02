@@ -1,15 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { FieldLabel, Field, FieldGroup } from '@/components/ui/field';
 import {
  InputGroup,
  InputGroupInput,
  InputGroupTextarea,
 } from '@/components/ui/input-group';
-import { Calendar } from '@/components/ui/calendar';
-import { ChevronDownIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
  Popover,
