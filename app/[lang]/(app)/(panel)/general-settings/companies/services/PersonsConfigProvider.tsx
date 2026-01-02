@@ -62,6 +62,11 @@ export default function PersonsConfigProvider({
  ) as PersonsConfig['selectedTab'];
  const paginationIndexQuery = searchParams.get('paginationIndex');
  const paginationSizeQuery = searchParams.get('paginationSize');
+ const nameQuery = searchParams.get('name');
+ const registerNoQuery = searchParams.get('registerNo');
+ const nationalCodeQuery = searchParams.get('nationalCode');
+ const nationalityIDQuery = searchParams.get('nationalityID');
+ const nationalityNameQuery = searchParams.get('nationalityName');
  // filters setup
  const realPersonFilters = useForm<CompanySchema>({
   resolver: zodResolver(createCompanySchema({ dic })),
@@ -69,42 +74,37 @@ export default function PersonsConfigProvider({
    ...defaultValues,
    ...(() => {
     if (wrapperType.mode === 'find') return {};
-    return {};
+    return {
+     name: nameQuery || '',
+     registerNo: registerNoQuery || '',
+     nationalCode: nationalCodeQuery || '',
+     nationality:
+      nationalityIDQuery && nationalityNameQuery
+       ? {
+          key: nationalityIDQuery,
+          value: nationalityNameQuery,
+         }
+       : null,
+    };
    })(),
   },
  });
- // const [
- //  nameValue,
- //  fatherNameValue,
- //  nationalCodeValue,
- //  mobileNoValue,
- //  emailValue,
- //  genderValue,
- //  nationalityValue,
- // ] = realPersonFilters.watch([
- //  'name',
- //  'fatherName',
- //  'nationalCode',
- //  'mobileNo',
- //  'email',
- //  'gender',
- //  'nationality',
- // ]);
- // const [nameDbValue] = useDebouncedValue(nameValue, {
- //  wait: 500,
- // });
- // const [fatherNameDbValue] = useDebouncedValue(fatherNameValue, {
- //  wait: 500,
- // });
- // const [nationalCodeDbValue] = useDebouncedValue(nationalCodeValue, {
- //  wait: 500,
- // });
- // const [mobileNoDbValue] = useDebouncedValue(mobileNoValue, {
- //  wait: 500,
- // });
- // const [emailDbValue] = useDebouncedValue(emailValue, {
- //  wait: 500,
- // });
+ const [nameValue, registerNoValue, nationalCodeValue, nationalityValue] =
+  realPersonFilters.watch([
+   'name',
+   'registerNo',
+   'nationalCode',
+   'nationality',
+  ]);
+ const [nameDbValue] = useDebouncedValue(nameValue, {
+  wait: 500,
+ });
+ const [registerNoDbValue] = useDebouncedValue(registerNoValue, {
+  wait: 500,
+ });
+ const [nationalCodeDbValue] = useDebouncedValue(nationalCodeValue, {
+  wait: 500,
+ });
  //
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
@@ -170,10 +170,23 @@ export default function PersonsConfigProvider({
   refetch: refetchPersons,
  } = useQuery({
   placeholderData: keepPreviousData,
-  queryKey: [companyBasePath, 'all', pagination.pageSize, pagination.pageIndex],
+  queryKey: [
+   companyBasePath,
+   'all',
+   pagination.pageSize,
+   pagination.pageIndex,
+   nameDbValue || 'all',
+   registerNoDbValue || 'all',
+   nationalCodeDbValue || 'all',
+   nationalityValue?.key || 'all',
+  ],
   async queryFn({ signal }) {
    const res = await getPagedCompanies({
     signal,
+    name: nameDbValue,
+    registerNo: registerNoDbValue,
+    nationalCode: nationalCodeDbValue,
+    nationalityZoneID: nationalityValue?.key,
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
    });
@@ -249,11 +262,24 @@ export default function PersonsConfigProvider({
  useEffect(() => {
   if (wrapperType.mode === 'find') return;
   const newSearchParams = new URLSearchParams(location.search);
-
+  newSearchParams.set('name', nameDbValue);
+  newSearchParams.set('registerNo', registerNoDbValue);
+  newSearchParams.set('nationalCode', nationalCodeDbValue);
+  newSearchParams.set('nationalityID', nationalityValue?.key || '');
+  newSearchParams.set('nationalityName', nationalityValue?.value || '');
   router.replace(
    `/${locale}/general-settings/companies?${newSearchParams.toString()}`,
   );
- }, [wrapperType.mode, locale, router, pagination]);
+ }, [
+  wrapperType.mode,
+  locale,
+  router,
+  pagination,
+  nameDbValue,
+  registerNoDbValue,
+  nationalCodeDbValue,
+  nationalityValue,
+ ]);
 
  const ctx: PersonsConfig = {
   wrapperType: wrapperType,
@@ -269,7 +295,12 @@ export default function PersonsConfigProvider({
    isSuccess: initialDataSuccess,
   },
   persons: {
-   queries: {},
+   queries: {
+    name: nameDbValue,
+    registerNo: registerNoDbValue,
+    nationalCode: nationalCodeDbValue,
+    nationalityZoneID: nationalityValue?.key,
+   },
    data: personsData,
    isError: personsError,
    isFetching: personsFetching,
