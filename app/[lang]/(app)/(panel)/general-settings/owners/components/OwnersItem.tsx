@@ -82,8 +82,8 @@ export default function OwnersItem({
 
  return (
   <form
-   data-add-form={!owner?.id}
-   className='grid grid-cols-1 md:grid-cols-[1fr_max-content] gap-2 data-[add-from="false"]:mb-4'
+   data-add-edit={!!owner?.id}
+   className='grid grid-cols-1 md:grid-cols-[1fr_max-content] gap-2 data-[add-edit="true"]:mb-4'
   >
    <Field className='gap-2' data-invalid={!!errors.name}>
     <InputGroup data-invalid={!!errors.name}>
