@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { AvatarFallback, Avatar } from '@/components/ui/avatar';
 import { FaUserAlt } from 'react-icons/fa';
 import { useUserProfileContext } from '../../services/user-profile/userProfileContext';
+import { useUserInfoContext } from '../../services/user-info/userInfoContext';
 
 export default function NavProfile() {
+ const { data } = useUserInfoContext();
  const { toggle } = useUserProfileContext();
  return (
   <Button
@@ -23,7 +25,7 @@ export default function NavProfile() {
      </AvatarFallback>
     </Avatar>
     <span className='grow font-medium text-ellipsis overflow-hidden text-neutral-300'>
-     حمیدرضا اکبری
+     {data.personFullName}
     </span>
    </div>
   </Button>

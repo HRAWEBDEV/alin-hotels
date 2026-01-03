@@ -2,6 +2,7 @@ import { type Pages } from './pagesList';
 import { SVGProps } from 'react';
 import { IoSettings } from 'react-icons/io5';
 import { FaHotel } from 'react-icons/fa6';
+import { GrDocumentConfig } from 'react-icons/gr';
 
 export function getPageIcon(
  pageName: keyof Pages,
@@ -9,7 +10,7 @@ export function getPageIcon(
 ) {
  switch (pageName) {
   case 'general-settings':
-   return <IoSettings {...iconProps} />;
+   return <GrDocumentConfig {...iconProps} />;
   case 'hotel-information':
    return <FaHotel {...iconProps} />;
  }
