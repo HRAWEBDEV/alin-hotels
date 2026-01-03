@@ -82,7 +82,7 @@ function getPagedCompanies({
  const searchParams = generateGetCompaniesSearchParams(queryProps);
  searchParams.set('limit', limit.toString());
  searchParams.set('offset', offset.toString());
- return axios.get<PagedData<Company[]>>(
+ return axios.get<PagedData<Company>>(
   `${companyBasePath}?${searchParams.toString()}`,
   {
    signal,

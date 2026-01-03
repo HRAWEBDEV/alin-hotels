@@ -19,7 +19,7 @@ interface UsersConfig {
  changeSelectedTab: (newTab?: Tab) => unknown;
  users: {
   queries: Omit<GetUsersProps, 'signal'>;
-  data?: PagedData<User[]>;
+  data?: PagedData<User>;
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;

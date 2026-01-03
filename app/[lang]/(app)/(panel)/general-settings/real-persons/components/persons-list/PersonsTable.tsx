@@ -86,8 +86,8 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
   },
  } = usePersonsConfigContext();
 
- const columns: ColumnDef<RealPerson[]>[] = useMemo(() => {
-  const defaultColumns: ColumnDef<RealPerson[]>[] =
+ const columns: ColumnDef<RealPerson>[] = useMemo(() => {
+  const defaultColumns: ColumnDef<RealPerson>[] =
    wrapperType.mode === 'page'
     ? []
     : [
@@ -259,7 +259,7 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     },
     meta: 'action',
    },
-  ] as ColumnDef<RealPerson[]>[];
+  ] as ColumnDef<RealPerson>[];
  }, [dic, localeInfo, onRemovePerson, locale, onEditPerson, wrapperType]);
 
  const defaultData = useMemo(() => [], []);

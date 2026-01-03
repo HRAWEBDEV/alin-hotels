@@ -4,7 +4,7 @@ import { LocaleInfo } from '@/internalization/app/localization';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 
 function getCommonPinningStyles<T>(
- column: Column<T[]>,
+ column: Column<T>,
  dir: LocaleInfo['contentDirection'] = 'rtl',
 ): CSSProperties {
  const right = dir === 'rtl' ? 'left' : 'right';
@@ -53,7 +53,7 @@ function getCommonPinningStyles<T>(
 function useCommonPinningStyles() {
  const { localeInfo } = useBaseConfig();
 
- return <T>(column: Column<T[]>) => {
+ return <T>(column: Column<T>) => {
   return getCommonPinningStyles<T>(column, localeInfo.contentDirection);
  };
 }

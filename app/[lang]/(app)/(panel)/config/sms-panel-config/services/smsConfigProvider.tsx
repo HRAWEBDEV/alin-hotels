@@ -170,14 +170,14 @@ export default function SmsConfigProvider({
   setSelectedTab('edit');
  }
  //
- const handleNewConfigSuccess: SmsConfigContext['persons']['onNewConfigSuccess'] =
+ const handleNewConfigSuccess: SmsConfigContext['config']['onNewConfigSuccess'] =
   ({ mode, configID }) => {
    if (mode === 'edit') {
     setSelectedTab('list');
     setSelectedConfigID(null);
    }
   };
- const handleCancelConfig: SmsConfigContext['persons']['onCancelNewConfig'] = ({
+ const handleCancelConfig: SmsConfigContext['config']['onCancelNewConfig'] = ({
   mode,
  }) => {
   if (mode === 'edit') {

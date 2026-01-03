@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
+import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionaries/config/sms-panel-config/dictionary';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,11 +20,11 @@ import {
  TableHead,
  TableCell,
 } from '@/components/ui/table';
-import { usePersonsConfigContext } from '../../services/personsConfigContext';
+import { useSmsConfigContext } from '../../services/smsConfigContext';
 import LinearLoading from '../../../../components/LinearLoading';
 import NoItemFound from '../../../../components/NoItemFound';
 import { RxReload } from 'react-icons/rx';
-import { type Company } from '../../services/personsApiActions';
+import { type SmsConfig } from '../../services/smsPanelApiActions';
 import {
  ColumnDef,
  useReactTable,
@@ -50,18 +50,22 @@ import {
 } from 'react-icons/md';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 import { useFormContext } from 'react-hook-form';
-import { type CompanySchema } from '../../schemas/companySchema';
+import { type SmsConfigSchema } from '../../schemas/smsConfigSchema';
 
-export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
- const { getValues } = useFormContext<CompanySchema>();
+export default function ConfigTable({
+ dic,
+}: {
+ dic: SmsPanelConfigDictionary;
+}) {
+ const { getValues } = useFormContext<SmsConfigSchema>();
  const validFilters = Object.keys(getValues()).filter(
-  (key) => getValues()[key as keyof CompanySchema],
+  (key) => getValues()[key as keyof SmsConfigSchema],
  );
  const {
   shareDictionary: { components },
  } = useShareDictionary();
  const getCommonPinningStyles = useCommonPinningStyles();
- const { localeInfo, locale } = useBaseConfig();
+ const { localeInfo } = useBaseConfig();
  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
  const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
   const startPinned = ['select'];
@@ -72,124 +76,19 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
   };
  });
  const {
-  wrapperType,
   changeShowFilters,
-  persons: {
+  config: {
    isFetching,
    isSuccess,
    data,
-   refetchPersons,
-   pagination,
-   onChangePagination,
-   onRemovePerson,
-   onEditPerson,
+   refetchConfig,
+   onRemoveConfig,
+   onEditConfig,
   },
- } = usePersonsConfigContext();
+ } = useSmsConfigContext();
 
- const columns: ColumnDef<Company>[] = useMemo(() => {
-  const defaultColumns: ColumnDef<Company>[] =
-   wrapperType.mode === 'page'
-    ? []
-    : [
-       {
-        id: 'select',
-        enablePinning: false,
-        header: ({ table }) => (
-         <div className='grid place-content-center'>
-          <Checkbox
-           className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
-           disabled
-           checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-           }
-           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-           aria-label='Select all'
-          />
-         </div>
-        ),
-        cell: ({ row }) => (
-         <div className='grid place-content-center'>
-          <Checkbox
-           className='border-neutral-400 dark:border-orange-600 scale-125 cursor-pointer'
-           checked={row.getIsSelected()}
-           onCheckedChange={(value) => {
-            row.toggleSelected(!!value);
-            if (value) {
-             wrapperType.onChangePerson(
-              (row.original as unknown as Company).id,
-             );
-            }
-           }}
-           aria-label='Select row'
-          />
-         </div>
-        ),
-        enableSorting: false,
-        enableHiding: false,
-        enableResizing: false,
-        enableColumnFilter: false,
-        minSize: 40,
-        size: 40,
-        maxSize: 40,
-        meta: 'checkbox',
-       },
-      ];
+ const columns: ColumnDef<SmsConfig>[] = useMemo(() => {
   return [
-   ...defaultColumns,
-   {
-    accessorKey: 'name',
-    header: dic.newPerson.form.name,
-    size: 160,
-    minSize: 160,
-   },
-   {
-    accessorKey: 'nationalCode',
-    header: dic.newPerson.form.nationalCode,
-    size: 120,
-    minSize: 100,
-   },
-   {
-    accessorKey: 'registerNo',
-    header: dic.newPerson.form.registerNo,
-    size: 120,
-    minSize: 100,
-   },
-   {
-    accessorKey: 'nationalityZoneName',
-    header: dic.newPerson.form.nationality,
-    size: 120,
-    minSize: 100,
-    enablePinning: false,
-   },
-   {
-    accessorKey: 'fax',
-    header: dic.newPerson.form.fax,
-    size: 120,
-    minSize: 100,
-    enablePinning: false,
-   },
-   {
-    accessorKey: 'tel1',
-    header: dic.newPerson.form.tel + ' 1',
-    size: 120,
-    minSize: 100,
-    enablePinning: false,
-   },
-   {
-    accessorKey: 'tel2',
-    header: dic.newPerson.form.tel + ' 2',
-    size: 120,
-    minSize: 100,
-    enablePinning: false,
-   },
-   {
-    accessorKey: 'tel3',
-    header: dic.newPerson.form.tel + ' 3',
-    size: 120,
-    minSize: 100,
-    enablePinning: false,
-   },
    {
     id: 'actions',
     enableHiding: false,
@@ -214,8 +113,8 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
          <DropdownMenuItem
           className='text-secondary'
           onClick={() => {
-           const typedOriginal = row.original as unknown as Company;
-           onEditPerson(typedOriginal.id);
+           const typedOriginal = row.original as unknown as SmsConfig;
+           onEditConfig(typedOriginal.id);
           }}
          >
           <FaEdit className='size-5 text-inherit' />
@@ -224,8 +123,8 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
          <DropdownMenuItem
           className='text-rose-700 dark:text-rose-400'
           onClick={() => {
-           const typedOriginal = row.original as unknown as Company;
-           onRemovePerson(typedOriginal.id);
+           const typedOriginal = row.original as unknown as SmsConfig;
+           onRemoveConfig(typedOriginal.id);
           }}
          >
           <IoTrashOutline className='size-5 text-inherit' />
@@ -238,26 +137,23 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
     },
     meta: 'action',
    },
-  ] as ColumnDef<Company>[];
- }, [dic, localeInfo, onRemovePerson, onEditPerson, wrapperType]);
+  ] as ColumnDef<SmsConfig>[];
+ }, [dic, localeInfo, onRemoveConfig, onEditConfig]);
 
  const defaultData = useMemo(() => [], []);
  const table = useReactTable({
-  data: data?.rows || defaultData,
+  data: data || defaultData,
   columns,
   columnResizeDirection: localeInfo.contentDirection,
   columnResizeMode: 'onChange',
   state: {
    rowSelection,
-   pagination: pagination,
    columnPinning: pinnedColumns,
   },
   enableMultiRowSelection: false,
-  rowCount: data?.rowsCount,
   manualPagination: true,
   onRowSelectionChange: setRowSelection,
   onColumnPinningChange: setPinnedColumns,
-  onPaginationChange: onChangePagination,
   getCoreRowModel: getCoreRowModel(),
  });
 
@@ -308,7 +204,7 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
       size={'icon'}
       className='h-auto text-primary border-primary'
       disabled={isFetching}
-      onClick={() => refetchPersons()}
+      onClick={() => refetchConfig()}
      >
       <RxReload className='size-4' />
      </Button>
@@ -316,8 +212,8 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
    </div>
    <div className='relative grow flex flex-col overflow-auto'>
     {isFetching && <LinearLoading />}
-    {!data?.rows.length && isSuccess && !isFetching && <NoItemFound />}
-    {isSuccess && !!data?.rows.length && (
+    {!data?.length && isSuccess && !isFetching && <NoItemFound />}
+    {isSuccess && !!data?.length && (
      <Table className='table-fixed'>
       <TableHeader>
        {table.getHeaderGroups().map((group) => (
@@ -387,15 +283,9 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
        {table.getRowModel().rows.map((row) => (
         <TableRow
          key={row.id}
-         onClick={() => {
-          if (wrapperType.mode === 'page') return;
-          const typedOriginal = row.original as unknown as Company;
-          wrapperType.onChangePerson(typedOriginal.id);
-         }}
          onDoubleClick={() => {
-          if (wrapperType.mode === 'find') return;
-          const typedOriginal = row.original as unknown as Company;
-          onEditPerson(typedOriginal.id);
+          const typedOriginal = row.original as unknown as SmsConfig;
+          onEditConfig(typedOriginal.id);
          }}
         >
          {row.getVisibleCells().map((cell) => (
@@ -421,84 +311,6 @@ export default function PersonsTable({ dic }: { dic: CompaniesDictionary }) {
       </TableBody>
      </Table>
     )}
-   </div>
-   <div className='shrink-0 border-t border-input p-1 flex justify-between gap-2'>
-    <div></div>
-    <div className='flex gap-1 items-center text-neutral-600 dark:text-neutral-400'>
-     {table.getPageCount() > 1 && (
-      <div className='basis-24'>
-       <Field className='flex-row gap-1'>
-        <FieldLabel className='text-xs w-auto!'>
-         {components.pagination.search}:
-        </FieldLabel>
-        <InputGroup className='grow'>
-         <InputGroupInput
-          defaultValue={table.getState().pagination.pageIndex + 1 || ''}
-          value={table.getState().pagination.pageIndex + 1}
-          onClick={(e) => e.currentTarget.select()}
-          onChange={(e) => {
-           const newValue = Number(e.target.value);
-           if (!newValue) return;
-           const newPageIndex = newValue - 1;
-           table.setPageIndex(newPageIndex);
-          }}
-         />
-        </InputGroup>
-       </Field>
-      </div>
-     )}
-     <div className='flex gap-1 items-center'>
-      <Button
-       variant='outline'
-       size='icon'
-       disabled={!table.getCanPreviousPage()}
-       onClick={() => table.firstPage()}
-      >
-       <MdKeyboardDoubleArrowRight className='size-4 ltr:rotate-180' />
-      </Button>
-      <Button
-       variant='outline'
-       className='gap-1'
-       disabled={!table.getCanPreviousPage()}
-       onClick={() => table.previousPage()}
-      >
-       <MdKeyboardArrowRight />
-       <span className='hidden lg:inline'>{components.pagination.prev}</span>
-      </Button>
-      {table.getPageCount() ? (
-       <div
-        style={{
-         direction: 'ltr',
-        }}
-        className='text-base'
-       >
-        <span>{table.getState().pagination.pageIndex + 1}</span> /{' '}
-        <span>{table.getPageCount()}</span>
-       </div>
-      ) : (
-       <div>...</div>
-      )}
-      <Button
-       variant='outline'
-       className='gap-1 ltr:rotate-180'
-       disabled={!table.getCanNextPage()}
-       onClick={() => {
-        table.nextPage();
-       }}
-      >
-       <span className='hidden lg:inline'>{components.pagination.next}</span>
-       <MdKeyboardArrowLeft className='ltr:rotate-180' />
-      </Button>
-      <Button
-       variant='outline'
-       size='icon'
-       disabled={!table.getCanNextPage()}
-       onClick={() => table.lastPage()}
-      >
-       <MdKeyboardDoubleArrowLeft className='size-4 ltr:rotate-180' />
-      </Button>
-     </div>
-    </div>
    </div>
   </div>
  );

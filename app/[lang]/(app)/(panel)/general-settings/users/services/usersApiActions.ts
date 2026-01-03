@@ -57,7 +57,7 @@ function getPagedUsers({
  const searchParams = generateGetUsersSearchParams(queryProps);
  searchParams.set('limit', limit.toString());
  searchParams.set('offset', offset.toString());
- return axios.get<PagedData<User[]>>(
+ return axios.get<PagedData<User>>(
   `${usersBasePath}?${searchParams.toString()}`,
   {
    signal,

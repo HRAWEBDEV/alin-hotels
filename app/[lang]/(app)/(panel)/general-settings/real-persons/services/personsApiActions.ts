@@ -96,7 +96,7 @@ function getPagedRealPersons({
  const searchParams = generateGetRealPersonsSearchParams(queryProps);
  searchParams.set('limit', limit.toString());
  searchParams.set('offset', offset.toString());
- return axios.get<PagedData<RealPerson[]>>(
+ return axios.get<PagedData<RealPerson>>(
   `${realPersonsBasePath}?${searchParams.toString()}`,
   {
    signal,

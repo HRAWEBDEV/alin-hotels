@@ -29,7 +29,7 @@ interface PersonsConfig {
  };
  persons: {
   queries: Omit<GetRealPersonProps, 'signal'>;
-  data?: PagedData<RealPerson[]>;
+  data?: PagedData<RealPerson>;
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;

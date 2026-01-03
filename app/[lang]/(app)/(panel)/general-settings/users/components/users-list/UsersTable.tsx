@@ -88,8 +88,8 @@ export default function UsersTable({ dic }: { dic: UsersDictionary }) {
   },
  } = useUsersConfigContext();
 
- const columns: ColumnDef<User[]>[] = useMemo(() => {
-  const defaultColumns: ColumnDef<User[]>[] =
+ const columns: ColumnDef<User>[] = useMemo(() => {
+  const defaultColumns: ColumnDef<User>[] =
    wrapperType.mode === 'page'
     ? []
     : [
@@ -220,7 +220,7 @@ export default function UsersTable({ dic }: { dic: UsersDictionary }) {
     },
     meta: 'action',
    },
-  ] as ColumnDef<User[]>[];
+  ] as ColumnDef<User>[];
  }, [localeInfo, wrapperType]);
 
  const defaultData = useMemo(() => [], []);
