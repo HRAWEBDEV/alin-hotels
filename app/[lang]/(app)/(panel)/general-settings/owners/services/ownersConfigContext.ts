@@ -6,6 +6,7 @@ interface OwnersConfig {
  owners: {
   queries: Omit<GetOwnerProps, 'signal'>;
   data?: Owner[];
+  filteredData?: Owner[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;

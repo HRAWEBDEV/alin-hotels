@@ -6,15 +6,8 @@ import NoItemFound from '../../../components/NoItemFound';
 
 export default function OwnersList({ dic }: { dic: OwnersDictionary }) {
  const {
-  owners: {
-   queries: { name },
-   data,
-  },
+  owners: { filteredData },
  } = useOwnersConfigContext();
- const filteredData =
-  data && data.length && name
-   ? data.filter((item) => item.name.includes(name))
-   : data;
  return (
   <div className='w-[min(35rem,100%)] mx-auto relative'>
    {filteredData && filteredData.length ? (

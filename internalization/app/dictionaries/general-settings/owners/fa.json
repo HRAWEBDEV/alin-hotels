@@ -1,5 +1,8 @@
 {
  "title": "صاحبان کسب‌و‌کار",
+ "filters": {
+  "results": "نتایج"
+ },
  "newOwner": {
   "form": {
    "nameOwner": "نام کسب‌و‌کار",

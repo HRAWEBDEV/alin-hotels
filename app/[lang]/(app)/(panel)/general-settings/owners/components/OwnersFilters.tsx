@@ -17,7 +17,7 @@ import LinearLoading from '../../../components/LinearLoading';
 
 export default function OwnersFilters({ dic }: { dic: OwnersDictionary }) {
  const {
-  owners: { refetchOwners, isFetching },
+  owners: { refetchOwners, isFetching, filteredData },
  } = useOwnersConfigContext();
  const {
   shareDictionary: {
@@ -29,7 +29,7 @@ export default function OwnersFilters({ dic }: { dic: OwnersDictionary }) {
   <div className='w-[min(35rem,100%)] mx-auto md:sticky top-0 z-1 bg-teal-50 dark:bg-teal-900 p-3 relative mb-4 border border-teal-300 dark:border-teal-700 rounded-md overflow-hidden'>
    <div>
     <div className='mb-3 pb-3 border-b border-teal-300 dark:border-teal-700 flex gap-2'>
-     <InputGroup className='grow bg-background'>
+     <InputGroup className='grow bg-background dark:bg-background'>
       <InputGroupAddon align='inline-start' className='text-primary'>
        <FaSearch />
       </InputGroupAddon>
@@ -39,6 +39,12 @@ export default function OwnersFilters({ dic }: { dic: OwnersDictionary }) {
        placeholder={navList.search + ' ...'}
        {...register('name')}
       />
+      <InputGroupAddon align='inline-end'>
+       <div>
+        <span>{dic.filters.results}: </span>
+        <span>{filteredData?.length || 0}</span>
+       </div>
+      </InputGroupAddon>
      </InputGroup>
      <Button
       variant={'outline'}
