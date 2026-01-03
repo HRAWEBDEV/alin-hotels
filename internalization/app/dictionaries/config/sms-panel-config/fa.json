@@ -1,5 +1,10 @@
 {
  "title": "تنظیمات پنل پیامکی",
+ "tabs": {
+  "configList": "لیست تنظیمات",
+  "editConfig": "ویرایش تنظیمات",
+  "addConfig": "افزودن تنظیمات"
+ },
  "removeConfig": {
   "title": "حذف تنظیمات",
   "confirmRemoveConfig": "آیا از حذف تنظیمات اطمینان دارید؟",

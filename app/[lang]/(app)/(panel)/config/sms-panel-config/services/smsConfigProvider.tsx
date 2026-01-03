@@ -206,7 +206,7 @@ export default function SmsConfigProvider({
    isError: initialDataError,
    isSuccess: initialDataSuccess,
   },
-  persons: {
+  config: {
    queries: {},
    data: configData,
    isError: configError,

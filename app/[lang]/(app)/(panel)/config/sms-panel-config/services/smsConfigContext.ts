@@ -22,7 +22,7 @@ interface SmsConfigContext {
   isSuccess: boolean;
   isError: boolean;
  };
- persons: {
+ config: {
   queries: Omit<GetSmsConfigProps, 'signal'>;
   data?: SmsConfig[];
   isLoading: boolean;
