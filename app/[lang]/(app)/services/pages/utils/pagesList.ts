@@ -7,6 +7,11 @@ type Page = {
 }[Path];
 
 const pages = {
+ config: {
+  'sms-panel-config': {
+   name: 'sms-panel-config',
+  },
+ },
  'general-settings': {
   'real-persons': {
    name: 'real-persons',

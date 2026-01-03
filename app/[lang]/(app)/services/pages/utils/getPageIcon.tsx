@@ -9,6 +9,8 @@ export function getPageIcon(
  iconProps?: SVGProps<SVGSVGElement>,
 ) {
  switch (pageName) {
+  case 'config':
+   return <IoSettings {...iconProps} />;
   case 'general-settings':
    return <GrDocumentConfig {...iconProps} />;
   case 'hotel-information':
