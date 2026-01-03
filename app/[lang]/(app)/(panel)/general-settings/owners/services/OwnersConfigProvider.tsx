@@ -69,8 +69,8 @@ export default function OwnersConfigProvider({
   },
  });
  const filteredData =
-  ownersData && ownersData.length && name
-   ? ownersData.filter((item) => item.name.includes(name))
+  ownersData && ownersData.length && nameDbValue
+   ? ownersData.filter((item) => item.name.includes(nameDbValue))
    : ownersData;
  // remove owner
  function handleRemoveOwner(ownerID: number) {
