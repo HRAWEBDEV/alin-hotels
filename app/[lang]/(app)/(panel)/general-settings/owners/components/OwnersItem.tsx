@@ -76,6 +76,9 @@ export default function OwnersItem({
    }
   },
   onError(err: AxiosError<string>) {
+   if (owner) {
+    setValue('name', owner.name);
+   }
    toast.error(err.response?.data);
   },
  });
