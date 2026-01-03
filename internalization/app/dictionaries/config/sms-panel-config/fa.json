@@ -5,6 +5,18 @@
   "editConfig": "ویرایش تنظیمات",
   "addConfig": "افزودن تنظیمات"
  },
+ "filters": {
+  "title": "فیلترها",
+  "results": "نتایج"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها",
+  "edit": "ویرایش",
+  "remove": "حذف",
+  "next": "بعدی",
+  "prev": "قبلی"
+ },
  "removeConfig": {
   "title": "حذف تنظیمات",
   "confirmRemoveConfig": "آیا از حذف تنظیمات اطمینان دارید؟",
