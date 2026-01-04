@@ -12,11 +12,16 @@ interface SmsConfig {
  id: number;
  number: string;
  smsConfigTypeID: number;
+ smsConfigTypeName: string;
  providerID: number;
+ providerName: string;
  isDefault: boolean;
 }
 
-type SaveSmsConfigPackage = SmsConfig;
+type SaveSmsConfigPackage = Omit<
+ SmsConfig,
+ 'smsConfigTypeName' | 'providerName'
+>;
 
 type GetSmsConfigProps = {
  smsConfigTypeID?: string;

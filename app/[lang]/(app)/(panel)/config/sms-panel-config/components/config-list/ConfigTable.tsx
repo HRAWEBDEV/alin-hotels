@@ -33,21 +33,13 @@ import {
  RowSelectionState,
  ColumnPinningState,
 } from '@tanstack/react-table';
-import { Checkbox } from '@/components/ui/checkbox';
 import { MoreHorizontal } from 'lucide-react';
 import { useCommonPinningStyles } from '../../../../hooks/useCommonPinningStyles';
 import { MdOutlinePushPin } from 'react-icons/md';
 import { RiUnpinLine } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import { IoTrashOutline } from 'react-icons/io5';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
-import {
- MdKeyboardDoubleArrowLeft,
- MdKeyboardDoubleArrowRight,
- MdKeyboardArrowLeft,
- MdKeyboardArrowRight,
-} from 'react-icons/md';
+import { Check } from 'lucide-react';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 import { useFormContext } from 'react-hook-form';
 import { type SmsConfigSchema } from '../../schemas/smsConfigSchema';
@@ -89,6 +81,32 @@ export default function ConfigTable({
 
  const columns: ColumnDef<SmsConfig>[] = useMemo(() => {
   return [
+   {
+    accessorKey: 'number',
+    minSize: 160,
+    size: 160,
+    header: dic.newConfig.form.number,
+   },
+   {
+    accessorKey: 'providerName',
+    minSize: 160,
+    size: 160,
+    header: dic.newConfig.form.provider,
+   },
+   {
+    accessorKey: 'smsConfigTypeName',
+    minSize: 160,
+    size: 160,
+    header: dic.newConfig.form.smsType,
+   },
+   {
+    accessorKey: 'isDefault',
+    minSize: 130,
+    size: 130,
+    meta: 'center',
+    header: dic.newConfig.form.default,
+    cell: ({ getValue }) => <div>{getValue() ? <Check /> : null}</div>,
+   },
    {
     id: 'actions',
     enableHiding: false,
