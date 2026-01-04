@@ -37,7 +37,6 @@ import {
  createSmsConfigSchema,
 } from '../schemas/smsConfigSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useDebouncedValue } from '@tanstack/react-pacer';
 
 export default function SmsConfigProvider({
  children,
@@ -52,30 +51,35 @@ export default function SmsConfigProvider({
  const activeTabQuery = searchParams.get(
   'activeTab',
  ) as SmsConfigContext['selectedTab'];
+ const providerIDQuery = searchParams.get('providerID');
+ const providerNameQuery = searchParams.get('providerName');
+ const smsConfigTypeIDQuery = searchParams.get('smsConfigTypeID');
+ const smsConfigTypeNameQuery = searchParams.get('smsConfigTypeName');
  // filters setup
  const realPersonFilters = useForm<SmsConfigSchema>({
   resolver: zodResolver(createSmsConfigSchema({ dic })),
   defaultValues: {
    ...defaultValues,
+   provider:
+    providerIDQuery && providerNameQuery
+     ? {
+        key: providerIDQuery,
+        value: providerNameQuery,
+       }
+     : null,
+   smsConfigType:
+    smsConfigTypeIDQuery && smsConfigTypeNameQuery
+     ? {
+        key: smsConfigTypeIDQuery,
+        value: smsConfigTypeNameQuery,
+       }
+     : null,
   },
  });
- // const [nameValue, registerNoValue, nationalCodeValue, nationalityValue] =
- //  realPersonFilters.watch([
- //   'name',
- //   'registerNo',
- //   'nationalCode',
- //   'nationality',
- //  ]);
- // const [nameDbValue] = useDebouncedValue(nameValue, {
- //  wait: 500,
- // });
- // const [registerNoDbValue] = useDebouncedValue(registerNoValue, {
- //  wait: 500,
- // });
- // const [nationalCodeDbValue] = useDebouncedValue(nationalCodeValue, {
- //  wait: 500,
- // });
- //
+ const [providerValue, smsConfigTypeValue] = realPersonFilters.watch([
+  'provider',
+  'smsConfigType',
+ ]);
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
@@ -126,10 +130,17 @@ export default function SmsConfigProvider({
   isSuccess: configSucess,
   refetch: refetchConfig,
  } = useQuery({
-  queryKey: [smsConfigBasePath, 'all'],
+  queryKey: [
+   smsConfigBasePath,
+   'all',
+   providerValue?.key || 'all',
+   smsConfigTypeValue?.key || 'all',
+  ],
   async queryFn({ signal }) {
    const res = await getAllSmsConfig({
     signal,
+    providerID: providerValue?.key,
+    smsConfigTypeID: smsConfigTypeValue?.key,
    });
    return res.data;
   },
@@ -189,10 +200,14 @@ export default function SmsConfigProvider({
  // set queries
  useEffect(() => {
   const newSearchParams = new URLSearchParams(location.search);
+  newSearchParams.set('providerID', providerValue?.key || '');
+  newSearchParams.set('providerName', providerValue?.value || '');
+  newSearchParams.set('smsConfigTypeID', smsConfigTypeValue?.key || '');
+  newSearchParams.set('smsConfigTypeName', smsConfigTypeValue?.value || '');
   router.replace(
    `/${locale}/config/sms-panel-config?${newSearchParams.toString()}`,
   );
- }, [locale, router]);
+ }, [locale, router, providerValue, smsConfigTypeValue]);
 
  const ctx: SmsConfigContext = {
   tabs,
@@ -207,7 +222,10 @@ export default function SmsConfigProvider({
    isSuccess: initialDataSuccess,
   },
   config: {
-   queries: {},
+   queries: {
+    providerID: providerValue?.key,
+    smsConfigTypeID: smsConfigTypeValue?.key,
+   },
    data: configData,
    isError: configError,
    isFetching: configFetching,
