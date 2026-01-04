@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionaries/config/sms-panel-config/dictionary';
 import { Button } from '@/components/ui/button';
 import { useSmsConfigContext } from '../../services/smsConfigContext';
@@ -8,19 +9,37 @@ import {
  type SmsConfigSchema,
  defaultValues,
 } from '../../schemas/smsConfigSchema';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import {
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
+} from '@/components/ui/popover';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+ Command,
+ CommandGroup,
+ CommandInput,
+ CommandItem,
+ CommandList,
+} from '@/components/ui/command';
 
-export default function PersonsFitlers({
+export default function ConfigFitlers({
  dic,
 }: {
  dic: SmsPanelConfigDictionary;
 }) {
- const { setValue } = useFormContext<SmsConfigSchema>();
+ const { setValue, control } = useFormContext<SmsConfigSchema>();
  const {
   showFilters,
   changeShowFilters,
+  initialData: { data: initialData, isLoading: initialDataLoading },
   config: { data, isLoading },
  } = useSmsConfigContext();
+ const [showProviders, setShowProviders] = useState(false);
+ const [showSmsConfigTypes, setShowSmsConfigTypes] = useState(false);
  return (
   <div
    data-show-filters={showFilters}
@@ -65,7 +84,156 @@ export default function PersonsFitlers({
      </Button>
     </div>
    </div>
-   <div className='grow overflow-auto p-2 py-4'></div>
+   <div className='grow overflow-auto p-2 py-4'>
+    <FieldGroup className='gap-5'>
+     <Controller
+      control={control}
+      name='provider'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='provider'>
+         {dic.newConfig.form.provider}
+        </FieldLabel>
+        <Popover open={showProviders} onOpenChange={setShowProviders}>
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           id='provider'
+           variant='outline'
+           role='combobox'
+           aria-expanded={showProviders}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialDataLoading && <Spinner />}
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.providers?.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setShowProviders(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='smsConfigType'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='smsConfigType'>
+         {dic.newConfig.form.smsType}
+        </FieldLabel>
+        <Popover open={showSmsConfigTypes} onOpenChange={setShowSmsConfigTypes}>
+         <PopoverTrigger asChild>
+          <Button
+           type='button'
+           id='smsConfigType'
+           variant='outline'
+           role='combobox'
+           aria-expanded={showSmsConfigTypes}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialDataLoading && <Spinner />}
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.smsConfigTypes?.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setShowSmsConfigTypes(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+    </FieldGroup>
+   </div>
   </div>
  );
 }
