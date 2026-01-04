@@ -11,6 +11,7 @@ export default function ShareDictionaryProvider({
  shareDictionary,
  loginDictionary,
  realPersonDictionary,
+ usersDictionary,
 }: {
  children: ReactNode;
 } & ShareStore) {
@@ -18,6 +19,7 @@ export default function ShareDictionaryProvider({
   metaDictionary,
   shareDictionary,
   loginDictionary,
+  usersDictionary,
   realPersonDictionary,
  };
  return (

@@ -2,6 +2,7 @@ import { getShareDictionary } from '@/internalization/app/dictionaries/share/dic
 import { getMetaDictionary } from '@/internalization/app/dictionaries/meta/dictionary';
 import { getLoginDictionary } from '@/internalization/app/dictionaries/login/dictionary';
 import { getRealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
+import { getUsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 import ShareDictionaryProvider from './services/share-dictionary/ShareDictionaryProvider';
 import { type Locale, locales } from '@/internalization/app/localization';
 import { Toaster } from '@/components/ui/sonner';
@@ -20,12 +21,16 @@ export default async function AppLayout({
  const realPersonDictionary = await getRealPersonsDictionary({
   locale: lang as Locale,
  });
+ const usersDictionary = await getUsersDictionary({
+  locale: lang as Locale,
+ });
  return (
   <ShareDictionaryProvider
    loginDictionary={loginDictionary}
    shareDictionary={shareDic}
    metaDictionary={metaDic}
    realPersonDictionary={realPersonDictionary}
+   usersDictionary={usersDictionary}
   >
    <LoginProvider>
     <AxoisBaseConfig />

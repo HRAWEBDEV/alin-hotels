@@ -4,12 +4,14 @@ import { type ShareDictionary } from '@/internalization/app/dictionaries/share/d
 import { type MetaDictionary } from '@/internalization/app/dictionaries/meta/dictionary';
 import { type LoginDictionary } from '@/internalization/app/dictionaries/login/dictionary';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
+import { type UsersDictionary } from '@/internalization/app/dictionaries/general-settings/users/dictionary';
 
 interface ShareStore {
  shareDictionary: ShareDictionary;
  metaDictionary: MetaDictionary;
  loginDictionary: LoginDictionary;
  realPersonDictionary: RealPersonsDictionary;
+ usersDictionary: UsersDictionary;
 }
 
 const shareDictionaryContext = createContext<ShareStore | null>(null);

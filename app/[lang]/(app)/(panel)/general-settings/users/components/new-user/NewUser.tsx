@@ -216,7 +216,7 @@ export default function NewUser({
  }, [isSuccess, userID, data, setValue]);
 
  function getWrapper(children: ReactNode) {
-  const className = 'w-[min(25rem,100%)] mx-auto';
+  const className = 'w-[min(35rem,100%)] mx-auto';
   return userID ? (
    <div className={className}>{children}</div>
   ) : (
@@ -297,7 +297,7 @@ export default function NewUser({
         </div>
         <div className='flex justify-end'>
          <Button
-          disabled={isLoading}
+          disabled={isLoading || activeUserID === userID}
           type='button'
           variant={'outline'}
           onClick={() => setShowRealPerson(true)}
