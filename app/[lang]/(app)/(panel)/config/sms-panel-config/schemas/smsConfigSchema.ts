@@ -2,13 +2,32 @@ import { z } from 'zod';
 import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionaries/config/sms-panel-config/dictionary';
 
 const defaultValues: Partial<SmsConfigSchema> = {
- name: '',
+ number: '',
 };
 
 function createSmsConfigSchema({}: { dic: SmsPanelConfigDictionary }) {
- return z.object({
-  name: z.string().min(1),
- });
+ return z
+  .object({
+   number: z.string().min(1),
+   provider: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   smsConfigType: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+  })
+  .refine(({ provider }) => !!provider, {
+   path: ['provider'],
+  })
+  .refine(({ smsConfigType }) => !!smsConfigType, {
+   path: ['smsConfigType'],
+  });
 }
 
 type SmsConfigSchema = z.infer<ReturnType<typeof createSmsConfigSchema>>;

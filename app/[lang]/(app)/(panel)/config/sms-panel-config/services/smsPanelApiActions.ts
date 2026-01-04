@@ -10,6 +10,10 @@ interface InitialData {
 
 interface SmsConfig {
  id: number;
+ number: number;
+ smsConfigTypeID: number;
+ providerID: number;
+ isDefault: boolean;
 }
 
 type SaveSmsConfigPackage = SmsConfig;
