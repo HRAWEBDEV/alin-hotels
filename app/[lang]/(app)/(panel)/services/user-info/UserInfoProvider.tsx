@@ -16,7 +16,7 @@ export default function UserInfoProvider({
  const logout = useLogout();
  // get user info
  const { data, isLoading, isFetching, isError, isSuccess, error } = useQuery({
-  staleTime: 'static',
+  staleTime: Infinity,
   gcTime: 0,
   queryKey: [userInfoBasePath],
   async queryFn({ signal }) {

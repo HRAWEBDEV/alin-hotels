@@ -48,6 +48,8 @@ import { PersonsConfig } from '../../services/personsConfigContext';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { NumericFormat } from 'react-number-format';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { useUserInfoContext } from '../../../../services/user-info/userInfoContext';
+import { userInfoBasePath } from '../../../../services/user-info/userInfoApiActions';
 
 export default function NewPerson({
  dic,
@@ -62,6 +64,7 @@ export default function NewPerson({
  onSuccess?: PersonsConfig['persons']['onNewPersonSuccess'];
  onCancel?: PersonsConfig['persons']['onCancelNewPerson'];
 }) {
+ const { data: userInfo } = useUserInfoContext();
  const queryClient = useQueryClient();
  // form
  const {
@@ -138,6 +141,11 @@ export default function NewPerson({
     queryClient.invalidateQueries({
      queryKey: [realPersonsBasePath, 'person', personID.toString()],
     });
+    if (personID === userInfo.personID) {
+     queryClient.invalidateQueries({
+      queryKey: [userInfoBasePath],
+     });
+    }
    } else {
     toast.success(dic.newPerson.newPersonAdded);
    }
