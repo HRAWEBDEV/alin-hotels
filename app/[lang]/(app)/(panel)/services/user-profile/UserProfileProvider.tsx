@@ -70,7 +70,9 @@ export default function UserProfileProvider({
      </DialogHeader>
      <div className='h-[80svh] overflow-hidden flex flex-col lg:flex-row'>
       <UserProfileTabs />
-      <div className='grow overflow-auto'>{renderContent()}</div>
+      <div className='grow overflow-auto bg-neutral-100 dark:bg-neutral-900'>
+       {renderContent()}
+      </div>
      </div>
     </DialogContent>
    </Dialog>
