@@ -4,6 +4,8 @@ import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionarie
 const defaultValues: Partial<SmsConfigSchema> = {
  number: '',
  isDefault: false,
+ provider: null,
+ smsConfigType: null,
 };
 
 function createSmsConfigSchema({}: { dic: SmsPanelConfigDictionary }) {
