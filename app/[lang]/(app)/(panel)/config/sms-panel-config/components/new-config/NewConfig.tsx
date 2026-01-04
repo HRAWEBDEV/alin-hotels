@@ -22,7 +22,11 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import NoItemFound from '../../../../components/NoItemFound';
 import { type SmsConfigContext } from '../../services/smsConfigContext';
+import { NumericFormat } from 'react-number-format';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
  Popover,
  PopoverContent,
@@ -134,6 +138,47 @@ export default function NewConfig({
   <form className='bg-background p-4 border border-input rounded-md w-[min(30rem,100%)] mx-auto'>
    <FieldGroup className='gap-5'>
     <div className='grid grid-cols-1 gap-3 gap-y-5'>
+     <div>
+      <Controller
+       control={control}
+       name='isDefault'
+       render={({ field: { onChange, value, ...other } }) => (
+        <div
+         style={{
+          direction: 'ltr',
+         }}
+         className='flex items-center gap-2 flex-row-reverse'
+        >
+         <Switch
+          id='default'
+          {...other}
+          checked={value}
+          onCheckedChange={(newValue) => onChange(newValue)}
+         />
+         <Label htmlFor='default'>{dic.newConfig.form.default}</Label>
+        </div>
+       )}
+      />
+     </div>
+     <Controller
+      control={control}
+      name='number'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2' data-invalid={!!errors.number}>
+        <FieldLabel htmlFor='number'>{dic.newConfig.form.number} *</FieldLabel>
+        <InputGroup data-invalid={!!errors.number}>
+         <NumericFormat
+          {...other}
+          value={value}
+          onValueChange={({ value }) => onChange(value)}
+          decimalScale={0}
+          id='number'
+          customInput={InputGroupInput}
+         />
+        </InputGroup>
+       </Field>
+      )}
+     />
      <Controller
       control={control}
       name='provider'
