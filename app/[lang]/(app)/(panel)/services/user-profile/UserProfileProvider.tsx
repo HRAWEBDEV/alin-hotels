@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import UserProfileTabs from './components/UserProfileTabs';
+import UserProfileContent from './components/UserProfileContent';
 
 export default function UserProfileProvider({
  children,
@@ -40,6 +41,16 @@ export default function UserProfileProvider({
   toggle: handleToggle,
  };
 
+ function renderContent() {
+  switch (profileTab) {
+   case 'generalInfo':
+    return <UserProfileContent />;
+
+   default:
+    return <div></div>;
+  }
+ }
+
  return (
   <userProfileContext.Provider value={ctx}>
    {children}
@@ -57,9 +68,9 @@ export default function UserProfileProvider({
        {userProfileController.description}
       </DialogTitle>
      </DialogHeader>
-     <div className='h-[60svh] overflow-hidden lg:flex'>
+     <div className='h-[80svh] overflow-hidden flex flex-col lg:flex-row'>
       <UserProfileTabs />
-      <div className='grow'></div>
+      <div className='grow overflow-auto'>{renderContent()}</div>
      </div>
     </DialogContent>
    </Dialog>
