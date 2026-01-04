@@ -1,6 +1,7 @@
 import { Locale } from '@/internalization/app/localization';
 import { Metadata } from 'next';
 import { getSmsPanelConfigDictionary } from '@/internalization/app/dictionaries/config/sms-panel-config/dictionary';
+import ConfigWrapper from './components/ConfigWrapper';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/config/sms-panel-config'>,
@@ -21,5 +22,5 @@ export default async function SmsPanelConfigPage(
  const dic = await getSmsPanelConfigDictionary({
   locale: lang as Locale,
  });
- return <>test</>;
+ return <ConfigWrapper dic={dic} />;
 }

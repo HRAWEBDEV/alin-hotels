@@ -190,7 +190,7 @@ export default function SmsConfigProvider({
  useEffect(() => {
   const newSearchParams = new URLSearchParams(location.search);
   router.replace(
-   `/${locale}/general-settings/companies?${newSearchParams.toString()}`,
+   `/${locale}/config/sms-panel-config?${newSearchParams.toString()}`,
   );
  }, [locale, router]);
 

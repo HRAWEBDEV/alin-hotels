@@ -3,7 +3,10 @@ import { type Combo } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 
 const smsConfigBasePath = '/HotelsUnion/smsConfig';
 
-type InitialData = unknown;
+interface InitialData {
+ providers: Combo[];
+ smsConfigTypes: Combo[];
+}
 
 interface SmsConfig {
  id: number;
