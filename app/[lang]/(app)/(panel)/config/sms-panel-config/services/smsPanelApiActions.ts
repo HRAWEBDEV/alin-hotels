@@ -10,7 +10,7 @@ interface InitialData {
 
 interface SmsConfig {
  id: number;
- number: number;
+ number: string;
  smsConfigTypeID: number;
  providerID: number;
  isDefault: boolean;

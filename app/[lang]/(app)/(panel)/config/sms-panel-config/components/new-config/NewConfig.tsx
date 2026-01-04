@@ -1,9 +1,8 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionaries/config/sms-panel-config/dictionary';
-import { FieldGroup } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
  type SmsConfigSchema,
@@ -23,6 +22,21 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import NoItemFound from '../../../../components/NoItemFound';
 import { type SmsConfigContext } from '../../services/smsConfigContext';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import {
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
+} from '@/components/ui/popover';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+ Command,
+ CommandGroup,
+ CommandInput,
+ CommandItem,
+ CommandList,
+} from '@/components/ui/command';
 
 export default function NewConfig({
  dic,
@@ -38,6 +52,8 @@ export default function NewConfig({
  onCancel?: SmsConfigContext['config']['onCancelNewConfig'];
 }) {
  const queryClient = useQueryClient();
+ const [showProviders, setShowProviders] = useState(false);
+ const [showSmsConfigTypes, setShowSmsConfigTypes] = useState(false);
  // form
  const {
   control,
@@ -54,9 +70,13 @@ export default function NewConfig({
  });
  //
  const { mutate, isPending } = useMutation({
-  mutationFn({}: SmsConfigSchema) {
+  mutationFn({ provider, smsConfigType, number, isDefault }: SmsConfigSchema) {
    const newConfig: SaveSmsConfigPackage = {
-    id: 0,
+    id: configID || 0,
+    number: number,
+    isDefault,
+    providerID: Number(provider!.key),
+    smsConfigTypeID: Number(smsConfigType!.key),
    };
    return configID ? updateSmsConfig(newConfig) : saveSmsConfig(newConfig);
   },
@@ -111,9 +131,130 @@ export default function NewConfig({
    </div>
   );
  return (
-  <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'>
+  <form className='bg-background p-4 border border-input rounded-md w-[min(30rem,100%)] mx-auto'>
    <FieldGroup className='gap-5'>
-    <div className='grid grid-cols-2 gap-3 gap-y-5'></div>
+    <div className='grid grid-cols-1 gap-3 gap-y-5'>
+     <Controller
+      control={control}
+      name='provider'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2' data-invalid={!!errors.provider}>
+        <FieldLabel htmlFor='provider'>
+         {dic.newConfig.form.provider} *
+        </FieldLabel>
+        <Popover open={showProviders} onOpenChange={setShowProviders}>
+         <PopoverTrigger asChild>
+          <Button
+           data-invalid={!!errors.provider}
+           type='button'
+           id='provider'
+           variant='outline'
+           role='combobox'
+           aria-expanded={showProviders}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData?.data?.providers?.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setShowProviders(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+     <Controller
+      control={control}
+      name='smsConfigType'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2' data-invalid={!!errors.smsConfigType}>
+        <FieldLabel htmlFor='smsConfigType'>
+         {dic.newConfig.form.smsType} *
+        </FieldLabel>
+        <Popover open={showSmsConfigTypes} onOpenChange={setShowSmsConfigTypes}>
+         <PopoverTrigger asChild>
+          <Button
+           data-invalid={!!errors.smsConfigType}
+           type='button'
+           id='smsConfigType'
+           variant='outline'
+           role='combobox'
+           aria-expanded={showSmsConfigTypes}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput className='h-11'></CommandInput>
+           <CommandList>
+            <CommandGroup>
+             {initialData.data?.smsConfigTypes?.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setShowSmsConfigTypes(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+    </div>
     <div className='flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4'>
      <Button
       data-disabled={!!configID}

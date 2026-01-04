@@ -3,11 +3,13 @@ import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionarie
 
 const defaultValues: Partial<SmsConfigSchema> = {
  number: '',
+ isDefault: false,
 };
 
 function createSmsConfigSchema({}: { dic: SmsPanelConfigDictionary }) {
  return z
   .object({
+   isDefault: z.boolean(),
    number: z.string().min(1),
    provider: z
     .object({
