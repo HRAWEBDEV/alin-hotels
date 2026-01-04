@@ -12,7 +12,7 @@ interface SmsConfig {
  id: number;
 }
 
-type SaveSmsConfigPackage = unknown;
+type SaveSmsConfigPackage = SmsConfig;
 
 type GetSmsConfigProps = {
  smsConfigTypeID?: string;

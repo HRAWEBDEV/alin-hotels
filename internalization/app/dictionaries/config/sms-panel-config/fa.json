@@ -17,6 +17,18 @@
   "next": "بعدی",
   "prev": "قبلی"
  },
+ "newConfig": {
+  "newConfigAdded": "تنظیمات اضافه شد",
+  "form": {
+   "number": "سرشماره",
+   "default": "پیشفرض",
+   "provider": "ارائه دهنده",
+   "smsType": "نوع پیامک",
+   "save": "ذخیره",
+   "cancel": "انصراف",
+   "clearForm": "خالی کردن اطلاعات"
+  }
+ },
  "removeConfig": {
   "title": "حذف تنظیمات",
   "confirmRemoveConfig": "آیا از حذف تنظیمات اطمینان دارید؟",

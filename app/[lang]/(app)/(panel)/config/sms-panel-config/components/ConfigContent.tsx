@@ -2,8 +2,7 @@
 import { type SmsPanelConfigDictionary } from '@/internalization/app/dictionaries/config/sms-panel-config/dictionary';
 import { useSmsConfigContext } from '../services/smsConfigContext';
 import ConfigList from './config-list/ConfigList';
-// import NewPerson from './new-person/NewPerson';
-// import PersonsList from './persons-list/PersonsList';
+import NewConfig from './new-config/NewConfig';
 import { Activity } from 'react';
 
 export default function ConfigContent({
@@ -26,23 +25,21 @@ export default function ConfigContent({
     <ConfigList dic={dic} />
    </Activity>
    <Activity mode={selectedTab === 'add' ? 'visible' : 'hidden'}>
-    <></>
-    {/* <NewPerson */}
-    {/*  dic={dic} */}
-    {/*  onSuccess={onNewPersonSuccess} */}
-    {/*  onCancel={onCancelNewPerson} */}
-    {/*  initialData={initialData} */}
-    {/* /> */}
+    <NewConfig
+     dic={dic}
+     onSuccess={onNewConfigSuccess}
+     onCancel={onCancelNewConfig}
+     initialData={initialData}
+    />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
-    <></>
-    {/* <NewPerson */}
-    {/*  dic={dic} */}
-    {/*  companyID={selectedPersonID} */}
-    {/*  onSuccess={onNewPersonSuccess} */}
-    {/*  onCancel={onCancelNewPerson} */}
-    {/*  initialData={initialData} */}
-    {/* /> */}
+    <NewConfig
+     dic={dic}
+     configID={selectedConfigID}
+     onSuccess={onNewConfigSuccess}
+     onCancel={onCancelNewConfig}
+     initialData={initialData}
+    />
    </Activity>
   </main>
  );
