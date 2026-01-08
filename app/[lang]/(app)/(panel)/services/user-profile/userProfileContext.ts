@@ -17,12 +17,28 @@ interface UserSettings {
  };
 }
 
+interface UserSettingsPreferences {
+ ui: {
+  gridLimitSizeOption: number;
+ };
+}
+
 interface UserProfile {
  isOpen: boolean;
  activeTabType: UserPorifleTab;
  toggle: (params: { open?: boolean; type?: UserPorifleTab }) => unknown;
  settings: UserSettings;
+ settingsPreferences: UserSettingsPreferences;
+ onChangeUiSettings: (
+  newSetting: Partial<UserSettingsPreferences['ui']>,
+ ) => unknown;
 }
+
+const userSettingsPreferencesDefaults: UserSettingsPreferences = {
+ ui: {
+  gridLimitSizeOption: 10,
+ },
+};
 
 const userProfileContext = createContext<null | UserProfile>(null);
 
@@ -32,5 +48,15 @@ function useUserProfileContext() {
  return val;
 }
 
-export type { UserProfile, UserPorifleTab };
-export { userProfileContext, userProfileTabs, useUserProfileContext };
+export type {
+ UserSettings,
+ UserProfile,
+ UserPorifleTab,
+ UserSettingsPreferences,
+};
+export {
+ userProfileContext,
+ userProfileTabs,
+ userSettingsPreferencesDefaults,
+ useUserProfileContext,
+};

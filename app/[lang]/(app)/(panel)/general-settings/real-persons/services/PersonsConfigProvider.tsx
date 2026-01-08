@@ -45,6 +45,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebouncedValue } from '@tanstack/react-pacer';
 import { type WrapperTypes } from '../utils/wrapperTypes';
+import { useUserProfileContext } from '../../../services/user-profile/userProfileContext';
 
 export default function PersonsConfigProvider({
  children,
@@ -54,6 +55,7 @@ export default function PersonsConfigProvider({
  children: ReactNode;
  dic: RealPersonsDictionary;
 } & WrapperTypes) {
+ const { settingsPreferences } = useUserProfileContext();
  // queries
  const router = useRouter();
  const searchParams = useSearchParams();
@@ -70,7 +72,9 @@ export default function PersonsConfigProvider({
  const nationalityIDQuery = searchParams.get('nationalityID');
  const nationalityNameQuery = searchParams.get('nationalityName');
  const paginationIndexQuery = searchParams.get('paginationIndex');
- const paginationSizeQuery = searchParams.get('paginationSize');
+ const paginationSizeQuery =
+  searchParams.get('paginationSize') ||
+  settingsPreferences.ui.gridLimitSizeOption.toString();
  // filters setup
  const realPersonFilters = useForm<RealPersonSchema>({
   resolver: zodResolver(createRealPersonSchema({ dic })),

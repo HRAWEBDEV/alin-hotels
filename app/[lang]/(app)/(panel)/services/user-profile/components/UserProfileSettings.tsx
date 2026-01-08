@@ -14,7 +14,8 @@ import { useUserProfileContext } from '../userProfileContext';
 
 export default function UserProfileSettings() {
  const { localeInfo } = useBaseConfig();
- const { settings } = useUserProfileContext();
+ const { settings, settingsPreferences, onChangeUiSettings } =
+  useUserProfileContext();
  const {
   shareDictionary: {
    components: { settingController },
@@ -30,7 +31,15 @@ export default function UserProfileSettings() {
      <Label className='text-xs'>
       {settingController.gridLimitSizeOptions}:{' '}
      </Label>
-     <Select dir={localeInfo.contentDirection}>
+     <Select
+      dir={localeInfo.contentDirection}
+      value={settingsPreferences.ui.gridLimitSizeOption.toString()}
+      onValueChange={(newValue) =>
+       onChangeUiSettings({
+        gridLimitSizeOption: Number(newValue),
+       })
+      }
+     >
       <SelectTrigger className='w-20'>
        <SelectValue />
       </SelectTrigger>

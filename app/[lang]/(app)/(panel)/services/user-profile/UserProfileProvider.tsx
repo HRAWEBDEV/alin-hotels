@@ -1,9 +1,11 @@
 'use client';
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import {
  type UserProfile,
  type UserPorifleTab,
+ type UserSettingsPreferences,
  userProfileContext,
+ userSettingsPreferencesDefaults,
 } from './userProfileContext';
 import {
  Dialog,
@@ -16,6 +18,10 @@ import UserProfileTabs from './components/UserProfileTabs';
 import UserProfileContent from './components/UserProfileContent';
 import UserProfileSettings from './components/UserProfileSettings';
 import { gridLimitSizeOptions } from './utils/gridSetup';
+import {
+ getUiSettingsPreferences,
+ setUiSettingsPreferences,
+} from './utils/uiSettingPreferencesStoreManager';
 
 export default function UserProfileProvider({
  children,
@@ -27,6 +33,17 @@ export default function UserProfileProvider({
    components: { userProfileController },
   },
  } = useShareDictionary();
+ const [userSettingsPreferences, setUserSettingsPreferences] =
+  useState<UserSettingsPreferences>(() => {
+   try {
+    if (typeof window !== 'undefined' && window) {
+     return getUiSettingsPreferences() || userSettingsPreferencesDefaults;
+    }
+    return userSettingsPreferencesDefaults;
+   } catch {
+    return getUiSettingsPreferences() || userSettingsPreferencesDefaults;
+   }
+  });
  const [profileTab, setProfileTab] = useState<UserPorifleTab>('generalInfo');
  const [isOpen, setIsOpen] = useState(false);
 
@@ -41,6 +58,20 @@ export default function UserProfileProvider({
   setProfileTab(type || 'generalInfo');
  }
 
+ function handleChangeUiSettings(
+  newUiSetting: Partial<UserSettingsPreferences['ui']>,
+ ) {
+  const newSetting = {
+   ...userSettingsPreferences,
+   ui: {
+    ...userSettingsPreferences.ui,
+    ...newUiSetting,
+   },
+  };
+  setUserSettingsPreferences(newSetting);
+  setUiSettingsPreferences(newSetting);
+ }
+
  const ctx: UserProfile = {
   isOpen,
   activeTabType: profileTab,
@@ -50,6 +81,8 @@ export default function UserProfileProvider({
     gridLimitSizeOptions,
    },
   },
+  settingsPreferences: userSettingsPreferences,
+  onChangeUiSettings: handleChangeUiSettings,
  };
 
  function renderContent() {
@@ -63,6 +96,11 @@ export default function UserProfileProvider({
   }
  }
 
+ useEffect(() => {
+  if (!getUiSettingsPreferences()) {
+   setUiSettingsPreferences(userSettingsPreferencesDefaults);
+  }
+ }, []);
  return (
   <userProfileContext.Provider value={ctx}>
    {children}
