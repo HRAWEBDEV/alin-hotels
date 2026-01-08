@@ -1,6 +1,10 @@
 'use client';
 import { useState, ReactNode } from 'react';
-import { type UserPorifleTab, userProfileContext } from './userProfileContext';
+import {
+ type UserProfile,
+ type UserPorifleTab,
+ userProfileContext,
+} from './userProfileContext';
 import {
  Dialog,
  DialogHeader,
@@ -10,6 +14,7 @@ import {
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import UserProfileTabs from './components/UserProfileTabs';
 import UserProfileContent from './components/UserProfileContent';
+import { gridLimitSizeOptions } from './utils/gridSetup';
 
 export default function UserProfileProvider({
  children,
@@ -35,10 +40,15 @@ export default function UserProfileProvider({
   setProfileTab(type || 'generalInfo');
  }
 
- const ctx = {
+ const ctx: UserProfile = {
   isOpen,
   activeTabType: profileTab,
   toggle: handleToggle,
+  settings: {
+   ui: {
+    gridLimitSizeOptions,
+   },
+  },
  };
 
  function renderContent() {

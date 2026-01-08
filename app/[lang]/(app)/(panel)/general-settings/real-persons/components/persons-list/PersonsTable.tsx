@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -43,6 +43,14 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import {
+ Select,
+ SelectItem,
+ SelectTrigger,
+ SelectContent,
+ SelectGroup,
+ SelectValue,
+} from '@/components/ui/select';
+import {
  MdKeyboardDoubleArrowLeft,
  MdKeyboardDoubleArrowRight,
  MdKeyboardArrowLeft,
@@ -51,9 +59,11 @@ import {
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 import { useFormContext } from 'react-hook-form';
 import { type RealPersonSchema } from '../../schemas/realPersonSchema';
+import { useUserProfileContext } from '../../../../services/user-profile/userProfileContext';
 
 export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
  const { getValues } = useFormContext<RealPersonSchema>();
+ const { settings } = useUserProfileContext();
  const validFilters = Object.keys(getValues()).filter(
   (key) => getValues()[key as keyof RealPersonSchema],
  );
@@ -444,7 +454,31 @@ export default function PersonsTable({ dic }: { dic: RealPersonsDictionary }) {
     )}
    </div>
    <div className='shrink-0 border-t border-input p-1 flex justify-between gap-2'>
-    <div></div>
+    <div>
+     <Select
+      dir={localeInfo.contentDirection}
+      value={pagination.pageSize.toString()}
+      onValueChange={(newValue) => {
+       onChangePagination((pre) => ({
+        ...pre,
+        pageSize: Number(newValue),
+       }));
+      }}
+     >
+      <SelectTrigger>
+       <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+       <SelectGroup>
+        {settings.ui.gridLimitSizeOptions.map((item) => (
+         <SelectItem key={item} value={item.toString()}>
+          {item}
+         </SelectItem>
+        ))}
+       </SelectGroup>
+      </SelectContent>
+     </Select>
+    </div>
     <div className='flex gap-1 items-center text-neutral-600 dark:text-neutral-400'>
      {table.getPageCount() > 1 && (
       <div className='basis-24'>

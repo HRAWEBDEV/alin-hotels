@@ -11,10 +11,17 @@ const userProfileTabs = [
 
 type UserPorifleTab = (typeof userProfileTabs)[number];
 
+interface UserSettings {
+ ui: {
+  gridLimitSizeOptions: number[];
+ };
+}
+
 interface UserProfile {
  isOpen: boolean;
  activeTabType: UserPorifleTab;
  toggle: (params: { open?: boolean; type?: UserPorifleTab }) => unknown;
+ settings: UserSettings;
 }
 
 const userProfileContext = createContext<null | UserProfile>(null);
