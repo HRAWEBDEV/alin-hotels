@@ -45,6 +45,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebouncedValue } from '@tanstack/react-pacer';
 import { type WrapperTypes } from '../utils/wrapperTypes';
+import { useUserProfileContext } from '../../../services/user-profile/userProfileContext';
 
 export default function PersonsConfigProvider({
  children,
@@ -54,6 +55,7 @@ export default function PersonsConfigProvider({
  children: ReactNode;
  dic: CompaniesDictionary;
 } & WrapperTypes) {
+ const { settingsPreferences } = useUserProfileContext();
  // queries
  const router = useRouter();
  const searchParams = useSearchParams();
@@ -61,7 +63,9 @@ export default function PersonsConfigProvider({
   'activeTab',
  ) as PersonsConfig['selectedTab'];
  const paginationIndexQuery = searchParams.get('paginationIndex');
- const paginationSizeQuery = searchParams.get('paginationSize');
+ const paginationSizeQuery =
+  searchParams.get('paginationSize') ||
+  settingsPreferences.ui.gridLimitSizeOption.toString();
  const nameQuery = searchParams.get('name');
  const registerNoQuery = searchParams.get('registerNo');
  const nationalCodeQuery = searchParams.get('nationalCode');

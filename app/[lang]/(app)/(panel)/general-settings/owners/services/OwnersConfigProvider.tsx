@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { type OwnersDictionary } from '@/internalization/app/dictionaries/general-settings/owners/dictionary';
 import { ReactNode } from 'react';
 import { type OwnersConfig, ownersConfigContext } from './ownersConfigContext';
-import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { ownersBasePath, getAllOwners, removeOwner } from './ownersApiActions';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';

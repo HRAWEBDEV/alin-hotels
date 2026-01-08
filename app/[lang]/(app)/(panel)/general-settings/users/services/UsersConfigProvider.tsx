@@ -40,6 +40,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebouncedValue } from '@tanstack/react-pacer';
 import { type WrapperTypes } from '../utils/wrapperTypes';
+import { useUserProfileContext } from '../../../services/user-profile/userProfileContext';
 
 export default function UsersConfigProvider({
  children,
@@ -49,6 +50,7 @@ export default function UsersConfigProvider({
  children: ReactNode;
  dic: UsersDictionary;
 } & WrapperTypes) {
+ const { settingsPreferences } = useUserProfileContext();
  // queries
  const router = useRouter();
  const searchParams = useSearchParams();
@@ -59,7 +61,9 @@ export default function UsersConfigProvider({
  const nameValueQuery = searchParams.get('name');
  const phoneNumberValueQuery = searchParams.get('phoneNumber');
  const paginationIndexQuery = searchParams.get('paginationIndex');
- const paginationSizeQuery = searchParams.get('paginationSize');
+ const paginationSizeQuery =
+  searchParams.get('paginationSize') ||
+  settingsPreferences.ui.gridLimitSizeOption.toString();
 
  // filters setup
  const userFilters = useForm<UserSchema>({
