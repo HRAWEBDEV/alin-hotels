@@ -46,7 +46,9 @@
    "description": "تغییر حالت"
   },
   "settingController": {
-   "description": "تنظیمات"
+   "description": "تنظیمات",
+   "ui": "رابط کاربری",
+   "gridLimitSizeOptions": "تعداد ردیف نمایشی جداول"
   },
   "quickAccessController": {
    "description": "دسترسی سریع"

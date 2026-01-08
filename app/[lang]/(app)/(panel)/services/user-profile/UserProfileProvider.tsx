@@ -14,6 +14,7 @@ import {
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import UserProfileTabs from './components/UserProfileTabs';
 import UserProfileContent from './components/UserProfileContent';
+import UserProfileSettings from './components/UserProfileSettings';
 import { gridLimitSizeOptions } from './utils/gridSetup';
 
 export default function UserProfileProvider({
@@ -55,7 +56,8 @@ export default function UserProfileProvider({
   switch (profileTab) {
    case 'generalInfo':
     return <UserProfileContent />;
-
+   case 'setting':
+    return <UserProfileSettings />;
    default:
     return <div></div>;
   }
