@@ -49,7 +49,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { dictionaryDefaultValues } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 import { setTimeout } from 'timers';
 
-export default function NewPerson({
+export default function NewHotel({
  dic,
  hotelID,
  onSuccess,
@@ -146,7 +146,7 @@ export default function NewPerson({
    </div>
   );
  return (
-  <form className='bg-background p-4 border border-input rounded-md w-[min(35rem,100%)] mx-auto'>
+  <form className='bg-background p-4 border border-input rounded-md w-[min(50rem,100%)] mx-auto'>
    <FieldGroup className='gap-5'>
     <div className='grid grid-cols-2 gap-3 gap-y-5'></div>
     <div className='flex flex-col-reverse sm:flex-row sm:justify-between sm:items-center gap-4'>

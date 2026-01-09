@@ -1,6 +1,7 @@
 'use client';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import HotelsList from './hotels-list/HotelsList';
+import NewHotel from './new-hotel/NewHotel';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
 
@@ -20,23 +21,21 @@ export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
     <HotelsList dic={dic} />
    </Activity>
    <Activity mode={selectedTab === 'add' ? 'visible' : 'hidden'}>
-    <></>
-    {/* <NewPerson */}
-    {/*  dic={dic} */}
-    {/*  onSuccess={onNewPersonSuccess} */}
-    {/*  onCancel={onCancelNewPerson} */}
-    {/*  initialData={initialData} */}
-    {/* /> */}
+    <NewHotel
+     dic={dic}
+     onSuccess={onNewHotelSuccess}
+     onCancel={onCancelNewHotel}
+     initialData={initialData}
+    />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
-    <></>
-    {/* <NewPerson */}
-    {/*  dic={dic} */}
-    {/*  companyID={selectedPersonID} */}
-    {/*  onSuccess={onNewPersonSuccess} */}
-    {/*  onCancel={onCancelNewPerson} */}
-    {/*  initialData={initialData} */}
-    {/* /> */}
+    <NewHotel
+     dic={dic}
+     hotelID={selectedHotelID}
+     onSuccess={onNewHotelSuccess}
+     onCancel={onCancelNewHotel}
+     initialData={initialData}
+    />
    </Activity>
   </main>
  );
