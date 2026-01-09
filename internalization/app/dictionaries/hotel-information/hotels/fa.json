@@ -17,6 +17,14 @@
   "next": "بعدی",
   "prev": "قبلی"
  },
+ "newHotel": {
+  "newHotelAdded": "هتل اضافه شد",
+  "form": {
+   "save": "ذخیره",
+   "cancel": "انصراف",
+   "clearForm": "خالی کردن اطلاعات"
+  }
+ },
  "removeHotel": {
   "title": "حذف هتل",
   "confirmRemovePerson": "آیا از حذف هتل اطمینان دارید؟",
