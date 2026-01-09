@@ -5,6 +5,18 @@
   "editHotel": "ویرایش هتل",
   "addHotel": "افزودن هتل"
  },
+ "filters": {
+  "title": "فیلترها",
+  "results": "نتایج"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها",
+  "edit": "ویرایش",
+  "remove": "حذف",
+  "next": "بعدی",
+  "prev": "قبلی"
+ },
  "removeHotel": {
   "title": "حذف هتل",
   "confirmRemovePerson": "آیا از حذف هتل اطمینان دارید؟",

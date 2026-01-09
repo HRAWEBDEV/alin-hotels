@@ -4,7 +4,9 @@ import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-
 const defaultValues: Partial<HotelSchema> = {};
 
 function createHotelSchema({}: { dic: HotelsDictionary }) {
- return z.object({});
+ return z.object({
+  name: z.string(),
+ });
 }
 
 type HotelSchema = z.infer<ReturnType<typeof createHotelSchema>>;

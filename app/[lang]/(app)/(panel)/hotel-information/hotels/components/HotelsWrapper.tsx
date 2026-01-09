@@ -1,6 +1,7 @@
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import HotelsConfigProvider from '../services/HotelsConfigProvider';
 import HotelsTab from './HotelsTabs';
+import HotelsContent from './HotelsContent';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
 export default function HotelsWrapper({
@@ -19,6 +20,7 @@ export default function HotelsWrapper({
   >
    <HotelsConfigProvider dic={dic} {...wrapperType}>
     <HotelsTab dic={dic} />
+    <HotelsContent dic={dic} />
    </HotelsConfigProvider>
   </div>
  );
