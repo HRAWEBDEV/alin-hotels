@@ -107,10 +107,10 @@ export default function HotelsConfigProvider({
          }
        : null,
      hotelOwnershipType:
-      ownershipTypeIDQuery && ownershipTypeNameQuery
+      ownershipTypeIDQuery && ownerOperatorTypeNameQuery
        ? {
           key: ownershipTypeIDQuery,
-          value: ownershipTypeNameQuery,
+          value: ownerOperatorTypeNameQuery,
          }
        : null,
      hotelOperatorType:
@@ -330,46 +330,10 @@ export default function HotelsConfigProvider({
   newSearchParams.set('paginationIndex', pagination.pageIndex.toString());
   newSearchParams.set('stateID', stateValue?.key || '');
   newSearchParams.set('stateName', stateValue?.value || '');
-  newSearchParams.set('cityID', cityValue?.key || '');
-  newSearchParams.set('cityName', cityValue?.value || '');
-  newSearchParams.set('ownershipTypeID', hotelOwnershipTypeValue?.key || '');
-  newSearchParams.set(
-   'ownershipTypeName',
-   hotelOwnershipTypeValue?.value || '',
-  );
-  newSearchParams.set('ownerOperatorTypeID', hotelOperatorTypevalue?.key || '');
-  newSearchParams.set(
-   'ownerOperatorTypeName',
-   hotelOperatorTypevalue?.value || '',
-  );
-  newSearchParams.set('hotelTypeID', hotelTypeValue?.key || '');
-  newSearchParams.set('hotelTypeName', hotelTypeValue?.value || '');
-  newSearchParams.set('gradeTypeID', gradeTypeValue?.key || '');
-  newSearchParams.set('gradeTypeName', gradeTypeValue?.value || '');
-  newSearchParams.set('degreeTypeID', degreeTypeValue?.key || '');
-  newSearchParams.set('degreeTypeName', degreeTypeValue?.value || '');
-  newSearchParams.set('locationTypeID', locationTypeValue?.key || '');
-  newSearchParams.set('locationTypeName', locationTypeValue?.value || '');
-  newSearchParams.set('hotelThemeID', hotelThemeValue?.key || '');
-  newSearchParams.set('hotelThemeName', hotelThemeValue?.value || '');
   router.replace(
    `/${locale}/hotel-information/hotels?${newSearchParams.toString()}`,
   );
- }, [
-  wrapperType.mode,
-  locale,
-  router,
-  degreeTypeValue,
-  gradeTypeValue,
-  hotelOperatorTypevalue,
-  hotelOwnershipTypeValue,
-  hotelThemeValue,
-  hotelTypeValue,
-  locationTypeValue,
-  cityValue,
-  stateValue,
-  pagination,
- ]);
+ }, [wrapperType.mode, locale, router, pagination]);
 
  const ctx: HotelsConfig = {
   wrapperType: wrapperType,
