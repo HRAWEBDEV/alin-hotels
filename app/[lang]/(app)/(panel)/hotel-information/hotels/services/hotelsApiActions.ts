@@ -9,7 +9,14 @@ import {
 const hotelBasePath = '/HotelsUnion/Hotel';
 
 type InitialData = {
- nationalityZones: Combo[];
+ stateZones: Combo[];
+ hotelOwnershipTypes: Combo[];
+ hotelOperators: Combo[];
+ hotelTypes: Combo[];
+ gradeTypes: Combo[];
+ degreeTypes: Combo[];
+ locationTypes: Combo[];
+ hotelThemes: Combo[];
 };
 
 interface Hotel {
