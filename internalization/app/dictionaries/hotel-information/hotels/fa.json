@@ -1,3 +1,14 @@
 {
- "title": "هتل‌ها"
+ "title": "هتل‌ها",
+ "tabs": {
+  "hotelsList": "لیست هتل‌ها",
+  "editHotel": "ویرایش هتل",
+  "addHotel": "افزودن هتل"
+ },
+ "removeHotel": {
+  "title": "حذف هتل",
+  "confirmRemovePerson": "آیا از حذف هتل اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
+ }
 }

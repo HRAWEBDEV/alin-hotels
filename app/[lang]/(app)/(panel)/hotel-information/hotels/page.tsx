@@ -1,6 +1,7 @@
 import { Locale } from '@/internalization/app/localization';
 import { Metadata } from 'next';
 import { getHotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
+import HotelsWrapper from './components/HotelsWrapper';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/hotel-information/hotels'>,
@@ -21,5 +22,5 @@ export default async function HotelsPage(
  const dic = await getHotelsDictionary({
   locale: lang as Locale,
  });
- return <></>;
+ return <HotelsWrapper dic={dic} />;
 }
