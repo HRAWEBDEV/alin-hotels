@@ -221,7 +221,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
    },
    {
     accessorKey: 'hotelThemeName',
-    header: '???',
+    header: dic.newHotel.form.hotelTheme,
     minSize: 120,
     size: 120,
     meta: 'center',
