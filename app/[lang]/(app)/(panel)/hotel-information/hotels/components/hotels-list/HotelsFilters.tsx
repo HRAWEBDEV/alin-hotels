@@ -8,6 +8,20 @@ import { Spinner } from '@/components/ui/spinner';
 import { type HotelSchema, defaultValues } from '../../schemas/hotelSchema';
 import { useFormContext } from 'react-hook-form';
 import { FieldGroup } from '@/components/ui/field';
+import {
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
+} from '@/components/ui/popover';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+ Command,
+ CommandGroup,
+ CommandInput,
+ CommandItem,
+ CommandList,
+} from '@/components/ui/command';
 
 export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
  const { setValue } = useFormContext<HotelSchema>();
