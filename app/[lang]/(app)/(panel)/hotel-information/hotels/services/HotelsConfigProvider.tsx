@@ -224,6 +224,8 @@ export default function HotelsConfigProvider({
  useEffect(() => {
   if (wrapperType.mode === 'find') return;
   const newSearchParams = new URLSearchParams(location.search);
+  newSearchParams.set('paginationSize', pagination.pageSize.toString());
+  newSearchParams.set('paginationIndex', pagination.pageIndex.toString());
   router.replace(
    `/${locale}/hotel-information/hotels?${newSearchParams.toString()}`,
   );

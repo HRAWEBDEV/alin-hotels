@@ -248,6 +248,8 @@ export default function UsersConfigProvider({
   if (wrapperType.mode === 'find') return;
   const newSearchParams = new URLSearchParams(location.search);
   newSearchParams.set('userName', userNameValue);
+  newSearchParams.set('paginationSize', pagination.pageSize.toString());
+  newSearchParams.set('paginationIndex', pagination.pageIndex.toString());
   router.replace(
    `/${locale}/general-settings/users?${newSearchParams.toString()}`,
   );

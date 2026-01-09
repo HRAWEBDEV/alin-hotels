@@ -271,6 +271,8 @@ export default function PersonsConfigProvider({
   newSearchParams.set('nationalCode', nationalCodeDbValue);
   newSearchParams.set('nationalityID', nationalityValue?.key || '');
   newSearchParams.set('nationalityName', nationalityValue?.value || '');
+  newSearchParams.set('paginationSize', pagination.pageSize.toString());
+  newSearchParams.set('paginationIndex', pagination.pageIndex.toString());
   router.replace(
    `/${locale}/general-settings/companies?${newSearchParams.toString()}`,
   );
