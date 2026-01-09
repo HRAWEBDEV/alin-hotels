@@ -5,6 +5,7 @@ const defaultValues: Partial<HotelSchema> = {
  name: '',
  state: null,
  city: null,
+ owner: null,
  hotelOperatorType: null,
  hotelOwnershipType: null,
  gradeType: null,
@@ -34,6 +35,12 @@ const defaultValues: Partial<HotelSchema> = {
 function createHotelSchema({}: { dic: HotelsDictionary }) {
  return z.object({
   name: z.string().min(1),
+  owner: z
+   .object({
+    key: z.string(),
+    value: z.string(),
+   })
+   .nullable(),
   state: z
    .object({
     key: z.string(),
@@ -103,8 +110,8 @@ function createHotelSchema({}: { dic: HotelsDictionary }) {
   email: z.string(),
   postalCode: z.string(),
   website: z.email(),
-  longitude: z.literal('').or(z.number()),
-  latitude: z.literal('').or(z.number()),
+  longitude: z.string(),
+  latitude: z.string(),
  });
 }
 
