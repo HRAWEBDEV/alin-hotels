@@ -21,10 +21,62 @@ type InitialData = {
 
 interface Hotel {
  id: number;
+ ownerID: number;
+ ownerName: string;
+ nameID: number;
+ name: string;
+ stateZoneID: number;
+ stateZoneName: string;
+ cityZoneID: number;
+ cityZoneName: string;
+ hotelOwnershipTypeID: number;
+ hotelOwnershipTypeName: string;
+ hotelOperatorTypeID: number;
+ operatorTypeName: string;
+ hotelTypeID: number;
+ hotelTypeName: string;
+ gradeTypeID: number;
+ gradeTypeName: string;
+ degreeTypeID: number;
+ degreeTypeName: string;
+ locationTypeID: number;
+ locationTypeName: string;
+ hotelThemeID: number;
+ hotelThemeName: string;
+ landArea: number;
+ buildingArea: number;
+ floorCount: number;
+ towerCount: number;
+ roomCount: number;
+ bedCount: number;
+ maxExtraBedCount: number;
+ address: string;
+ tel1: string;
+ tel2: string;
+ tel3: string;
+ fax: string;
+ email: string;
+ postalCode: string;
+ webSiteUrl: string;
+ longitude: string;
+ latitude: string;
+ disabled: boolean;
 }
 
 type SaveHotelPackage = {
- mainData: Omit<Hotel, 'nationalityZoneName'>;
+ mainData: Omit<
+  Hotel,
+  | 'ownerName'
+  | 'stateZoneName'
+  | 'cityZoneName'
+  | 'hotelOwnershipTypeName'
+  | 'operatorTypeName'
+  | 'hotelTypeName'
+  | 'gradeTypeName'
+  | 'degreeTypeName'
+  | 'locationTypeName'
+  | 'hotelThemeName'
+ >;
  dictionaryData: Pick<Dictionary, 'id' | 'defaultValue'> &
   Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
 };
