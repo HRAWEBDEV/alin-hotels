@@ -74,6 +74,16 @@ export default function HotelFacilitiesItem({
   resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
   defaultValues: {
    ...defaultValues,
+   capacity: facility?.capacity || '',
+   comment: facility?.comment || '',
+   quantity: facility?.quantity || '',
+   scale: facility?.scale || '',
+   facility: facility
+    ? {
+       key: facility.id.toString(),
+       value: facility.facilityName,
+      }
+    : null,
   },
  });
 
@@ -104,10 +114,10 @@ export default function HotelFacilitiesItem({
  return (
   <form
    data-add-edit={!!facility?.id}
-   className='group grid grid-cols-1 data-[add-edit="true"]:mb-4'
+   className='group grid grid-cols-1 data-[add-edit="true"]:mb-4 data-[add-edit="true"]:bg-background data-[add-edit="true"]:p-4 data-[add-edit="true"]:rounded-md data-[add-edit="true"]:border data-[add-edit="true"]:border-input'
   >
    <div>
-    <div className='gap-y-5 gap-3 grid grid-cols-2 mb-2'>
+    <div className='gap-y-5 gap-3 grid grid-cols-2 mb-4'>
      <Controller
       control={control}
       name='facility'
@@ -235,6 +245,32 @@ export default function HotelFacilitiesItem({
      </Field>
     </div>
     <div className='flex justify-end gap-2'>
+     {facility && (
+      <>
+       <Button
+        type='button'
+        variant='outline'
+        size='icon'
+        disabled={isPending}
+        className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
+        onClick={() => {
+         onRemoveFacility(facility.id);
+        }}
+       >
+        {isPending ? <Spinner /> : <IoTrashOutline />}
+       </Button>
+       <Button
+        type='button'
+        variant='outline'
+        className='md:20'
+        disabled={isPending}
+        onClick={() => {}}
+       >
+        {isPending && <Spinner />}
+        {dic.hotelFacility.form.cancel}
+       </Button>
+      </>
+     )}
      <Button
       type='submit'
       variant={facility ? 'secondary' : 'default'}
@@ -250,31 +286,6 @@ export default function HotelFacilitiesItem({
       {isPending && <Spinner />}
       {facility ? dic.hotelFacility.form.update : dic.hotelFacility.form.save}
      </Button>
-     {facility && (
-      <>
-       <Button
-        type='button'
-        variant='outline'
-        className='md:20'
-        disabled={isPending}
-        onClick={() => {}}
-       >
-        {isPending && <Spinner />}
-       </Button>
-       <Button
-        type='button'
-        variant='outline'
-        size='icon'
-        disabled={isPending}
-        className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
-        onClick={() => {
-         onRemoveFacility(facility.id);
-        }}
-       >
-        {isPending ? <Spinner /> : <IoTrashOutline />}
-       </Button>
-      </>
-     )}
     </div>
    </div>
   </form>
