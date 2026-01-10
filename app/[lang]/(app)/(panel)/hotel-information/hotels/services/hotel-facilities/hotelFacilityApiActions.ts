@@ -26,9 +26,18 @@ function getInitialData({ signal }: { signal: AbortSignal }) {
  });
 }
 
-function getHotelFacility(hotelFacilityID: number) {
+function getHotelFacility({
+ hotelFacilityID,
+ signal,
+}: {
+ hotelFacilityID: number;
+ signal: AbortSignal;
+}) {
  return axios.get<HotelFacility>(
   `${hotelFacilitiesBasePath}/${hotelFacilityID}`,
+  {
+   signal,
+  },
  );
 }
 
@@ -38,9 +47,18 @@ function removeHotelFacility(hotelFacilityID: number) {
  );
 }
 
-function getHotelFacilities(hotelID: number) {
+function getHotelFacilities({
+ hotelID,
+ signal,
+}: {
+ hotelID: number;
+ signal: AbortSignal;
+}) {
  return axios.get<HotelFacility[]>(
   `${hotelFacilitiesBasePath}/detail/${hotelID}`,
+  {
+   signal,
+  },
  );
 }
 

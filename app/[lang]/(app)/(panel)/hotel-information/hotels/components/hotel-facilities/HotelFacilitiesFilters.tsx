@@ -13,14 +13,22 @@ import { FaSearch } from 'react-icons/fa';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 // import OwnerItem from './OwnersItem';
 import LinearLoading from '../../../../components/LinearLoading';
+import { useHotelFacilityContext } from '../../services/hotel-facilities/hotelFacilityContext';
 
-export default function OwnersFilters({ dic }: { dic: HotelsDictionary }) {
+export default function HotelFacilitiesFilters({
+ dic,
+}: {
+ dic: HotelsDictionary;
+}) {
  const {
   shareDictionary: {
    components: { navList },
   },
  } = useShareDictionary();
  const { register } = useFormContext<HotelFacilitiesSchema>();
+ const {
+  facilities: { isFetching, refetch },
+ } = useHotelFacilityContext();
  return (
   <div className='w-[min(35rem,100%)] mx-auto md:sticky top-0 z-1 bg-teal-50 dark:bg-teal-900 p-3 relative mb-4 border border-teal-300 dark:border-teal-700 rounded-md overflow-hidden'>
    <div>
@@ -46,11 +54,11 @@ export default function OwnersFilters({ dic }: { dic: HotelsDictionary }) {
       size={'icon'}
       className='h-auto text-primary border-primary'
       disabled={false}
-      // onClick={() => refetchOwners()}
+      onClick={() => refetch()}
      >
       <RxReload className='size-4' />
      </Button>
-     {false && <LinearLoading />}
+     {isFetching && <LinearLoading />}
     </div>
     {/* <OwnerItem dic={dic} owner={null} /> */}
    </div>

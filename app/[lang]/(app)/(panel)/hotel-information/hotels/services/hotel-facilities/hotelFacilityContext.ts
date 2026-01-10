@@ -1,6 +1,9 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
-import { type InitialData } from './hotelFacilityApiActions';
+import {
+ type InitialData,
+ type HotelFacility,
+} from './hotelFacilityApiActions';
 
 interface HotelFacilityContext {
  hotelID: number;
@@ -9,6 +12,15 @@ interface HotelFacilityContext {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
+ };
+ facilities: {
+  data?: HotelFacility[];
+  filteredData?: HotelFacility[];
+  isLoading: boolean;
+  isSuccess: boolean;
+  isFetching: boolean;
+  isError: boolean;
+  refetch: () => unknown;
  };
 }
 

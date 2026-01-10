@@ -39,15 +39,7 @@ export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
     />
    </Activity>
    <Activity mode={selectedTab === 'facilities' ? 'visible' : 'hidden'}>
-    {selectedHotelID && (
-     <HotelFacilities
-      dic={dic}
-      hotelID={selectedHotelID}
-      onSuccess={onNewHotelSuccess}
-      onCancel={onCancelNewHotel}
-      initialData={initialData}
-     />
-    )}
+    {selectedHotelID && <HotelFacilities dic={dic} hotelID={selectedHotelID} />}
    </Activity>
   </main>
  );

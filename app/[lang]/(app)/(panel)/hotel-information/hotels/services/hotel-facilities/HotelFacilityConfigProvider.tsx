@@ -9,6 +9,7 @@ import {
  hotelFacilitiesBasePath,
  getInitialData,
  removeHotelFacility,
+ getHotelFacilities,
 } from './hotelFacilityApiActions';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -54,12 +55,27 @@ export default function HotelFacilityConfigProvider({
   resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
   defaultValues: defaultValues,
  });
- // data
+ // init data
  const { data, isLoading, isError, isSuccess } = useQuery({
   staleTime: 'static',
   queryKey: [hotelFacilitiesBasePath, 'initial-data'],
   async queryFn({ signal }) {
    const res = await getInitialData({ signal });
+   return res.data;
+  },
+ });
+ // hotel facility
+ const {
+  data: facilities,
+  isLoading: facilitiesIsLoading,
+  isError: facilitiesIsError,
+  isSuccess: facilitiesIsSuccess,
+  isFetching: facilitiesIsFetching,
+  refetch: facilitiesRefetch,
+ } = useQuery({
+  queryKey: [hotelFacilitiesBasePath, 'all'],
+  async queryFn({ signal }) {
+   const res = await getHotelFacilities({ signal, hotelID });
    return res.data;
   },
  });
@@ -95,6 +111,14 @@ export default function HotelFacilityConfigProvider({
    isLoading,
    isError,
    isSuccess,
+  },
+  facilities: {
+   data: facilities,
+   isLoading: facilitiesIsLoading,
+   isError: facilitiesIsError,
+   isSuccess: facilitiesIsSuccess,
+   isFetching: facilitiesIsFetching,
+   refetch: facilitiesRefetch,
   },
  };
 
