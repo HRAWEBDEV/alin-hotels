@@ -119,7 +119,7 @@ export default function HotelFacilitiesItem({
    className='group grid grid-cols-1 data-[add-edit="true"]:mb-4 data-[add-edit="true"]:bg-background data-[add-edit="true"]:p-4 data-[add-edit="true"]:rounded-md data-[add-edit="true"]:border data-[add-edit="true"]:border-input'
   >
    <div>
-    <div className='gap-y-5 gap-3 grid grid-cols-2 mb-4'>
+    <div className='gap-y-4 gap-3 grid grid-cols-2 md:grid-cols-[minmax(0,16rem)_repeat(3,1fr)] mb-4'>
      <Controller
       control={control}
       name='facility'
@@ -132,6 +132,7 @@ export default function HotelFacilitiesItem({
          <PopoverTrigger asChild>
           <Button
            id='facility'
+           title={value?.value}
            variant='outline'
            role='combobox'
            aria-expanded={openFacilities}
@@ -237,12 +238,12 @@ export default function HotelFacilitiesItem({
        <InputGroupInput id='scale' {...register('scale')} />
       </InputGroup>
      </Field>
-     <Field className='gap-2 col-span-2'>
+     <Field className='gap-2 col-span-full'>
       <FieldLabel htmlFor='comment'>
        {dic.hotelFacility.form.comment}
       </FieldLabel>
       <InputGroup className='bg-background'>
-       <InputGroupTextarea id='comment' {...register('comment')} />
+       <InputGroupInput id='comment' {...register('comment')} />
       </InputGroup>
      </Field>
     </div>
