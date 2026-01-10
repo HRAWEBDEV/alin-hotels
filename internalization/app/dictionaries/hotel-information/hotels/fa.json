@@ -62,7 +62,9 @@
    "scale": "مقیاس",
    "cancel": "انصراف",
    "save": "ذخیره",
-   "update": "ویرایش"
+   "update": "ویرایش",
+   "add": "افزودن",
+   "showMore": "مشاهده بیشتر"
   }
  },
  "removeHotel": {

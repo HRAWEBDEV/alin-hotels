@@ -149,15 +149,15 @@ export default function HotelFacilityConfigProvider({
    >
     <DialogContent>
      <DialogHeader>
-      <DialogTitle className='hidden'>{dic.removeHotel.title}</DialogTitle>
+      <DialogTitle className='hidden'>{dic.removeFacility.title}</DialogTitle>
       <DialogDescription className='hidden font-medium text-base'>
-       {dic.removeHotel.confirmRemovePerson}
+       {dic.removeFacility.confirmRemoveFacility}
       </DialogDescription>
      </DialogHeader>
      <div className='flex gap-1 items-center'>
       <IoIosWarning className='size-8 text-rose-700 dark:text-rose-400' />
       <p className='font-medium text-base'>
-       {dic.removeHotel.confirmRemovePerson}
+       {dic.removeFacility.confirmRemoveFacility}
       </p>
      </div>
      <DialogFooter>
@@ -168,7 +168,7 @@ export default function HotelFacilityConfigProvider({
         className='sm:w-20'
        >
         {removeFacilityIsPending && <Spinner />}
-        {dic.removeHotel.cancel}
+        {dic.removeFacility.cancel}
        </Button>
       </DialogClose>
       <Button
@@ -180,7 +180,7 @@ export default function HotelFacilityConfigProvider({
        }}
       >
        {removeFacilityIsPending && <Spinner />}
-       {dic.removeHotel.confirm}
+       {dic.removeFacility.confirm}
       </Button>
      </DialogFooter>
     </DialogContent>

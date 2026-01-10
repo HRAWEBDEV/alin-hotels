@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import { type HotelFacilitiesSchema } from '../../schemas/hotel-facilities/hotelFacilitiesSchema';
 import { useFormContext } from 'react-hook-form';
@@ -25,9 +26,10 @@ export default function HotelFacilitiesFilters({
    components: { navList },
   },
  } = useShareDictionary();
+ const [showAddFacility, setShowAddFacility] = useState(false);
  const { register } = useFormContext<HotelFacilitiesSchema>();
  const {
-  facilities: { isFetching, refetch },
+  facilities: { isFetching, filteredData, refetch },
  } = useHotelFacilityContext();
  return (
   <div className='bg-teal-50 dark:bg-teal-900 p-3 relative mb-4 border border-teal-300 dark:border-teal-700 rounded-md overflow-hidden'>
@@ -46,7 +48,7 @@ export default function HotelFacilitiesFilters({
       <InputGroupAddon align='inline-end'>
        <div>
         <span>{dic.filters.results}: </span>
-        <span>{0}</span>
+        <span>{filteredData?.length}</span>
        </div>
       </InputGroupAddon>
      </InputGroup>
@@ -61,7 +63,21 @@ export default function HotelFacilitiesFilters({
      </Button>
      {isFetching && <LinearLoading />}
     </div>
-    <HotelFacilitiesItem dic={dic} facility={null} />
+    {showAddFacility ? (
+     <HotelFacilitiesItem
+      dic={dic}
+      facility={null}
+      onCancel={() => {
+       setShowAddFacility(false);
+      }}
+     />
+    ) : (
+     <div className='grid place-content-center'>
+      <Button className='w-32' onClick={() => setShowAddFacility(true)}>
+       {dic.hotelFacility.form.add}
+      </Button>
+     </div>
+    )}
    </div>
   </div>
  );

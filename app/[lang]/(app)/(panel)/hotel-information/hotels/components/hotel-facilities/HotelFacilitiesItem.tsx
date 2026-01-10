@@ -50,9 +50,11 @@ import { NumericFormat } from 'react-number-format';
 export default function HotelFacilitiesItem({
  dic,
  facility,
+ onCancel,
 }: {
  dic: HotelsDictionary;
  facility: HotelFacility | null;
+ onCancel?: () => unknown;
 }) {
  const [openFacilities, setOpenFacilities] = useState(false);
 
@@ -246,31 +248,31 @@ export default function HotelFacilitiesItem({
     </div>
     <div className='flex justify-end gap-2'>
      {facility && (
-      <>
-       <Button
-        type='button'
-        variant='outline'
-        size='icon'
-        disabled={isPending}
-        className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
-        onClick={() => {
-         onRemoveFacility(facility.id);
-        }}
-       >
-        {isPending ? <Spinner /> : <IoTrashOutline />}
-       </Button>
-       <Button
-        type='button'
-        variant='outline'
-        className='md:20'
-        disabled={isPending}
-        onClick={() => {}}
-       >
-        {isPending && <Spinner />}
-        {dic.hotelFacility.form.cancel}
-       </Button>
-      </>
+      <Button
+       type='button'
+       variant='outline'
+       size='icon'
+       disabled={isPending}
+       className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
+       onClick={() => {
+        onRemoveFacility(facility.id);
+       }}
+      >
+       {isPending ? <Spinner /> : <IoTrashOutline />}
+      </Button>
      )}
+     <Button
+      type='button'
+      variant='outline'
+      className='md:20'
+      disabled={isPending}
+      onClick={() => {
+       onCancel?.();
+      }}
+     >
+      {isPending && <Spinner />}
+      {dic.hotelFacility.form.cancel}
+     </Button>
      <Button
       type='submit'
       variant={facility ? 'secondary' : 'default'}
@@ -284,7 +286,7 @@ export default function HotelFacilitiesItem({
       }}
      >
       {isPending && <Spinner />}
-      {facility ? dic.hotelFacility.form.update : dic.hotelFacility.form.save}
+      {facility ? dic.hotelFacility.form.update : dic.hotelFacility.form.add}
      </Button>
     </div>
    </div>
