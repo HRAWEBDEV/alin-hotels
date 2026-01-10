@@ -47,6 +47,10 @@ import { NumericFormat } from 'react-number-format';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { dictionaryDefaultValues } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 import { setTimeout } from 'timers';
+import {
+ ownersBasePath,
+ getAllOwners,
+} from '../../../../general-settings/owners/services/ownersApiActions';
 
 export default function NewHotel({
  dic,
@@ -77,7 +81,6 @@ export default function NewHotel({
    ...defaultValues,
   },
  });
- console.log(errors);
  //
  const { localeInfo } = useBaseConfig();
  //
@@ -202,7 +205,16 @@ export default function NewHotel({
    return res.data;
   },
  });
-
+ //
+ const { data: ownersData, isLoading: ownersLoading } = useQuery({
+  enabled: openOwner,
+  queryKey: [ownersBasePath, 'all'],
+  async queryFn({ signal }) {
+   const res = await getAllOwners({ signal });
+   return res.data;
+  },
+ });
+ //
  useEffect(() => {
   if (!hotelID) return;
   reset();
@@ -473,7 +485,7 @@ export default function NewHotel({
              {value?.value || ''}
             </span>
             <div className='flex gap-1 items-center -me-2'>
-             {initialData.isLoading && <Spinner />}
+             {ownersLoading && <Spinner />}
              {value && (
               <Button
                type='button'
@@ -492,29 +504,34 @@ export default function NewHotel({
             </div>
            </Button>
           </PopoverTrigger>
-          <PopoverContent className='w-[200px] p-0'>
+          <PopoverContent className='w-64 p-0'>
            <Command>
             <CommandInput />
             <CommandList>
              <CommandGroup>
-              {/* {initialData.data?.stateZones.map((item) => ( */}
-              {/*  <CommandItem */}
-              {/*   key={item.key} */}
-              {/*   value={item.value} */}
-              {/*   onSelect={() => { */}
-              {/*    setOpenState(false); */}
-              {/*    onChange(item); */}
-              {/*   }} */}
-              {/*  > */}
-              {/*   {item.value} */}
-              {/*   <Check */}
-              {/*    className={cn( */}
-              {/*     'ml-auto', */}
-              {/*     value?.key === item.key ? 'opacity-100' : 'opacity-0', */}
-              {/*    )} */}
-              {/*   /> */}
-              {/*  </CommandItem> */}
-              {/* ))} */}
+              {ownersData?.map((item) => (
+               <CommandItem
+                key={item.id}
+                value={item.name}
+                onSelect={() => {
+                 setOpenOwner(false);
+                 onChange({
+                  key: item.id.toString(),
+                  value: item.name,
+                 });
+                }}
+               >
+                {item.name}
+                <Check
+                 className={cn(
+                  'ml-auto',
+                  value?.key === item.id.toString()
+                   ? 'opacity-100'
+                   : 'opacity-0',
+                 )}
+                />
+               </CommandItem>
+              ))}
              </CommandGroup>
             </CommandList>
            </Command>
