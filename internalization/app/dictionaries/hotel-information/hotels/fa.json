@@ -52,9 +52,25 @@
    "clearForm": "خالی کردن اطلاعات"
   }
  },
+ "hotelFacility": {
+  "form": {
+   "search": "جستجو",
+   "facility": "امکانات",
+   "quantity": "تعداد",
+   "capacity": "ظرفیت",
+   "comment": "توضیحات",
+   "scale": "مقیاس"
+  }
+ },
  "removeHotel": {
   "title": "حذف هتل",
   "confirmRemovePerson": "آیا از حذف هتل اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
+ },
+ "removeFacility": {
+  "title": "حذف شخص",
+  "confirmRemoveFacility": "آیا از حذف آیتم اطمینان دارید؟",
   "confirm": "تایید",
   "cancel": "انصراف"
  }

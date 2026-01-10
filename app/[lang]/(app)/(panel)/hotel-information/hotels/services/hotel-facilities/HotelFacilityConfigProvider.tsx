@@ -1,0 +1,148 @@
+'use client';
+import { ReactNode, useState } from 'react';
+import {
+ type HotelFacilityContext,
+ hotelFacilityContext,
+} from './hotelFacilityContext';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import {
+ hotelFacilitiesBasePath,
+ getInitialData,
+ removeHotelFacility,
+} from './hotelFacilityApiActions';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+ type HotelFacilitiesSchema,
+ createHotelFacilitiesSchema,
+ defaultValues,
+} from '../../schemas/hotel-facilities/hotelFacilitiesSchema';
+import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
+import {
+ Dialog,
+ DialogClose,
+ DialogTitle,
+ DialogDescription,
+ DialogHeader,
+ DialogFooter,
+ DialogContent,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+import { Spinner } from '@/components/ui/spinner';
+import { IoIosWarning } from 'react-icons/io';
+
+export default function HotelFacilityConfigProvider({
+ children,
+ hotelID,
+ dic,
+}: {
+ children: ReactNode;
+ hotelID: number;
+ dic: HotelsDictionary;
+}) {
+ const queryClient = useQueryClient();
+ //
+ const [selectedFacilityID, setSelectedFacilityID] = useState<number | null>(
+  null,
+ );
+ const [showRemoveFacilityConfirm, setShowRemoveFacilityConfirm] =
+  useState(false);
+ // form
+ const hotelFacilitiesUseForm = useForm<HotelFacilitiesSchema>({
+  resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
+  defaultValues: defaultValues,
+ });
+ // data
+ const { data, isLoading, isError, isSuccess } = useQuery({
+  staleTime: 'static',
+  queryKey: [hotelFacilitiesBasePath, 'initial-data'],
+  async queryFn({ signal }) {
+   const res = await getInitialData({ signal });
+   return res.data;
+  },
+ });
+
+ const { mutate: confirmRemoveOwner, isPending: removeOwnerIsPending } =
+  useMutation({
+   async mutationFn() {
+    return removeHotelFacility(selectedFacilityID!);
+   },
+   onSuccess() {
+    queryClient.invalidateQueries({
+     queryKey: [hotelFacilitiesBasePath, 'all'],
+    });
+    queryClient.invalidateQueries({
+     queryKey: [
+      hotelFacilitiesBasePath,
+      'facility',
+      selectedFacilityID!.toString(),
+     ],
+    });
+    setSelectedFacilityID(null);
+    setShowRemoveFacilityConfirm(false);
+   },
+   onError(err: AxiosError<string>) {
+    toast.error(err.response?.data);
+   },
+  });
+
+ const ctx: HotelFacilityContext = {
+  hotelID,
+  initialData: {
+   data,
+   isLoading,
+   isError,
+   isSuccess,
+  },
+ };
+
+ return (
+  <hotelFacilityContext.Provider value={ctx}>
+   <FormProvider {...hotelFacilitiesUseForm}>{children}</FormProvider>
+   <Dialog
+    open={showRemoveFacilityConfirm}
+    onOpenChange={(newValue) => setShowRemoveFacilityConfirm(newValue)}
+   >
+    <DialogContent>
+     <DialogHeader>
+      <DialogTitle className='hidden'>{dic.removeHotel.title}</DialogTitle>
+      <DialogDescription className='hidden font-medium text-base'>
+       {dic.removeHotel.confirmRemovePerson}
+      </DialogDescription>
+     </DialogHeader>
+     <div className='flex gap-1 items-center'>
+      <IoIosWarning className='size-8 text-rose-700 dark:text-rose-400' />
+      <p className='font-medium text-base'>
+       {dic.removeHotel.confirmRemovePerson}
+      </p>
+     </div>
+     <DialogFooter>
+      <DialogClose asChild>
+       <Button
+        disabled={removeOwnerIsPending}
+        variant='outline'
+        className='sm:w-20'
+       >
+        {removeOwnerIsPending && <Spinner />}
+        {dic.removeHotel.cancel}
+       </Button>
+      </DialogClose>
+      <Button
+       disabled={removeOwnerIsPending}
+       variant='destructive'
+       className='sm:w-20'
+       onClick={() => {
+        confirmRemoveOwner();
+       }}
+      >
+       {removeOwnerIsPending && <Spinner />}
+       {dic.removeHotel.confirm}
+      </Button>
+     </DialogFooter>
+    </DialogContent>
+   </Dialog>
+  </hotelFacilityContext.Provider>
+ );
+}
