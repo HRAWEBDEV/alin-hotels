@@ -3,7 +3,8 @@
  "tabs": {
   "hotelsList": "لیست هتل‌ها",
   "editHotel": "ویرایش هتل",
-  "addHotel": "افزودن هتل"
+  "addHotel": "افزودن هتل",
+  "hotelFacilities": "امکانات هتل"
  },
  "filters": {
   "title": "فیلترها",

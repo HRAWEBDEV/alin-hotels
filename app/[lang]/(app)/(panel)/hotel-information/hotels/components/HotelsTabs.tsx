@@ -48,6 +48,16 @@ export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
        {dic.tabs.editHotel}
       </TabsTrigger>
      )}
+     {selectedHotelID && (
+      <TabsTrigger
+       value='facilities'
+       className='sm:w-32 cursor-pointer text-purple-700 dark:text-purple-400 font-normal'
+       onClick={() => changeSelectedTab('facilities')}
+      >
+       <FaUserEdit />
+       {dic.tabs.hotelFacilities}
+      </TabsTrigger>
+     )}
     </TabsList>
    </Tabs>
   </header>

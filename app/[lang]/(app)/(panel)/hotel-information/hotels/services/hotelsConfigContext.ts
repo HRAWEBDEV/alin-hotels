@@ -10,9 +10,9 @@ import { PaginationState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
-type Tab = 'list' | 'add' | 'edit';
+type Tab = 'list' | 'add' | 'edit' | 'facilities';
 type NewHotelModes = 'add' | 'edit';
-const tabs: Tab[] = ['list', 'add', 'edit'];
+const tabs: Tab[] = ['list', 'add', 'edit', 'facilities'];
 
 interface HotelsConfig {
  wrapperType: WrapperTypes;

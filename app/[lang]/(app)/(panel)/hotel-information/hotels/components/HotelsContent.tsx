@@ -4,6 +4,7 @@ import HotelsList from './hotels-list/HotelsList';
 import NewHotel from './new-hotel/NewHotel';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
+import HotelFacilities from './hotel-facilities/HotelFacilities';
 
 export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
  const {
@@ -36,6 +37,17 @@ export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
      onCancel={onCancelNewHotel}
      initialData={initialData}
     />
+   </Activity>
+   <Activity mode={selectedTab === 'facilities' ? 'visible' : 'hidden'}>
+    {selectedHotelID && (
+     <HotelFacilities
+      dic={dic}
+      hotelID={selectedHotelID}
+      onSuccess={onNewHotelSuccess}
+      onCancel={onCancelNewHotel}
+      initialData={initialData}
+     />
+    )}
    </Activity>
   </main>
  );
