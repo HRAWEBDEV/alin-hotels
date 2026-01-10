@@ -3,6 +3,7 @@ import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-
 
 const defaultValues: Partial<HotelFacilitiesSchema> = {
  facility: null,
+ name: '',
  quantity: '',
  capacity: '',
  scale: '',
@@ -11,6 +12,7 @@ const defaultValues: Partial<HotelFacilitiesSchema> = {
 
 function createHotelFacilitiesSchema({}: { dic: HotelsDictionary }) {
  return z.object({
+  name: z.string(),
   facility: z
    .object({
     key: z.string(),

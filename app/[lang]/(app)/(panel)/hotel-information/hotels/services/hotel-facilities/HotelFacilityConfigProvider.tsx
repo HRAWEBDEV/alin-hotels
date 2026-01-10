@@ -33,6 +33,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
+import { useDebouncedValue } from '@tanstack/react-pacer';
 
 export default function HotelFacilityConfigProvider({
  children,
@@ -54,6 +55,10 @@ export default function HotelFacilityConfigProvider({
  const hotelFacilitiesUseForm = useForm<HotelFacilitiesSchema>({
   resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
   defaultValues: defaultValues,
+ });
+ const nameValue = hotelFacilitiesUseForm.watch('name');
+ const [nameDbValue] = useDebouncedValue(nameValue, {
+  wait: 500,
  });
  // init data
  const { data, isLoading, isError, isSuccess } = useQuery({
@@ -80,7 +85,18 @@ export default function HotelFacilityConfigProvider({
   },
  });
 
- const { mutate: confirmRemoveOwner, isPending: removeOwnerIsPending } =
+ const filteredData =
+  facilities && facilities.length && nameDbValue
+   ? facilities.filter((item) => item.facilityName.includes(nameDbValue))
+   : facilities;
+
+ // remove owner
+ function handleRemoveFacility(facilityID: number) {
+  setShowRemoveFacilityConfirm(true);
+  setSelectedFacilityID(facilityID);
+ }
+
+ const { mutate: confirmRemoveFacility, isPending: removeFacilityIsPending } =
   useMutation({
    async mutationFn() {
     return removeHotelFacility(selectedFacilityID!);
@@ -114,11 +130,13 @@ export default function HotelFacilityConfigProvider({
   },
   facilities: {
    data: facilities,
+   filteredData,
    isLoading: facilitiesIsLoading,
    isError: facilitiesIsError,
    isSuccess: facilitiesIsSuccess,
    isFetching: facilitiesIsFetching,
    refetch: facilitiesRefetch,
+   onRemoveFacility: handleRemoveFacility,
   },
  };
 
@@ -145,23 +163,23 @@ export default function HotelFacilityConfigProvider({
      <DialogFooter>
       <DialogClose asChild>
        <Button
-        disabled={removeOwnerIsPending}
+        disabled={removeFacilityIsPending}
         variant='outline'
         className='sm:w-20'
        >
-        {removeOwnerIsPending && <Spinner />}
+        {removeFacilityIsPending && <Spinner />}
         {dic.removeHotel.cancel}
        </Button>
       </DialogClose>
       <Button
-       disabled={removeOwnerIsPending}
+       disabled={removeFacilityIsPending}
        variant='destructive'
        className='sm:w-20'
        onClick={() => {
-        confirmRemoveOwner();
+        confirmRemoveFacility();
        }}
       >
-       {removeOwnerIsPending && <Spinner />}
+       {removeFacilityIsPending && <Spinner />}
        {dic.removeHotel.confirm}
       </Button>
      </DialogFooter>
