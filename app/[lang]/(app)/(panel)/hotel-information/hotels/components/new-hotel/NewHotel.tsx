@@ -77,6 +77,7 @@ export default function NewHotel({
    ...defaultValues,
   },
  });
+ console.log(errors);
  //
  const { localeInfo } = useBaseConfig();
  //
@@ -977,6 +978,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -997,6 +999,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1017,6 +1020,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1037,6 +1041,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1057,6 +1062,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1077,6 +1083,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1097,6 +1104,7 @@ export default function NewHotel({
            onValueChange={({ floatValue }) => onChange(floatValue)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1296,9 +1304,10 @@ export default function NewHotel({
           <NumericFormat
            id='fax'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ value }) => onChange(value)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
@@ -1316,9 +1325,10 @@ export default function NewHotel({
           <NumericFormat
            id='postalCode'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ value }) => onChange(value)}
            {...other}
            customInput={InputGroupInput}
+           decimalScale={0}
           />
          </InputGroup>
         </Field>
