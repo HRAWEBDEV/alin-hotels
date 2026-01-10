@@ -59,7 +59,10 @@
    "quantity": "تعداد",
    "capacity": "ظرفیت",
    "comment": "توضیحات",
-   "scale": "مقیاس"
+   "scale": "مقیاس",
+   "cancel": "انصراف",
+   "save": "ذخیره",
+   "update": "ویرایش"
   }
  },
  "removeHotel": {

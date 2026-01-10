@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/input-group';
 import { FaSearch } from 'react-icons/fa';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
-// import OwnerItem from './OwnersItem';
+import HotelFacilitiesItem from './HotelFacilitiesItem';
 import LinearLoading from '../../../../components/LinearLoading';
 import { useHotelFacilityContext } from '../../services/hotel-facilities/hotelFacilityContext';
 
@@ -60,7 +60,7 @@ export default function HotelFacilitiesFilters({
      </Button>
      {isFetching && <LinearLoading />}
     </div>
-    {/* <OwnerItem dic={dic} owner={null} /> */}
+    <HotelFacilitiesItem dic={dic} facility={null} />
    </div>
   </div>
  );

@@ -21,6 +21,7 @@ interface HotelFacilityContext {
   isFetching: boolean;
   isError: boolean;
   refetch: () => unknown;
+  onRemoveFacility: (facilityID: number) => unknown;
  };
 }
 
