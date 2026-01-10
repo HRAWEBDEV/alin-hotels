@@ -37,7 +37,6 @@ import {
  saveHotel,
  getHotel,
  updateHotel,
- Hotel,
 } from '../../services/hotelsApiActions';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -93,11 +92,77 @@ export default function NewHotel({
  const [openHotelTheme, setOpenHotelTheme] = useState(false);
  //
  const { mutate, isPending } = useMutation({
-  mutationFn({}: HotelSchema) {
+  mutationFn({
+   name,
+   address,
+   buildingArea,
+   email,
+   floorCount,
+   hotelTheme,
+   hotelType,
+   landArea,
+   postalCode,
+   bedCount,
+   city,
+   degreeType,
+   fax,
+   gradeType,
+   hotelOperatorType,
+   hotelOwnershipType,
+   latitude,
+   locationType,
+   longitude,
+   maxExtraBedCount,
+   owner,
+   roomCount,
+   state,
+   tel1,
+   tel2,
+   tel3,
+   towerCount,
+   website,
+  }: HotelSchema) {
    const newPerson: SaveHotelPackage = {
-    mainData: {},
+    mainData: {
+     id: hotelID || 0,
+     name: name,
+     nameID: data?.nameID || 0,
+     address: address || null,
+     bedCount: bedCount || null,
+     buildingArea: buildingArea || null,
+     email: email || null,
+     webSiteUrl: website || null,
+     fax: fax || null,
+     floorCount: floorCount || null,
+     landArea: landArea || null,
+     latitude: latitude || null,
+     longitude: longitude || null,
+     maxExtraBedCount: maxExtraBedCount || null,
+     postalCode: postalCode || null,
+     roomCount: roomCount || null,
+     tel1: tel1 || null,
+     tel2: tel2 || null,
+     tel3: tel3 || null,
+     towerCount: towerCount || null,
+     cityZoneID: city ? Number(city.key) : null,
+     degreeTypeID: degreeType ? Number(degreeType.key) : null,
+     gradeTypeID: gradeType ? Number(gradeType.key) : null,
+     hotelOperatorTypeID: hotelOperatorType
+      ? Number(hotelOperatorType.key)
+      : null,
+     hotelOwnershipTypeID: hotelOwnershipType
+      ? Number(hotelOwnershipType.key)
+      : null,
+     hotelThemeID: hotelTheme ? Number(hotelTheme.key) : null,
+     hotelTypeID: hotelType ? Number(hotelType.key) : null,
+     locationTypeID: locationType ? Number(locationType.key) : null,
+     stateZoneID: state ? Number(state.key) : null,
+     ownerID: owner ? Number(owner.key) : null,
+    },
     dictionaryData: {
      id: data?.nameID || 0,
+     defaultValue: name,
+     [localeInfo.latinName]: name,
     },
    };
    return hotelID ? updateHotel(newPerson) : saveHotel(newPerson);
@@ -324,6 +389,7 @@ export default function NewHotel({
          <Popover open={openHotelType} onOpenChange={setOpenHotelType}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='hotelType'
             variant='outline'
             role='combobox'
@@ -338,6 +404,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -393,6 +460,7 @@ export default function NewHotel({
          <Popover open={openOwner} onOpenChange={setOpenOwner}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='owner'
             variant='outline'
             role='combobox'
@@ -407,6 +475,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -464,6 +533,7 @@ export default function NewHotel({
          <Popover open={openOwnerShipType} onOpenChange={setOpenOwnerShipType}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='hotelOwnershipType'
             variant='outline'
             role='combobox'
@@ -478,6 +548,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -535,6 +606,7 @@ export default function NewHotel({
          <Popover open={openOperatorType} onOpenChange={setOpenOperatorType}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='hotelOperatorType'
             variant='outline'
             role='combobox'
@@ -549,6 +621,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -606,6 +679,7 @@ export default function NewHotel({
          <Popover open={openGradeType} onOpenChange={setOpenGradeType}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='gradeType'
             variant='outline'
             role='combobox'
@@ -620,6 +694,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -677,6 +752,7 @@ export default function NewHotel({
          <Popover open={openDegreeType} onOpenChange={setOpenDegreeType}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='degreeType'
             variant='outline'
             role='combobox'
@@ -691,6 +767,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -748,6 +825,7 @@ export default function NewHotel({
          <Popover open={openLocationType} onOpenChange={setOpenLocationType}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='locationType'
             variant='outline'
             role='combobox'
@@ -762,6 +840,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -819,6 +898,7 @@ export default function NewHotel({
          <Popover open={openHotelTheme} onOpenChange={setOpenHotelTheme}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='hotelTheme'
             variant='outline'
             role='combobox'
@@ -833,6 +913,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -1032,6 +1113,7 @@ export default function NewHotel({
          <Popover open={openState} onOpenChange={setOpenState}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='state'
             variant='outline'
             role='combobox'
@@ -1046,6 +1128,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -1101,6 +1184,7 @@ export default function NewHotel({
          <Popover open={openCity} onOpenChange={setOpenCity}>
           <PopoverTrigger asChild>
            <Button
+            type='button'
             id='city'
             variant='outline'
             role='combobox'
@@ -1115,6 +1199,7 @@ export default function NewHotel({
              {initialData.isLoading && <Spinner />}
              {value && (
               <Button
+               type='button'
                variant={'ghost'}
                size={'icon'}
                className='text-rose-700 dark:text-rose-400'
@@ -1257,9 +1342,9 @@ export default function NewHotel({
         <InputGroupInput id='tel3' {...register('tel3')} />
        </InputGroup>
       </Field>
-      <Field className='gap-2'>
+      <Field className='gap-2' data-invalid={!!errors.email}>
        <FieldLabel htmlFor='email'>{dic.newHotel.form.email}</FieldLabel>
-       <InputGroup>
+       <InputGroup data-invalid={!!errors.email}>
         <InputGroupInput id='email' {...register('email')} />
        </InputGroup>
       </Field>

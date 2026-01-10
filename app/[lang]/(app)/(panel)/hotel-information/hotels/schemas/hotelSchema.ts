@@ -107,9 +107,9 @@ function createHotelSchema({}: { dic: HotelsDictionary }) {
   tel2: z.string(),
   tel3: z.string(),
   fax: z.string(),
-  email: z.string(),
+  email: z.email(),
   postalCode: z.string(),
-  website: z.email(),
+  website: z.string(),
   longitude: z.string(),
   latitude: z.string(),
  });

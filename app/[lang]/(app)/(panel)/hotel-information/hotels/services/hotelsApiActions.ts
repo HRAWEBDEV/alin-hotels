@@ -76,6 +76,7 @@ type SaveHotelPackage = {
   | 'degreeTypeName'
   | 'locationTypeName'
   | 'hotelThemeName'
+  | 'disabled'
  >;
  dictionaryData: Pick<Dictionary, 'id' | 'defaultValue'> &
   Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
