@@ -142,6 +142,7 @@ export default function PersonsFitlers({ dic }: { dic: CompaniesDictionary }) {
            id='nationality'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openNationalityCombo}
            className='justify-between'
            {...other}

@@ -404,6 +404,7 @@ export default function NewHotel({
            <Button
             type='button'
             id='hotelType'
+            title={value?.value || ''}
             variant='outline'
             role='combobox'
             aria-expanded={openHotelType}
@@ -475,6 +476,7 @@ export default function NewHotel({
            <Button
             type='button'
             id='owner'
+            title={value?.value || ''}
             variant='outline'
             role='combobox'
             aria-expanded={openOwner}
@@ -553,6 +555,7 @@ export default function NewHotel({
            <Button
             type='button'
             id='hotelOwnershipType'
+            title={value?.value || ''}
             variant='outline'
             role='combobox'
             aria-expanded={openOwnerShipType}
@@ -627,6 +630,7 @@ export default function NewHotel({
             type='button'
             id='hotelOperatorType'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openOperatorType}
             className='justify-between'
@@ -700,6 +704,7 @@ export default function NewHotel({
             type='button'
             id='gradeType'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openHotelType}
             className='justify-between'
@@ -773,6 +778,7 @@ export default function NewHotel({
             type='button'
             id='degreeType'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openDegreeType}
             className='justify-between'
@@ -846,6 +852,7 @@ export default function NewHotel({
             type='button'
             id='locationType'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openLocationType}
             className='justify-between'
@@ -919,6 +926,7 @@ export default function NewHotel({
             type='button'
             id='hotelTheme'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openHotelTheme}
             className='justify-between'
@@ -1141,6 +1149,7 @@ export default function NewHotel({
             type='button'
             id='state'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openState}
             className='justify-between'
@@ -1212,6 +1221,7 @@ export default function NewHotel({
             type='button'
             id='city'
             variant='outline'
+            title={value?.value || ''}
             role='combobox'
             aria-expanded={openCity}
             className='justify-between'

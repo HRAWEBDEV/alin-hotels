@@ -193,6 +193,7 @@ export default function NewConfig({
            data-invalid={!!errors.provider}
            type='button'
            id='provider'
+           title={value?.value || ''}
            variant='outline'
            role='combobox'
            aria-expanded={showProviders}

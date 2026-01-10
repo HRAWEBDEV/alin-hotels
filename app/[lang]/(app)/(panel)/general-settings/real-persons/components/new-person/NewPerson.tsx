@@ -290,6 +290,7 @@ export default function NewPerson({
            id='gender'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openGenderCombo}
            className='justify-between'
            {...other}
@@ -352,6 +353,7 @@ export default function NewPerson({
            id='nationality'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openNationalityCombo}
            className='justify-between'
            {...other}
@@ -496,6 +498,7 @@ export default function NewPerson({
            id='educationGrade'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openEducationGradeCombo}
            className='justify-between'
            {...other}
@@ -572,6 +575,7 @@ export default function NewPerson({
            id='educationField'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openEducationFieldCombo}
            className='justify-between'
            {...other}

@@ -101,6 +101,7 @@ export default function ConfigFitlers({
            id='provider'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={showProviders}
            className='justify-between'
            {...other}

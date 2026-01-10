@@ -99,6 +99,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
           <Button
            id='state'
            variant='outline'
+           title={value?.value || ''}
            role='combobox'
            aria-expanded={openState}
            className='justify-between'
@@ -169,6 +170,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='city'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openCity}
            className='justify-between'
            {...other}
@@ -240,6 +242,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='hotelOwnershipType'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openOwnerShipType}
            className='justify-between'
            {...other}
@@ -311,6 +314,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='hotelOperatorType'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openOperatorType}
            className='justify-between'
            {...other}
@@ -382,6 +386,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='hotelType'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openHotelType}
            className='justify-between'
            {...other}
@@ -451,6 +456,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='gradeType'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openHotelType}
            className='justify-between'
            {...other}
@@ -520,6 +526,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='degreeType'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openDegreeType}
            className='justify-between'
            {...other}
@@ -591,6 +598,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='locationType'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openLocationType}
            className='justify-between'
            {...other}
@@ -662,6 +670,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
            id='hotelTheme'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openHotelTheme}
            className='justify-between'
            {...other}

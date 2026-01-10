@@ -115,6 +115,7 @@ export default function PersonsFitlers({
            id='gender'
            variant='outline'
            role='combobox'
+           title={value?.value || ''}
            aria-expanded={openGenderCombo}
            className='justify-between'
            {...other}
