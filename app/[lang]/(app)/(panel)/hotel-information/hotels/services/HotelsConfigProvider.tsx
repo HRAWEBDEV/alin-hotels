@@ -43,7 +43,6 @@ import {
  createHotelSchema,
 } from '../schemas/hotelSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useDebouncedValue } from '@tanstack/react-pacer';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 import { useUserProfileContext } from '../../../services/user-profile/userProfileContext';
 
@@ -245,12 +244,35 @@ export default function HotelsConfigProvider({
   refetch: refetchHotels,
  } = useQuery({
   placeholderData: keepPreviousData,
-  queryKey: [hotelBasePath, 'all', pagination.pageSize, pagination.pageIndex],
+  queryKey: [
+   hotelBasePath,
+   'all',
+   pagination.pageSize,
+   pagination.pageIndex,
+   cityValue?.key || 'all',
+   degreeTypeValue?.key || 'all',
+   gradeTypeValue?.key || 'all',
+   hotelOperatorTypevalue?.key || 'all',
+   hotelOwnershipTypeValue?.key || 'all',
+   hotelThemeValue?.key || 'all',
+   hotelTypeValue?.key || 'all',
+   locationTypeValue?.key || 'all',
+   stateValue?.key || 'all',
+  ],
   async queryFn({ signal }) {
    const res = await getPagedHotels({
     signal,
     limit: pagination.pageSize,
     offset: pagination.pageIndex + 1,
+    cityZoneID: cityValue?.key,
+    degreeTypeID: degreeTypeValue?.key,
+    gradeTypeID: gradeTypeValue?.key,
+    hotelOperatorTypeID: hotelOperatorTypevalue?.key,
+    hotelOwnershipTypeID: hotelOwnershipTypeValue?.key,
+    hotelThemeID: hotelThemeValue?.key,
+    hotelTypeID: hotelTypeValue?.key,
+    locationTypeID: locationTypeValue?.key,
+    stateZoneID: stateValue?.key,
    });
 
    if (!res.data || !res.data.limit) return;
