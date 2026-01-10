@@ -73,7 +73,11 @@ export default function HotelFacilitiesFilters({
      />
     ) : (
      <div className='grid place-content-center'>
-      <Button className='w-32' onClick={() => setShowAddFacility(true)}>
+      <Button
+       size='sm'
+       className='w-32'
+       onClick={() => setShowAddFacility(true)}
+      >
        {dic.hotelFacility.form.add}
       </Button>
      </div>
