@@ -427,6 +427,7 @@ export default function NewPerson({
           {...other}
           id='nationalCode'
           decimalScale={0}
+          getInputRef={other.ref}
           customInput={InputGroupInput}
          />
         </InputGroup>
@@ -665,6 +666,7 @@ export default function NewPerson({
           decimalScale={0}
           value={value}
           onValueChange={({ value }) => onChange(value)}
+          getInputRef={other.ref}
           customInput={InputGroupInput}
          />
         </InputGroup>

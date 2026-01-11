@@ -142,11 +142,8 @@ export default function PersonsConfigProvider({
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
- const [selectedTab, setSelectedTab] = useState<PersonsConfig['selectedTab']>(
-  () => {
-   return wrapperType.mode === 'page' ? activeTabQuery || 'list' : 'list';
-  },
- );
+ const [selectedTab, setSelectedTab] =
+  useState<PersonsConfig['selectedTab']>('list');
  const [selectedPersonID, setSelectedPersonID] = useState<number | null>(() => {
   if (wrapperType.mode === 'find' && wrapperType.personID) {
    return wrapperType.personID;
