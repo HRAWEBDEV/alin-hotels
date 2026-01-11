@@ -60,7 +60,6 @@ export default function HotelFacilitiesItem({
   facilities: { onRemoveFacility },
  } = useHotelFacilityContext();
  const queryClient = useQueryClient();
- const { localeInfo } = useBaseConfig();
  const {
   register,
   handleSubmit,
@@ -85,6 +84,16 @@ export default function HotelFacilitiesItem({
     : null,
   },
  });
+
+ const [facilityValue, quantityValue, capacityValue, scaleValue, commentValue] =
+  watch(['facility', 'quantity', 'capacity', 'scale', 'comment']);
+
+ const formChanged =
+  facilityValue?.key !== facility?.facilityID.toString() ||
+  quantityValue !== (facility?.quantity || '') ||
+  capacityValue !== (facility?.capacity || '') ||
+  scaleValue !== (facility?.scale || '') ||
+  commentValue !== (facility?.comment || '');
 
  const { mutate, isPending } = useMutation({
   mutationFn({
@@ -135,14 +144,14 @@ export default function HotelFacilitiesItem({
       name='facility'
       render={({ field: { value, onChange, ...other } }) => (
        <Field className='gap-2' data-invalid={!!errors.facility}>
-        <FieldLabel htmlFor='facility'>
+        <FieldLabel htmlFor={`facility${facility?.id || ''}`}>
          {dic.hotelFacility.form.facility}
         </FieldLabel>
         <Popover open={openFacilities} onOpenChange={setOpenFacilities}>
          <PopoverTrigger asChild>
           <Button
            data-invalid={!!errors.facility}
-           id='facility'
+           id={`facility${facility?.id || ''}`}
            title={value?.value}
            variant='outline'
            role='combobox'
@@ -210,12 +219,12 @@ export default function HotelFacilitiesItem({
       name='quantity'
       render={({ field: { value, onChange, ...other } }) => (
        <Field className='gap-2' data-invalid={!!errors.quantity}>
-        <FieldLabel htmlFor='quantity'>
+        <FieldLabel htmlFor={`quantity${facility?.id || ''}`}>
          {dic.hotelFacility.form.quantity}
         </FieldLabel>
         <InputGroup className='bg-background' data-invalid={!!errors.quantity}>
          <NumericFormat
-          id='quantity'
+          id={`quantity${facility?.id || ''}`}
           {...other}
           value={value}
           onValueChange={({ floatValue }) => onChange(floatValue || '')}
@@ -231,12 +240,12 @@ export default function HotelFacilitiesItem({
       name='capacity'
       render={({ field: { value, onChange, ...other } }) => (
        <Field className='gap-2'>
-        <FieldLabel htmlFor='capacity'>
+        <FieldLabel htmlFor={`capacity${facility?.id || ''}`}>
          {dic.hotelFacility.form.capacity}
         </FieldLabel>
         <InputGroup className='bg-background'>
          <NumericFormat
-          id='capacity'
+          id={`capacity${facility?.id || ''}`}
           {...other}
           value={value}
           onValueChange={({ floatValue }) => onChange(floatValue || '')}
@@ -248,17 +257,25 @@ export default function HotelFacilitiesItem({
       )}
      />
      <Field className='gap-2'>
-      <FieldLabel htmlFor='scale'>{dic.hotelFacility.form.scale}</FieldLabel>
+      <FieldLabel htmlFor={`scale${facility?.id || ''}`}>
+       {dic.hotelFacility.form.scale}
+      </FieldLabel>
       <InputGroup className='bg-background'>
-       <InputGroupInput id='scale' {...register('scale')} />
+       <InputGroupInput
+        id={`scale${facility?.id || ''}`}
+        {...register('scale')}
+       />
       </InputGroup>
      </Field>
      <Field className='gap-2 col-span-full'>
-      <FieldLabel htmlFor='comment'>
+      <FieldLabel htmlFor={`comment${facility?.id || ''}`}>
        {dic.hotelFacility.form.comment}
       </FieldLabel>
       <InputGroup className='bg-background'>
-       <InputGroupInput id='comment' {...register('comment')} />
+       <InputGroupInput
+        id={`comment${facility?.id || ''}`}
+        {...register('comment')}
+       />
       </InputGroup>
      </Field>
     </div>
@@ -281,9 +298,24 @@ export default function HotelFacilitiesItem({
       type='button'
       variant='outline'
       className='md:20'
-      disabled={isPending}
+      disabled={isPending || Boolean(facility && !formChanged)}
       onClick={() => {
        onCancel?.();
+       if (facility) {
+        setValue('quantity', facility?.quantity || '');
+        setValue('capacity', facility?.capacity || '');
+        setValue('scale', facility?.scale || '');
+        setValue('comment', facility?.comment || '');
+        setValue(
+         'facility',
+         facility?.facilityID && facility.facilityName
+          ? {
+             key: facility.facilityID.toString(),
+             value: facility.facilityName,
+            }
+          : null,
+        );
+       }
       }}
      >
       {isPending && <Spinner />}
@@ -293,7 +325,7 @@ export default function HotelFacilitiesItem({
       type='submit'
       variant={facility ? 'secondary' : 'default'}
       className='md:w-20'
-      disabled={isPending}
+      disabled={isPending || Boolean(facility && !formChanged)}
       onClick={(e) => {
        e.preventDefault();
        handleSubmit((data) => {
