@@ -453,7 +453,23 @@ export default function NewPerson({
            className='justify-between font-normal'
           >
            <span>{value ? value.toLocaleDateString(locale) : ''}</span>
-           <ChevronDownIcon />
+           <div className='flex gap-1 items-center -me-2'>
+            {value && (
+             <Button
+              type='button'
+              variant={'ghost'}
+              size={'icon'}
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+              className='text-rose-700 dark:text-rose-400'
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronDownIcon className='opacity-50' />
+           </div>
           </Button>
          </PopoverTrigger>
          <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
