@@ -280,19 +280,29 @@ export default function NewUser({
              />
             </InputGroup>
            </Field>
+           <Field className='gap-2'>
+            <FieldLabel htmlFor='phoneNumber'>
+             {dic.newUser.form.phoneNumber}
+            </FieldLabel>
+            <InputGroup>
+             <InputGroupInput
+              id='phoneNumber'
+              readOnly
+              value={personData.mobileNo || ''}
+             />
+            </InputGroup>
+           </Field>
+           <Field className='gap-2'>
+            <FieldLabel htmlFor='email'>{dic.newUser.form.email}</FieldLabel>
+            <InputGroup>
+             <InputGroupInput
+              id='email'
+              readOnly
+              value={personData.email || ''}
+             />
+            </InputGroup>
+           </Field>
           </div>
-          <Field className='gap-2'>
-           <FieldLabel htmlFor='phoneNumber'>
-            {dic.newUser.form.phoneNumber}
-           </FieldLabel>
-           <InputGroup>
-            <InputGroupInput
-             id='phoneNumber'
-             readOnly
-             value={personData.mobileNo || ''}
-            />
-           </InputGroup>
-          </Field>
          </FieldGroup>
         </div>
         <div className='flex justify-end'>

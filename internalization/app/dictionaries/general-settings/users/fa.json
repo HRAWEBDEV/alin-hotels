@@ -29,6 +29,7 @@
   "form": {
    "userName": "نام کاربری",
    "name": "نام",
+   "email": "ایمیل",
    "lastName": "نام خانوادگی",
    "phoneNumber": "شماره همراه",
    "oldPassword": "رمز عبور فعلی",
