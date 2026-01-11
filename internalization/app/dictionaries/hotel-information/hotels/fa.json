@@ -4,7 +4,10 @@
   "hotelsList": "لیست",
   "editHotel": "ویرایش",
   "addHotel": "افزودن",
-  "hotelFacilities": "امکانات"
+  "hotelFacilities": "امکانات",
+  "hotelEmployees": "کارکنان",
+  "hotelManagers": "مدیریت",
+  "hotelOperators": "اپراتور"
  },
  "filters": {
   "title": "فیلترها",
@@ -29,7 +32,7 @@
    "hotelTheme": "تم",
    "locationType": "موقعیت",
    "ownerShipType": "نوع مالکیت",
-   "operatorType": "نوع گرداننده",
+   "operatorType": "اپراتور",
    "landArea": "مساحت محوطه",
    "buildingArea": "مساحت ساختمان",
    "floorCount": "طبقات",

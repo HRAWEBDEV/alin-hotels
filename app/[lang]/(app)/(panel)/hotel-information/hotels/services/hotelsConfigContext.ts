@@ -10,17 +10,33 @@ import { PaginationState } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
-type Tab = 'list' | 'add' | 'edit' | 'facilities';
+type Tab = 'list' | 'add' | 'edit';
+
+type DetailTab =
+ | 'facilities'
+ | 'hotelEmployees'
+ | 'hotelManagers'
+ | 'hotelOperators';
+
 type NewHotelModes = 'add' | 'edit';
-const tabs: Tab[] = ['list', 'add', 'edit', 'facilities'];
+const detailTabs: DetailTab[] = [
+ 'facilities',
+ 'hotelEmployees',
+ 'hotelManagers',
+ 'hotelOperators',
+];
+const tabs: (Tab | DetailTab)[] = ['list', 'add', 'edit'];
 
 interface HotelsConfig {
  wrapperType: WrapperTypes;
- tabs: Tab[];
- selectedTab: Tab;
+ tabs: (Tab | DetailTab)[];
+ selectedTab: Tab | DetailTab;
+ detailTabs: DetailTab[];
+ selectedDetailTab: DetailTab;
  showFilters: boolean;
  changeShowFilters: (open?: boolean) => unknown;
- changeSelectedTab: (newTab?: Tab) => unknown;
+ changeSelectedTab: (newTab?: Tab | DetailTab) => unknown;
+ changeSelectedDetailTab: (newTab?: DetailTab) => unknown;
  initialData: {
   data?: InitialData;
   isLoading: boolean;
@@ -60,5 +76,5 @@ function useHotelsConfigContext() {
  return val;
 }
 
-export type { Tab, HotelsConfig, NewHotelModes };
-export { tabs, hotelsConfigContext, useHotelsConfigContext };
+export type { Tab, HotelsConfig, NewHotelModes, DetailTab };
+export { tabs, hotelsConfigContext, detailTabs, useHotelsConfigContext };

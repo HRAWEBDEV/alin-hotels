@@ -10,15 +10,70 @@ import {
 } from '../services/hotelsConfigContext';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 
-const staticTabs: Tab[] = ['list', 'add', 'edit'];
+const staticTabs: Tab[] = [];
 
 export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
  const {
   selectedTab,
+  selectedDetailTab,
   changeSelectedTab,
+  changeSelectedDetailTab,
   hotels: { selectedHotelID },
  } = useHotelsConfigContext();
  const { localeInfo } = useBaseConfig();
+
+ function renderDetailTab() {
+  switch (selectedDetailTab) {
+   case 'hotelManagers':
+    return (
+     <TabsTrigger
+      value='hotelManagers'
+      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+      onClick={() => changeSelectedDetailTab('hotelManagers')}
+     >
+      <FaUserEdit />
+      {dic.tabs.hotelManagers}
+     </TabsTrigger>
+    );
+
+   case 'hotelOperators':
+    return (
+     <TabsTrigger
+      value='hotelOperators'
+      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+      onClick={() => changeSelectedDetailTab('hotelOperators')}
+     >
+      <FaUserEdit />
+      {dic.tabs.hotelOperators}
+     </TabsTrigger>
+    );
+
+   case 'hotelEmployees':
+    return (
+     <TabsTrigger
+      value='hotelEmployees'
+      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+      onClick={() => changeSelectedDetailTab('hotelEmployees')}
+     >
+      <FaUserEdit />
+      {dic.tabs.hotelEmployees}
+     </TabsTrigger>
+    );
+
+   case 'facilities':
+    return (
+     <TabsTrigger
+      value='facilities'
+      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+      onClick={() => changeSelectedDetailTab('facilities')}
+     >
+      <FaUserEdit />
+      {dic.tabs.hotelFacilities}
+     </TabsTrigger>
+    );
+  }
+ }
+
  return (
   <header className='p-1 px-0 lg:px-4 sticky top-0 z-1'>
    <Tabs
@@ -53,17 +108,7 @@ export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
        {dic.tabs.editHotel}
       </TabsTrigger>
      )}
-     {selectedHotelID &&
-      [...staticTabs, 'facilities'].includes(selectedTab) && (
-       <TabsTrigger
-        value='facilities'
-        className='sm:w-32 cursor-pointer text-purple-700 dark:text-purple-400 font-normal'
-        onClick={() => changeSelectedTab('facilities')}
-       >
-        <FaUserEdit />
-        {dic.tabs.hotelFacilities}
-       </TabsTrigger>
-      )}
+     {selectedHotelID && renderDetailTab()}
     </TabsList>
    </Tabs>
   </header>

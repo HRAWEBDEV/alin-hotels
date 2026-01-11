@@ -6,6 +6,7 @@ import {
  type HotelsConfig,
  hotelsConfigContext,
  tabs,
+ detailTabs,
 } from './hotelsConfigContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
@@ -185,6 +186,8 @@ export default function HotelsConfigProvider({
  const [showFilters, setShowFilters] = useState(false);
  const [selectedTab, setSelectedTab] =
   useState<HotelsConfig['selectedTab']>('list');
+ const [selectedDetailTab, setSelectedDetailTab] =
+  useState<HotelsConfig['selectedDetailTab']>('hotelManagers');
  const [selectedHotelID, setSelectedHotelID] = useState<number | null>(() => {
   if (wrapperType.mode === 'find' && wrapperType.hotelID) {
    return wrapperType.hotelID;
@@ -202,6 +205,12 @@ export default function HotelsConfigProvider({
   router.replace(
    `/${locale}/hotel-information/hotels?${newSearchParams.toString()}`,
   );
+ }
+
+ function handleChangeDetailTab(newTab?: HotelsConfig['selectedDetailTab']) {
+  const activeTab = newTab === undefined ? 'hotelManagers' : newTab;
+  setSelectedDetailTab(activeTab);
+  setSelectedTab(activeTab);
  }
 
  function handleChangeShowFilters(open?: boolean) {
@@ -393,10 +402,13 @@ export default function HotelsConfigProvider({
  const ctx: HotelsConfig = {
   wrapperType: wrapperType,
   tabs,
+  detailTabs,
   selectedTab,
+  selectedDetailTab,
   showFilters,
   changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
+  changeSelectedDetailTab: handleChangeDetailTab,
   initialData: {
    data: initialData,
    isLoading: initialDataLoading,

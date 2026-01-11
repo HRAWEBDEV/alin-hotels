@@ -85,6 +85,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
   wrapperType,
   changeShowFilters,
   changeSelectedTab,
+  changeSelectedDetailTab,
   hotels: {
    isFetching,
    isSuccess,
@@ -316,11 +317,44 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
           {dic.table.edit}
          </DropdownMenuItem>
          <DropdownMenuItem
+          className='text-primary'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditHotel(typedOriginal.id);
+           changeSelectedDetailTab('hotelManagers');
+          }}
+         >
+          <FaEdit className='size-5 text-inherit' />
+          {dic.tabs.hotelManagers}
+         </DropdownMenuItem>
+         <DropdownMenuItem
+          className='text-secondary'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditHotel(typedOriginal.id);
+           changeSelectedDetailTab('hotelOperators');
+          }}
+         >
+          <FaEdit className='size-5 text-inherit' />
+          {dic.tabs.hotelOperators}
+         </DropdownMenuItem>
+         <DropdownMenuItem
+          className='text-primary'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditHotel(typedOriginal.id);
+           changeSelectedDetailTab('hotelEmployees');
+          }}
+         >
+          <FaEdit className='size-5 text-inherit' />
+          {dic.tabs.hotelEmployees}
+         </DropdownMenuItem>
+         <DropdownMenuItem
           className='text-purple-700 dark:text-purple-400'
           onClick={() => {
            const typedOriginal = row.original;
            onEditHotel(typedOriginal.id);
-           changeSelectedTab('facilities');
+           changeSelectedDetailTab('facilities');
           }}
          >
           <FaEdit className='size-5 text-inherit' />
@@ -344,7 +378,14 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
     meta: 'action',
    },
   ] as ColumnDef<Hotel>[];
- }, [dic, localeInfo, onRemoveHotel, onEditHotel, wrapperType]);
+ }, [
+  dic,
+  localeInfo,
+  onRemoveHotel,
+  onEditHotel,
+  wrapperType,
+  changeSelectedDetailTab,
+ ]);
 
  const defaultData = useMemo(() => [], []);
  const table = useReactTable({
