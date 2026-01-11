@@ -85,6 +85,11 @@
  },
  "hotelManager": {
   "form": {
+   "job": "شغل",
+   "person": "شخص",
+   "mobileNo": "شماره تماس",
+   "fromDate": "از تاریخ",
+   "toDate": "تا تاریخ",
    "cancel": "انصراف",
    "save": "ذخیره",
    "update": "ویرایش",

@@ -15,11 +15,14 @@ import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary
 import HotelManagerItem from './HotelManagerItem';
 import LinearLoading from '../../../../components/LinearLoading';
 import { useHotelManagerContext } from '../../services/hotel-managers/hotelManagerContext';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 
 export default function HotelManagersFilters({
  dic,
+ realPersonDic,
 }: {
  dic: HotelsDictionary;
+ realPersonDic: RealPersonsDictionary;
 }) {
  const {
   shareDictionary: {
@@ -65,6 +68,7 @@ export default function HotelManagersFilters({
     {showAddManager ? (
      <HotelManagerItem
       dic={dic}
+      realPersonDic={realPersonDic}
       hotelManager={null}
       onCancel={() => setShowAddManager(false)}
      />

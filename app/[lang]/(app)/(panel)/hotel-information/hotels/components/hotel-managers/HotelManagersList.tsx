@@ -3,8 +3,15 @@ import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-
 import { useHotelManagerContext } from '../../services/hotel-managers/hotelManagerContext';
 import NoItemFound from '../../../../components/NoItemFound';
 import HotelManagerItem from './HotelManagerItem';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 
-export default function HotelManagersList({ dic }: { dic: HotelsDictionary }) {
+export default function HotelManagersList({
+ dic,
+ realPersonDic,
+}: {
+ dic: HotelsDictionary;
+ realPersonDic: RealPersonsDictionary;
+}) {
  const {
   hotelManager: { filteredData },
  } = useHotelManagerContext();
@@ -15,6 +22,7 @@ export default function HotelManagersList({ dic }: { dic: HotelsDictionary }) {
      <HotelManagerItem
       key={hotelManager.id}
       dic={dic}
+      realPersonDic={realPersonDic}
       hotelManager={hotelManager}
      />
     ))
