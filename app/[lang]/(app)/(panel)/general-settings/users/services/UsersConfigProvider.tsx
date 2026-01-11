@@ -99,9 +99,8 @@ export default function UsersConfigProvider({
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
- const [selectedTab, setSelectedTab] = useState<UsersConfig['selectedTab']>(
-  activeTabQuery || 'list',
- );
+ const [selectedTab, setSelectedTab] =
+  useState<UsersConfig['selectedTab']>('list');
  const [selectedUserID, setSelectedUserID] = useState<number | null>(null);
  const [showRemoveUserConfirm, setShowRemoveUserConfirm] = useState(false);
 
