@@ -1,10 +1,10 @@
 {
  "title": "هتل‌ها",
  "tabs": {
-  "hotelsList": "لیست هتل‌ها",
-  "editHotel": "ویرایش هتل",
-  "addHotel": "افزودن هتل",
-  "hotelFacilities": "امکانات هتل"
+  "hotelsList": "لیست",
+  "editHotel": "ویرایش",
+  "addHotel": "افزودن",
+  "hotelFacilities": "امکانات"
  },
  "filters": {
   "title": "فیلترها",

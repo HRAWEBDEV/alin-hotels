@@ -84,6 +84,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
  const {
   wrapperType,
   changeShowFilters,
+  changeSelectedTab,
   hotels: {
    isFetching,
    isSuccess,
@@ -215,8 +216,8 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
    {
     accessorKey: 'degreeTypeName',
     header: dic.newHotel.form.degree,
-    minSize: 120,
     size: 120,
+    minSize: 120,
     meta: 'center',
    },
    {
@@ -313,6 +314,17 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
          >
           <FaEdit className='size-5 text-inherit' />
           {dic.table.edit}
+         </DropdownMenuItem>
+         <DropdownMenuItem
+          className='text-purple-700 dark:text-purple-400'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditHotel(typedOriginal.id);
+           changeSelectedTab('facilities');
+          }}
+         >
+          <FaEdit className='size-5 text-inherit' />
+          {dic.tabs.hotelFacilities}
          </DropdownMenuItem>
          <DropdownMenuItem
           className='text-rose-700 dark:text-rose-400'

@@ -20,7 +20,6 @@ import {
  saveHotelFacility,
  updateHotelFacility,
 } from '../../services/hotel-facilities/hotelFacilityApiActions';
-import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { Spinner } from '@/components/ui/spinner';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
@@ -42,6 +41,7 @@ import {
  CommandList,
 } from '@/components/ui/command';
 import { NumericFormat } from 'react-number-format';
+import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 
 export default function HotelFacilitiesItem({
  dic,
@@ -53,6 +53,12 @@ export default function HotelFacilitiesItem({
  onCancel?: () => unknown;
 }) {
  const [openFacilities, setOpenFacilities] = useState(false);
+
+ const {
+  shareDictionary: {
+   system: { notifications },
+  },
+ } = useShareDictionary();
 
  const {
   hotelID,
@@ -68,6 +74,7 @@ export default function HotelFacilitiesItem({
   setValue,
   formState: { errors },
   watch,
+  setFocus,
  } = useForm<HotelFacilitiesSchema>({
   resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
   defaultValues: {
@@ -78,7 +85,7 @@ export default function HotelFacilitiesItem({
    scale: facility?.scale || '',
    facility: facility
     ? {
-       key: facility.id.toString(),
+       key: facility.facilityID.toString(),
        value: facility.facilityName,
       }
     : null,
@@ -123,7 +130,11 @@ export default function HotelFacilitiesItem({
    if (facility) {
    } else {
     reset();
+    toast.success(notifications.itemAdded);
    }
+   setTimeout(() => {
+    setFocus('facility');
+   }, 200);
   },
   onError(err: AxiosError<string>) {
    if (facility) {

@@ -4,8 +4,13 @@ import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { FaUserEdit } from 'react-icons/fa';
 import { FaClipboardList } from 'react-icons/fa';
-import { useHotelsConfigContext } from '../services/hotelsConfigContext';
+import {
+ type Tab,
+ useHotelsConfigContext,
+} from '../services/hotelsConfigContext';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
+
+const staticTabs: Tab[] = ['list', 'add', 'edit'];
 
 export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
  const {
@@ -48,16 +53,17 @@ export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
        {dic.tabs.editHotel}
       </TabsTrigger>
      )}
-     {selectedHotelID && (
-      <TabsTrigger
-       value='facilities'
-       className='sm:w-32 cursor-pointer text-purple-700 dark:text-purple-400 font-normal'
-       onClick={() => changeSelectedTab('facilities')}
-      >
-       <FaUserEdit />
-       {dic.tabs.hotelFacilities}
-      </TabsTrigger>
-     )}
+     {selectedHotelID &&
+      [...staticTabs, 'facilities'].includes(selectedTab) && (
+       <TabsTrigger
+        value='facilities'
+        className='sm:w-32 cursor-pointer text-purple-700 dark:text-purple-400 font-normal'
+        onClick={() => changeSelectedTab('facilities')}
+       >
+        <FaUserEdit />
+        {dic.tabs.hotelFacilities}
+       </TabsTrigger>
+      )}
     </TabsList>
    </Tabs>
   </header>

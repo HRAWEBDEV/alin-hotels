@@ -60,5 +60,5 @@ function useHotelsConfigContext() {
  return val;
 }
 
-export type { HotelsConfig, NewHotelModes };
+export type { Tab, HotelsConfig, NewHotelModes };
 export { tabs, hotelsConfigContext, useHotelsConfigContext };
