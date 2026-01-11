@@ -83,11 +83,8 @@ export default function SmsConfigProvider({
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
- const [selectedTab, setSelectedTab] = useState<
-  SmsConfigContext['selectedTab']
- >(() => {
-  return activeTabQuery || 'list';
- });
+ const [selectedTab, setSelectedTab] =
+  useState<SmsConfigContext['selectedTab']>('list');
  const [selectedConfigID, setSelectedConfigID] = useState<number | null>(() => {
   return null;
  });

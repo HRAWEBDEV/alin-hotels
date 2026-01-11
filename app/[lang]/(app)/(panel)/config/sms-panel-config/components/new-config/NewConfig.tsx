@@ -172,6 +172,7 @@ export default function NewConfig({
           value={value}
           onValueChange={({ value }) => onChange(value)}
           decimalScale={0}
+          getInputRef={other.ref}
           id='number'
           customInput={InputGroupInput}
          />
