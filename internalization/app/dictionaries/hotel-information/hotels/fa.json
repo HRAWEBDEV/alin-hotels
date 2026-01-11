@@ -77,8 +77,23 @@
   "cancel": "انصراف"
  },
  "removeFacility": {
-  "title": "حذف شخص",
+  "title": "حذف امکانات",
   "confirmRemoveFacility": "آیا از حذف آیتم اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
+ },
+ "hotelManager": {
+  "form": {
+   "cancel": "انصراف",
+   "save": "ذخیره",
+   "update": "ویرایش",
+   "add": "افزودن",
+   "showMore": "مشاهده بیشتر"
+  }
+ },
+ "removeHotelManager": {
+  "title": "حذف شخص",
+  "confirmRemoveFacility": "آیا از شخص آیتم اطمینان دارید؟",
   "confirm": "تایید",
   "cancel": "انصراف"
  }
