@@ -67,7 +67,8 @@
    "save": "ذخیره",
    "update": "ویرایش",
    "add": "افزودن",
-   "showMore": "مشاهده بیشتر"
+   "showMore": "اطلاعات بیشتر",
+   "showLess": "اطلاعات کمتر"
   }
  },
  "removeHotel": {
@@ -88,7 +89,8 @@
    "save": "ذخیره",
    "update": "ویرایش",
    "add": "افزودن",
-   "showMore": "مشاهده بیشتر"
+   "showMore": "اطلاعات بیشتر",
+   "showLess": "اطلاعات کمتر"
   }
  },
  "removeHotelManager": {

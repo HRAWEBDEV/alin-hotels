@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
@@ -52,6 +52,7 @@ export default function HotelFacilitiesItem({
  facility: HotelFacility | null;
  onCancel?: () => unknown;
 }) {
+ const [showMore, setShowMore] = useState(false);
  const [openFacilities, setOpenFacilities] = useState(false);
 
  const {
@@ -79,16 +80,6 @@ export default function HotelFacilitiesItem({
   resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
   defaultValues: {
    ...defaultValues,
-   capacity: facility?.capacity || '',
-   comment: facility?.comment || '',
-   quantity: facility?.quantity || '',
-   scale: facility?.scale || '',
-   facility: facility
-    ? {
-       key: facility.facilityID.toString(),
-       value: facility.facilityName,
-      }
-    : null,
   },
  });
 
@@ -145,6 +136,22 @@ export default function HotelFacilitiesItem({
    toast.error(err.response?.data);
   },
  });
+
+ useEffect(() => {
+  setValue(
+   'facility',
+   facility?.facilityID && facility.facilityName
+    ? {
+       key: facility.facilityID.toString(),
+       value: facility.facilityName,
+      }
+    : null,
+  );
+  setValue('quantity', facility?.quantity || '');
+  setValue('capacity', facility?.capacity || '');
+  setValue('scale', facility?.scale || '');
+  setValue('comment', facility?.comment || '');
+ }, [facility, setValue]);
 
  return (
   <form
@@ -281,75 +288,90 @@ export default function HotelFacilitiesItem({
        />
       </InputGroup>
      </Field>
-     <Field className='gap-2 col-span-full'>
-      <FieldLabel htmlFor={`comment${facility?.id || ''}`}>
-       {dic.hotelFacility.form.comment}
-      </FieldLabel>
-      <InputGroup className='bg-background'>
-       <InputGroupInput
-        id={`comment${facility?.id || ''}`}
-        {...register('comment')}
-       />
-      </InputGroup>
-     </Field>
-    </div>
-    <div className='flex justify-end gap-2'>
-     {facility && (
-      <Button
-       type='button'
-       variant='outline'
-       size='icon'
-       disabled={isPending}
-       className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
-       onClick={() => {
-        onRemoveFacility(facility.id);
-       }}
-      >
-       {isPending ? <Spinner /> : <IoTrashOutline />}
-      </Button>
+     {showMore && (
+      <Field className='gap-2 col-span-full'>
+       <FieldLabel htmlFor={`comment${facility?.id || ''}`}>
+        {dic.hotelFacility.form.comment}
+       </FieldLabel>
+       <InputGroup className='bg-background'>
+        <InputGroupInput
+         id={`comment${facility?.id || ''}`}
+         {...register('comment')}
+        />
+       </InputGroup>
+      </Field>
      )}
+    </div>
+    <div className='flex justify-between gap-2 flex-wrap'>
      <Button
       type='button'
       variant='outline'
-      className='md:20'
-      disabled={isPending || Boolean(facility && !formChanged)}
       onClick={() => {
-       onCancel?.();
-       if (facility) {
-        setValue('quantity', facility?.quantity || '');
-        setValue('capacity', facility?.capacity || '');
-        setValue('scale', facility?.scale || '');
-        setValue('comment', facility?.comment || '');
-        setValue(
-         'facility',
-         facility?.facilityID && facility.facilityName
-          ? {
-             key: facility.facilityID.toString(),
-             value: facility.facilityName,
-            }
-          : null,
-        );
-       }
+       setShowMore((pre) => !pre);
       }}
      >
-      {isPending && <Spinner />}
-      {dic.hotelFacility.form.cancel}
+      {showMore
+       ? dic.hotelFacility.form.showLess
+       : dic.hotelFacility.form.showMore}
      </Button>
-     <Button
-      type='submit'
-      variant={facility ? 'secondary' : 'default'}
-      className='md:w-20'
-      disabled={isPending || Boolean(facility && !formChanged)}
-      onClick={(e) => {
-       e.preventDefault();
-       handleSubmit((data) => {
-        mutate(data);
-       })();
-      }}
-     >
-      {isPending && <Spinner />}
-      {facility ? dic.hotelFacility.form.update : dic.hotelFacility.form.add}
-     </Button>
+     <div className='flex justify-end gap-2 grow'>
+      {facility && (
+       <Button
+        type='button'
+        variant='outline'
+        size='icon'
+        disabled={isPending}
+        className='text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
+        onClick={() => {
+         onRemoveFacility(facility.id);
+        }}
+       >
+        {isPending ? <Spinner /> : <IoTrashOutline />}
+       </Button>
+      )}
+      <Button
+       type='button'
+       variant='outline'
+       className='md:20'
+       disabled={isPending || Boolean(facility && !formChanged)}
+       onClick={() => {
+        onCancel?.();
+        if (facility) {
+         setValue('quantity', facility?.quantity || '');
+         setValue('capacity', facility?.capacity || '');
+         setValue('scale', facility?.scale || '');
+         setValue('comment', facility?.comment || '');
+         setValue(
+          'facility',
+          facility?.facilityID && facility.facilityName
+           ? {
+              key: facility.facilityID.toString(),
+              value: facility.facilityName,
+             }
+           : null,
+         );
+        }
+       }}
+      >
+       {isPending && <Spinner />}
+       {dic.hotelFacility.form.cancel}
+      </Button>
+      <Button
+       type='submit'
+       variant={facility ? 'secondary' : 'default'}
+       className='md:w-20'
+       disabled={isPending || Boolean(facility && !formChanged)}
+       onClick={(e) => {
+        e.preventDefault();
+        handleSubmit((data) => {
+         mutate(data);
+        })();
+       }}
+      >
+       {isPending && <Spinner />}
+       {facility ? dic.hotelFacility.form.update : dic.hotelFacility.form.add}
+      </Button>
+     </div>
     </div>
    </div>
   </form>
