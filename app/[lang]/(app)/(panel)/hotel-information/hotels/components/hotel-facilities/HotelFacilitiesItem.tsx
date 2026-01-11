@@ -128,6 +128,9 @@ export default function HotelFacilitiesItem({
     queryKey: [hotelFacilitiesBasePath, 'all'],
    });
    if (facility) {
+    queryClient.invalidateQueries({
+     queryKey: [hotelFacilitiesBasePath, 'facility', facility.id.toString()],
+    });
    } else {
     reset();
     toast.success(notifications.itemAdded);
