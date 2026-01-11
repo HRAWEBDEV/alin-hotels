@@ -240,6 +240,7 @@ export default function HotelFacilitiesItem({
           {...other}
           value={value}
           onValueChange={({ floatValue }) => onChange(floatValue || '')}
+          getInputRef={other.ref}
           customInput={InputGroupInput}
          />
         </InputGroup>

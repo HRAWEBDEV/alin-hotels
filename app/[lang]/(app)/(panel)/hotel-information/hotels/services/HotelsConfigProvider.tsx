@@ -183,11 +183,8 @@ export default function HotelsConfigProvider({
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
- const [selectedTab, setSelectedTab] = useState<HotelsConfig['selectedTab']>(
-  () => {
-   return wrapperType.mode === 'page' ? activeTabQuery || 'list' : 'list';
-  },
- );
+ const [selectedTab, setSelectedTab] =
+  useState<HotelsConfig['selectedTab']>('list');
  const [selectedHotelID, setSelectedHotelID] = useState<number | null>(() => {
   if (wrapperType.mode === 'find' && wrapperType.hotelID) {
    return wrapperType.hotelID;
