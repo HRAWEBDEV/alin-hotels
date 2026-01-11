@@ -38,7 +38,7 @@ export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
      initialData={initialData}
     />
    </Activity>
-   <Activity mode={selectedTab === 'facilities' ? 'visible' : 'hidden'}>
+   <Activity mode={selectedTab === 'hotelFacilities' ? 'visible' : 'hidden'}>
     {selectedHotelID && <HotelFacilities dic={dic} hotelID={selectedHotelID} />}
    </Activity>
   </main>

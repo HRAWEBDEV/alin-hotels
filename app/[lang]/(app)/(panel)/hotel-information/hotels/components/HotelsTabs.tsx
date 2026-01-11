@@ -4,13 +4,16 @@ import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { FaUserEdit } from 'react-icons/fa';
 import { FaClipboardList } from 'react-icons/fa';
-import {
- type Tab,
- useHotelsConfigContext,
-} from '../services/hotelsConfigContext';
+import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
-
-const staticTabs: Tab[] = [];
+import {
+ Select,
+ SelectTrigger,
+ SelectValue,
+ SelectContent,
+ SelectGroup,
+ SelectItem,
+} from '@/components/ui/select';
 
 export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
  const {
@@ -23,55 +26,16 @@ export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
  const { localeInfo } = useBaseConfig();
 
  function renderDetailTab() {
-  switch (selectedDetailTab) {
-   case 'hotelManagers':
-    return (
-     <TabsTrigger
-      value='hotelManagers'
-      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
-      onClick={() => changeSelectedDetailTab('hotelManagers')}
-     >
-      <FaUserEdit />
-      {dic.tabs.hotelManagers}
-     </TabsTrigger>
-    );
-
-   case 'hotelOperators':
-    return (
-     <TabsTrigger
-      value='hotelOperators'
-      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
-      onClick={() => changeSelectedDetailTab('hotelOperators')}
-     >
-      <FaUserEdit />
-      {dic.tabs.hotelOperators}
-     </TabsTrigger>
-    );
-
-   case 'hotelEmployees':
-    return (
-     <TabsTrigger
-      value='hotelEmployees'
-      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
-      onClick={() => changeSelectedDetailTab('hotelEmployees')}
-     >
-      <FaUserEdit />
-      {dic.tabs.hotelEmployees}
-     </TabsTrigger>
-    );
-
-   case 'facilities':
-    return (
-     <TabsTrigger
-      value='facilities'
-      className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
-      onClick={() => changeSelectedDetailTab('facilities')}
-     >
-      <FaUserEdit />
-      {dic.tabs.hotelFacilities}
-     </TabsTrigger>
-    );
-  }
+  return (
+   <TabsTrigger
+    value={selectedDetailTab}
+    className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+    onClick={() => changeSelectedDetailTab(selectedDetailTab)}
+   >
+    <FaUserEdit />
+    {dic.tabs[selectedDetailTab]}
+   </TabsTrigger>
+  );
  }
 
  return (

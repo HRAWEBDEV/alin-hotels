@@ -354,7 +354,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
           onClick={() => {
            const typedOriginal = row.original;
            onEditHotel(typedOriginal.id);
-           changeSelectedDetailTab('facilities');
+           changeSelectedDetailTab('hotelFacilities');
           }}
          >
           <FaEdit className='size-5 text-inherit' />

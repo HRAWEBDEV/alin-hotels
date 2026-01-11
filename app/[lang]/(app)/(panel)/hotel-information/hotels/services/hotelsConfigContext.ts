@@ -13,14 +13,14 @@ import { type WrapperTypes } from '../utils/wrapperTypes';
 type Tab = 'list' | 'add' | 'edit';
 
 type DetailTab =
- | 'facilities'
+ | 'hotelFacilities'
  | 'hotelEmployees'
  | 'hotelManagers'
  | 'hotelOperators';
 
 type NewHotelModes = 'add' | 'edit';
 const detailTabs: DetailTab[] = [
- 'facilities',
+ 'hotelFacilities',
  'hotelEmployees',
  'hotelManagers',
  'hotelOperators',
