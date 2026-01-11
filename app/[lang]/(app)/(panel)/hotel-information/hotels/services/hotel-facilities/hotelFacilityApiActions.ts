@@ -12,10 +12,10 @@ interface HotelFacility {
  hotelID: number;
  facilityID: number;
  facilityName: string;
- quantity: number;
- capacity: number;
- scale: string;
- comment: string;
+ quantity: number | null;
+ capacity: number | null;
+ scale: string | null;
+ comment: string | null;
 }
 
 type SaveHotelFacilityPackage = Omit<HotelFacility, 'facilityName'>;
@@ -62,15 +62,15 @@ function getHotelFacilities({
  );
 }
 
-function saveHotelFacility(facility: HotelFacility) {
+function saveHotelFacility(facility: SaveHotelFacilityPackage) {
  return axios.post<number>(`${hotelFacilitiesBasePath}`, {
-  facility,
+  ...facility,
  });
 }
 
-function updateHotelFacility(facility: HotelFacility) {
+function updateHotelFacility(facility: SaveHotelFacilityPackage) {
  return axios.put<number>(`${hotelFacilitiesBasePath}`, {
-  facility,
+  ...facility,
  });
 }
 

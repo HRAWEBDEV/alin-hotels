@@ -59,6 +59,7 @@ export default function HotelFacilitiesItem({
  const [openFacilities, setOpenFacilities] = useState(false);
 
  const {
+  hotelID,
   initialData: { data: facilities, isLoading },
   facilities: { onRemoveFacility },
  } = useHotelFacilityContext();
@@ -90,12 +91,25 @@ export default function HotelFacilitiesItem({
  });
 
  const { mutate, isPending } = useMutation({
-  mutationFn({}: HotelFacilitiesSchema) {
-   // const saveOwnerPackage: SaveHotelFacilityPackage = {};
-   // return facility
-   //  ? updateHotelFacility()
-   //  : saveHotelFacility();
-   return Promise.resolve(true);
+  mutationFn({
+   capacity,
+   comment,
+   facility: formFacility,
+   quantity,
+   scale,
+  }: HotelFacilitiesSchema) {
+   const saveFacilityPackage: SaveHotelFacilityPackage = {
+    id: facility?.id || 0,
+    hotelID,
+    facilityID: Number(formFacility!.key),
+    capacity: capacity || 0,
+    comment: comment || null,
+    quantity: quantity || null,
+    scale: scale || null,
+   };
+   return facility
+    ? updateHotelFacility(saveFacilityPackage)
+    : saveHotelFacility(saveFacilityPackage);
   },
   onSuccess() {
    queryClient.invalidateQueries({
@@ -135,6 +149,7 @@ export default function HotelFacilitiesItem({
            title={value?.value}
            variant='outline'
            role='combobox'
+           type='button'
            aria-expanded={openFacilities}
            className='justify-between'
            {...other}
@@ -148,6 +163,7 @@ export default function HotelFacilitiesItem({
              <Button
               variant={'ghost'}
               size={'icon'}
+              type='button'
               className='text-rose-700 dark:text-rose-400'
               onClick={(e) => {
                e.stopPropagation();
@@ -282,7 +298,7 @@ export default function HotelFacilitiesItem({
       onClick={(e) => {
        e.preventDefault();
        handleSubmit((data) => {
-        // mutate(data);
+        mutate(data);
        })();
       }}
      >
