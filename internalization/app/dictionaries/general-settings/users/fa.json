@@ -14,7 +14,7 @@
   "phoneNumber": "شماره همراه"
  },
  "table": {
-  "status": "وضعیت",
+  "status": "فعال",
   "columns": "ستون‌ها",
   "filters": "فیلترها",
   "edit": "ویرایش",

@@ -14,7 +14,11 @@ export default function UserStatusSwitch({ user }: { user: User }) {
  const queryClient = useQueryClient();
  const { mutate, isPending } = useMutation({
   mutationFn() {
-   return updateUser({ disabled: !user.disabled, personID: user.personID });
+   return updateUser({
+    ...user,
+    disabled: !user.disabled,
+    personID: user.personID,
+   });
   },
   onSuccess() {
    queryClient.invalidateQueries({
