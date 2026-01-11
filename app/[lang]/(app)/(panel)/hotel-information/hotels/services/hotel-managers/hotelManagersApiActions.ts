@@ -9,9 +9,17 @@ interface InitialData {
 
 interface HotelManager {
  id: number;
+ hotelID: number;
+ personID: number;
+ jobTitleID: number;
+ fromDateTimeOffset: string;
+ endDateTimeOffset: string;
+ hotelName: string;
+ jobTitleName: string;
+ personFullName: string;
 }
 
-type SaveHotelManagerPackage = Omit<HotelManager, ''>;
+type SaveHotelManagerPackage = Omit<HotelManager, 'hotelName' | 'jobTitleName'>;
 
 function getInitialData({ signal }: { signal: AbortSignal }) {
  return axios.get<InitialData>(`${hotelHotelMangerBasePath}/InitData`, {
