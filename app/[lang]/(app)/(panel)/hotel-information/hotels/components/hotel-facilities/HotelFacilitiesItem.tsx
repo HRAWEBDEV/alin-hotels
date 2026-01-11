@@ -2,11 +2,7 @@
 import { useState } from 'react';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import { Field, FieldLabel } from '@/components/ui/field';
-import {
- InputGroup,
- InputGroupInput,
- InputGroupTextarea,
-} from '@/components/ui/input-group';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 import {
  type HotelFacilitiesSchema,
  defaultValues,
@@ -138,13 +134,14 @@ export default function HotelFacilitiesItem({
       control={control}
       name='facility'
       render={({ field: { value, onChange, ...other } }) => (
-       <Field className='gap-2'>
+       <Field className='gap-2' data-invalid={!!errors.facility}>
         <FieldLabel htmlFor='facility'>
          {dic.hotelFacility.form.facility}
         </FieldLabel>
         <Popover open={openFacilities} onOpenChange={setOpenFacilities}>
          <PopoverTrigger asChild>
           <Button
+           data-invalid={!!errors.facility}
            id='facility'
            title={value?.value}
            variant='outline'
@@ -212,16 +209,17 @@ export default function HotelFacilitiesItem({
       control={control}
       name='quantity'
       render={({ field: { value, onChange, ...other } }) => (
-       <Field className='gap-2'>
+       <Field className='gap-2' data-invalid={!!errors.quantity}>
         <FieldLabel htmlFor='quantity'>
          {dic.hotelFacility.form.quantity}
         </FieldLabel>
-        <InputGroup className='bg-background'>
+        <InputGroup className='bg-background' data-invalid={!!errors.quantity}>
          <NumericFormat
           id='quantity'
           {...other}
           value={value}
           onValueChange={({ floatValue }) => onChange(floatValue || '')}
+          getInputRef={other.ref}
           customInput={InputGroupInput}
          />
         </InputGroup>

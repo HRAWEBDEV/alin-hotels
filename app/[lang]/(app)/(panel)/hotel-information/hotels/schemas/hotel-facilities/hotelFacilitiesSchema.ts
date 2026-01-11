@@ -11,19 +11,36 @@ const defaultValues: Partial<HotelFacilitiesSchema> = {
 };
 
 function createHotelFacilitiesSchema({}: { dic: HotelsDictionary }) {
- return z.object({
-  name: z.string(),
-  facility: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  quantity: z.literal('').or(z.number()),
-  capacity: z.literal('').or(z.number()),
-  scale: z.string(),
-  comment: z.string(),
- });
+ return z
+  .object({
+   name: z.string(),
+   facility: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   quantity: z.literal('').or(z.number()),
+   capacity: z.literal('').or(z.number()),
+   scale: z.string(),
+   comment: z.string(),
+  })
+  .refine(
+   ({ facility }) => {
+    return facility;
+   },
+   {
+    path: ['facility'],
+   },
+  )
+  .refine(
+   ({ quantity }) => {
+    return quantity;
+   },
+   {
+    path: ['quantity'],
+   },
+  );
 }
 
 type HotelFacilitiesSchema = z.infer<

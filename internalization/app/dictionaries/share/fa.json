@@ -5,6 +5,9 @@
   "english": "انگلیسی"
  },
  "system": {
+  "notifications": {
+   "itemAdded": "آیتم اضافه شد"
+  },
   "modes": {
    "light": "حالت روز",
    "dark": "حالت شب",
