@@ -4,7 +4,7 @@ import { type Combo } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 const hotelHotelMangerBasePath = '/HotelsUnion/hotelManager';
 
 interface InitialData {
- facilities: Combo[];
+ jobTitles: Combo[];
 }
 
 interface HotelManager {

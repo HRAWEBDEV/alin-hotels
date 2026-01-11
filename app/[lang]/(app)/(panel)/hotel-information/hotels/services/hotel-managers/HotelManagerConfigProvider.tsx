@@ -14,10 +14,10 @@ import {
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
- type HotelFacilitiesSchema,
- createHotelFacilitiesSchema,
+ type HotelManagersSchema,
+ createHotelManagersSchema,
  defaultValues,
-} from '../../schemas/hotel-facilities/hotelFacilitiesSchema';
+} from '../../schemas/hotel-managers/hotelManagersSchema';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import {
  Dialog,
@@ -33,7 +33,6 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
-import { useDebouncedValue } from '@tanstack/react-pacer';
 
 export default function HotelManagerConfigProvider({
  children,
@@ -52,8 +51,8 @@ export default function HotelManagerConfigProvider({
  const [showRemoveManagerConfirm, setShowRemoveManagerConfirm] =
   useState(false);
  // form
- const hotelManagersUseForm = useForm<HotelFacilitiesSchema>({
-  resolver: zodResolver(createHotelFacilitiesSchema({ dic })),
+ const hotelManagersUseForm = useForm<HotelManagersSchema>({
+  resolver: zodResolver(createHotelManagersSchema({ dic })),
   defaultValues: defaultValues,
  });
  // init data

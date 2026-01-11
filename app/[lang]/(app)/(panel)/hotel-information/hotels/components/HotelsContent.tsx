@@ -2,8 +2,10 @@
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import HotelsList from './hotels-list/HotelsList';
 import NewHotel from './new-hotel/NewHotel';
+import HotelManagers from '../components/hotel-managers/HotelManagers';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
+
 import HotelFacilities from './hotel-facilities/HotelFacilities';
 
 export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
@@ -40,6 +42,9 @@ export default function HotelsContent({ dic }: { dic: HotelsDictionary }) {
    </Activity>
    <Activity mode={selectedTab === 'hotelFacilities' ? 'visible' : 'hidden'}>
     {selectedHotelID && <HotelFacilities dic={dic} hotelID={selectedHotelID} />}
+   </Activity>
+   <Activity mode={selectedTab === 'hotelManagers' ? 'visible' : 'hidden'}>
+    {selectedHotelID && <HotelManagers dic={dic} hotelID={selectedHotelID} />}
    </Activity>
   </main>
  );
