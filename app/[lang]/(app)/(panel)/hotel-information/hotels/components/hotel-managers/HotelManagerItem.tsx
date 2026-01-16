@@ -175,18 +175,21 @@ export default function HotelFacilitiesItem({
   >
    <div>
     <div className='gap-y-4 gap-3 grid grid-cols-2 md:grid-cols-3 mb-4'>
-     <Field className='gap-2 col-span-2' data-disabled={!!personID}>
+     <Field className='gap-2 col-span-2'>
       <FieldLabel htmlFor={`person${hotelManager?.id || ''}`}>
        {dic.hotelManager.form.person} *
       </FieldLabel>
-      <InputGroup className='bg-background' data-disabled={!!personID}>
+      <InputGroup className='bg-background'>
        <InputGroupInput
-        data-disabled={!!personID}
-        disabled={!!personID}
         id={`person${hotelManager?.id || ''}`}
         value={personData?.personFullName || ''}
         onClick={() => {
-         if (personID) return;
+         setShowRealPerson(true);
+        }}
+        onKeyDown={(e) => {
+         if (e.key !== ' ') return;
+         e.stopPropagation();
+         e.preventDefault();
          setShowRealPerson(true);
         }}
         readOnly
@@ -341,7 +344,9 @@ export default function HotelFacilitiesItem({
      onChangePerson(personID) {
       setPersonID(personID);
       setShowRealPerson(false);
-      setTimeout(() => {}, 100);
+      setTimeout(() => {
+       setFocus('job');
+      }, 100);
      },
     }}
    />

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
@@ -93,6 +93,22 @@ export default function HotelFacilitiesItem({
   scaleValue !== (facility?.scale || '') ||
   commentValue !== (facility?.comment || '');
 
+ const setFormDefaults = useCallback(() => {
+  setValue(
+   'facility',
+   facility?.facilityID && facility.facilityName
+    ? {
+       key: facility.facilityID.toString(),
+       value: facility.facilityName,
+      }
+    : null,
+  );
+  setValue('quantity', facility?.quantity || '');
+  setValue('capacity', facility?.capacity || '');
+  setValue('scale', facility?.scale || '');
+  setValue('comment', facility?.comment || '');
+ }, [facility, setValue]);
+
  const { mutate, isPending } = useMutation({
   mutationFn({
    capacity,
@@ -132,26 +148,15 @@ export default function HotelFacilitiesItem({
   },
   onError(err: AxiosError<string>) {
    if (facility) {
+    setFormDefaults();
    }
    toast.error(err.response?.data);
   },
  });
 
  useEffect(() => {
-  setValue(
-   'facility',
-   facility?.facilityID && facility.facilityName
-    ? {
-       key: facility.facilityID.toString(),
-       value: facility.facilityName,
-      }
-    : null,
-  );
-  setValue('quantity', facility?.quantity || '');
-  setValue('capacity', facility?.capacity || '');
-  setValue('scale', facility?.scale || '');
-  setValue('comment', facility?.comment || '');
- }, [facility, setValue]);
+  setFormDefaults();
+ }, [setFormDefaults]);
 
  return (
   <form
@@ -337,19 +342,7 @@ export default function HotelFacilitiesItem({
        onClick={() => {
         onCancel?.();
         if (facility) {
-         setValue('quantity', facility?.quantity || '');
-         setValue('capacity', facility?.capacity || '');
-         setValue('scale', facility?.scale || '');
-         setValue('comment', facility?.comment || '');
-         setValue(
-          'facility',
-          facility?.facilityID && facility.facilityName
-           ? {
-              key: facility.facilityID.toString(),
-              value: facility.facilityName,
-             }
-           : null,
-         );
+         setFormDefaults();
         }
        }}
       >
