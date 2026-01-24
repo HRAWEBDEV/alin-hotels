@@ -476,6 +476,7 @@ export default function NewPerson({
          <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
           <Calendar
            mode='single'
+           endMonth={new Date()}
            selected={value || undefined}
            onSelect={(selected) => onChange(selected)}
            defaultMonth={value || undefined}

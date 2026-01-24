@@ -29,7 +29,14 @@ function createHotelEmployeeSchema({}: { dic: HotelsDictionary }) {
   })
   .refine(({ endDate }) => !!endDate, {
    path: ['endDate'],
-  });
+  })
+  .refine(
+   ({ fromDate, endDate }) =>
+    !!fromDate && !!endDate && endDate.getTime() >= fromDate.getTime(),
+   {
+    path: ['endDate'],
+   },
+  );
 }
 
 type HotelEmployeeSchema = z.infer<

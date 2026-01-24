@@ -29,7 +29,14 @@ function createHotelManagersSchema({}: { dic: HotelsDictionary }) {
   })
   .refine(({ endDate }) => !!endDate, {
    path: ['endDate'],
-  });
+  })
+  .refine(
+   ({ fromDate, endDate }) =>
+    !!fromDate && !!endDate && endDate.getTime() >= fromDate.getTime(),
+   {
+    path: ['endDate'],
+   },
+  );
 }
 
 type HotelManagersSchema = z.infer<
