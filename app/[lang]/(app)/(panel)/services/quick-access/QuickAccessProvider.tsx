@@ -1,10 +1,14 @@
 'use client';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import {
  type QuickAccess,
  type QuickAccessItem,
  quickAccessContext,
 } from './quickAccessContext';
+import {
+ getStorageQuickAccessItems,
+ setStorageQuickAccessItems,
+} from './quickAccessStorageManager';
 
 export default function QuickAccessProvider({
  children,
@@ -19,28 +23,34 @@ export default function QuickAccessProvider({
   path: QuickAccessItem['path'],
   page: QuickAccessItem['page'],
  ) {
-  setQuickAccessItems((pre) => {
-   return [
-    ...pre,
-    {
-     id: (path + '-' + page.name) as QuickAccessItem['id'],
-     path,
-     page,
-    },
-   ];
-  });
+  if (isMarked(path, page.name)) return;
+  const newItems = [
+   ...quickAccessItems,
+   {
+    id: (path + '-' + page.name) as QuickAccessItem['id'],
+    path,
+    page,
+   },
+  ];
+  setStorageQuickAccessItems(newItems);
+  setQuickAccessItems(newItems);
  }
 
  function removeItem(id: QuickAccessItem['id']) {
-  setQuickAccessItems((pre) => pre.filter((item) => item.id !== id));
+  const filteredItems = quickAccessItems.filter((item) => item.id !== id);
+  setStorageQuickAccessItems(filteredItems);
+  setQuickAccessItems(filteredItems);
  }
 
  function isMarked(
   path: QuickAccessItem['path'],
   page: QuickAccessItem['page']['name'],
  ): boolean {
-  console.log();
   return !!quickAccessItems.find((item) => item.id === `${path}-${page}`);
+ }
+
+ function pathExist(path: QuickAccessItem['path']): boolean {
+  return quickAccessItems.some((item) => item.path === path);
  }
 
  const ctx: QuickAccess = {
@@ -48,7 +58,12 @@ export default function QuickAccessProvider({
   addItem,
   removeItem,
   isMarked,
+  pathExist,
  };
+
+ useEffect(() => {
+  setQuickAccessItems(getStorageQuickAccessItems());
+ }, []);
 
  return (
   <quickAccessContext.Provider value={ctx}>

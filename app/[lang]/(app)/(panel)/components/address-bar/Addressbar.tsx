@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { IoReload } from 'react-icons/io5';
 import { IoArrowBack } from 'react-icons/io5';
 import { MdHome } from 'react-icons/md';
-import { QuickAccessControllerButton } from '../QuickAccessController';
 import { useNavigatorContext } from '../../services/navigator/navigatorContext';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import { useGoHome } from '../../hooks/useGoHome';

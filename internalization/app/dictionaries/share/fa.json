@@ -24,7 +24,8 @@
    "description": "آیتمی یافت نشد"
   },
   "navList": {
-   "search": "جستجو"
+   "search": "جستجو",
+   "showBookedMark": "نمایش نشانه‌دار‌ها"
   },
   "logoutController": {
    "description": "خروج"

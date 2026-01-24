@@ -14,6 +14,11 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import { useShareDictionary } from '../../../services/share-dictionary/shareDictionaryContext';
 import { Button } from '@/components/ui/button';
+import {
+ Tooltip,
+ TooltipContent,
+ TooltipTrigger,
+} from '@/components/ui/tooltip';
 import Link from 'next/link';
 import { TbLayoutSidebarRightCollapseFilled } from 'react-icons/tb';
 import { useNavigationContext } from '../../services/navigation/navigationContext';
@@ -32,10 +37,12 @@ import { RiBookMarkedFill } from 'react-icons/ri';
 import { useQuickAccessContext } from '../../services/quick-access/quickAccessContext';
 
 export default function NavList() {
+ const [showBookedMarked, setShowBookedMarked] = useState(false);
  const {
   addItem: addQuickAccessItem,
   removeItem: removeQuickAccessItem,
   isMarked: isQuickAccess,
+  pathExist,
  } = useQuickAccessContext();
  const { activePath, activeMenu } = useNavigatorContext();
  const { locale } = useBaseConfig();
@@ -57,6 +64,10 @@ export default function NavList() {
   searchedName: searchedPage,
   dic: pagesDic,
  });
+
+ const filteredPath = showBookedMarked
+  ? Object.keys(preveiwPages).filter((path) => pathExist(path as keyof Pages))
+  : Object.keys(preveiwPages);
 
  useEffect(() => {
   if (!searchedPage) return;
@@ -83,6 +94,21 @@ export default function NavList() {
        className='placeholder:text-neutral-400 placeholder:font-light'
       />
       <InputGroupAddon align={'inline-end'}>
+       <Tooltip>
+        <TooltipTrigger>
+         <Button
+          data-is-active={showBookedMarked}
+          type='button'
+          variant='ghost'
+          size='icon'
+          className='text-neutral-300 dark:text-neutral-700 hover:bg-black/10 hover:text-sky-300 data-[is-active="true"]:text-orange-300'
+          onClick={() => setShowBookedMarked((pre) => !pre)}
+         >
+          <RiBookMarkedFill />
+         </Button>
+        </TooltipTrigger>
+        <TooltipContent>{navList.showBookedMark}</TooltipContent>
+       </Tooltip>
        <FaSearch className='size-4' />
       </InputGroupAddon>
      </InputGroup>
@@ -95,7 +121,7 @@ export default function NavList() {
      value={openAccordionValues}
      onValueChange={(newValue) => setOpenAccordionValues(newValue)}
     >
-     {Object.keys(preveiwPages).map((pageKey) => (
+     {filteredPath.map((pageKey) => (
       <AccordionItem key={pageKey} value={pageKey} className='border-none'>
        <AccordionTrigger className='text-neutral-200 p-4 py-3 hover:no-underline [&>svg]:text-inherit [&>svg]:size-4'>
         <div className='flex gap-3 items-center'>
@@ -114,48 +140,50 @@ export default function NavList() {
            const { name } = typedPage;
            const isMarked = isQuickAccess(pageKey as Path, name);
            return (
-            <Button
-             data-active-menu={
-              activePath === pageKey && activeMenu?.name === name
-             }
-             key={name}
-             variant='ghost'
-             className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-16 pe-7 w-full h-auto justify-start text-start rounded-none'
-             asChild
-            >
-             <Link
-              href={`/${locale}/${pageKey as 'general-settings'}/${name as 'users'}`}
-              onClick={() => toggleNav(false)}
+            (!showBookedMarked || isMarked) && (
+             <Button
+              data-active-menu={
+               activePath === pageKey && activeMenu?.name === name
+              }
+              key={name}
+              variant='ghost'
+              className='text-neutral-200 group hover:bg-sky-900/50 hover:text-primary-foreground hover:dark:bg-sky-900/50 data-[active-menu=true]:bg-sky-900/50 hover:dark:text-foreground relative ps-16 pe-7 w-full h-auto justify-start text-start rounded-none'
+              asChild
              >
-              <div className='absolute size-[0.3rem] rounded-full bg-sky-200 start-12 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
-              <Highlighter
-               className='font-medium text-[0.85rem] group-data-[active-menu=true]:text-orange-300'
-               searchWords={[searchedPage]}
-               textToHighlight={pagesDic[name]}
-               autoEscape
-              />
-              <div className='absolute end-0'>
-               <Button
-                data-is-marked={isMarked}
-                type='button'
-                variant='ghost'
-                size='icon'
-                className='hover:bg-black/10 hover:text-sky-300 data-[is-marked="true"]:text-orange-300'
-                onClick={(e) => {
-                 e.preventDefault();
-                 e.stopPropagation();
-                 if (isMarked) {
-                  removeQuickAccessItem(`${pageKey as Path}-${name}`);
-                 } else {
-                  addQuickAccessItem(pageKey as Path, typedPage);
-                 }
-                }}
-               >
-                <RiBookMarkedFill />
-               </Button>
-              </div>
-             </Link>
-            </Button>
+              <Link
+               href={`/${locale}/${pageKey as 'general-settings'}/${name as 'users'}`}
+               onClick={() => toggleNav(false)}
+              >
+               <div className='absolute size-[0.3rem] rounded-full bg-sky-200 start-12 top-1/2 translate-x-1/2 -translate-y-1/2 z-1 group-data-[active-menu=true]:bg-orange-300'></div>
+               <Highlighter
+                className='font-medium text-[0.85rem] group-data-[active-menu=true]:text-orange-300'
+                searchWords={[searchedPage]}
+                textToHighlight={pagesDic[name]}
+                autoEscape
+               />
+               <div className='absolute end-0'>
+                <Button
+                 data-is-marked={isMarked}
+                 type='button'
+                 variant='ghost'
+                 size='icon'
+                 className='hover:bg-black/10 hover:text-sky-300 data-[is-marked="true"]:text-orange-300'
+                 onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (isMarked) {
+                   removeQuickAccessItem(`${pageKey as Path}-${name}`);
+                  } else {
+                   addQuickAccessItem(pageKey as Path, typedPage);
+                  }
+                 }}
+                >
+                 <RiBookMarkedFill />
+                </Button>
+               </div>
+              </Link>
+             </Button>
+            )
            );
           },
          )}

@@ -10,6 +10,7 @@ interface QuickAccessItem {
 
 interface QuickAccess {
  list: QuickAccessItem[];
+ pathExist: (path: QuickAccessItem['path']) => boolean;
  addItem: (
   path: QuickAccessItem['path'],
   page: QuickAccessItem['page'],
