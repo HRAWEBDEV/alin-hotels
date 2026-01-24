@@ -109,6 +109,8 @@
  },
  "hotelEmployee": {
   "form": {
+   "addEmployee": "افزودن",
+   "editEmployee": "ویرایش",
    "search": "جستجو",
    "job": "سمت",
    "person": "شخص",
@@ -116,7 +118,7 @@
    "fromDate": "از تاریخ",
    "toDate": "تا تاریخ",
    "cancel": "انصراف",
-   "save": "ذخیره",
+   "save": "تایید",
    "update": "ویرایش",
    "add": "افزودن",
    "showMore": "اطلاعات بیشتر",

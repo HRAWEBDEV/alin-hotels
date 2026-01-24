@@ -23,6 +23,8 @@ interface HotelEmployeeContext {
   isFetching: boolean;
   isError: boolean;
   refetch: () => unknown;
+  onEditEmployee: (employeeID: number) => unknown;
+  onAddEmployee: () => unknown;
   onRemoveHotelEmployee: (hotelEmployeeID: number) => unknown;
  };
 }

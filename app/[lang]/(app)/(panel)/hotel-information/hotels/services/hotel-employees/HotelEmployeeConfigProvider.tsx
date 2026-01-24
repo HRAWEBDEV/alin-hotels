@@ -33,6 +33,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
+import NewHotelEmployee from '../../components/hotel-employees/NewHotelEmploye';
 
 export default function HotelEmployeeConfigProvider({
  children,
@@ -45,6 +46,7 @@ export default function HotelEmployeeConfigProvider({
 }) {
  const queryClient = useQueryClient();
  //
+ const [showAddEmployee, setShowAddEmployee] = useState(false);
  const [showFilters, setShowFilters] = useState(false);
  const [selectedEmployeeID, setSelectedEmployeeID] = useState<number | null>(
   null,
@@ -120,6 +122,16 @@ export default function HotelEmployeeConfigProvider({
   setShowFilters((pre) => (open === undefined ? !pre : open));
  }
 
+ function handleAddEmployee() {
+  setSelectedEmployeeID(null);
+  setShowAddEmployee(true);
+ }
+
+ function handleEditEmployee(employeeID: number) {
+  setSelectedEmployeeID(employeeID);
+  setShowAddEmployee(true);
+ }
+
  const ctx: HotelEmployeeContext = {
   hotelID,
   showFilters,
@@ -137,6 +149,8 @@ export default function HotelEmployeeConfigProvider({
    isError: employeesIsError,
    isSuccess: employeesIsSuccess,
    isFetching: employeesIsFetching,
+   onAddEmployee: handleAddEmployee,
+   onEditEmployee: handleEditEmployee,
    refetch: employeesRefetch,
    onRemoveHotelEmployee: handleRemoveEmployee,
   },
@@ -145,6 +159,12 @@ export default function HotelEmployeeConfigProvider({
  return (
   <hotelEmployeeContext.Provider value={ctx}>
    <FormProvider {...hotelEmployeeUseForm}>{children}</FormProvider>
+   <NewHotelEmployee
+    open={showAddEmployee}
+    setOpen={setShowAddEmployee}
+    selectedEmployeeID={selectedEmployeeID}
+    dic={dic}
+   />
    <Dialog
     open={showRemoveEmployeeConfirm}
     onOpenChange={(newValue) => setShowRemoveEmployeeConfirm(newValue)}

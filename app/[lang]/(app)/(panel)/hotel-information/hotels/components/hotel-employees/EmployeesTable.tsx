@@ -11,9 +11,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { MdViewColumn } from 'react-icons/md';
-import { FaUserFriends, FaTools } from 'react-icons/fa';
-import { IoMdBusiness, IoIosPerson } from 'react-icons/io';
 import { TbFilterSearch } from 'react-icons/tb';
+import { FaPlus } from 'react-icons/fa6';
 import {
  Table,
  TableBody,
@@ -40,24 +39,8 @@ import { MdOutlinePushPin } from 'react-icons/md';
 import { RiUnpinLine } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import { IoTrashOutline } from 'react-icons/io5';
-import { Field, FieldLabel } from '@/components/ui/field';
-import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
-import {
- MdKeyboardDoubleArrowLeft,
- MdKeyboardDoubleArrowRight,
- MdKeyboardArrowLeft,
- MdKeyboardArrowRight,
-} from 'react-icons/md';
 import { useFormContext } from 'react-hook-form';
 import { type HotelEmployeeSchema } from '../../schemas/hotel-employees/hotelEmployeesSchema';
-import {
- Select,
- SelectTrigger,
- SelectValue,
- SelectContent,
- SelectGroup,
- SelectItem,
-} from '@/components/ui/select';
 
 export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
  const { getValues } = useFormContext<HotelEmployeeSchema>();
@@ -81,6 +64,8 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
    isSuccess,
    data,
    refetch,
+   onEditEmployee,
+   onAddEmployee,
    onRemoveHotelEmployee,
   },
  } = useHotelEmployeeContext();
@@ -146,6 +131,16 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' onClick={(e) => e.stopPropagation()}>
          <DropdownMenuItem
+          className='text-secondary'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditEmployee(typedOriginal.id);
+          }}
+         >
+          <FaEdit className='size-5 text-inherit' />
+          {dic.hotelEmployee.form.editEmployee}
+         </DropdownMenuItem>
+         <DropdownMenuItem
           className='text-rose-700 dark:text-rose-400'
           onClick={() => {
            const typedOriginal = row.original;
@@ -181,7 +176,7 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
  return (
   <div className='bg-background border border-input lg:rounded-es-none lg:rounded-ss-none rounded flex flex-col overflow-hidden'>
    <div className='p-1 border-b border-input flex justify-between items-center min-h-12 shrink-0'>
-    <div>
+    <div className='flex gap-2'>
      <Button
       variant='outline'
       className='h-auto text-rose-700! dark:text-rose-400! border-rose-700 dark:border-rose-400 px-2! gap-1'
@@ -190,6 +185,10 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
       <TbFilterSearch />{' '}
       <span className='hidden lg:inline'>{dic.table.filters}</span> (
       {validFilters.length})
+     </Button>
+     <Button className='h-auto' onClick={() => onAddEmployee()}>
+      <FaPlus />
+      {dic.hotelEmployee.form.addEmployee}
      </Button>
     </div>
     <div className='flex gap-2'>
