@@ -8,16 +8,26 @@ const defaultValues: Partial<HotelManagersSchema> = {
 };
 
 function createHotelManagersSchema({}: { dic: HotelsDictionary }) {
- return z.object({
-  job: z
-   .object({
-    key: z.string(),
-    value: z.string(),
-   })
-   .nullable(),
-  fromDate: z.date().nullable(),
-  endDate: z.date().nullable(),
- });
+ return z
+  .object({
+   job: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   fromDate: z.date().nullable(),
+   endDate: z.date().nullable(),
+  })
+  .refine(({ job }) => !!job, {
+   path: ['job'],
+  })
+  .refine(({ fromDate }) => !!fromDate, {
+   path: ['fromDate'],
+  })
+  .refine(({ endDate }) => !!endDate, {
+   path: ['endDate'],
+  });
 }
 
 type HotelManagersSchema = z.infer<

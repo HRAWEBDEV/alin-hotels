@@ -19,7 +19,10 @@ interface HotelManager {
  personFullName: string;
 }
 
-type SaveHotelManagerPackage = Omit<HotelManager, 'hotelName' | 'jobTitleName'>;
+type SaveHotelManagerPackage = Omit<
+ HotelManager,
+ 'hotelName' | 'jobTitleName' | 'personFullName'
+>;
 
 function getInitialData({ signal }: { signal: AbortSignal }) {
  return axios.get<InitialData>(`${hotelHotelMangerBasePath}/InitData`, {

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
@@ -7,6 +7,9 @@ import {
  InputGroupInput,
  InputGroupAddon,
 } from '@/components/ui/input-group';
+
+import { Calendar } from '@/components/ui/calendar';
+import { ChevronDownIcon } from 'lucide-react';
 import {
  type HotelManagersSchema,
  defaultValues,
@@ -45,7 +48,6 @@ import {
  CommandItem,
  CommandList,
 } from '@/components/ui/command';
-import { NumericFormat } from 'react-number-format';
 import { useShareDictionary } from '@/app/[lang]/(app)/services/share-dictionary/shareDictionaryContext';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import {
@@ -53,6 +55,7 @@ import {
  getPerson,
 } from '../../../../general-settings/real-persons/services/personsApiActions';
 import RealPersonFinder from '../../../../general-settings/real-persons/components/real-person-finder/RealPersonFinder';
+import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 
 export default function HotelFacilitiesItem({
  dic,
@@ -65,10 +68,15 @@ export default function HotelFacilitiesItem({
  hotelManager: HotelManager | null;
  onCancel?: () => unknown;
 }) {
+ const { locale } = useBaseConfig();
+ const personInputRef = useRef<HTMLInputElement | null>(null);
  const [showRealPerson, setShowRealPerson] = useState(false);
  const [personID, setPersonID] = useState(0);
- const [showMore, setShowMore] = useState(false);
+ const [showMore, setShowMore] = useState(!!hotelManager ? false : true);
  const [showJobs, setShowJobs] = useState(false);
+
+ const [showFromDate, setShowFromDate] = useState(false);
+ const [showEndDate, setShowEndDate] = useState(false);
 
  const {
   shareDictionary: {
@@ -83,13 +91,11 @@ export default function HotelFacilitiesItem({
  } = useHotelManagerContext();
  const queryClient = useQueryClient();
  const {
-  register,
   handleSubmit,
   reset,
   control,
   setValue,
   formState: { errors },
-  watch,
   setFocus,
  } = useForm<HotelManagersSchema>({
   resolver: zodResolver(createHotelManagersSchema({ dic })),
@@ -116,15 +122,14 @@ export default function HotelFacilitiesItem({
  });
 
  const { mutate, isPending } = useMutation({
-  mutationFn({
-   capacity,
-   comment,
-   facility: formFacility,
-   quantity,
-   scale,
-  }: HotelManagersSchema) {
+  mutationFn({ job, fromDate, endDate }: HotelManagersSchema) {
    const saveManagerPackage: SaveHotelManagerPackage = {
-    id: 0,
+    id: hotelManager?.id || 0,
+    hotelID,
+    jobTitleID: Number(job!.key),
+    fromDateTimeOffset: fromDate!.toISOString(),
+    endDateTimeOffset: endDate!.toISOString(),
+    personID,
    };
    return hotelManager
     ? updateHotelManager(saveManagerPackage)
@@ -144,6 +149,8 @@ export default function HotelFacilitiesItem({
     });
    } else {
     reset();
+    setPersonID(0);
+    personInputRef.current?.focus();
     toast.success(notifications.itemAdded);
    }
    setTimeout(() => {}, 200);
@@ -156,6 +163,7 @@ export default function HotelFacilitiesItem({
  });
 
  useEffect(() => {
+  setPersonID(hotelManager?.personID || 0);
   setValue(
    'job',
    hotelManager?.jobTitleID && hotelManager.jobTitleName
@@ -165,7 +173,18 @@ export default function HotelFacilitiesItem({
       }
     : null,
   );
-  setPersonID(hotelManager?.personID || 0);
+  setValue(
+   'fromDate',
+   hotelManager?.fromDateTimeOffset
+    ? new Date(hotelManager.fromDateTimeOffset)
+    : null,
+  );
+  setValue(
+   'endDate',
+   hotelManager?.endDateTimeOffset
+    ? new Date(hotelManager.endDateTimeOffset)
+    : null,
+  );
  }, [hotelManager, setValue]);
 
  return (
@@ -181,20 +200,25 @@ export default function HotelFacilitiesItem({
       </FieldLabel>
       <InputGroup className='bg-background'>
        <InputGroupInput
+        ref={personInputRef}
         id={`person${hotelManager?.id || ''}`}
         value={personData?.personFullName || ''}
         onClick={() => {
+         if (personLoading) return;
          setShowRealPerson(true);
         }}
         onKeyDown={(e) => {
-         if (e.key !== ' ') return;
+         if (personLoading) return;
+         if (e.key !== 'Enter' && e.key !== ' ') return;
          e.stopPropagation();
          e.preventDefault();
          setShowRealPerson(true);
         }}
+        disabled={personLoading}
         readOnly
        />
        <InputGroupAddon align={'inline-end'} className='text-primary'>
+        {personLoading && <Spinner />}
         <FaSearch />
        </InputGroupAddon>
       </InputGroup>
@@ -203,7 +227,7 @@ export default function HotelFacilitiesItem({
       control={control}
       name='job'
       render={({ field: { value, onChange, ...other } }) => (
-       <Field className='gap-2'>
+       <Field className='gap-2' data-invalid={!!errors.job}>
         <FieldLabel htmlFor={`job${hotelManager?.id || ''}`}>
          {dic.hotelManager.form.job} *
         </FieldLabel>
@@ -217,6 +241,7 @@ export default function HotelFacilitiesItem({
            role='combobox'
            aria-expanded={showJobs}
            className='justify-between'
+           data-invalid={!!errors.job}
            {...other}
           >
            <span className='text-start grow overflow-hidden text-ellipsis'>
@@ -273,6 +298,108 @@ export default function HotelFacilitiesItem({
          />
         </InputGroup>
        </Field>
+       <Controller
+        control={control}
+        name='fromDate'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2' data-invalid={!!errors.fromDate}>
+          <FieldLabel htmlFor='fromDate' className='px-1'>
+           {dic.hotelManager.form.fromDate}
+          </FieldLabel>
+          <Popover open={showFromDate} onOpenChange={setShowFromDate}>
+           <PopoverTrigger asChild>
+            <Button
+             data-invalid={!!errors.fromDate}
+             type='button'
+             variant='outline'
+             id='fromDate'
+             className='justify-between font-normal'
+             {...other}
+            >
+             <span>{value ? value.toLocaleDateString(locale) : ''}</span>
+             <div className='flex gap-1 items-center -me-2'>
+              {value && (
+               <Button
+                type='button'
+                variant={'ghost'}
+                size={'icon'}
+                onClick={(e) => {
+                 e.stopPropagation();
+                 onChange(null);
+                }}
+                className='text-rose-700 dark:text-rose-400'
+               >
+                <FaRegTrashAlt />
+               </Button>
+              )}
+              <ChevronDownIcon className='opacity-50' />
+             </div>
+            </Button>
+           </PopoverTrigger>
+           <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+            <Calendar
+             mode='single'
+             selected={value || undefined}
+             onSelect={(selected) => onChange(selected)}
+             defaultMonth={value || undefined}
+             captionLayout='dropdown'
+            />
+           </PopoverContent>
+          </Popover>
+         </Field>
+        )}
+       />
+       <Controller
+        control={control}
+        name='endDate'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2' data-invalid={!!errors.endDate}>
+          <FieldLabel htmlFor='endDate' className='px-1'>
+           {dic.hotelManager.form.toDate}
+          </FieldLabel>
+          <Popover open={showEndDate} onOpenChange={setShowEndDate}>
+           <PopoverTrigger asChild>
+            <Button
+             type='button'
+             variant='outline'
+             id='endDate'
+             className='justify-between font-normal'
+             data-invalid={!!errors.endDate}
+             {...other}
+            >
+             <span>{value ? value.toLocaleDateString(locale) : ''}</span>
+             <div className='flex gap-1 items-center -me-2'>
+              {value && (
+               <Button
+                type='button'
+                variant={'ghost'}
+                size={'icon'}
+                onClick={(e) => {
+                 e.stopPropagation();
+                 onChange(null);
+                }}
+                className='text-rose-700 dark:text-rose-400'
+               >
+                <FaRegTrashAlt />
+               </Button>
+              )}
+              <ChevronDownIcon className='opacity-50' />
+             </div>
+            </Button>
+           </PopoverTrigger>
+           <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+            <Calendar
+             mode='single'
+             selected={value || undefined}
+             onSelect={(selected) => onChange(selected)}
+             defaultMonth={value || undefined}
+             captionLayout='dropdown'
+            />
+           </PopoverContent>
+          </Popover>
+         </Field>
+        )}
+       />
       </>
      )}
     </div>
@@ -322,9 +449,14 @@ export default function HotelFacilitiesItem({
        disabled={isPending || personLoading}
        onClick={(e) => {
         e.preventDefault();
-        handleSubmit((data) => {
-         mutate(data);
-        })();
+        handleSubmit(
+         (data) => {
+          mutate(data);
+         },
+         () => {
+          setShowMore(true);
+         },
+        )();
        }}
       >
        {isPending && <Spinner />}
@@ -346,7 +478,7 @@ export default function HotelFacilitiesItem({
       setShowRealPerson(false);
       setTimeout(() => {
        setFocus('job');
-      }, 100);
+      }, 200);
      },
     }}
    />
