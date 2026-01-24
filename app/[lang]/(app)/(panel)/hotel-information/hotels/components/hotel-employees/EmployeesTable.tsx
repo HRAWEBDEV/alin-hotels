@@ -13,6 +13,7 @@ import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { MdViewColumn } from 'react-icons/md';
 import { TbFilterSearch } from 'react-icons/tb';
 import { FaPlus } from 'react-icons/fa6';
+import { IoPerson } from 'react-icons/io5';
 import {
  Table,
  TableBody,
@@ -59,6 +60,7 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
  });
  const {
   changeShowFilters,
+  onEditPerson,
   hotelEmployee: {
    isFetching,
    isSuccess,
@@ -139,6 +141,16 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
          >
           <FaEdit className='size-5 text-inherit' />
           {dic.hotelEmployee.form.editEmployee}
+         </DropdownMenuItem>
+         <DropdownMenuItem
+          className='text-orange-700 dark:text-orange-400'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditPerson(typedOriginal.personID);
+          }}
+         >
+          <IoPerson className='size-5 text-inherit' />
+          {dic.hotelEmployee.form.editPerson}
          </DropdownMenuItem>
          <DropdownMenuItem
           className='text-rose-700 dark:text-rose-400'

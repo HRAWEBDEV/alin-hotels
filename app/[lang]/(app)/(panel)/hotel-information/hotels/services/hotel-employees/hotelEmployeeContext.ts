@@ -6,6 +6,7 @@ interface HotelEmployeeContext {
  hotelID: number;
  showFilters: boolean;
  changeShowFilters: (open?: boolean) => unknown;
+ onEditPerson: (personID: number) => unknown;
  initialData: {
   data?: InitialData;
   isLoading: boolean;

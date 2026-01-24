@@ -35,6 +35,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
 import NewHotelEmployee from '../../components/hotel-employees/NewHotelEmploye';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
+import RealPersonFinder from '../../../../general-settings/real-persons/components/real-person-finder/RealPersonFinder';
 
 export default function HotelEmployeeConfigProvider({
  children,
@@ -54,6 +55,8 @@ export default function HotelEmployeeConfigProvider({
  const [selectedEmployeeID, setSelectedEmployeeID] = useState<number | null>(
   null,
  );
+ const [selectedPersonID, setSelectedPersonID] = useState<number | null>(null);
+ const [showFindPerson, setShowFindPerson] = useState(false);
  const [showRemoveEmployeeConfirm, setShowRemoveEmployeeConfirm] =
   useState(false);
  // form
@@ -141,10 +144,16 @@ export default function HotelEmployeeConfigProvider({
   setShowAddEmployee(true);
  }
 
+ function handleEditPerson(personID: number) {
+  setSelectedPersonID(personID);
+  setShowFindPerson(true);
+ }
+
  const ctx: HotelEmployeeContext = {
   hotelID,
   showFilters,
   changeShowFilters: handleChangeShowFilters,
+  onEditPerson: handleEditPerson,
   initialData: {
    data: initData,
    isLoading: initDataIsLoading,
@@ -218,6 +227,25 @@ export default function HotelEmployeeConfigProvider({
      </DialogFooter>
     </DialogContent>
    </Dialog>
+   {selectedPersonID && (
+    <RealPersonFinder
+     dic={realPersonDic}
+     open={showFindPerson}
+     onOpenChange={(open) =>
+      setShowFindPerson((pre) => (open === undefined ? !pre : open))
+     }
+     wrapperType={{
+      personID: selectedPersonID,
+      defaultTab: 'edit',
+      onChangePerson() {
+       setShowFindPerson(false);
+       queryClient.invalidateQueries({
+        queryKey: [hotelHotelEmployeeBasePath, 'all'],
+       });
+      },
+     }}
+    />
+   )}
   </hotelEmployeeContext.Provider>
  );
 }

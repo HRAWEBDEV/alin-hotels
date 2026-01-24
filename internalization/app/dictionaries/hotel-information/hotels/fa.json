@@ -111,6 +111,7 @@
   "form": {
    "addEmployee": "افزودن",
    "editEmployee": "ویرایش",
+   "editPerson": "ویرایش شخص",
    "search": "جستجو",
    "job": "سمت",
    "person": "شخص",
