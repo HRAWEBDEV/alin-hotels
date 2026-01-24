@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import { Field, FieldLabel } from '@/components/ui/field';
 import {
@@ -96,12 +96,53 @@ export default function HotelFacilitiesItem({
   setValue,
   formState: { errors },
   setFocus,
+  watch,
  } = useForm<HotelManagersSchema>({
   resolver: zodResolver(createHotelManagersSchema({ dic })),
   defaultValues: {
    ...defaultValues,
   },
  });
+
+ const [jobValue, fromDateValue, endDateVaue] = watch([
+  'job',
+  'fromDate',
+  'endDate',
+ ]);
+
+ const formChanged = hotelManager
+  ? hotelManager?.personID !== personID ||
+    jobValue?.key !== hotelManager.jobTitleID.toString() ||
+    fromDateValue?.getTime() !==
+     new Date(hotelManager.fromDateTimeOffset).getTime() ||
+    endDateVaue?.getTime() !==
+     new Date(hotelManager.endDateTimeOffset).getTime()
+  : true;
+
+ const setFormDefaults = useCallback(() => {
+  setPersonID(hotelManager?.personID || 0);
+  setValue(
+   'job',
+   hotelManager?.jobTitleID && hotelManager.jobTitleName
+    ? {
+       key: hotelManager.jobTitleID.toString(),
+       value: hotelManager.jobTitleName,
+      }
+    : null,
+  );
+  setValue(
+   'fromDate',
+   hotelManager?.fromDateTimeOffset
+    ? new Date(hotelManager.fromDateTimeOffset)
+    : null,
+  );
+  setValue(
+   'endDate',
+   hotelManager?.endDateTimeOffset
+    ? new Date(hotelManager.endDateTimeOffset)
+    : null,
+  );
+ }, [hotelManager, setValue]);
 
  // get person
  const {
@@ -162,29 +203,8 @@ export default function HotelFacilitiesItem({
  });
 
  useEffect(() => {
-  setPersonID(hotelManager?.personID || 0);
-  setValue(
-   'job',
-   hotelManager?.jobTitleID && hotelManager.jobTitleName
-    ? {
-       key: hotelManager.jobTitleID.toString(),
-       value: hotelManager.jobTitleName,
-      }
-    : null,
-  );
-  setValue(
-   'fromDate',
-   hotelManager?.fromDateTimeOffset
-    ? new Date(hotelManager.fromDateTimeOffset)
-    : null,
-  );
-  setValue(
-   'endDate',
-   hotelManager?.endDateTimeOffset
-    ? new Date(hotelManager.endDateTimeOffset)
-    : null,
-  );
- }, [hotelManager, setValue]);
+  setFormDefaults();
+ }, [setFormDefaults]);
 
  return (
   <form
@@ -436,9 +456,10 @@ export default function HotelFacilitiesItem({
        type='button'
        variant='outline'
        className='md:20'
-       disabled={isPending || personLoading}
+       disabled={isPending || personLoading || !formChanged}
        onClick={() => {
         onCancel?.();
+        setFormDefaults();
        }}
       >
        {isPending && <Spinner />}
@@ -448,7 +469,7 @@ export default function HotelFacilitiesItem({
        type='submit'
        variant={hotelManager ? 'secondary' : 'default'}
        className='md:w-20'
-       disabled={isPending || personLoading}
+       disabled={isPending || personLoading || !formChanged}
        onClick={(e) => {
         e.preventDefault();
         if (!personID) {
