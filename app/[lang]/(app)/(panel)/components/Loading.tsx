@@ -1,7 +1,11 @@
+import { Spinner } from '@/components/ui/spinner';
+
 export default function Loading() {
  return (
   <div className='fixed inset-0 z-(--startup-loading-zindex)'>
-   <div className='flex items-center justify-center h-full bg-white/50 dark:bg-black/50 p-10'></div>
+   <div className='flex items-center justify-center h-full bg-white/50 dark:bg-black/50 p-10'>
+    <Spinner className='size-20 text-primary' />
+   </div>
   </div>
  );
 }
