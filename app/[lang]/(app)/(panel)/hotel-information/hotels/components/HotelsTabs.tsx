@@ -6,14 +6,8 @@ import { FaUserEdit } from 'react-icons/fa';
 import { FaClipboardList } from 'react-icons/fa';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
-import {
- Select,
- SelectTrigger,
- SelectValue,
- SelectContent,
- SelectGroup,
- SelectItem,
-} from '@/components/ui/select';
+import { FaUserFriends, FaTools } from 'react-icons/fa';
+import { IoMdBusiness, IoIosPerson } from 'react-icons/io';
 
 export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
  const {
@@ -26,13 +20,30 @@ export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
  const { localeInfo } = useBaseConfig();
 
  function renderDetailTab() {
+  let detailIcon = <FaUserEdit />;
+
+  switch (selectedDetailTab) {
+   case 'hotelFacilities':
+    detailIcon = <FaTools />;
+    break;
+   case 'hotelEmployees':
+    detailIcon = <FaUserFriends />;
+    break;
+   case 'hotelManagers':
+    detailIcon = <IoIosPerson />;
+    break;
+   case 'hotelOperators':
+    detailIcon = <IoMdBusiness />;
+    break;
+  }
+
   return (
    <TabsTrigger
     value={selectedDetailTab}
-    className='sm:w-32 cursor-pointer text-orange-700 dark:text-orange-400 font-normal'
+    className='sm:w-32 cursor-pointer text-purple-700 dark:text-purple-400 font-normal'
     onClick={() => changeSelectedDetailTab(selectedDetailTab)}
    >
-    <FaUserEdit />
+    {detailIcon}
     {dic.tabs[selectedDetailTab]}
    </TabsTrigger>
   );
