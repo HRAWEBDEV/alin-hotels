@@ -3,7 +3,6 @@ import { use, createContext } from 'react';
 
 const userProfileTabs = [
  'generalInfo',
- 'quickAccess',
  'notifications',
  'support',
  'setting',

@@ -91,7 +91,6 @@ export default function Addressbar() {
     )}
    </div>
    <div className='flex items-center gap-2'>
-    <QuickAccessControllerButton />
     <Button
      className='hidden lg:flex size-8 rounded-full text-primary'
      variant='outline'
