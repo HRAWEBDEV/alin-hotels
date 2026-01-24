@@ -236,6 +236,7 @@ export default function HotelEmployeeConfigProvider({
      }
      wrapperType={{
       personID: selectedPersonID,
+      justEditTab: true,
       defaultTab: 'edit',
       onChangePerson() {
        setShowFindPerson(false);

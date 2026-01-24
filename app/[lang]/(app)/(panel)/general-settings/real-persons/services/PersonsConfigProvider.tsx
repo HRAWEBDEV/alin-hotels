@@ -337,6 +337,7 @@ export default function PersonsConfigProvider({
   tabs,
   selectedTab,
   showFilters,
+  justEditTab: wrapperType.mode === 'find' ? !!wrapperType.justEditTab : false,
   changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
   initialData: {

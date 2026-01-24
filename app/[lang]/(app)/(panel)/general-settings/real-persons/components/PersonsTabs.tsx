@@ -11,6 +11,7 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
  const {
   selectedTab,
   changeSelectedTab,
+  justEditTab,
   persons: { selectedPersonID },
  } = usePersonsConfigContext();
  const { localeInfo } = useBaseConfig();
@@ -22,22 +23,26 @@ export default function PersonsTabs({ dic }: { dic: RealPersonsDictionary }) {
     value={selectedTab}
    >
     <TabsList className='dark:bg-background border border-input'>
-     <TabsTrigger
-      value='list'
-      className='sm:w-32 cursor-pointer text-sky-700 dark:text-sky-400 font-normal'
-      onClick={() => changeSelectedTab('list')}
-     >
-      <FaClipboardList />
-      {dic.tabs.personsList}
-     </TabsTrigger>
-     <TabsTrigger
-      value='add'
-      className='sm:w-32 cursor-pointer text-teal-700 dark:text-teal-400 font-normal'
-      onClick={() => changeSelectedTab('add')}
-     >
-      <IoMdPersonAdd />
-      {dic.tabs.addPerson}
-     </TabsTrigger>
+     {!justEditTab && (
+      <>
+       <TabsTrigger
+        value='list'
+        className='sm:w-32 cursor-pointer text-sky-700 dark:text-sky-400 font-normal'
+        onClick={() => changeSelectedTab('list')}
+       >
+        <FaClipboardList />
+        {dic.tabs.personsList}
+       </TabsTrigger>
+       <TabsTrigger
+        value='add'
+        className='sm:w-32 cursor-pointer text-teal-700 dark:text-teal-400 font-normal'
+        onClick={() => changeSelectedTab('add')}
+       >
+        <IoMdPersonAdd />
+        {dic.tabs.addPerson}
+       </TabsTrigger>
+      </>
+     )}
      {selectedPersonID && (
       <TabsTrigger
        value='edit'

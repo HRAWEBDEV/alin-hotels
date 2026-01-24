@@ -34,7 +34,7 @@ export default function EmployeesFilters({ dic }: { dic: HotelsDictionary }) {
   showFilters,
   changeShowFilters,
   initialData,
-  hotelEmployee: { data, isLoading },
+  hotelEmployee: { filteredData, isLoading },
  } = useHotelEmployeeContext();
 
  return (
@@ -69,7 +69,12 @@ export default function EmployeesFilters({ dic }: { dic: HotelsDictionary }) {
      </p>
      <div className='text-xs flex items-center'>
       ({dic.filters.results}:{' '}
-      {isLoading ? <Spinner className='text-primary' /> : data?.length || 0})
+      {isLoading ? (
+       <Spinner className='text-primary' />
+      ) : (
+       filteredData?.length || 0
+      )}
+      )
      </div>
     </div>
     <div className='basis-9 flex'>

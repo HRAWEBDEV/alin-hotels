@@ -4,6 +4,7 @@ export type WrapperTypes =
  | {
     mode: 'find';
     defaultTab?: Tab;
+    justEditTab?: boolean;
     onChangePerson: (personID: number) => unknown;
     personID?: number | null;
    };

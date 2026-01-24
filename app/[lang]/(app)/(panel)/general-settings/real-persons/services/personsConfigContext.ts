@@ -17,6 +17,7 @@ const tabs: Tab[] = ['list', 'add', 'edit'];
 interface PersonsConfig {
  wrapperType: WrapperTypes;
  tabs: Tab[];
+ justEditTab: boolean;
  selectedTab: Tab;
  showFilters: boolean;
  changeShowFilters: (open?: boolean) => unknown;
