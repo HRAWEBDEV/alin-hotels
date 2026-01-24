@@ -45,6 +45,7 @@ export default function HotelManagerConfigProvider({
 }) {
  const queryClient = useQueryClient();
  //
+ const [showFilters, setShowFilters] = useState(false);
  const [selectedEmployeeID, setSelectedEmployeeID] = useState<number | null>(
   null,
  );
@@ -115,8 +116,14 @@ export default function HotelManagerConfigProvider({
    },
   });
 
+ function handleChangeShowFilters(open?: boolean) {
+  setShowFilters((pre) => (open === undefined ? !pre : open));
+ }
+
  const ctx: HotelEmployeeContext = {
   hotelID,
+  showFilters,
+  changeShowFilters: handleChangeShowFilters,
   initialData: {
    data,
    isLoading,

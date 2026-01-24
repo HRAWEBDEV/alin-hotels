@@ -7,6 +7,8 @@ import {
 
 interface HotelEmployeeContext {
  hotelID: number;
+ showFilters: boolean;
+ changeShowFilters: (open?: boolean) => unknown;
  initialData: {
   data?: InitialData;
   isLoading: boolean;

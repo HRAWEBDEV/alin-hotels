@@ -3,6 +3,7 @@ import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-
 import HotelsList from './hotels-list/HotelsList';
 import NewHotel from './new-hotel/NewHotel';
 import HotelManagers from '../components/hotel-managers/HotelManagers';
+import EmployeesList from './hotel-employees/EmployeesList';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
@@ -58,6 +59,9 @@ export default function HotelsContent({
       realPersonDic={realPersonDic}
      />
     )}
+   </Activity>
+   <Activity mode={selectedTab === 'hotelEmployees' ? 'visible' : 'hidden'}>
+    {selectedHotelID && <EmployeesList dic={dic} hotelID={selectedHotelID} />}
    </Activity>
   </main>
  );
