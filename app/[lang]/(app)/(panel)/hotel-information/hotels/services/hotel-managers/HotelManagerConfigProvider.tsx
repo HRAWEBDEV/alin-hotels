@@ -55,6 +55,7 @@ export default function HotelManagerConfigProvider({
   resolver: zodResolver(createHotelManagersSchema({ dic })),
   defaultValues: defaultValues,
  });
+ const [nameValue] = hotelManagersUseForm.watch(['name']);
  // init data
  const { data, isLoading, isError, isSuccess } = useQuery({
   staleTime: 'static',
@@ -81,8 +82,8 @@ export default function HotelManagerConfigProvider({
  });
 
  const filteredData =
-  managers && managers.length && ''
-   ? managers.filter((item) => item.id)
+  managers && managers.length && nameValue
+   ? managers.filter((item) => item.personFullName.includes(nameValue))
    : managers;
 
  // remove owner

@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 
 const defaultValues: Partial<HotelManagersSchema> = {
- name: '',
  job: null,
  fromDate: null,
  endDate: null,
@@ -11,7 +10,6 @@ const defaultValues: Partial<HotelManagersSchema> = {
 function createHotelManagersSchema({}: { dic: HotelsDictionary }) {
  return z
   .object({
-   name: z.string(),
    job: z
     .object({
      key: z.string(),

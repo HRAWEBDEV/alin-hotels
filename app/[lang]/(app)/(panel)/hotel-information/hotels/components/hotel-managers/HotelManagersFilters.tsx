@@ -46,6 +46,7 @@ export default function HotelManagersFilters({
        type='search'
        id='search'
        placeholder={navList.search + ' ...'}
+       {...register('name')}
       />
       <InputGroupAddon align='inline-end'>
        <div>

@@ -92,7 +92,6 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
     header: dic.hotelEmployee.form.person,
     minSize: 180,
     size: 180,
-    meta: 'center',
    },
    {
     accessorKey: 'jobTitleName',

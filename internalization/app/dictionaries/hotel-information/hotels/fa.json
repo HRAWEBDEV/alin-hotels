@@ -103,7 +103,7 @@
  },
  "removeHotelManager": {
   "title": "حذف شخص",
-  "confirmRemoveFacility": "آیا از شخص آیتم اطمینان دارید؟",
+  "confirmRemoveFacility": "آیا از حذف آیتم اطمینان دارید؟",
   "confirm": "تایید",
   "cancel": "انصراف"
  },
@@ -127,7 +127,7 @@
  },
  "removeHotelEmployee": {
   "title": "حذف شخص",
-  "confirmRemoveFacility": "آیا از شخص آیتم اطمینان دارید؟",
+  "confirmRemoveFacility": "آیا از حذف آیتم اطمینان دارید؟",
   "confirm": "تایید",
   "cancel": "انصراف"
  }
