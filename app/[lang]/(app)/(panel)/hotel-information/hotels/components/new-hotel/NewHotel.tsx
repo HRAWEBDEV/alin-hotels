@@ -148,20 +148,16 @@ export default function NewHotel({
      tel2: tel2 || null,
      tel3: tel3 || null,
      towerCount: towerCount || null,
-     cityZoneID: city ? Number(city.key) : null,
-     degreeTypeID: degreeType ? Number(degreeType.key) : null,
-     gradeTypeID: gradeType ? Number(gradeType.key) : null,
-     hotelOperatorTypeID: hotelOperatorType
-      ? Number(hotelOperatorType.key)
-      : null,
-     hotelOwnershipTypeID: hotelOwnershipType
-      ? Number(hotelOwnershipType.key)
-      : null,
-     hotelThemeID: hotelTheme ? Number(hotelTheme.key) : null,
-     hotelTypeID: hotelType ? Number(hotelType.key) : null,
-     locationTypeID: locationType ? Number(locationType.key) : null,
-     stateZoneID: state ? Number(state.key) : null,
-     ownerID: owner ? Number(owner.key) : null,
+     cityZoneID: Number(city!.key),
+     degreeTypeID: Number(degreeType!.key),
+     gradeTypeID: Number(gradeType!.key),
+     hotelOperatorTypeID: Number(hotelOperatorType!.key),
+     hotelOwnershipTypeID: Number(hotelOwnershipType!.key),
+     hotelThemeID: Number(hotelTheme!.key),
+     hotelTypeID: Number(hotelType!.key),
+     locationTypeID: Number(locationType!.key),
+     stateZoneID: Number(state!.key),
+     ownerID: Number(owner!.key),
     },
     dictionaryData: {
      id: data?.nameID || 0,
@@ -395,9 +391,9 @@ export default function NewHotel({
        control={control}
        name='hotelType'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.hotelType}>
          <FieldLabel htmlFor='hotelType'>
-          {dic.newHotel.form.hotelType}
+          {dic.newHotel.form.hotelType} *
          </FieldLabel>
          <Popover open={openHotelType} onOpenChange={setOpenHotelType}>
           <PopoverTrigger asChild>
@@ -409,6 +405,7 @@ export default function NewHotel({
             role='combobox'
             aria-expanded={openHotelType}
             className='justify-between'
+            data-invalid={!!errors.hotelType}
             {...other}
            >
             <span className='text-start grow overflow-hidden text-ellipsis'>
@@ -469,13 +466,16 @@ export default function NewHotel({
        control={control}
        name='owner'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='owner'>{dic.newHotel.form.ownerName}</FieldLabel>
+        <Field className='gap-2' data-invalid={!!errors.owner}>
+         <FieldLabel htmlFor='owner'>
+          {dic.newHotel.form.ownerName} *
+         </FieldLabel>
          <Popover open={openOwner} onOpenChange={setOpenOwner}>
           <PopoverTrigger asChild>
            <Button
             type='button'
             id='owner'
+            data-invalid={!!errors.owner}
             title={value?.value || ''}
             variant='outline'
             role='combobox'
@@ -546,7 +546,7 @@ export default function NewHotel({
        control={control}
        name='hotelOwnershipType'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.hotelOwnershipType}>
          <FieldLabel htmlFor='hotelOwnershipType'>
           {dic.newHotel.form.ownerShipType}
          </FieldLabel>
@@ -554,6 +554,7 @@ export default function NewHotel({
           <PopoverTrigger asChild>
            <Button
             type='button'
+            data-invalid={!!errors.hotelOwnershipType}
             id='hotelOwnershipType'
             title={value?.value || ''}
             variant='outline'
@@ -620,7 +621,7 @@ export default function NewHotel({
        control={control}
        name='hotelOperatorType'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.hotelOperatorType}>
          <FieldLabel htmlFor='hotelOperatorType'>
           {dic.newHotel.form.operatorType}
          </FieldLabel>
@@ -628,6 +629,7 @@ export default function NewHotel({
           <PopoverTrigger asChild>
            <Button
             type='button'
+            data-invalid={!!errors.hotelOperatorType}
             id='hotelOperatorType'
             variant='outline'
             title={value?.value || ''}
@@ -659,7 +661,7 @@ export default function NewHotel({
             </div>
            </Button>
           </PopoverTrigger>
-          <PopoverContent className='w-[200px] p-0'>
+          <PopoverContent className='p-0'>
            <Command>
             <CommandInput />
             <CommandList>
