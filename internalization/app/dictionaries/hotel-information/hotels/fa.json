@@ -96,6 +96,9 @@
    "add": "افزودن",
    "showMore": "اطلاعات بیشتر",
    "showLess": "اطلاعات کمتر"
+  },
+  "formValidation": {
+   "selectPerson": "شخص انتخاب نشده است"
   }
  },
  "removeHotelManager": {

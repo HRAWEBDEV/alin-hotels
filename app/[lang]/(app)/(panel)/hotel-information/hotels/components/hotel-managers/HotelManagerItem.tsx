@@ -7,7 +7,6 @@ import {
  InputGroupInput,
  InputGroupAddon,
 } from '@/components/ui/input-group';
-
 import { Calendar } from '@/components/ui/calendar';
 import { ChevronDownIcon } from 'lucide-react';
 import {
@@ -227,7 +226,10 @@ export default function HotelFacilitiesItem({
       control={control}
       name='job'
       render={({ field: { value, onChange, ...other } }) => (
-       <Field className='gap-2' data-invalid={!!errors.job}>
+       <Field
+        className='gap-2 col-span-2 md:col-span-1'
+        data-invalid={!!errors.job}
+       >
         <FieldLabel htmlFor={`job${hotelManager?.id || ''}`}>
          {dic.hotelManager.form.job} *
         </FieldLabel>
@@ -286,7 +288,7 @@ export default function HotelFacilitiesItem({
      />
      {showMore && (
       <>
-       <Field className='gap-2'>
+       <Field className='gap-2 col-span-2 md:col-span-1'>
         <FieldLabel htmlFor={`mobileNo${hotelManager?.id || ''}`}>
          {dic.hotelManager.form.mobileNo}
         </FieldLabel>
@@ -449,6 +451,10 @@ export default function HotelFacilitiesItem({
        disabled={isPending || personLoading}
        onClick={(e) => {
         e.preventDefault();
+        if (!personID) {
+         toast.error(dic.hotelManager.formValidation.selectPerson);
+         return;
+        }
         handleSubmit(
          (data) => {
           mutate(data);
