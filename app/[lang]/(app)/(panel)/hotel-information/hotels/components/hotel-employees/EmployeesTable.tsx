@@ -62,7 +62,7 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
   hotelEmployee: {
    isFetching,
    isSuccess,
-   data,
+   filteredData,
    refetch,
    onEditEmployee,
    onAddEmployee,
@@ -158,11 +158,11 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
     meta: 'action',
    },
   ] as ColumnDef<HotelEmployee>[];
- }, [dic, onRemoveHotelEmployee, localeInfo]);
+ }, [dic, onRemoveHotelEmployee, localeInfo, locale, onEditEmployee]);
 
  const defaultData = useMemo(() => [], []);
  const table = useReactTable({
-  data: data || defaultData,
+  data: filteredData || defaultData,
   columns,
   columnResizeDirection: localeInfo.contentDirection,
   columnResizeMode: 'onChange',
@@ -232,8 +232,8 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
    </div>
    <div className='relative grow flex flex-col overflow-auto'>
     {isFetching && <LinearLoading />}
-    {!data?.length && isSuccess && !isFetching && <NoItemFound />}
-    {isSuccess && !!data?.length && (
+    {!filteredData?.length && isSuccess && !isFetching && <NoItemFound />}
+    {isSuccess && !!filteredData?.length && (
      <Table className='table-fixed'>
       <TableHeader>
        {table.getHeaderGroups().map((group) => (
@@ -305,7 +305,7 @@ export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
          key={row.id}
          onDoubleClick={() => {
           const typedOriginal = row.original;
-          // onEditHotel(typedOriginal.id);
+          onEditEmployee(typedOriginal.id);
          }}
         >
          {row.getVisibleCells().map((cell) => (

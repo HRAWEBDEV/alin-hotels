@@ -61,6 +61,7 @@ export default function HotelEmployeeConfigProvider({
   resolver: zodResolver(createHotelEmployeeSchema({ dic })),
   defaultValues: defaultValues,
  });
+ const [nameValue, jobValue] = hotelEmployeeUseForm.watch(['name', 'job']);
  // init data
  const { data: initData, isLoading: initDataIsLoading } = useQuery({
   staleTime: 'static',
@@ -86,10 +87,15 @@ export default function HotelEmployeeConfigProvider({
   },
  });
 
- const filteredData =
-  employees && employees.length && ''
-   ? employees.filter((item) => item.id)
-   : employees;
+ const filteredData = (() => {
+  if (!employees || !employees.length) return employees;
+  return employees.filter((item) => {
+   return (
+    item.personFullName.includes(nameValue) &&
+    (jobValue ? item.jobTitleID.toString() === jobValue.key : true)
+   );
+  });
+ })();
 
  // remove owner
  function handleRemoveEmployee(employeeID: number) {
