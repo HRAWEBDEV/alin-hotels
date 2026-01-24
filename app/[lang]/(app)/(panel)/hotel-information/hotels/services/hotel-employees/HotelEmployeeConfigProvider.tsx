@@ -34,7 +34,7 @@ import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
 
-export default function HotelManagerConfigProvider({
+export default function HotelEmployeeConfigProvider({
  children,
  hotelID,
  dic,

@@ -24,12 +24,6 @@ function QuickAccessControllerButton() {
      variant='outline'
      size='icon-lg'
      className='size-8 rounded-full text-teal-700 dark:text-teal-400'
-     onClick={() =>
-      toggle({
-       open: true,
-       type: 'quickAccess',
-      })
-     }
     >
      <RiBookMarkedFill />
     </Button>
