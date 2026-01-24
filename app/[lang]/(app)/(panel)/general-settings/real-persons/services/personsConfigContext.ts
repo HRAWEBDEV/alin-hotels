@@ -60,5 +60,5 @@ function usePersonsConfigContext() {
  return val;
 }
 
-export type { PersonsConfig, NewPersonModes };
+export type { PersonsConfig, NewPersonModes, Tab };
 export { tabs, personsConfigContext, usePersonsConfigContext };

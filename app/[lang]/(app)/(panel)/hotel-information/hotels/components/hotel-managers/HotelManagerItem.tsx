@@ -18,7 +18,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegTrashAlt, FaEye } from 'react-icons/fa';
 import { FaSearch } from 'react-icons/fa';
 import {
  type HotelManager,
@@ -73,6 +73,9 @@ export default function HotelFacilitiesItem({
  const [personID, setPersonID] = useState(0);
  const [showMore, setShowMore] = useState(!!hotelManager ? false : true);
  const [showJobs, setShowJobs] = useState(false);
+ const [showPersonType, setShowPersonType] = useState<'search' | 'view'>(
+  'search',
+ );
 
  const [showFromDate, setShowFromDate] = useState(false);
  const [showEndDate, setShowEndDate] = useState(false);
@@ -225,6 +228,7 @@ export default function HotelFacilitiesItem({
         onClick={() => {
          if (personLoading) return;
          setShowRealPerson(true);
+         setShowPersonType('search');
         }}
         onKeyDown={(e) => {
          if (personLoading) return;
@@ -232,12 +236,28 @@ export default function HotelFacilitiesItem({
          e.stopPropagation();
          e.preventDefault();
          setShowRealPerson(true);
+         setShowPersonType('search');
         }}
         disabled={personLoading}
         readOnly
        />
        <InputGroupAddon align={'inline-end'} className='text-primary'>
         {personLoading && <Spinner />}
+        {personID && (
+         <Button
+          type='button'
+          size='icon'
+          variant='ghost'
+          onClick={(e) => {
+           e.preventDefault();
+           e.stopPropagation();
+           setShowRealPerson(true);
+           setShowPersonType('view');
+          }}
+         >
+          <FaEye />
+         </Button>
+        )}
         <FaSearch />
        </InputGroupAddon>
       </InputGroup>
@@ -500,6 +520,7 @@ export default function HotelFacilitiesItem({
     }
     wrapperType={{
      personID,
+     defaultTab: showPersonType === 'search' ? 'list' : 'edit',
      onChangePerson(personID) {
       setPersonID(personID);
       setShowRealPerson(false);
