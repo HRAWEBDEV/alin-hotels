@@ -478,6 +478,7 @@ export default function NewPerson({
            mode='single'
            selected={value || undefined}
            onSelect={(selected) => onChange(selected)}
+           defaultMonth={value || undefined}
            captionLayout='dropdown'
           />
          </PopoverContent>
