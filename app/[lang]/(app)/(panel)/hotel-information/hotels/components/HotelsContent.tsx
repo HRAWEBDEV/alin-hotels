@@ -25,7 +25,7 @@ export default function HotelsContent({
 
  return (
   <main
-   data-type-list={selectedTab === 'list'}
+   data-type-list={selectedTab === 'list' || selectedTab === 'hotelEmployees'}
    className='pt-0 p-2 lg:px-4 pb-2 grow flex flex-col data-[type-list="true"]:overflow-hidden'
   >
    <Activity mode={selectedTab === 'list' ? 'visible' : 'hidden'}>
@@ -61,7 +61,13 @@ export default function HotelsContent({
     )}
    </Activity>
    <Activity mode={selectedTab === 'hotelEmployees' ? 'visible' : 'hidden'}>
-    {selectedHotelID && <EmployeesList dic={dic} hotelID={selectedHotelID} />}
+    {selectedHotelID && (
+     <EmployeesList
+      dic={dic}
+      hotelID={selectedHotelID}
+      realPersonDic={realPersonDic}
+     />
+    )}
    </Activity>
   </main>
  );

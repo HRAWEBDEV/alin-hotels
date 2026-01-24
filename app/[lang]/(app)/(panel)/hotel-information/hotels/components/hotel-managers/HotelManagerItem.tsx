@@ -193,10 +193,11 @@ export default function HotelFacilitiesItem({
    } else {
     reset();
     setPersonID(0);
-    personInputRef.current?.focus();
     toast.success(notifications.itemAdded);
    }
-   setTimeout(() => {}, 200);
+   setTimeout(() => {
+    personInputRef.current?.focus();
+   }, 200);
   },
   onError(err: AxiosError<string>) {
    if (hotelManager) {

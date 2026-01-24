@@ -34,15 +34,18 @@ import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
 import NewHotelEmployee from '../../components/hotel-employees/NewHotelEmploye';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 
 export default function HotelEmployeeConfigProvider({
  children,
  hotelID,
  dic,
+ realPersonDic,
 }: {
  children: ReactNode;
  hotelID: number;
  dic: HotelsDictionary;
+ realPersonDic: RealPersonsDictionary;
 }) {
  const queryClient = useQueryClient();
  //
@@ -59,7 +62,7 @@ export default function HotelEmployeeConfigProvider({
   defaultValues: defaultValues,
  });
  // init data
- const { data, isLoading, isError, isSuccess } = useQuery({
+ const { data: initData, isLoading: initDataIsLoading } = useQuery({
   staleTime: 'static',
   queryKey: [hotelHotelEmployeeBasePath, 'initial-data'],
   async queryFn({ signal }) {
@@ -106,7 +109,7 @@ export default function HotelEmployeeConfigProvider({
     queryClient.invalidateQueries({
      queryKey: [
       hotelHotelEmployeeBasePath,
-      'manager',
+      'employee',
       selectedEmployeeID!.toString(),
      ],
     });
@@ -137,10 +140,8 @@ export default function HotelEmployeeConfigProvider({
   showFilters,
   changeShowFilters: handleChangeShowFilters,
   initialData: {
-   data,
-   isLoading,
-   isError,
-   isSuccess,
+   data: initData,
+   isLoading: initDataIsLoading,
   },
   hotelEmployee: {
    data: employees,
@@ -163,6 +164,8 @@ export default function HotelEmployeeConfigProvider({
     open={showAddEmployee}
     setOpen={setShowAddEmployee}
     selectedEmployeeID={selectedEmployeeID}
+    realPersonDic={realPersonDic}
+    hotelID={hotelID}
     dic={dic}
    />
    <Dialog

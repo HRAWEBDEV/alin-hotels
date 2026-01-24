@@ -1,9 +1,6 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
-import {
- type InitialData,
- type HotelEmployee,
-} from './hotelEmployeesApiActions';
+import { type HotelEmployee, InitialData } from './hotelEmployeesApiActions';
 
 interface HotelEmployeeContext {
  hotelID: number;
@@ -12,8 +9,6 @@ interface HotelEmployeeContext {
  initialData: {
   data?: InitialData;
   isLoading: boolean;
-  isSuccess: boolean;
-  isError: boolean;
  };
  hotelEmployee: {
   data?: HotelEmployee[];

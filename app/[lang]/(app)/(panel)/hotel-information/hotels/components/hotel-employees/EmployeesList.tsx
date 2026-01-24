@@ -2,17 +2,24 @@ import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-
 import EmployeesFilters from './EmployeesFilters';
 import HotelEmployeeConfigProvider from '../../services/hotel-employees/HotelEmployeeConfigProvider';
 import EmployeesTable from './EmployeesTable';
+import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 
 export default function EmployeesList({
  dic,
  hotelID,
+ realPersonDic,
 }: {
  dic: HotelsDictionary;
  hotelID: number;
+ realPersonDic: RealPersonsDictionary;
 }) {
  return (
   <div className='mx-auto w-[min(100%,70rem)] relative grid lg:grid-cols-[13.5rem_1fr] grow overflow-hidden'>
-   <HotelEmployeeConfigProvider dic={dic} hotelID={hotelID}>
+   <HotelEmployeeConfigProvider
+    dic={dic}
+    hotelID={hotelID}
+    realPersonDic={realPersonDic}
+   >
     <EmployeesFilters dic={dic} />
     <EmployeesTable dic={dic} />
    </HotelEmployeeConfigProvider>
