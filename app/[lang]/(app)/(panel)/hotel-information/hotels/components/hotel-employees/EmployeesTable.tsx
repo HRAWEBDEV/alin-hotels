@@ -49,7 +49,7 @@ import {
  MdKeyboardArrowRight,
 } from 'react-icons/md';
 import { useFormContext } from 'react-hook-form';
-import { type HotelSchema } from '../../schemas/hotelSchema';
+import { type HotelEmployeeSchema } from '../../schemas/hotel-employees/hotelEmployeesSchema';
 import {
  Select,
  SelectTrigger,
@@ -60,9 +60,9 @@ import {
 } from '@/components/ui/select';
 
 export default function EmployeesTable({ dic }: { dic: HotelsDictionary }) {
- const { getValues } = useFormContext<HotelSchema>();
+ const { getValues } = useFormContext<HotelEmployeeSchema>();
  const validFilters = Object.keys(getValues()).filter(
-  (key) => getValues()[key as keyof HotelSchema],
+  (key) => getValues()[key as keyof HotelEmployeeSchema],
  );
  const getCommonPinningStyles = useCommonPinningStyles();
  const { localeInfo, locale } = useBaseConfig();

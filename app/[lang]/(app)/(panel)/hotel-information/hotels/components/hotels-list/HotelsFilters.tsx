@@ -661,9 +661,7 @@ export default function HotelsFitlers({ dic }: { dic: HotelsDictionary }) {
       name='hotelTheme'
       render={({ field: { value, onChange, ...other } }) => (
        <Field className='gap-2'>
-        <FieldLabel htmlFor='hotelTheme'>
-         {dic.newHotel.form.hotelTheme}
-        </FieldLabel>
+        <FieldLabel htmlFor='job'>{dic.newHotel.form.hotelTheme}</FieldLabel>
         <Popover open={openHotelTheme} onOpenChange={setOpenHotelTheme}>
          <PopoverTrigger asChild>
           <Button

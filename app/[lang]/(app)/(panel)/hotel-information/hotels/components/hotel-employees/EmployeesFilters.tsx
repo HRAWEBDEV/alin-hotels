@@ -5,15 +5,35 @@ import { useHotelEmployeeContext } from '../../services/hotel-employees/hotelEmp
 import { LiaTimesSolid } from 'react-icons/lia';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { Spinner } from '@/components/ui/spinner';
-import { type HotelSchema, defaultValues } from '../../schemas/hotelSchema';
-import { useFormContext } from 'react-hook-form';
+import {
+ type HotelEmployeeSchema,
+ defaultValues,
+} from '../../schemas/hotel-employees/hotelEmployeesSchema';
+import { useFormContext, Controller } from 'react-hook-form';
+import { FieldGroup, Field, FieldLabel } from '@/components/ui/field';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
+import {
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
+} from '@/components/ui/popover';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+ Command,
+ CommandGroup,
+ CommandInput,
+ CommandItem,
+ CommandList,
+} from '@/components/ui/command';
 
 export default function EmployeesFilters({ dic }: { dic: HotelsDictionary }) {
- const { setValue, control } = useFormContext<HotelSchema>();
+ const { setValue, register, control } = useFormContext<HotelEmployeeSchema>();
+ const [showJobs, setShowJobs] = useState(false);
  const {
   showFilters,
   changeShowFilters,
-  initialData: { data: initialData, isLoading: initialDataLoading },
+  initialData,
   hotelEmployee: { data, isLoading },
  } = useHotelEmployeeContext();
 
@@ -30,10 +50,12 @@ export default function EmployeesFilters({ dic }: { dic: HotelsDictionary }) {
       className='text-red-700 dark:text-red-400 h-auto'
       onClick={() => {
        Object.keys(defaultValues).forEach((key) => {
-        const typedKey = key as keyof HotelSchema;
+        const typedKey = key as keyof HotelEmployeeSchema;
         setValue(
          typedKey,
-         defaultValues[typedKey] as HotelSchema[keyof HotelSchema],
+         defaultValues[
+          typedKey
+         ] as HotelEmployeeSchema[keyof HotelEmployeeSchema],
         );
        });
       }}
@@ -61,7 +83,87 @@ export default function EmployeesFilters({ dic }: { dic: HotelsDictionary }) {
      </Button>
     </div>
    </div>
-   <div className='grow overflow-auto p-2 py-4'></div>
+   <div className='grow overflow-auto p-2 py-4'>
+    <FieldGroup className='gap-4'>
+     <Field className='gap-2'>
+      <FieldLabel>{dic.hotelEmployee.form.search}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput type='search' {...register('name')} />
+      </InputGroup>
+     </Field>
+
+     <Controller
+      control={control}
+      name='job'
+      render={({ field: { value, onChange, ...other } }) => (
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='job'>{dic.hotelEmployee.form.job}</FieldLabel>
+        <Popover open={showJobs} onOpenChange={setShowJobs}>
+         <PopoverTrigger asChild>
+          <Button
+           id='job'
+           variant='outline'
+           title={value?.value || ''}
+           role='combobox'
+           aria-expanded={showJobs}
+           className='justify-between'
+           {...other}
+          >
+           <span className='text-start grow overflow-hidden text-ellipsis'>
+            {value?.value || ''}
+           </span>
+           <div className='flex gap-1 items-center -me-2'>
+            {initialData.isLoading && <Spinner />}
+            {value && (
+             <Button
+              variant={'ghost'}
+              size={'icon'}
+              className='text-rose-700 dark:text-rose-400'
+              onClick={(e) => {
+               e.stopPropagation();
+               onChange(null);
+              }}
+             >
+              <FaRegTrashAlt />
+             </Button>
+            )}
+            <ChevronsUpDown className='opacity-50' />
+           </div>
+          </Button>
+         </PopoverTrigger>
+         <PopoverContent className='w-[200px] p-0'>
+          <Command>
+           <CommandInput />
+           <CommandList>
+            <CommandGroup>
+             {initialData?.data?.jobTitles.map((item) => (
+              <CommandItem
+               key={item.key}
+               value={item.value}
+               onSelect={() => {
+                setShowJobs(false);
+                onChange(item);
+               }}
+              >
+               {item.value}
+               <Check
+                className={cn(
+                 'ml-auto',
+                 value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                )}
+               />
+              </CommandItem>
+             ))}
+            </CommandGroup>
+           </CommandList>
+          </Command>
+         </PopoverContent>
+        </Popover>
+       </Field>
+      )}
+     />
+    </FieldGroup>
+   </div>
   </div>
  );
 }

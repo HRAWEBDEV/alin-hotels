@@ -1,15 +1,17 @@
 import { z } from 'zod';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 
-const defaultValues: Partial<HotelManagersSchema> = {
+const defaultValues: Partial<HotelEmployeeSchema> = {
+ name: '',
  job: null,
  fromDate: null,
  endDate: null,
 };
 
-function createHotelManagersSchema({}: { dic: HotelsDictionary }) {
+function createHotelEmployeeSchema({}: { dic: HotelsDictionary }) {
  return z
   .object({
+   name: z.string(),
    job: z
     .object({
      key: z.string(),
@@ -30,9 +32,9 @@ function createHotelManagersSchema({}: { dic: HotelsDictionary }) {
   });
 }
 
-type HotelManagersSchema = z.infer<
- ReturnType<typeof createHotelManagersSchema>
+type HotelEmployeeSchema = z.infer<
+ ReturnType<typeof createHotelEmployeeSchema>
 >;
 
-export type { HotelManagersSchema };
-export { defaultValues, createHotelManagersSchema };
+export type { HotelEmployeeSchema };
+export { defaultValues, createHotelEmployeeSchema };

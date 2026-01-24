@@ -109,6 +109,7 @@
  },
  "hotelEmployee": {
   "form": {
+   "search": "جستجو",
    "job": "سمت",
    "person": "شخص",
    "mobileNo": "شماره تماس",

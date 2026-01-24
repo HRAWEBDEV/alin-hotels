@@ -14,10 +14,10 @@ import {
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
- type HotelManagersSchema,
- createHotelManagersSchema,
+ type HotelEmployeeSchema,
+ createHotelEmployeeSchema,
  defaultValues,
-} from '../../schemas/hotel-managers/hotelManagersSchema';
+} from '../../schemas/hotel-employees/hotelEmployeesSchema';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import {
  Dialog,
@@ -52,8 +52,8 @@ export default function HotelEmployeeConfigProvider({
  const [showRemoveEmployeeConfirm, setShowRemoveEmployeeConfirm] =
   useState(false);
  // form
- const hotelManagersUseForm = useForm<HotelManagersSchema>({
-  resolver: zodResolver(createHotelManagersSchema({ dic })),
+ const hotelEmployeeUseForm = useForm<HotelEmployeeSchema>({
+  resolver: zodResolver(createHotelEmployeeSchema({ dic })),
   defaultValues: defaultValues,
  });
  // init data
@@ -144,7 +144,7 @@ export default function HotelEmployeeConfigProvider({
 
  return (
   <hotelEmployeeContext.Provider value={ctx}>
-   <FormProvider {...hotelManagersUseForm}>{children}</FormProvider>
+   <FormProvider {...hotelEmployeeUseForm}>{children}</FormProvider>
    <Dialog
     open={showRemoveEmployeeConfirm}
     onOpenChange={(newValue) => setShowRemoveEmployeeConfirm(newValue)}
