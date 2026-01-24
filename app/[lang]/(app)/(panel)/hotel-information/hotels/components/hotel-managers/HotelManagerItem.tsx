@@ -241,9 +241,9 @@ export default function HotelFacilitiesItem({
         disabled={personLoading}
         readOnly
        />
-       <InputGroupAddon align={'inline-end'} className='text-primary'>
+       <InputGroupAddon align={'inline-end'} className='text-primary gap-0'>
         {personLoading && <Spinner />}
-        {personID && (
+        {!!personID && (
          <Button
           type='button'
           size='icon'
@@ -258,7 +258,20 @@ export default function HotelFacilitiesItem({
           <FaEye />
          </Button>
         )}
-        <FaSearch />
+        <Button
+         type='button'
+         size='icon'
+         variant='ghost'
+         className='-me-3'
+         onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setShowRealPerson(true);
+          setShowPersonType('search');
+         }}
+        >
+         <FaSearch />
+        </Button>
        </InputGroupAddon>
       </InputGroup>
      </Field>

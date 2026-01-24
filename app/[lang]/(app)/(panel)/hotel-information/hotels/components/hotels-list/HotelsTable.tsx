@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { MdViewColumn } from 'react-icons/md';
+import { FaUserFriends, FaTools } from 'react-icons/fa';
+import { IoMdBusiness, IoIosPerson } from 'react-icons/io';
 import { TbFilterSearch } from 'react-icons/tb';
 import {
  Table,
@@ -324,7 +326,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
            changeSelectedDetailTab('hotelManagers');
           }}
          >
-          <FaEdit className='size-5 text-inherit' />
+          <IoIosPerson className='size-5 text-inherit' />
           {dic.tabs.hotelManagers}
          </DropdownMenuItem>
          <DropdownMenuItem
@@ -335,7 +337,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
            changeSelectedDetailTab('hotelOperators');
           }}
          >
-          <FaEdit className='size-5 text-inherit' />
+          <IoMdBusiness className='size-5 text-inherit' />
           {dic.tabs.hotelOperators}
          </DropdownMenuItem>
          <DropdownMenuItem
@@ -346,7 +348,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
            changeSelectedDetailTab('hotelEmployees');
           }}
          >
-          <FaEdit className='size-5 text-inherit' />
+          <FaUserFriends className='size-5 text-inherit' />
           {dic.tabs.hotelEmployees}
          </DropdownMenuItem>
          <DropdownMenuItem
@@ -357,7 +359,7 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
            changeSelectedDetailTab('hotelFacilities');
           }}
          >
-          <FaEdit className='size-5 text-inherit' />
+          <FaTools className='size-5 text-inherit' />
           {dic.tabs.hotelFacilities}
          </DropdownMenuItem>
          <DropdownMenuItem

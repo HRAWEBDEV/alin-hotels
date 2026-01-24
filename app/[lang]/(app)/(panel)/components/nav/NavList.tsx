@@ -101,7 +101,7 @@ export default function NavList() {
           type='button'
           variant='ghost'
           size='icon'
-          className='text-neutral-300 dark:text-neutral-700 hover:bg-black/10 hover:text-sky-300 data-[is-active="true"]:text-orange-300'
+          className='text-neutral-300 hover:bg-black/10 hover:text-sky-300 data-[is-active="true"]:text-orange-300'
           onClick={() => setShowBookedMarked((pre) => !pre)}
          >
           <RiBookMarkedFill />
