@@ -494,16 +494,16 @@ export default function NewHotelEmployee({
     <DialogFooter className='p-4 py-2 border-t border-input'>
      <DialogClose asChild>
       <Button
-       disabled={isLoading || personLoading}
+       disabled={isLoading || personLoading || isPending}
        variant='outline'
        className='sm:w-20'
       >
-       {(isLoading || personLoading) && <Spinner />}
+       {(isLoading || personLoading || isPending) && <Spinner />}
        {dic.hotelEmployee.form.cancel}
       </Button>
      </DialogClose>
      <Button
-      disabled={isLoading || personLoading}
+      disabled={isLoading || personLoading || isPending}
       className='sm:w-20'
       onClick={(e) => {
        e.preventDefault();
@@ -516,7 +516,7 @@ export default function NewHotelEmployee({
        })();
       }}
      >
-      {(isLoading || personLoading) && <Spinner />}
+      {(isLoading || personLoading || isPending) && <Spinner />}
       {dic.hotelEmployee.form.save}
      </Button>
     </DialogFooter>

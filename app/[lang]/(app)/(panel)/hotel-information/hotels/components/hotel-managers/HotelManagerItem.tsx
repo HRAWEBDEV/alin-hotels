@@ -359,7 +359,10 @@ export default function HotelFacilitiesItem({
         name='fromDate'
         render={({ field: { value, onChange, ...other } }) => (
          <Field className='gap-2' data-invalid={!!errors.fromDate}>
-          <FieldLabel htmlFor='fromDate' className='px-1'>
+          <FieldLabel
+           htmlFor={`fromDate${hotelManager?.id || ''}`}
+           className='px-1'
+          >
            {dic.hotelManager.form.fromDate}
           </FieldLabel>
           <Popover open={showFromDate} onOpenChange={setShowFromDate}>
@@ -368,7 +371,7 @@ export default function HotelFacilitiesItem({
              data-invalid={!!errors.fromDate}
              type='button'
              variant='outline'
-             id='fromDate'
+             id={`fromDate${hotelManager?.id || ''}`}
              className='justify-between font-normal'
              {...other}
             >
@@ -410,7 +413,10 @@ export default function HotelFacilitiesItem({
         name='endDate'
         render={({ field: { value, onChange, ...other } }) => (
          <Field className='gap-2' data-invalid={!!errors.endDate}>
-          <FieldLabel htmlFor='endDate' className='px-1'>
+          <FieldLabel
+           htmlFor={`endDate${hotelManager?.id || ''}`}
+           className='px-1'
+          >
            {dic.hotelManager.form.toDate}
           </FieldLabel>
           <Popover open={showEndDate} onOpenChange={setShowEndDate}>
@@ -418,7 +424,7 @@ export default function HotelFacilitiesItem({
             <Button
              type='button'
              variant='outline'
-             id='endDate'
+             id={`endDate${hotelManager?.id || ''}`}
              className='justify-between font-normal'
              data-invalid={!!errors.endDate}
              {...other}
