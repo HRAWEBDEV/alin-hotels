@@ -158,14 +158,14 @@ export default function HotelOperatorConfigProvider({
  return (
   <hotelOperatorContext.Provider value={ctx}>
    <FormProvider {...hotelOperatorUseForm}>{children}</FormProvider>
-   <NewHotelEmployee
-    open={showAddOperator}
-    setOpen={setShowAddOperator}
-    selectedEmployeeID={selectedOperatorID}
-    realPersonDic={realPersonDic}
-    hotelID={hotelID}
-    dic={dic}
-   />
+   {/* <NewHotelEmployee */}
+   {/*  open={showAddOperator} */}
+   {/*  setOpen={setShowAddOperator} */}
+   {/*  selectedEmployeeID={selectedOperatorID} */}
+   {/*  realPersonDic={realPersonDic} */}
+   {/*  hotelID={hotelID} */}
+   {/*  dic={dic} */}
+   {/* /> */}
    <Dialog
     open={showRemoveOperatorConfirm}
     onOpenChange={(newValue) => setShowRemoveOperatorConfirm(newValue)}

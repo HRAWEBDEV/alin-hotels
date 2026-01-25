@@ -4,6 +4,7 @@ import HotelsList from './hotels-list/HotelsList';
 import NewHotel from './new-hotel/NewHotel';
 import HotelManagers from '../components/hotel-managers/HotelManagers';
 import EmployeesList from './hotel-employees/EmployeesList';
+import OperatorsList from './hotel-operators/OperatorsList';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
@@ -25,7 +26,11 @@ export default function HotelsContent({
 
  return (
   <main
-   data-type-list={selectedTab === 'list' || selectedTab === 'hotelEmployees'}
+   data-type-list={
+    selectedTab === 'list' ||
+    selectedTab === 'hotelEmployees' ||
+    selectedTab === 'hotelOperators'
+   }
    className='pt-0 p-2 lg:px-4 pb-2 grow flex flex-col data-[type-list="true"]:overflow-hidden'
   >
    <Activity mode={selectedTab === 'list' ? 'visible' : 'hidden'}>
@@ -63,6 +68,15 @@ export default function HotelsContent({
    <Activity mode={selectedTab === 'hotelEmployees' ? 'visible' : 'hidden'}>
     {selectedHotelID && (
      <EmployeesList
+      dic={dic}
+      hotelID={selectedHotelID}
+      realPersonDic={realPersonDic}
+     />
+    )}
+   </Activity>
+   <Activity mode={selectedTab === 'hotelOperators' ? 'visible' : 'hidden'}>
+    {selectedHotelID && (
+     <OperatorsList
       dic={dic}
       hotelID={selectedHotelID}
       realPersonDic={realPersonDic}
