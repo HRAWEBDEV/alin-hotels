@@ -8,10 +8,22 @@ import {
  type HotelOperatorSchema,
  defaultValues,
 } from '../../schemas/hotel-operators/hotelEmployeesSchema';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form';
+import { Field, FieldLabel, FieldGroup } from '@/components/ui/field';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
+import {
+ Select,
+ SelectTrigger,
+ SelectValue,
+ SelectContent,
+ SelectGroup,
+ SelectItem,
+} from '@/components/ui/select';
+import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 
 export default function OperatorsFilters({ dic }: { dic: HotelsDictionary }) {
- const { setValue } = useFormContext<HotelOperatorSchema>();
+ const { localeInfo } = useBaseConfig();
+ const { setValue, register, control } = useFormContext<HotelOperatorSchema>();
  const {
   showFilters,
   changeShowFilters,
@@ -69,7 +81,50 @@ export default function OperatorsFilters({ dic }: { dic: HotelsDictionary }) {
      </Button>
     </div>
    </div>
-   <div className='grow overflow-auto p-2 py-4'></div>
+   <div className='grow overflow-auto p-2 py-4'>
+    <FieldGroup className='gap-5'>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='name'>{dic.hotelOperator.form.person}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput id='name' type='search' {...register('name')} />
+      </InputGroup>
+     </Field>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='personType'>
+       {dic.hotelOperator.form.personType}
+      </FieldLabel>
+      <Controller
+       name='personType'
+       control={control}
+       render={({ field: { value, onChange, ...other } }) => (
+        <Select
+         dir={localeInfo.contentDirection}
+         value={value}
+         onValueChange={(val) => onChange(val)}
+         {...other}
+        >
+         <SelectTrigger>
+          <SelectValue id='personType' />
+         </SelectTrigger>
+         <SelectContent>
+          <SelectGroup>
+           <SelectItem key='none' value='none'>
+            {dic.hotelOperator.form.all}
+           </SelectItem>
+           <SelectItem key='realPerson' value='realPerson'>
+            {dic.hotelOperator.form.realPerson}
+           </SelectItem>
+           <SelectItem key='company' value='company'>
+            {dic.hotelOperator.form.company}
+           </SelectItem>
+          </SelectGroup>
+         </SelectContent>
+        </Select>
+       )}
+      />
+     </Field>
+    </FieldGroup>
+   </div>
   </div>
  );
 }

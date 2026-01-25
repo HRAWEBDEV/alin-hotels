@@ -143,7 +143,8 @@
    "fromDate": "از تاریخ",
    "toDate": "تا تاریخ",
    "realPerson": "حقیقی",
-   "company": "حقوقی"
+   "company": "حقوقی",
+   "all": "همه"
   },
   "formValidation": {
    "selectPerson": "شخص انتخاب نشده است"
