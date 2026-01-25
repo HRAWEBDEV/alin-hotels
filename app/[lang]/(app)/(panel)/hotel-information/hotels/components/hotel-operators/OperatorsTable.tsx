@@ -162,7 +162,10 @@ export default function OperatorsTable({ dic }: { dic: HotelsDictionary }) {
           className='text-orange-700 dark:text-orange-400'
           onClick={() => {
            const typedOriginal = row.original;
-           // onEditPerson(typedOriginal.personID);
+           onEditPerson({
+            personID: typedOriginal.personID,
+            companyID: typedOriginal.companyID,
+           });
           }}
          >
           <IoPerson className='size-5 text-inherit' />
