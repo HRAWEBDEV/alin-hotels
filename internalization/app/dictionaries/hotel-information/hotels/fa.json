@@ -137,6 +137,8 @@
  },
  "hotelOperator": {
   "form": {
+   "addOperator": "افزودن",
+   "editOperator": "ویرایش",
    "person": "شخص",
    "personType": "نوع شخص",
    "percentage": "سهم (٪)",
@@ -144,7 +146,9 @@
    "toDate": "تا تاریخ",
    "realPerson": "حقیقی",
    "company": "حقوقی",
-   "all": "همه"
+   "all": "همه",
+   "cancel": "انصراف",
+   "save": "تایید"
   },
   "formValidation": {
    "selectPerson": "شخص انتخاب نشده است"

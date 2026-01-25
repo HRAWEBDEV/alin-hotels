@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { undefined, z } from 'zod';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 
 const defaultValues: Partial<HotelOperatorSchema> = {
@@ -14,10 +14,19 @@ function createHotelOperatorSchema({}: { dic: HotelsDictionary }) {
   .object({
    name: z.string(),
    personType: z.enum(['realPerson', 'company', 'none']),
-   percentage: z.number(),
+   percentage: z.literal('').or(z.number()),
    fromDate: z.date().nullable(),
    endDate: z.date().nullable(),
   })
+  .refine(
+   ({ percentage }) => {
+    if (percentage === '') return false;
+    return true;
+   },
+   {
+    path: ['percentage'],
+   },
+  )
   .refine(({ fromDate }) => !!fromDate, {
    path: ['fromDate'],
   })
