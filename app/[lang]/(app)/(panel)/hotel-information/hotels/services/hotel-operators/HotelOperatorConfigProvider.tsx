@@ -16,7 +16,7 @@ import {
  type HotelOperatorSchema,
  createHotelOperatorSchema,
  defaultValues,
-} from '../../schemas/hotel-operators/hotelEmployeesSchema';
+} from '../../schemas/hotel-operators/hotelOperatorsSchema';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import {
  Dialog,
@@ -69,6 +69,10 @@ export default function HotelOperatorConfigProvider({
   resolver: zodResolver(createHotelOperatorSchema({ dic })),
   defaultValues: defaultValues,
  });
+ const [nameValue, personTypeValue] = hotelOperatorUseForm.watch([
+  'name',
+  'personType',
+ ]);
  // hotel operators
  const {
   data: operators,
@@ -87,7 +91,19 @@ export default function HotelOperatorConfigProvider({
 
  const filteredData = (() => {
   if (!operators || !operators.length) return operators;
-  return operators;
+  return operators.filter((item) => {
+   let include = true;
+   if (nameValue) {
+    include = item.personID
+     ? item.personFullName!.includes(nameValue)
+     : item.companyName!.includes(nameValue);
+   }
+   if (include && personTypeValue !== 'none') {
+    include =
+     personTypeValue === 'company' ? !!item.companyID : !!item.personID;
+   }
+   return include;
+  });
  })();
 
  // remove operator

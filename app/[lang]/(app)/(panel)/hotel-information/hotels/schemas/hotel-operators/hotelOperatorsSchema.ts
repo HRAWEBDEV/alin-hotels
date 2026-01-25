@@ -6,6 +6,7 @@ const defaultValues: Partial<HotelOperatorSchema> = {
  personType: 'none',
  fromDate: null,
  endDate: null,
+ percentage: 0,
 };
 
 function createHotelOperatorSchema({}: { dic: HotelsDictionary }) {
@@ -13,7 +14,7 @@ function createHotelOperatorSchema({}: { dic: HotelsDictionary }) {
   .object({
    name: z.string(),
    personType: z.enum(['realPerson', 'company', 'none']),
-   percentage: z.coerce.number(),
+   percentage: z.number(),
    fromDate: z.date().nullable(),
    endDate: z.date().nullable(),
   })

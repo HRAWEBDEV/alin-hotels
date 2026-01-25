@@ -7,7 +7,7 @@ import { Spinner } from '@/components/ui/spinner';
 import {
  type HotelOperatorSchema,
  defaultValues,
-} from '../../schemas/hotel-operators/hotelEmployeesSchema';
+} from '../../schemas/hotel-operators/hotelOperatorsSchema';
 import { useFormContext, Controller } from 'react-hook-form';
 import { Field, FieldLabel, FieldGroup } from '@/components/ui/field';
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group';

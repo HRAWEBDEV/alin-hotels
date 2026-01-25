@@ -41,7 +41,7 @@ import { RiUnpinLine } from 'react-icons/ri';
 import { FaEdit } from 'react-icons/fa';
 import { IoTrashOutline } from 'react-icons/io5';
 import { useFormContext } from 'react-hook-form';
-import { type HotelOperatorSchema } from '../../schemas/hotel-operators/hotelEmployeesSchema';
+import { type HotelOperatorSchema } from '../../schemas/hotel-operators/hotelOperatorsSchema';
 
 export default function OperatorsTable({ dic }: { dic: HotelsDictionary }) {
  const { getValues } = useFormContext<HotelOperatorSchema>();
