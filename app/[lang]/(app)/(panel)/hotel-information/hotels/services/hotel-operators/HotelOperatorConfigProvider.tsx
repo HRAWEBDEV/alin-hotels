@@ -13,10 +13,10 @@ import {
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
- type HotelEmployeeSchema,
- createHotelEmployeeSchema,
+ type HotelOperatorSchema,
+ createHotelOperatorSchema,
  defaultValues,
-} from '../../schemas/hotel-employees/hotelEmployeesSchema';
+} from '../../schemas/hotel-operators/hotelEmployeesSchema';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
 import {
  Dialog,
@@ -59,11 +59,10 @@ export default function HotelOperatorConfigProvider({
  const [showRemoveOperatorConfirm, setShowRemoveOperatorConfirm] =
   useState(false);
  // form
- const hotelEmployeeUseForm = useForm<HotelEmployeeSchema>({
-  resolver: zodResolver(createHotelEmployeeSchema({ dic })),
+ const hotelOperatorUseForm = useForm<HotelOperatorSchema>({
+  resolver: zodResolver(createHotelOperatorSchema({ dic })),
   defaultValues: defaultValues,
  });
- const [nameValue, jobValue] = hotelEmployeeUseForm.watch(['name', 'job']);
  // hotel operators
  const {
   data: operators,
@@ -158,7 +157,7 @@ export default function HotelOperatorConfigProvider({
 
  return (
   <hotelOperatorContext.Provider value={ctx}>
-   <FormProvider {...hotelEmployeeUseForm}>{children}</FormProvider>
+   <FormProvider {...hotelOperatorUseForm}>{children}</FormProvider>
    <NewHotelEmployee
     open={showAddOperator}
     setOpen={setShowAddOperator}
@@ -174,16 +173,16 @@ export default function HotelOperatorConfigProvider({
     <DialogContent>
      <DialogHeader>
       <DialogTitle className='hidden'>
-       {dic.removeHotelEmployee.title}
+       {dic.removeHotelOperator.title}
       </DialogTitle>
       <DialogDescription className='hidden font-medium text-base'>
-       {dic.removeHotelEmployee.confirmRemoveFacility}
+       {dic.removeHotelOperator.confirmRemoveOperator}
       </DialogDescription>
      </DialogHeader>
      <div className='flex gap-1 items-center'>
       <IoIosWarning className='size-8 text-rose-700 dark:text-rose-400' />
       <p className='font-medium text-base'>
-       {dic.removeHotelEmployee.confirmRemoveFacility}
+       {dic.removeHotelOperator.confirmRemoveOperator}
       </p>
      </div>
      <DialogFooter>
@@ -194,7 +193,7 @@ export default function HotelOperatorConfigProvider({
         className='sm:w-20'
        >
         {removeOperatorIsPending && <Spinner />}
-        {dic.removeHotelEmployee.cancel}
+        {dic.removeHotelOperator.cancel}
        </Button>
       </DialogClose>
       <Button
@@ -206,7 +205,7 @@ export default function HotelOperatorConfigProvider({
        }}
       >
        {removeOperatorIsPending && <Spinner />}
-       {dic.removeHotelEmployee.confirm}
+       {dic.removeHotelOperator.confirm}
       </Button>
      </DialogFooter>
     </DialogContent>

@@ -134,5 +134,15 @@
   "confirmRemoveFacility": "آیا از حذف آیتم اطمینان دارید؟",
   "confirm": "تایید",
   "cancel": "انصراف"
+ },
+ "hotelOperator": {
+  "form": {},
+  "formValidation": {}
+ },
+ "removeHotelOperator": {
+  "title": "حذف شخص",
+  "confirmRemoveOperator": "آیا از حذف آیتم اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
  }
 }
