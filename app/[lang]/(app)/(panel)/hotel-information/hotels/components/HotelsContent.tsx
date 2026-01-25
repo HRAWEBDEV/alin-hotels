@@ -8,15 +8,17 @@ import OperatorsList from './hotel-operators/OperatorsList';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
-
 import HotelFacilities from './hotel-facilities/HotelFacilities';
+import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
 
 export default function HotelsContent({
  dic,
  realPersonDic,
+ companyDic,
 }: {
  dic: HotelsDictionary;
  realPersonDic: RealPersonsDictionary;
+ companyDic: CompaniesDictionary;
 }) {
  const {
   selectedTab,
@@ -80,6 +82,7 @@ export default function HotelsContent({
       dic={dic}
       hotelID={selectedHotelID}
       realPersonDic={realPersonDic}
+      companyDic={companyDic}
      />
     )}
    </Activity>
