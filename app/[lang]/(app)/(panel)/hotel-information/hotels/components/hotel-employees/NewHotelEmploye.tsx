@@ -220,15 +220,15 @@ export default function NewHotelEmployee({
  return (
   <Dialog open={open} onOpenChange={(newValue) => setOpen(newValue)}>
    <DialogContent className='p-0 gap-0'>
-    <DialogHeader className='p-4 py-3 border border-input'>
-     <DialogTitle className='text-base font-medium'>
-      {selectedEmployeeID
-       ? dic.hotelEmployee.form.editEmployee
-       : dic.hotelEmployee.form.addEmployee}
-     </DialogTitle>
-    </DialogHeader>
-    <div className='p-4'>
-     <form className='group grid grid-cols-1'>
+    <form>
+     <DialogHeader className='p-4 py-3 border border-input'>
+      <DialogTitle className='text-base font-medium'>
+       {selectedEmployeeID
+        ? dic.hotelEmployee.form.editEmployee
+        : dic.hotelEmployee.form.addEmployee}
+      </DialogTitle>
+     </DialogHeader>
+     <div className='p-4'>
       <div>
        <div className='gap-y-4 gap-3 grid grid-cols-2 mb-4'>
         <Field className='gap-2 col-span-2'>
@@ -489,37 +489,39 @@ export default function NewHotelEmployee({
         },
        }}
       />
-     </form>
-    </div>
-    <DialogFooter className='p-4 py-2 border-t border-input'>
-     <DialogClose asChild>
+     </div>
+     <DialogFooter className='p-4 py-2 border-t border-input'>
+      <DialogClose asChild>
+       <Button
+        type='button'
+        disabled={isLoading || personLoading || isPending}
+        variant='outline'
+        className='sm:w-20'
+       >
+        {(isLoading || personLoading || isPending) && <Spinner />}
+        {dic.hotelEmployee.form.cancel}
+       </Button>
+      </DialogClose>
       <Button
+       type='submit'
        disabled={isLoading || personLoading || isPending}
-       variant='outline'
        className='sm:w-20'
+       onClick={(e) => {
+        e.preventDefault();
+        if (!personID) {
+         toast.error(dic.hotelEmployee.formValidation.selectPerson);
+         return;
+        }
+        handleSubmit((data) => {
+         mutate(data);
+        })();
+       }}
       >
        {(isLoading || personLoading || isPending) && <Spinner />}
-       {dic.hotelEmployee.form.cancel}
+       {dic.hotelEmployee.form.save}
       </Button>
-     </DialogClose>
-     <Button
-      disabled={isLoading || personLoading || isPending}
-      className='sm:w-20'
-      onClick={(e) => {
-       e.preventDefault();
-       if (!personID) {
-        toast.error(dic.hotelEmployee.formValidation.selectPerson);
-        return;
-       }
-       handleSubmit((data) => {
-        mutate(data);
-       })();
-      }}
-     >
-      {(isLoading || personLoading || isPending) && <Spinner />}
-      {dic.hotelEmployee.form.save}
-     </Button>
-    </DialogFooter>
+     </DialogFooter>
+    </form>
    </DialogContent>
   </Dialog>
  );
