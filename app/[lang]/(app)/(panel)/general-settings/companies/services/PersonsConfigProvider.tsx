@@ -113,8 +113,14 @@ export default function PersonsConfigProvider({
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
  const [showFilters, setShowFilters] = useState(false);
- const [selectedTab, setSelectedTab] =
-  useState<PersonsConfig['selectedTab']>('list');
+ const [selectedTab, setSelectedTab] = useState<PersonsConfig['selectedTab']>(
+  () => {
+   if (wrapperType.mode === 'find') {
+    return wrapperType.defaultTab || 'list';
+   }
+   return 'list';
+  },
+ );
  const [selectedPersonID, setSelectedPersonID] = useState<number | null>(() => {
   if (wrapperType.mode === 'find' && wrapperType.personID) {
    return wrapperType.personID;
@@ -289,6 +295,7 @@ export default function PersonsConfigProvider({
   tabs,
   selectedTab,
   showFilters,
+  justEditTab: wrapperType.mode === 'find' ? !!wrapperType.justEditTab : false,
   changeShowFilters: handleChangeShowFilters,
   changeSelectedTab: handleChangeTab,
   initialData: {

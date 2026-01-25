@@ -21,6 +21,7 @@ interface PersonsConfig {
  showFilters: boolean;
  changeShowFilters: (open?: boolean) => unknown;
  changeSelectedTab: (newTab?: Tab) => unknown;
+ justEditTab: boolean;
  initialData: {
   data?: InitialData;
   isLoading: boolean;
@@ -60,5 +61,5 @@ function usePersonsConfigContext() {
  return val;
 }
 
-export type { PersonsConfig, NewPersonModes };
+export type { PersonsConfig, NewPersonModes, Tab };
 export { tabs, personsConfigContext, usePersonsConfigContext };

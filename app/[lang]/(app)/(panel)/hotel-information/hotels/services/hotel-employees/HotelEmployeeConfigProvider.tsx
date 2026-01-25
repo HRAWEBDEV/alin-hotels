@@ -37,6 +37,7 @@ import NewHotelEmployee from '../../components/hotel-employees/NewHotelEmploye';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import RealPersonFinder from '../../../../general-settings/real-persons/components/real-person-finder/RealPersonFinder';
 import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
+import CompaniesFinder from '../../../../general-settings/companies/components/companies-finder/CompaniesFinder';
 
 export default function HotelEmployeeConfigProvider({
  children,
