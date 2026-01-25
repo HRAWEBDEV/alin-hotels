@@ -6,13 +6,19 @@ interface HotelOperator {
  id: number;
  hotelID: number;
  companyID: number | null;
+ companyName: null | string;
  personID: number | null;
+ personFullName: string | null;
  percentage: number;
  fromDateTimeOffset: string;
  endDateTimeOffset: string;
+ hotelName: string;
 }
 
-type SaveHotelOperatorPackage = Omit<HotelOperator, ''>;
+type SaveHotelOperatorPackage = Omit<
+ HotelOperator,
+ 'hotelName' | 'companyName' | 'personFullName'
+>;
 
 function getHotelOperator({
  hotelOperatorID,

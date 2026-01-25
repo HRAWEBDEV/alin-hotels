@@ -136,8 +136,18 @@
   "cancel": "انصراف"
  },
  "hotelOperator": {
-  "form": {},
-  "formValidation": {}
+  "form": {
+   "person": "شخص",
+   "personType": "نوع شخص",
+   "percentage": "سهم (٪)",
+   "fromDate": "از تاریخ",
+   "toDate": "تا تاریخ",
+   "realPerson": "حقیقی",
+   "company": "حقوقی"
+  },
+  "formValidation": {
+   "selectPerson": "شخص انتخاب نشده است"
+  }
  },
  "removeHotelOperator": {
   "title": "حذف شخص",

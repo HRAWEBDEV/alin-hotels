@@ -75,6 +75,59 @@ export default function OperatorsTable({ dic }: { dic: HotelsDictionary }) {
  const columns: ColumnDef<HotelOperator>[] = useMemo(() => {
   return [
    {
+    accessorKey: 'personName',
+    header: dic.hotelOperator.form.person,
+    size: 180,
+    minSize: 180,
+    cell({ row }) {
+     return row.original.companyName || row.original.personFullName;
+    },
+   },
+   {
+    accessorKey: 'personType',
+    header: dic.hotelOperator.form.personType,
+    size: 130,
+    minSize: 130,
+    meta: 'center',
+    cell({ row }) {
+     return row.original.companyID
+      ? dic.hotelOperator.form.company
+      : dic.hotelOperator.form.realPerson;
+    },
+   },
+   {
+    accessorKey: 'percentage',
+    header: dic.hotelOperator.form.percentage,
+    size: 130,
+    minSize: 130,
+    enablePinning: false,
+    meta: 'center',
+   },
+   {
+    accessorKey: 'fromDateTimeOffset',
+    header: dic.hotelOperator.form.fromDate,
+    size: 140,
+    minSize: 140,
+    meta: 'center',
+    enablePinning: false,
+    cell({ getValue }) {
+     const val = getValue();
+     return val ? new Date(val as string).toLocaleDateString(locale) : '';
+    },
+   },
+   {
+    accessorKey: 'endDateTimeOffset',
+    header: dic.hotelOperator.form.toDate,
+    size: 140,
+    minSize: 140,
+    enablePinning: false,
+    meta: 'center',
+    cell({ getValue }) {
+     const val = getValue();
+     return val ? new Date(val as string).toLocaleDateString(locale) : '';
+    },
+   },
+   {
     id: 'actions',
     enableHiding: false,
     enableSorting: false,
