@@ -36,21 +36,17 @@ import { IoIosWarning } from 'react-icons/io';
 import NewHotelEmployee from '../../components/hotel-employees/NewHotelEmploye';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import RealPersonFinder from '../../../../general-settings/real-persons/components/real-person-finder/RealPersonFinder';
-import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
-import CompaniesFinder from '../../../../general-settings/companies/components/companies-finder/CompaniesFinder';
 
 export default function HotelEmployeeConfigProvider({
  children,
  hotelID,
  dic,
  realPersonDic,
- companyDic,
 }: {
  children: ReactNode;
  hotelID: number;
  dic: HotelsDictionary;
  realPersonDic: RealPersonsDictionary;
- companyDic: CompaniesDictionary;
 }) {
  const queryClient = useQueryClient();
  //

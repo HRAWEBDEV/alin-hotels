@@ -35,17 +35,21 @@ import { IoIosWarning } from 'react-icons/io';
 import NewHotelEmployee from '../../components/hotel-employees/NewHotelEmploye';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import RealPersonFinder from '../../../../general-settings/real-persons/components/real-person-finder/RealPersonFinder';
+import CompaniesFinder from '../../../../general-settings/companies/components/companies-finder/CompaniesFinder';
+import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
 
 export default function HotelOperatorConfigProvider({
  children,
  hotelID,
  dic,
  realPersonDic,
+ companyDic,
 }: {
  children: ReactNode;
  hotelID: number;
  dic: HotelsDictionary;
  realPersonDic: RealPersonsDictionary;
+ companyDic: CompaniesDictionary;
 }) {
  const queryClient = useQueryClient();
  //
@@ -55,7 +59,9 @@ export default function HotelOperatorConfigProvider({
   null,
  );
  const [selectedPersonID, setSelectedPersonID] = useState<number | null>(null);
+ const [selecteCompanyID, setSelectedCompanyID] = useState<number | null>(null);
  const [showFindPerson, setShowFindPerson] = useState(false);
+ const [showFindCompany, setShowFindCompany] = useState(false);
  const [showRemoveOperatorConfirm, setShowRemoveOperatorConfirm] =
   useState(false);
  // form
@@ -128,12 +134,23 @@ export default function HotelOperatorConfigProvider({
   setShowAddOperator(true);
  }
 
- function handleEditPerson(params: {
+ function handleEditPerson({
+  personID,
+  companyID,
+ }: {
   personID: number | null;
   companyID: number | null;
  }) {
-  // setSelectedPersonID(personID);
-  // setShowFindPerson(true);
+  if (personID) {
+   setSelectedPersonID(personID);
+   setShowFindPerson(true);
+   return;
+  }
+  if (companyID) {
+   setSelectedCompanyID(companyID);
+   setShowFindCompany(true);
+   return;
+  }
  }
 
  const ctx: HotelOperatorContext = {
@@ -210,6 +227,27 @@ export default function HotelOperatorConfigProvider({
      </DialogFooter>
     </DialogContent>
    </Dialog>
+   {selecteCompanyID && (
+    <CompaniesFinder
+     dic={companyDic}
+     open={showFindCompany}
+     onOpenChange={(open) => {
+      setShowFindCompany((pre) => (open === undefined ? !pre : open));
+     }}
+     wrapperType={{
+      personID: selecteCompanyID,
+      defaultTab: 'edit',
+      justEditTab: true,
+      onChangePerson() {
+       setShowFindCompany(false);
+       setSelectedCompanyID(null);
+       queryClient.invalidateQueries({
+        queryKey: [hotelHotelOperatorBasePath, 'all'],
+       });
+      },
+     }}
+    />
+   )}
    {selectedPersonID && (
     <RealPersonFinder
      dic={realPersonDic}
@@ -223,6 +261,7 @@ export default function HotelOperatorConfigProvider({
       defaultTab: 'edit',
       onChangePerson() {
        setShowFindPerson(false);
+       setSelectedPersonID(null);
        queryClient.invalidateQueries({
         queryKey: [hotelHotelOperatorBasePath, 'all'],
        });
