@@ -5,11 +5,12 @@ const roomTypesBasePath = '/HotelsUnion/RoomType';
 
 type RoomType = {
  id: number;
+ nameID: number;
  name: string;
  dictionary: Dictionary | null;
 };
 
-type SaveRoomTypePackage = Omit<RoomType, ''>;
+type SaveRoomTypePackage = Dictionary;
 
 type GetRoomTypeProps = {
  signal?: AbortSignal;
@@ -59,8 +60,14 @@ function saveRoomType(newRoomType: SaveRoomTypePackage) {
  return axios.post<number>(roomTypesBasePath, newRoomType);
 }
 
-function updateRoomType(roomType: Partial<SaveRoomTypePackage>) {
- return axios.put<number>(roomTypesBasePath, roomType);
+function updateRoomType(
+ roomTypeID: number,
+ roomType: Partial<SaveRoomTypePackage>,
+) {
+ return axios.put<number>(
+  `${roomTypesBasePath}?roomTypeID=${roomTypeID.toString()}`,
+  roomType,
+ );
 }
 
 export type { RoomType, SaveRoomTypePackage, GetRoomTypeProps };

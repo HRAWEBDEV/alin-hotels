@@ -1,6 +1,6 @@
 'use client';
 import RoomTypesList from './room-types-list/RoomTypesList';
-// import NewHotel from './new-hotel/NewHotel';
+import NewRoomType from './new-room-type/NewRoomType';
 import { useRoomTypesConfigContext } from '../services/roomTypesConfigContext';
 import { Activity } from 'react';
 import { type RoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
@@ -19,23 +19,21 @@ export default function HotelsContent({ dic }: { dic: RoomTypesDictionary }) {
    <Activity mode={selectedTab === 'list' ? 'visible' : 'hidden'}>
     <RoomTypesList dic={dic} />
    </Activity>
-   {/*<Activity mode={selectedTab === 'add' ? 'visible' : 'hidden'}>
-    <NewHotel
+   <Activity mode={selectedTab === 'add' ? 'visible' : 'hidden'}>
+    <NewRoomType
      dic={dic}
-     onSuccess={onNewHotelSuccess}
-     onCancel={onCancelNewHotel}
-     initialData={initialData}
+     onSuccess={onNewRoomTypeSuccess}
+     onCancel={onCancelNewRoomType}
     />
    </Activity>
    <Activity mode={selectedTab === 'edit' ? 'visible' : 'hidden'}>
-    <NewHotel
+    <NewRoomType
      dic={dic}
-     hotelID={selectedHotelID}
-     onSuccess={onNewHotelSuccess}
-     onCancel={onCancelNewHotel}
-     initialData={initialData}
+     roomTypeID={selectedRoomTypeID}
+     onSuccess={onNewRoomTypeSuccess}
+     onCancel={onCancelNewRoomType}
     />
-   </Activity>*/}
+   </Activity>
   </main>
  );
 }
