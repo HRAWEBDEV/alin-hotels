@@ -1,12 +1,26 @@
+import { type Dictionary } from '@/app/[lang]/(app)/utils/apiBaseTypes';
 import { axios } from '@/app/[lang]/(app)/utils/defaultAxios';
 
 const hotelHotelRoomTypeBasePath = '/HotelsUnion/RoomTypeHotel';
 
 interface HotelRoomType {
  id: number;
+ nameID: number;
+ hotelID: number;
+ roomTypeID: number;
+ roomCount: number;
+ bedCount: number;
+ name: string;
+ hotelName: string;
+ roomTypeName: string;
+ dictionary: Dictionary | null;
 }
 
-type SaveHotelRoomTypePackage = Omit<HotelRoomType, ''>;
+type SaveHotelRoomTypePackage = {
+ mainData: Omit<HotelRoomType, 'hotelName' | 'roomTypeName' | 'dictionay'>;
+ dictionaryData: Pick<Dictionary, 'id' | 'defaultValue'> &
+  Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
+};
 
 function getHotelRoomType({
  hotelRoomTypeID,

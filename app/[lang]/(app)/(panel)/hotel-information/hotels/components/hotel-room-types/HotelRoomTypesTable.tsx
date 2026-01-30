@@ -43,13 +43,17 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { useFormContext } from 'react-hook-form';
 import { type HotelHotelRoomSchema } from '../../schemas/hotel-room-types/hotelRoomTypesSchema';
 
-export default function OperatorsTable({ dic }: { dic: HotelsDictionary }) {
+export default function HotelRoomTypesTable({
+ dic,
+}: {
+ dic: HotelsDictionary;
+}) {
  const { getValues } = useFormContext<HotelHotelRoomSchema>();
  const validFilters = Object.keys(getValues()).filter(
   (key) => getValues()[key as keyof HotelHotelRoomSchema],
  );
  const getCommonPinningStyles = useCommonPinningStyles();
- const { localeInfo, locale } = useBaseConfig();
+ const { localeInfo } = useBaseConfig();
  const [pinnedColumns, setPinnedColumns] = useState<ColumnPinningState>(() => {
   const startPinned = ['select'];
   const endPinned = ['actions'];
@@ -73,6 +77,34 @@ export default function OperatorsTable({ dic }: { dic: HotelsDictionary }) {
 
  const columns: ColumnDef<HotelRoomType>[] = useMemo(() => {
   return [
+   {
+    accessorKey: 'name',
+    header: dic.hotelRoomTypes.form.name,
+    minSize: 170,
+    size: 170,
+   },
+   {
+    accessorKey: 'roomTypeName',
+    header: dic.hotelRoomTypes.form.roomType,
+    minSize: 160,
+    size: 160,
+   },
+   {
+    accessorKey: 'roomCount',
+    header: dic.hotelRoomTypes.form.roomCount,
+    minSize: 120,
+    size: 120,
+    enablePinning: false,
+    enableResizing: false,
+   },
+   {
+    accessorKey: 'bedCount',
+    header: dic.hotelRoomTypes.form.bedCount,
+    minSize: 120,
+    size: 120,
+    enablePinning: false,
+    enableResizing: false,
+   },
    {
     id: 'actions',
     enableHiding: false,

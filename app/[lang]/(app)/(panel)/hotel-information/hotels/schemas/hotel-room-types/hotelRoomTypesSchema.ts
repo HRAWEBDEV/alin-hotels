@@ -3,12 +3,33 @@ import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-
 
 const defaultValues: Partial<HotelHotelRoomSchema> = {
  name: '',
+ roomType: null,
+ roomCount: '',
+ bedCount: '',
 };
 
 function createHotelRoomTypesSchema({}: { dic: HotelsDictionary }) {
- return z.object({
-  name: z.string(),
- });
+ return z
+  .object({
+   name: z.string(),
+   roomType: z
+    .object({
+     key: z.string(),
+     value: z.string(),
+    })
+    .nullable(),
+   roomCount: z.literal('').or(z.number()),
+   bedCount: z.literal('').or(z.number()),
+  })
+  .refine(({ roomType }) => !!roomType, {
+   path: ['roomType'],
+  })
+  .refine(({ roomCount }) => !!roomCount || roomCount === 0, {
+   path: ['roomCount'],
+  })
+  .refine(({ bedCount }) => !!bedCount || bedCount === 0, {
+   path: ['bedCount'],
+  });
 }
 
 type HotelHotelRoomSchema = z.infer<
