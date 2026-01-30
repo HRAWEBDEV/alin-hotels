@@ -7,24 +7,23 @@ import LoginLogo from './LoginLogo';
 import { useLoginContext } from '../services/login/loginContext';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { usePathname } from 'next/navigation';
-import {
- clearUserLoginToken,
- isUserLoggedIn,
-} from '../utils/loginTokenManager';
+import { isUserLoggedIn } from '../utils/loginTokenManager';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPageWrapper({
  children,
 }: {
  children: ReactNode;
 }) {
+ const router = useRouter();
  const { locale } = useBaseConfig();
  const pathname = usePathname();
  const { loginModalIsOpen } = useLoginContext();
 
  useEffect(() => {
-  if (!pathname.startsWith(`/${locale}/login`) && isUserLoggedIn()) return;
-  clearUserLoginToken();
- }, [pathname, locale]);
+  if (!pathname.startsWith(`/${locale}/login`) || !isUserLoggedIn()) return;
+  router.push(`/${locale}`);
+ }, [pathname, locale, router]);
  return (
   <div className='text-foreground dark:text-foreground h-full w-full flex flex-col z-1'>
    <motion.div
