@@ -42,7 +42,6 @@ import {
 } from '../schemas/roomTypeSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type WrapperTypes } from '../utils/wrapperTypes';
-import { useUserProfileContext } from '../../../services/user-profile/userProfileContext';
 
 export default function RoomTypesConfigProvider({
  children,
@@ -52,10 +51,10 @@ export default function RoomTypesConfigProvider({
  children: ReactNode;
  dic: RoomTypesDictionary;
 } & WrapperTypes) {
- const { settingsPreferences } = useUserProfileContext();
  // queries
  const router = useRouter();
  const searchParams = useSearchParams();
+ const nameQueryValue = searchParams.get('name');
  const activeTabQuery = searchParams.get(
   'activeTab',
  ) as RoomTypesConfig['selectedTab'];
@@ -66,10 +65,13 @@ export default function RoomTypesConfigProvider({
    ...defaultValues,
    ...(() => {
     if (wrapperType.mode === 'find') return {};
-    return {};
+    return {
+     name: nameQueryValue || '',
+    };
    })(),
   },
  });
+ const [nameValue] = hotelFilters.watch(['name']);
  //
  const queryClient = useQueryClient();
  const { locale } = useBaseConfig();
@@ -119,6 +121,10 @@ export default function RoomTypesConfigProvider({
    return res.data;
   },
  });
+ const filteredData = (() => {
+  if (!roomTypesData || !roomTypesData.length) return roomTypesData;
+  return roomTypesData.filter((roomType) => roomType.name.includes(nameValue));
+ })();
  // change hotel
  function handleChangeSelectedRoomTypeID(id: number | null) {
   setSelectedRoomTypeID(id);
@@ -177,10 +183,11 @@ export default function RoomTypesConfigProvider({
  useEffect(() => {
   if (wrapperType.mode === 'find') return;
   const newSearchParams = new URLSearchParams(location.search);
+  newSearchParams.set('name', nameValue);
   router.replace(
    `/${locale}/hotel-information/room-types?${newSearchParams.toString()}`,
   );
- }, [wrapperType.mode, locale, router]);
+ }, [wrapperType.mode, locale, router, nameValue]);
 
  const ctx: RoomTypesConfig = {
   wrapperType: wrapperType,
@@ -192,6 +199,7 @@ export default function RoomTypesConfigProvider({
   roomTypes: {
    queries: {},
    data: roomTypesData,
+   filteredData,
    isError: roomTypesError,
    isFetching: roomTypesFetching,
    isLoading: roomTypesLoading,

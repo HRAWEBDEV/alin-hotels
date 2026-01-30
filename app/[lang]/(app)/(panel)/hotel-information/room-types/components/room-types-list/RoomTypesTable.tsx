@@ -43,7 +43,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { useFormContext } from 'react-hook-form';
 import { type RoomTypeSchema } from '../../schemas/roomTypeSchema';
 
-export default function HotelsTable({ dic }: { dic: RoomTypesDictionary }) {
+export default function RoomTypesTable({ dic }: { dic: RoomTypesDictionary }) {
  const { getValues } = useFormContext<RoomTypeSchema>();
  const validFilters = Object.keys(getValues()).filter(
   (key) => getValues()[key as keyof RoomTypeSchema],
@@ -65,7 +65,7 @@ export default function HotelsTable({ dic }: { dic: RoomTypesDictionary }) {
   roomTypes: {
    isFetching,
    isSuccess,
-   data,
+   filteredData,
    refetchRoomTypes,
    onRemoveRoomType,
    onEditRoomType,
@@ -182,7 +182,7 @@ export default function HotelsTable({ dic }: { dic: RoomTypesDictionary }) {
 
  const defaultData = useMemo(() => [], []);
  const table = useReactTable({
-  data: data || defaultData,
+  data: filteredData || defaultData,
   columns,
   columnResizeDirection: localeInfo.contentDirection,
   columnResizeMode: 'onChange',
@@ -251,8 +251,8 @@ export default function HotelsTable({ dic }: { dic: RoomTypesDictionary }) {
    </div>
    <div className='relative grow flex flex-col overflow-auto'>
     {isFetching && <LinearLoading />}
-    {!data?.length && isSuccess && !isFetching && <NoItemFound />}
-    {isSuccess && !!data?.length && (
+    {!filteredData?.length && isSuccess && !isFetching && <NoItemFound />}
+    {isSuccess && !!filteredData?.length && (
      <Table className='table-fixed'>
       <TableHeader>
        {table.getHeaderGroups().map((group) => (

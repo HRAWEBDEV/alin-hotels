@@ -1,8 +1,6 @@
 import { use, createContext } from 'react';
 import { OutOfContext } from '@/utils/OutOfContext';
 import { type RoomType, type GetRoomTypeProps } from './roomTypesApiActions';
-import { PaginationState } from '@tanstack/react-table';
-import { Dispatch, SetStateAction } from 'react';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
 type Tab = 'list' | 'add' | 'edit';
@@ -21,6 +19,7 @@ interface RoomTypesConfig {
  roomTypes: {
   queries: Omit<GetRoomTypeProps, 'signal'>;
   data?: RoomType[];
+  filteredData?: RoomType[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;

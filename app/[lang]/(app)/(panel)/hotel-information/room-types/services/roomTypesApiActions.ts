@@ -5,7 +5,9 @@ const roomTypesBasePath = '/HotelsUnion/RoomType';
 
 type RoomType = {
  id: number;
-} & Dictionary;
+ name: string;
+ dictionary: Dictionary | null;
+};
 
 type SaveRoomTypePackage = Omit<RoomType, ''>;
 

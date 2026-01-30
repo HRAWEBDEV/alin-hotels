@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { type RoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
 import { Button } from '@/components/ui/button';
 import { useRoomTypesConfigContext } from '../../services/roomTypesConfigContext';
@@ -9,33 +8,20 @@ import {
  type RoomTypeSchema,
  defaultValues,
 } from '../../schemas/roomTypeSchema';
-import { useFormContext, Controller } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Field, FieldLabel, FieldGroup } from '@/components/ui/field';
-import {
- Popover,
- PopoverContent,
- PopoverTrigger,
-} from '@/components/ui/popover';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import {
- Command,
- CommandGroup,
- CommandInput,
- CommandItem,
- CommandList,
-} from '@/components/ui/command';
+import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
 
 export default function RoomTypesFilters({
  dic,
 }: {
  dic: RoomTypesDictionary;
 }) {
- const { setValue, control } = useFormContext<RoomTypeSchema>();
+ const { setValue, register } = useFormContext<RoomTypeSchema>();
  const {
   showFilters,
   changeShowFilters,
-  roomTypes: { data, isLoading },
+  roomTypes: { filteredData, isLoading },
  } = useRoomTypesConfigContext();
 
  return (
@@ -68,7 +54,12 @@ export default function RoomTypesFilters({
      </p>
      <div className='text-xs flex items-center'>
       ({dic.filters.results}:{' '}
-      {isLoading ? <Spinner className='text-primary' /> : data?.length || 0})
+      {isLoading ? (
+       <Spinner className='text-primary' />
+      ) : (
+       filteredData?.length || 0
+      )}
+      )
      </div>
     </div>
     <div className='basis-9 flex'>
@@ -82,7 +73,16 @@ export default function RoomTypesFilters({
      </Button>
     </div>
    </div>
-   <div className='grow overflow-auto p-2 py-4'></div>
+   <div className='grow overflow-auto p-2 py-4'>
+    <FieldGroup>
+     <Field className='gap-2'>
+      <FieldLabel htmlFor='title'>{dic.newRoomType.form.title}</FieldLabel>
+      <InputGroup>
+       <InputGroupInput type='search' id='title' {...register('name')} />
+      </InputGroup>
+     </Field>
+    </FieldGroup>
+   </div>
   </div>
  );
 }
