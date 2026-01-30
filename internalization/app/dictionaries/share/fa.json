@@ -15,6 +15,11 @@
   }
  },
  "components": {
+  "logOutModal": {
+   "title": "خروج از سیستم",
+   "confirm": "تایید",
+   "cancel": "انصراف"
+  },
   "pagination": {
    "next": "بعدی",
    "prev": "قبلی",

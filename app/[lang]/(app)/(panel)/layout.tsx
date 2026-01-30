@@ -12,6 +12,7 @@ import NavigatorProvider from './services/navigator/NavigatorProvider';
 import HistoryTrakcer from './services/history-tracker/HistoryTracker';
 import QuickAccessProvider from './services/quick-access/QuickAccessProvider';
 import LoginAxiosInterceptor from '../login/services/LoginAxiosInterceptor';
+import LogoutContextProvider from '../login/services/logout/LogoutContextProvider';
 
 export default function PanelLayout({ children }: LayoutProps<'/[lang]'>) {
  return (
@@ -19,25 +20,27 @@ export default function PanelLayout({ children }: LayoutProps<'/[lang]'>) {
    <AxoisCredentials />
    <UserInfoProvider>
     <LoginAxiosInterceptor />
-    <NavigatorProvider>
-     <HistoryTrakcer>
-      <PagesProvider>
-       <UserProfileProvider>
-        <QuickAccessProvider>
-         <NavigationProvider>
-          <Nav />
-          <div className='grow flex flex-col'>
-           <Header />
-           <Addressbar />
-           <Main>{children}</Main>
-           <Tabs />
-          </div>
-         </NavigationProvider>
-        </QuickAccessProvider>
-       </UserProfileProvider>
-      </PagesProvider>
-     </HistoryTrakcer>
-    </NavigatorProvider>
+    <LogoutContextProvider>
+     <NavigatorProvider>
+      <HistoryTrakcer>
+       <PagesProvider>
+        <UserProfileProvider>
+         <QuickAccessProvider>
+          <NavigationProvider>
+           <Nav />
+           <div className='grow flex flex-col'>
+            <Header />
+            <Addressbar />
+            <Main>{children}</Main>
+            <Tabs />
+           </div>
+          </NavigationProvider>
+         </QuickAccessProvider>
+        </UserProfileProvider>
+       </PagesProvider>
+      </HistoryTrakcer>
+     </NavigatorProvider>
+    </LogoutContextProvider>
    </UserInfoProvider>
   </div>
  );

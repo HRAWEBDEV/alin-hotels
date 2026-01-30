@@ -7,10 +7,10 @@ import {
 } from '@/components/ui/tooltip';
 import { useShareDictionary } from '../../services/share-dictionary/shareDictionaryContext';
 import { RiLogoutBoxRFill } from 'react-icons/ri';
-import useLogout from '../../login/hooks/useLogout';
+import { useLogoutContext } from '../../login/services/logout/logoutContext';
 
 function LogoutControllerButton() {
- const logout = useLogout();
+ const { onOpen: showLogout } = useLogoutContext();
  const {
   shareDictionary: {
    components: { logoutController },
@@ -24,7 +24,7 @@ function LogoutControllerButton() {
      variant='outline'
      size='icon-lg'
      className='flex rounded-full text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
-     onClick={logout}
+     onClick={() => showLogout(true)}
     >
      <RiLogoutBoxRFill className='size-5' />
     </Button>
