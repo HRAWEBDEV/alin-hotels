@@ -32,16 +32,19 @@ import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
+import { type RoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
 // import NewHotelOperator from '../../components/hotel-operators/NewHotelOperator';
 
 export default function HotelRoomTypeConfigProvider({
  children,
  hotelID,
  dic,
+ roomTypesDic,
 }: {
  children: ReactNode;
  hotelID: number;
  dic: HotelsDictionary;
+ roomTypesDic: RoomTypesDictionary;
 }) {
  const queryClient = useQueryClient();
  //

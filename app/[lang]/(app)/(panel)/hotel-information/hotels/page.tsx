@@ -4,6 +4,7 @@ import { getHotelsDictionary } from '@/internalization/app/dictionaries/hotel-in
 import HotelsWrapper from './components/HotelsWrapper';
 import { getRealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { getCompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
+import { getRoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
 
 export async function generateMetadata(
  props: PageProps<'/[lang]/hotel-information/hotels'>,
@@ -30,11 +31,15 @@ export default async function HotelsPage(
  const companyDic = await getCompaniesDictionary({
   locale: lang as Locale,
  });
+ const roomTypesDic = await getRoomTypesDictionary({
+  locale: lang as Locale,
+ });
  return (
   <HotelsWrapper
    dic={dic}
    realPersonDic={realPersonDic}
    companyDic={companyDic}
+   roomTypesDic={roomTypesDic}
   />
  );
 }

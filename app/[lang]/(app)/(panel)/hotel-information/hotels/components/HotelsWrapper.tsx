@@ -4,12 +4,14 @@ import HotelsTab from './HotelsTabs';
 import HotelsContent from './HotelsContent';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
+import { type RoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
 import { type WrapperTypes } from '../utils/wrapperTypes';
 
 export default function HotelsWrapper({
  dic,
  realPersonDic,
  companyDic,
+ roomTypesDic,
  wrapperType = {
   mode: 'page',
  },
@@ -18,6 +20,7 @@ export default function HotelsWrapper({
  realPersonDic: RealPersonsDictionary;
  companyDic: CompaniesDictionary;
  wrapperType?: WrapperTypes;
+ roomTypesDic: RoomTypesDictionary;
 }) {
  return (
   <div
@@ -30,6 +33,7 @@ export default function HotelsWrapper({
      dic={dic}
      realPersonDic={realPersonDic}
      companyDic={companyDic}
+     roomTypesDic={roomTypesDic}
     />
    </HotelsConfigProvider>
   </div>

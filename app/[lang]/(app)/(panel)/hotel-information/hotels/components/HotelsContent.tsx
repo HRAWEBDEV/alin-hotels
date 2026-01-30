@@ -5,20 +5,24 @@ import NewHotel from './new-hotel/NewHotel';
 import HotelManagers from '../components/hotel-managers/HotelManagers';
 import EmployeesList from './hotel-employees/EmployeesList';
 import OperatorsList from './hotel-operators/OperatorsList';
+import HotelRoomTypesList from './hotel-room-types/HotelRoomTypesList';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { Activity } from 'react';
 import { type RealPersonsDictionary } from '@/internalization/app/dictionaries/general-settings/real-persons/dictionary';
 import HotelFacilities from './hotel-facilities/HotelFacilities';
 import { type CompaniesDictionary } from '@/internalization/app/dictionaries/general-settings/companies/dictionary';
+import { type RoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
 
 export default function HotelsContent({
  dic,
  realPersonDic,
  companyDic,
+ roomTypesDic,
 }: {
  dic: HotelsDictionary;
  realPersonDic: RealPersonsDictionary;
  companyDic: CompaniesDictionary;
+ roomTypesDic: RoomTypesDictionary;
 }) {
  const {
   selectedTab,
@@ -83,6 +87,15 @@ export default function HotelsContent({
       hotelID={selectedHotelID}
       realPersonDic={realPersonDic}
       companyDic={companyDic}
+     />
+    )}
+   </Activity>
+   <Activity mode={selectedTab === 'hotelRoomTypes' ? 'visible' : 'hidden'}>
+    {selectedHotelID && (
+     <HotelRoomTypesList
+      dic={dic}
+      hotelID={selectedHotelID}
+      roomTypesDic={roomTypesDic}
      />
     )}
    </Activity>
