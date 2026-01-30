@@ -60,7 +60,11 @@ export default function HotelRoomTypeConfigProvider({
   resolver: zodResolver(createHotelRoomTypesSchema({ dic })),
   defaultValues: defaultValues,
  });
- const [nameValue] = hotelRoomTypeUseForm.watch(['name']);
+ const [nameValue, roomTypeValue, bedCountValue] = hotelRoomTypeUseForm.watch([
+  'name',
+  'roomType',
+  'bedCount',
+ ]);
  // hotel room types
  const {
   data: roomTypes,
@@ -79,8 +83,18 @@ export default function HotelRoomTypeConfigProvider({
 
  const filteredData = (() => {
   if (!roomTypes || !roomTypes.length) return roomTypes;
-  return roomTypes.filter(() => {
-   return true;
+  return roomTypes.filter((item) => {
+   let include = true;
+   if (nameValue) {
+    include = item.name.includes(nameValue);
+   }
+   if (bedCountValue !== '') {
+    include = item.bedCount === bedCountValue;
+   }
+   if (roomTypeValue) {
+    include = item.roomTypeID.toString() === roomTypeValue.key;
+   }
+   return include;
   });
  })();
 
