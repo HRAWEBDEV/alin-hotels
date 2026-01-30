@@ -102,6 +102,7 @@ export default function Addressbar() {
      className='size-8 rounded-full text-orange-700 dark:text-orange-400'
      variant='outline'
      size='icon'
+     onClick={() => location.reload()}
     >
      <IoReload className='size-5' />
     </Button>

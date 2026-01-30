@@ -1,16 +1,30 @@
 'use client';
+import { useEffect } from 'react';
 import { ReactNode } from 'react';
 import { motion } from 'motion/react';
 import LoginControllers from './LoginControllers';
 import LoginLogo from './LoginLogo';
 import { useLoginContext } from '../services/login/loginContext';
+import { useBaseConfig } from '@/services/base-config/baseConfigContext';
+import { usePathname } from 'next/navigation';
+import {
+ clearUserLoginToken,
+ isUserLoggedIn,
+} from '../utils/loginTokenManager';
 
 export default function LoginPageWrapper({
  children,
 }: {
  children: ReactNode;
 }) {
+ const { locale } = useBaseConfig();
+ const pathname = usePathname();
  const { loginModalIsOpen } = useLoginContext();
+
+ useEffect(() => {
+  if (!pathname.startsWith(`/${locale}/login`) && isUserLoggedIn()) return;
+  clearUserLoginToken();
+ }, [pathname, locale]);
  return (
   <div className='text-foreground dark:text-foreground h-full w-full flex flex-col z-1'>
    <motion.div
