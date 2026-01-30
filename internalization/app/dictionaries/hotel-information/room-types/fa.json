@@ -1,9 +1,9 @@
 {
  "title": "انواع اتاق",
  "tabs": {
-  "roomTypesList": "لیست انواع اتاق",
-  "editRoomType": "ویرایش نوع اتاق",
-  "addRoomType": "افزودن نوع اتاق"
+  "roomTypesList": "لیست",
+  "editRoomType": "افزودن",
+  "addRoomType": "ویرایش"
  },
  "filters": {
   "title": "فیلترها",
@@ -20,6 +20,7 @@
  "newRoomType": {
   "newRoomTypeAdded": "نوع اتاق جدید اضافه شد",
   "form": {
+   "title": "عنوان",
    "save": "ذخیره",
    "cancel": "انصراف",
    "clearForm": "خالی کردن اطلاعات"

@@ -11,7 +11,7 @@ const pages = {
   hotels: {
    name: 'hotels',
   },
-  roomTypes: {
+  'room-types': {
    name: 'room-types',
   },
  },
