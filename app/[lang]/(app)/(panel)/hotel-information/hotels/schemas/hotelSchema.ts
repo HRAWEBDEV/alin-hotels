@@ -103,8 +103,8 @@ function createHotelSchema({}: { dic: HotelsDictionary }) {
    roomCount: z.literal('').or(z.number()),
    bedCount: z.literal('').or(z.number()),
    maxExtraBedCount: z.literal('').or(z.number()),
-   address: z.string(),
-   tel1: z.string(),
+   address: z.string().min(1),
+   tel1: z.string().min(1),
    tel2: z.string(),
    tel3: z.string(),
    fax: z.string(),
@@ -139,7 +139,31 @@ function createHotelSchema({}: { dic: HotelsDictionary }) {
   })
   .refine(({ state }) => !!state, {
    path: ['state'],
-  });
+  })
+  .refine(({ landArea }) => !!landArea || landArea === 0, {
+   path: ['landArea'],
+  })
+  .refine(({ buildingArea }) => !!buildingArea || buildingArea === 0, {
+   path: ['buildingArea'],
+  })
+  .refine(({ floorCount }) => !!floorCount || floorCount === 0, {
+   path: ['floorCount'],
+  })
+  .refine(({ towerCount }) => !!towerCount || towerCount === 0, {
+   path: ['towerCount'],
+  })
+  .refine(({ roomCount }) => !!roomCount || roomCount === 0, {
+   path: ['roomCount'],
+  })
+  .refine(({ bedCount }) => !!bedCount || bedCount === 0, {
+   path: ['bedCount'],
+  })
+  .refine(
+   ({ maxExtraBedCount }) => !!maxExtraBedCount || maxExtraBedCount === 0,
+   {
+    path: ['maxExtraBedCount'],
+   },
+  );
 }
 
 type HotelSchema = z.infer<ReturnType<typeof createHotelSchema>>;

@@ -75,12 +75,16 @@ export default function NewHotel({
   reset,
   setValue,
   setFocus,
+  watch,
  } = useForm<HotelSchema>({
   resolver: zodResolver(createHotelSchema({ dic })),
   defaultValues: {
    ...defaultValues,
   },
  });
+ const [landAreaValue] = watch(['landArea']);
+
+ console.log(errors, landAreaValue);
  //
  const { localeInfo } = useBaseConfig();
  //
@@ -131,23 +135,23 @@ export default function NewHotel({
      id: hotelID || 0,
      name: name,
      nameID: data?.nameID || 0,
-     address: address || null,
-     bedCount: bedCount || null,
-     buildingArea: buildingArea || null,
+     address: address,
+     bedCount: bedCount as number,
+     buildingArea: buildingArea as number,
      email: email || null,
      webSiteUrl: website || null,
      fax: fax || null,
-     floorCount: floorCount || null,
-     landArea: landArea || null,
+     floorCount: floorCount as number,
+     landArea: landArea as number,
      latitude: latitude || null,
      longitude: longitude || null,
-     maxExtraBedCount: maxExtraBedCount || null,
+     maxExtraBedCount: maxExtraBedCount as number,
      postalCode: postalCode || null,
-     roomCount: roomCount || null,
-     tel1: tel1 || null,
+     roomCount: roomCount as number,
+     tel1: tel1,
      tel2: tel2 || null,
      tel3: tel3 || null,
-     towerCount: towerCount || null,
+     towerCount: towerCount as number,
      cityZoneID: Number(city!.key),
      degreeTypeID: Number(degreeType!.key),
      gradeTypeID: Number(gradeType!.key),
@@ -185,7 +189,9 @@ export default function NewHotel({
    } else {
     toast.success(dic.newHotel.newHotelAdded);
    }
-   setTimeout(() => {}, 200);
+   setTimeout(() => {
+    setFocus('name');
+   }, 200);
   },
   onError(err: AxiosError<string>) {
    toast.error(err.response?.data);
@@ -332,13 +338,13 @@ export default function NewHotel({
       }
     : null,
   );
-  setValue('landArea', landArea || '');
-  setValue('buildingArea', buildingArea || '');
-  setValue('floorCount', floorCount || '');
-  setValue('towerCount', towerCount || '');
-  setValue('roomCount', roomCount || '');
-  setValue('bedCount', bedCount || '');
-  setValue('maxExtraBedCount', maxExtraBedCount || '');
+  setValue('landArea', landArea);
+  setValue('buildingArea', buildingArea);
+  setValue('floorCount', floorCount);
+  setValue('towerCount', towerCount);
+  setValue('roomCount', roomCount);
+  setValue('bedCount', bedCount);
+  setValue('maxExtraBedCount', maxExtraBedCount);
   setValue('longitude', longitude || '');
   setValue('latitude', latitude || '');
   setValue('fax', fax || '');
@@ -381,87 +387,12 @@ export default function NewHotel({
    <FieldGroup className='gap-2'>
     <div className='grid gap-y-2'>
      <div className='grid grid-cols-2 gap-3 gap-y-4 bg-background p-4 border border-input rounded-md'>
-      <Field className='gap-2 col-span-2' data-invalid={!!errors.name}>
+      <Field className='gap-2' data-invalid={!!errors.name}>
        <FieldLabel htmlFor='name'>{dic.newHotel.form.name} *</FieldLabel>
        <InputGroup data-invalid={!!errors.name}>
         <InputGroupInput id='name' {...register('name')} />
        </InputGroup>
       </Field>
-      <Controller
-       control={control}
-       name='hotelType'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2' data-invalid={!!errors.hotelType}>
-         <FieldLabel htmlFor='hotelType'>
-          {dic.newHotel.form.hotelType} *
-         </FieldLabel>
-         <Popover open={openHotelType} onOpenChange={setOpenHotelType}>
-          <PopoverTrigger asChild>
-           <Button
-            type='button'
-            id='hotelType'
-            title={value?.value || ''}
-            variant='outline'
-            role='combobox'
-            aria-expanded={openHotelType}
-            className='justify-between'
-            data-invalid={!!errors.hotelType}
-            {...other}
-           >
-            <span className='text-start grow overflow-hidden text-ellipsis'>
-             {value?.value || ''}
-            </span>
-            <div className='flex gap-1 items-center -me-2'>
-             {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
-             <ChevronsUpDown className='opacity-50' />
-            </div>
-           </Button>
-          </PopoverTrigger>
-          <PopoverContent className='w-[200px] p-0'>
-           <Command>
-            <CommandInput />
-            <CommandList>
-             <CommandGroup>
-              {initialData.data?.hotelTypes.map((item) => (
-               <CommandItem
-                key={item.key}
-                value={item.value}
-                onSelect={() => {
-                 setOpenHotelType(false);
-                 onChange(item);
-                }}
-               >
-                {item.value}
-                <Check
-                 className={cn(
-                  'ml-auto',
-                  value?.key === item.key ? 'opacity-100' : 'opacity-0',
-                 )}
-                />
-               </CommandItem>
-              ))}
-             </CommandGroup>
-            </CommandList>
-           </Command>
-          </PopoverContent>
-         </Popover>
-        </Field>
-       )}
-      />
       <Controller
        control={control}
        name='owner'
@@ -488,20 +419,6 @@ export default function NewHotel({
             </span>
             <div className='flex gap-1 items-center -me-2'>
              {ownersLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
              <ChevronsUpDown className='opacity-50' />
             </div>
            </Button>
@@ -542,169 +459,207 @@ export default function NewHotel({
         </Field>
        )}
       />
-      <Controller
-       control={control}
-       name='hotelOwnershipType'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2' data-invalid={!!errors.hotelOwnershipType}>
-         <FieldLabel htmlFor='hotelOwnershipType'>
-          {dic.newHotel.form.ownerShipType}
-         </FieldLabel>
-         <Popover open={openOwnerShipType} onOpenChange={setOpenOwnerShipType}>
-          <PopoverTrigger asChild>
-           <Button
-            type='button'
-            data-invalid={!!errors.hotelOwnershipType}
-            id='hotelOwnershipType'
-            title={value?.value || ''}
-            variant='outline'
-            role='combobox'
-            aria-expanded={openOwnerShipType}
-            className='justify-between'
-            {...other}
-           >
-            <span className='text-start grow overflow-hidden text-ellipsis'>
-             {value?.value || ''}
-            </span>
-            <div className='flex gap-1 items-center -me-2'>
-             {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
-             <ChevronsUpDown className='opacity-50' />
-            </div>
-           </Button>
-          </PopoverTrigger>
-          <PopoverContent className='w-[200px] p-0'>
-           <Command>
-            <CommandInput />
-            <CommandList>
-             <CommandGroup>
-              {initialData.data?.hotelOwnershipTypes.map((item) => (
-               <CommandItem
-                key={item.key}
-                value={item.value}
-                onSelect={() => {
-                 setOpenOwnerShipType(false);
-                 onChange(item);
-                }}
-               >
-                {item.value}
-                <Check
-                 className={cn(
-                  'ml-auto',
-                  value?.key === item.key ? 'opacity-100' : 'opacity-0',
-                 )}
-                />
-               </CommandItem>
-              ))}
-             </CommandGroup>
-            </CommandList>
-           </Command>
-          </PopoverContent>
-         </Popover>
-        </Field>
-       )}
-      />
-      <Controller
-       control={control}
-       name='hotelOperatorType'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2' data-invalid={!!errors.hotelOperatorType}>
-         <FieldLabel htmlFor='hotelOperatorType'>
-          {dic.newHotel.form.operatorType}
-         </FieldLabel>
-         <Popover open={openOperatorType} onOpenChange={setOpenOperatorType}>
-          <PopoverTrigger asChild>
-           <Button
-            type='button'
-            data-invalid={!!errors.hotelOperatorType}
-            id='hotelOperatorType'
-            variant='outline'
-            title={value?.value || ''}
-            role='combobox'
-            aria-expanded={openOperatorType}
-            className='justify-between'
-            {...other}
-           >
-            <span className='text-start grow overflow-hidden text-ellipsis'>
-             {value?.value || ''}
-            </span>
-            <div className='flex gap-1 items-center -me-2'>
-             {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
-             <ChevronsUpDown className='opacity-50' />
-            </div>
-           </Button>
-          </PopoverTrigger>
-          <PopoverContent className='p-0'>
-           <Command>
-            <CommandInput />
-            <CommandList>
-             <CommandGroup>
-              {initialData.data?.hotelOperators.map((item) => (
-               <CommandItem
-                key={item.key}
-                value={item.value}
-                onSelect={() => {
-                 setOpenOperatorType(false);
-                 onChange(item);
-                }}
-               >
-                {item.value}
-                <Check
-                 className={cn(
-                  'ml-auto',
-                  value?.key === item.key ? 'opacity-100' : 'opacity-0',
-                 )}
-                />
-               </CommandItem>
-              ))}
-             </CommandGroup>
-            </CommandList>
-           </Command>
-          </PopoverContent>
-         </Popover>
-        </Field>
-       )}
-      />
+      <div className='col-span-full grid grid-cols-2 lg:grid-cols-3 gap-3 gap-y-4'>
+       <Controller
+        control={control}
+        name='hotelType'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2' data-invalid={!!errors.hotelType}>
+          <FieldLabel htmlFor='hotelType'>
+           {dic.newHotel.form.hotelType} *
+          </FieldLabel>
+          <Popover open={openHotelType} onOpenChange={setOpenHotelType}>
+           <PopoverTrigger asChild>
+            <Button
+             type='button'
+             id='hotelType'
+             title={value?.value || ''}
+             variant='outline'
+             role='combobox'
+             aria-expanded={openHotelType}
+             className='justify-between'
+             data-invalid={!!errors.hotelType}
+             {...other}
+            >
+             <span className='text-start grow overflow-hidden text-ellipsis'>
+              {value?.value || ''}
+             </span>
+             <div className='flex gap-1 items-center -me-2'>
+              {initialData.isLoading && <Spinner />}
+              <ChevronsUpDown className='opacity-50' />
+             </div>
+            </Button>
+           </PopoverTrigger>
+           <PopoverContent className='w-[200px] p-0'>
+            <Command>
+             <CommandInput />
+             <CommandList>
+              <CommandGroup>
+               {initialData.data?.hotelTypes.map((item) => (
+                <CommandItem
+                 key={item.key}
+                 value={item.value}
+                 onSelect={() => {
+                  setOpenHotelType(false);
+                  onChange(item);
+                 }}
+                >
+                 {item.value}
+                 <Check
+                  className={cn(
+                   'ml-auto',
+                   value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                  )}
+                 />
+                </CommandItem>
+               ))}
+              </CommandGroup>
+             </CommandList>
+            </Command>
+           </PopoverContent>
+          </Popover>
+         </Field>
+        )}
+       />
+       <Controller
+        control={control}
+        name='hotelOwnershipType'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2' data-invalid={!!errors.hotelOwnershipType}>
+          <FieldLabel htmlFor='hotelOwnershipType'>
+           {dic.newHotel.form.ownerShipType} *
+          </FieldLabel>
+          <Popover open={openOwnerShipType} onOpenChange={setOpenOwnerShipType}>
+           <PopoverTrigger asChild>
+            <Button
+             type='button'
+             data-invalid={!!errors.hotelOwnershipType}
+             id='hotelOwnershipType'
+             title={value?.value || ''}
+             variant='outline'
+             role='combobox'
+             aria-expanded={openOwnerShipType}
+             className='justify-between'
+             {...other}
+            >
+             <span className='text-start grow overflow-hidden text-ellipsis'>
+              {value?.value || ''}
+             </span>
+             <div className='flex gap-1 items-center -me-2'>
+              {initialData.isLoading && <Spinner />}
+              <ChevronsUpDown className='opacity-50' />
+             </div>
+            </Button>
+           </PopoverTrigger>
+           <PopoverContent className='w-[200px] p-0'>
+            <Command>
+             <CommandInput />
+             <CommandList>
+              <CommandGroup>
+               {initialData.data?.hotelOwnershipTypes.map((item) => (
+                <CommandItem
+                 key={item.key}
+                 value={item.value}
+                 onSelect={() => {
+                  setOpenOwnerShipType(false);
+                  onChange(item);
+                 }}
+                >
+                 {item.value}
+                 <Check
+                  className={cn(
+                   'ml-auto',
+                   value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                  )}
+                 />
+                </CommandItem>
+               ))}
+              </CommandGroup>
+             </CommandList>
+            </Command>
+           </PopoverContent>
+          </Popover>
+         </Field>
+        )}
+       />
+       <Controller
+        control={control}
+        name='hotelOperatorType'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2' data-invalid={!!errors.hotelOperatorType}>
+          <FieldLabel htmlFor='hotelOperatorType'>
+           {dic.newHotel.form.operatorType} *
+          </FieldLabel>
+          <Popover open={openOperatorType} onOpenChange={setOpenOperatorType}>
+           <PopoverTrigger asChild>
+            <Button
+             type='button'
+             data-invalid={!!errors.hotelOperatorType}
+             id='hotelOperatorType'
+             variant='outline'
+             title={value?.value || ''}
+             role='combobox'
+             aria-expanded={openOperatorType}
+             className='justify-between'
+             {...other}
+            >
+             <span className='text-start grow overflow-hidden text-ellipsis'>
+              {value?.value || ''}
+             </span>
+             <div className='flex gap-1 items-center -me-2'>
+              {initialData.isLoading && <Spinner />}
+              <ChevronsUpDown className='opacity-50' />
+             </div>
+            </Button>
+           </PopoverTrigger>
+           <PopoverContent className='p-0'>
+            <Command>
+             <CommandInput />
+             <CommandList>
+              <CommandGroup>
+               {initialData.data?.hotelOperators.map((item) => (
+                <CommandItem
+                 key={item.key}
+                 value={item.value}
+                 onSelect={() => {
+                  setOpenOperatorType(false);
+                  onChange(item);
+                 }}
+                >
+                 {item.value}
+                 <Check
+                  className={cn(
+                   'ml-auto',
+                   value?.key === item.key ? 'opacity-100' : 'opacity-0',
+                  )}
+                 />
+                </CommandItem>
+               ))}
+              </CommandGroup>
+             </CommandList>
+            </Command>
+           </PopoverContent>
+          </Popover>
+         </Field>
+        )}
+       />
+      </div>
      </div>
-     <div className='grid grid-cols-2 gap-3 gap-y-4 bg-background p-4 border border-input rounded-md'>
+     <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 gap-y-4 bg-background p-4 border border-input rounded-md'>
       <Controller
        control={control}
        name='gradeType'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='gradeType'>{dic.newHotel.form.grade}</FieldLabel>
+        <Field className='gap-2' data-invalid={!!errors.gradeType}>
+         <FieldLabel htmlFor='gradeType'>
+          {dic.newHotel.form.grade} *
+         </FieldLabel>
          <Popover open={openGradeType} onOpenChange={setOpenGradeType}>
           <PopoverTrigger asChild>
            <Button
             type='button'
             id='gradeType'
+            data-invalid={!!errors.gradeType}
             variant='outline'
             title={value?.value || ''}
             role='combobox'
@@ -717,20 +672,6 @@ export default function NewHotel({
             </span>
             <div className='flex gap-1 items-center -me-2'>
              {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
              <ChevronsUpDown className='opacity-50' />
             </div>
            </Button>
@@ -770,13 +711,14 @@ export default function NewHotel({
        control={control}
        name='degreeType'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.degreeType}>
          <FieldLabel htmlFor='degreeType'>
-          {dic.newHotel.form.degree}
+          {dic.newHotel.form.degree} *
          </FieldLabel>
          <Popover open={openDegreeType} onOpenChange={setOpenDegreeType}>
           <PopoverTrigger asChild>
            <Button
+            data-invalid={!!errors.degreeType}
             type='button'
             id='degreeType'
             variant='outline'
@@ -791,20 +733,6 @@ export default function NewHotel({
             </span>
             <div className='flex gap-1 items-center -me-2'>
              {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
              <ChevronsUpDown className='opacity-50' />
             </div>
            </Button>
@@ -844,13 +772,14 @@ export default function NewHotel({
        control={control}
        name='locationType'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.locationType}>
          <FieldLabel htmlFor='locationType'>
-          {dic.newHotel.form.locationType}
+          {dic.newHotel.form.locationType} *
          </FieldLabel>
          <Popover open={openLocationType} onOpenChange={setOpenLocationType}>
           <PopoverTrigger asChild>
            <Button
+            data-invalid={!!errors.locationType}
             type='button'
             id='locationType'
             variant='outline'
@@ -865,20 +794,6 @@ export default function NewHotel({
             </span>
             <div className='flex gap-1 items-center -me-2'>
              {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
              <ChevronsUpDown className='opacity-50' />
             </div>
            </Button>
@@ -918,9 +833,9 @@ export default function NewHotel({
        control={control}
        name='hotelTheme'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.hotelTheme}>
          <FieldLabel htmlFor='hotelTheme'>
-          {dic.newHotel.form.hotelTheme}
+          {dic.newHotel.form.hotelTheme} *
          </FieldLabel>
          <Popover open={openHotelTheme} onOpenChange={setOpenHotelTheme}>
           <PopoverTrigger asChild>
@@ -932,6 +847,7 @@ export default function NewHotel({
             role='combobox'
             aria-expanded={openHotelTheme}
             className='justify-between'
+            data-invalid={!!errors.hotelTheme}
             {...other}
            >
             <span className='text-start grow overflow-hidden text-ellipsis'>
@@ -939,20 +855,6 @@ export default function NewHotel({
             </span>
             <div className='flex gap-1 items-center -me-2'>
              {initialData.isLoading && <Spinner />}
-             {value && (
-              <Button
-               type='button'
-               variant={'ghost'}
-               size={'icon'}
-               className='text-rose-700 dark:text-rose-400'
-               onClick={(e) => {
-                e.stopPropagation();
-                onChange(null);
-               }}
-              >
-               <FaRegTrashAlt />
-              </Button>
-             )}
              <ChevronsUpDown className='opacity-50' />
             </div>
            </Button>
@@ -989,23 +891,26 @@ export default function NewHotel({
        )}
       />
      </div>
-     <div className='grid grid-cols-2 gap-3 gap-y-4 bg-background p-4 border border-input rounded-md'>
+     <div className='grid grid-cols-2 lg:grid-cols-3 gap-3 gap-y-4 bg-background p-4 border border-input rounded-md'>
       <Controller
        control={control}
        name='landArea'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2 col-span-full'>
+        <Field className='gap-2 col-span-full' data-invalid={!!errors.landArea}>
          <FieldLabel htmlFor='landArea'>
-          {dic.newHotel.form.landArea}
+          {dic.newHotel.form.landArea} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.landArea}>
           <NumericFormat
            id='landArea'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
            customInput={InputGroupInput}
            decimalScale={0}
+           allowLeadingZeros={false}
           />
          </InputGroup>
         </Field>
@@ -1015,18 +920,21 @@ export default function NewHotel({
        control={control}
        name='buildingArea'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.buildingArea}>
          <FieldLabel htmlFor='buildingArea'>
-          {dic.newHotel.form.buildingArea}
+          {dic.newHotel.form.buildingArea} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.buildingArea}>
           <NumericFormat
            id='buildingArea'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
            customInput={InputGroupInput}
            decimalScale={0}
+           allowLeadingZeros={false}
           />
          </InputGroup>
         </Field>
@@ -1036,17 +944,20 @@ export default function NewHotel({
        control={control}
        name='floorCount'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.floorCount}>
          <FieldLabel htmlFor='floorCount'>
-          {dic.newHotel.form.floorCount}
+          {dic.newHotel.form.floorCount} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.floorCount}>
           <NumericFormat
            id='floorCount'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
            customInput={InputGroupInput}
+           allowLeadingZeros={false}
            decimalScale={0}
           />
          </InputGroup>
@@ -1057,16 +968,19 @@ export default function NewHotel({
        control={control}
        name='towerCount'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.towerCount}>
          <FieldLabel htmlFor='towerCount'>
-          {dic.newHotel.form.towerCount}
+          {dic.newHotel.form.towerCount} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.towerCount}>
           <NumericFormat
            id='towerCount'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
+           allowLeadingZeros={false}
            customInput={InputGroupInput}
            decimalScale={0}
           />
@@ -1078,16 +992,19 @@ export default function NewHotel({
        control={control}
        name='roomCount'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.roomCount}>
          <FieldLabel htmlFor='roomCount'>
-          {dic.newHotel.form.roomCount}
+          {dic.newHotel.form.roomCount} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.roomCount}>
           <NumericFormat
            id='roomCount'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
+           allowLeadingZeros={false}
            customInput={InputGroupInput}
            decimalScale={0}
           />
@@ -1099,17 +1016,20 @@ export default function NewHotel({
        control={control}
        name='bedCount'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.bedCount}>
          <FieldLabel htmlFor='bedCount'>
-          {dic.newHotel.form.bedCount}
+          {dic.newHotel.form.bedCount} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.bedCount}>
           <NumericFormat
            id='bedCount'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
            customInput={InputGroupInput}
+           allowLeadingZeros={false}
            decimalScale={0}
           />
          </InputGroup>
@@ -1120,15 +1040,17 @@ export default function NewHotel({
        control={control}
        name='maxExtraBedCount'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.maxExtraBedCount}>
          <FieldLabel htmlFor='maxExtraBedCount'>
-          {dic.newHotel.form.maxExtraBed}
+          {dic.newHotel.form.maxExtraBed} *
          </FieldLabel>
-         <InputGroup>
+         <InputGroup data-invalid={!!errors.maxExtraBedCount}>
           <NumericFormat
            id='maxExtraBed'
            value={value}
-           onValueChange={({ floatValue }) => onChange(floatValue)}
+           onValueChange={({ floatValue }) =>
+            onChange(floatValue === undefined ? '' : floatValue)
+           }
            {...other}
            customInput={InputGroupInput}
            decimalScale={0}
@@ -1143,11 +1065,12 @@ export default function NewHotel({
        control={control}
        name='state'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='state'>{dic.newHotel.form.state}</FieldLabel>
+        <Field className='gap-2' data-invalid={!!errors.state}>
+         <FieldLabel htmlFor='state'>{dic.newHotel.form.state} *</FieldLabel>
          <Popover open={openState} onOpenChange={setOpenState}>
           <PopoverTrigger asChild>
            <Button
+            data-invalid={!!errors.state}
             type='button'
             id='state'
             variant='outline'
@@ -1215,11 +1138,12 @@ export default function NewHotel({
        control={control}
        name='city'
        render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
+        <Field className='gap-2' data-invalid={!!errors.city}>
          <FieldLabel htmlFor='city'>{dic.newHotel.form.city}</FieldLabel>
          <Popover open={openCity} onOpenChange={setOpenCity}>
           <PopoverTrigger asChild>
            <Button
+            data-invalid={!!errors.city}
             type='button'
             id='city'
             variant='outline'
@@ -1283,119 +1207,121 @@ export default function NewHotel({
         </Field>
        )}
       />
-      <Controller
-       control={control}
-       name='longitude'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='longitude'>
-          {dic.newHotel.form.logitude}
-         </FieldLabel>
-         <InputGroup>
-          <NumericFormat
-           id='logitude'
-           value={value}
-           onValueChange={({ value }) => onChange(value)}
-           {...other}
-           customInput={InputGroupInput}
-          />
-         </InputGroup>
-        </Field>
-       )}
-      />
-      <Controller
-       control={control}
-       name='latitude'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='latitude'>
-          {dic.newHotel.form.latitude}
-         </FieldLabel>
-         <InputGroup>
-          <NumericFormat
-           id='latitude'
-           value={value}
-           onValueChange={({ value }) => onChange(value)}
-           {...other}
-           customInput={InputGroupInput}
-          />
-         </InputGroup>
-        </Field>
-       )}
-      />
-      <Controller
-       control={control}
-       name='fax'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='fax'>{dic.newHotel.form.fax}</FieldLabel>
-         <InputGroup>
-          <NumericFormat
-           id='fax'
-           value={value}
-           onValueChange={({ value }) => onChange(value)}
-           {...other}
-           customInput={InputGroupInput}
-           decimalScale={0}
-          />
-         </InputGroup>
-        </Field>
-       )}
-      />
-      <Controller
-       control={control}
-       name='postalCode'
-       render={({ field: { value, onChange, ...other } }) => (
-        <Field className='gap-2'>
-         <FieldLabel htmlFor='postalCode'>
-          {dic.newHotel.form.postalCode}
-         </FieldLabel>
-         <InputGroup>
-          <NumericFormat
-           id='postalCode'
-           value={value}
-           onValueChange={({ value }) => onChange(value)}
-           {...other}
-           customInput={InputGroupInput}
-           decimalScale={0}
-          />
-         </InputGroup>
-        </Field>
-       )}
-      />
-      <Field className='gap-2'>
-       <FieldLabel htmlFor='tel1'>{dic.newHotel.form.tel}</FieldLabel>
-       <InputGroup>
-        <InputGroupInput id='tel1' {...register('tel1')} />
-       </InputGroup>
-      </Field>
-      <Field className='gap-2'>
-       <FieldLabel htmlFor='tel2'>{dic.newHotel.form.tel}</FieldLabel>
-       <InputGroup>
-        <InputGroupInput id='tel2' {...register('tel2')} />
-       </InputGroup>
-      </Field>
-      <Field className='gap-2'>
-       <FieldLabel htmlFor='tel3'>{dic.newHotel.form.tel}</FieldLabel>
-       <InputGroup>
-        <InputGroupInput id='tel3' {...register('tel3')} />
-       </InputGroup>
-      </Field>
-      <Field className='gap-2' data-invalid={!!errors.email}>
-       <FieldLabel htmlFor='email'>{dic.newHotel.form.email}</FieldLabel>
-       <InputGroup data-invalid={!!errors.email}>
-        <InputGroupInput id='email' {...register('email')} />
-       </InputGroup>
-      </Field>
-      <Field className='gap-2 col-span-full'>
-       <FieldLabel htmlFor='website'>{dic.newHotel.form.website}</FieldLabel>
-       <InputGroup>
-        <InputGroupInput id='website' {...register('website')} />
-       </InputGroup>
-      </Field>
-      <Field className='gap-2 col-span-full'>
-       <FieldLabel htmlFor='address'>{dic.newHotel.form.address}</FieldLabel>
-       <InputGroup>
+      <div className='col-span-full grid grid-cols-2 lg:grid-cols-3 gap-3 gap-y-4'>
+       <Controller
+        control={control}
+        name='longitude'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2'>
+          <FieldLabel htmlFor='longitude'>
+           {dic.newHotel.form.logitude}
+          </FieldLabel>
+          <InputGroup>
+           <NumericFormat
+            id='logitude'
+            value={value}
+            onValueChange={({ value }) => onChange(value)}
+            {...other}
+            customInput={InputGroupInput}
+           />
+          </InputGroup>
+         </Field>
+        )}
+       />
+       <Controller
+        control={control}
+        name='latitude'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2'>
+          <FieldLabel htmlFor='latitude'>
+           {dic.newHotel.form.latitude}
+          </FieldLabel>
+          <InputGroup>
+           <NumericFormat
+            id='latitude'
+            value={value}
+            onValueChange={({ value }) => onChange(value)}
+            {...other}
+            customInput={InputGroupInput}
+           />
+          </InputGroup>
+         </Field>
+        )}
+       />
+       <Controller
+        control={control}
+        name='fax'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2'>
+          <FieldLabel htmlFor='fax'>{dic.newHotel.form.fax}</FieldLabel>
+          <InputGroup>
+           <NumericFormat
+            id='fax'
+            value={value}
+            onValueChange={({ value }) => onChange(value)}
+            {...other}
+            customInput={InputGroupInput}
+            decimalScale={0}
+           />
+          </InputGroup>
+         </Field>
+        )}
+       />
+       <Controller
+        control={control}
+        name='postalCode'
+        render={({ field: { value, onChange, ...other } }) => (
+         <Field className='gap-2'>
+          <FieldLabel htmlFor='postalCode'>
+           {dic.newHotel.form.postalCode}
+          </FieldLabel>
+          <InputGroup>
+           <NumericFormat
+            id='postalCode'
+            value={value}
+            onValueChange={({ value }) => onChange(value)}
+            {...other}
+            customInput={InputGroupInput}
+            decimalScale={0}
+           />
+          </InputGroup>
+         </Field>
+        )}
+       />
+       <Field className='gap-2' data-invalid={!!errors.email}>
+        <FieldLabel htmlFor='email'>{dic.newHotel.form.email}</FieldLabel>
+        <InputGroup data-invalid={!!errors.email}>
+         <InputGroupInput id='email' {...register('email')} />
+        </InputGroup>
+       </Field>
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='website'>{dic.newHotel.form.website}</FieldLabel>
+        <InputGroup>
+         <InputGroupInput id='website' {...register('website')} />
+        </InputGroup>
+       </Field>
+       <Field className='gap-2' data-invalid={!!errors.tel1}>
+        <FieldLabel htmlFor='tel1'>{dic.newHotel.form.tel} *</FieldLabel>
+        <InputGroup data-invalid={!!errors.tel1}>
+         <InputGroupInput id='tel1' {...register('tel1')} />
+        </InputGroup>
+       </Field>
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='tel2'>{dic.newHotel.form.tel}</FieldLabel>
+        <InputGroup>
+         <InputGroupInput id='tel2' {...register('tel2')} />
+        </InputGroup>
+       </Field>
+       <Field className='gap-2'>
+        <FieldLabel htmlFor='tel3'>{dic.newHotel.form.tel}</FieldLabel>
+        <InputGroup>
+         <InputGroupInput id='tel3' {...register('tel3')} />
+        </InputGroup>
+       </Field>
+      </div>
+      <Field className='gap-2 col-span-full' data-invalid={!!errors.address}>
+       <FieldLabel htmlFor='address'>{dic.newHotel.form.address} *</FieldLabel>
+       <InputGroup data-invalid={!!errors.address}>
         <InputGroupTextarea id='address' {...register('address')} />
        </InputGroup>
       </Field>
