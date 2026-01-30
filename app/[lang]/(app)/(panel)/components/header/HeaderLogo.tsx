@@ -7,7 +7,7 @@ export default function HeaderLogo() {
  const { locale } = useBaseConfig();
  return (
   <Link href={`/${locale}`}>
-   <LogoWithInlineText height={'2.2rem'} />
+   {/*<LogoWithInlineText height={'2.2rem'} />*/}
   </Link>
  );
 }
