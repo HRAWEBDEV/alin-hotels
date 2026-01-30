@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useBaseConfig } from '@/services/base-config/baseConfigContext';
 import { MdViewColumn } from 'react-icons/md';
-import { FaUserFriends, FaTools } from 'react-icons/fa';
+import { FaUserFriends, FaTools, FaBed } from 'react-icons/fa';
 import { IoMdBusiness, IoIosPerson } from 'react-icons/io';
 import { TbFilterSearch } from 'react-icons/tb';
 import {
@@ -350,6 +350,17 @@ export default function HotelsTable({ dic }: { dic: HotelsDictionary }) {
          >
           <FaUserFriends className='size-5 text-inherit' />
           {dic.tabs.hotelEmployees}
+         </DropdownMenuItem>
+         <DropdownMenuItem
+          className='text-secondary'
+          onClick={() => {
+           const typedOriginal = row.original;
+           onEditHotel(typedOriginal.id);
+           changeSelectedDetailTab('hotelRoomTypes');
+          }}
+         >
+          <FaBed className='size-5 text-inherit' />
+          {dic.tabs.hotelRoomTypes}
          </DropdownMenuItem>
          <DropdownMenuItem
           className='text-purple-700 dark:text-purple-400'

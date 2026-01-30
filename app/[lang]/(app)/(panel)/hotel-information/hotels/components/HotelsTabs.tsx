@@ -6,7 +6,7 @@ import { FaUserEdit } from 'react-icons/fa';
 import { FaClipboardList } from 'react-icons/fa';
 import { useHotelsConfigContext } from '../services/hotelsConfigContext';
 import { type HotelsDictionary } from '@/internalization/app/dictionaries/hotel-information/hotels/dictionary';
-import { FaUserFriends, FaTools } from 'react-icons/fa';
+import { FaUserFriends, FaTools, FaBed } from 'react-icons/fa';
 import { IoMdBusiness, IoIosPerson } from 'react-icons/io';
 
 export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
@@ -34,6 +34,9 @@ export default function HotelsTabs({ dic }: { dic: HotelsDictionary }) {
     break;
    case 'hotelOperators':
     detailIcon = <IoMdBusiness />;
+    break;
+   case 'hotelRoomTypes':
+    detailIcon = <FaBed />;
     break;
   }
 

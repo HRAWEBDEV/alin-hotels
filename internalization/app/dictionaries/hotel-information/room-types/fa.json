@@ -2,8 +2,8 @@
  "title": "انواع اتاق",
  "tabs": {
   "roomTypesList": "لیست",
-  "editRoomType": "افزودن",
-  "addRoomType": "ویرایش"
+  "editRoomType": "ویرایش",
+  "addRoomType": "افزودن"
  },
  "filters": {
   "title": "فیلترها",

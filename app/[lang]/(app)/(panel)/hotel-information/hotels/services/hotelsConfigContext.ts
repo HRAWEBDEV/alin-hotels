@@ -16,7 +16,8 @@ type DetailTab =
  | 'hotelFacilities'
  | 'hotelEmployees'
  | 'hotelManagers'
- | 'hotelOperators';
+ | 'hotelOperators'
+ | 'hotelRoomTypes';
 
 type NewHotelModes = 'add' | 'edit';
 const detailTabs: DetailTab[] = [

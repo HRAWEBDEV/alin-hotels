@@ -7,7 +7,8 @@
   "hotelFacilities": "امکانات",
   "hotelEmployees": "کارکنان",
   "hotelManagers": "مدیریت",
-  "hotelOperators": "اپراتور"
+  "hotelOperators": "اپراتور",
+  "hotelRoomTypes": "انواع اتاق"
  },
  "filters": {
   "title": "فیلترها",
@@ -157,6 +158,26 @@
  "removeHotelOperator": {
   "title": "حذف شخص",
   "confirmRemoveOperator": "آیا از حذف آیتم اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
+ },
+ "hotelRoomTypes": {
+  "form": {
+   "addRoomType": "افزودن",
+   "editRoomType": "ویرایش",
+   "name": "عنوان",
+   "roomType": "نوع اتاق",
+   "roomCount": "تعداد",
+   "bedCount": "تعداد تخت‌ها",
+   "all": "همه",
+   "cancel": "انصراف",
+   "save": "تایید"
+  },
+  "formValidation": {}
+ },
+ "removeHotelRoomType": {
+  "title": "آیتم شخص",
+  "confirmRemoveRoomType": "آیا از حذف آیتم اطمینان دارید؟",
   "confirm": "تایید",
   "cancel": "انصراف"
  }

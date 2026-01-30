@@ -75,16 +75,12 @@ export default function NewHotel({
   reset,
   setValue,
   setFocus,
-  watch,
  } = useForm<HotelSchema>({
   resolver: zodResolver(createHotelSchema({ dic })),
   defaultValues: {
    ...defaultValues,
   },
  });
- const [landAreaValue] = watch(['landArea']);
-
- console.log(errors, landAreaValue);
  //
  const { localeInfo } = useBaseConfig();
  //
