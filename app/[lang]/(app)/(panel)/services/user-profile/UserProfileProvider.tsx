@@ -55,6 +55,7 @@ export default function UserProfileProvider({
   type?: UserPorifleTab;
  }) {
   setIsOpen((pre) => (open === undefined ? !pre : open));
+  if (open === false) return;
   setProfileTab(type || 'generalInfo');
  }
 
