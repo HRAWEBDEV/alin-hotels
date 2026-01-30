@@ -612,7 +612,7 @@ export default function NewHotel({
              </div>
             </Button>
            </PopoverTrigger>
-           <PopoverContent className='p-0'>
+           <PopoverContent className='p-0 w-[200px]'>
             <Command>
              <CommandInput />
              <CommandList>

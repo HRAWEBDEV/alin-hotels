@@ -11,6 +11,9 @@ const pages = {
   hotels: {
    name: 'hotels',
   },
+  roomTypes: {
+   name: 'room-types',
+  },
  },
  'general-settings': {
   'real-persons': {

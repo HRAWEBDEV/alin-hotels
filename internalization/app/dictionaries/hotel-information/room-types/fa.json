@@ -1,0 +1,34 @@
+{
+ "title": "انواع اتاق",
+ "tabs": {
+  "roomTypesList": "لیست انواع اتاق",
+  "editRoomType": "ویرایش نوع اتاق",
+  "addRoomType": "افزودن نوع اتاق"
+ },
+ "filters": {
+  "title": "فیلترها",
+  "results": "نتایج"
+ },
+ "table": {
+  "columns": "ستون‌ها",
+  "filters": "فیلترها",
+  "edit": "ویرایش",
+  "remove": "حذف",
+  "next": "بعدی",
+  "prev": "قبلی"
+ },
+ "newRoomType": {
+  "newRoomTypeAdded": "نوع اتاق جدید اضافه شد",
+  "form": {
+   "save": "ذخیره",
+   "cancel": "انصراف",
+   "clearForm": "خالی کردن اطلاعات"
+  }
+ },
+ "removeRoomType": {
+  "title": "حذف نوع اتاق",
+  "confirmRemoveRoomType": "آیا از حذف نوع اتاق اطمینان دارید؟",
+  "confirm": "تایید",
+  "cancel": "انصراف"
+ }
+}
