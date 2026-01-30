@@ -34,7 +34,6 @@ export default function UserInfoProvider({
 
  useEffect(() => {
   if (!isError) return;
-  toast.error(error.message);
   logout();
  }, [isError, error, logout]);
 
