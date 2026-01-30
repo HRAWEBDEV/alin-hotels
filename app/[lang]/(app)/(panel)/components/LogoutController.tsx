@@ -23,7 +23,7 @@ function LogoutControllerButton() {
      type='button'
      variant='outline'
      size='icon-lg'
-     className='hidden lg:flex rounded-full text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
+     className='flex rounded-full text-rose-700 dark:text-rose-400 border-rose-700 dark:border-rose-400'
      onClick={logout}
     >
      <RiLogoutBoxRFill className='size-5' />
