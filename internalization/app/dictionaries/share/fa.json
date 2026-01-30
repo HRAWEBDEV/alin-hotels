@@ -15,6 +15,9 @@
   }
  },
  "components": {
+  "notFoundPage": {
+   "title": "صفحه‌ای یافت نشد"
+  },
   "logOutModal": {
    "title": "خروج از سیستم",
    "confirm": "تایید",
