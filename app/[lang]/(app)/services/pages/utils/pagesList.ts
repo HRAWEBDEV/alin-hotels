@@ -7,9 +7,9 @@ type Page = {
 }[Path];
 
 const pages = {
- config: {
-  'sms-panel-config': {
-   name: 'sms-panel-config',
+ 'hotel-information': {
+  hotels: {
+   name: 'hotels',
   },
  },
  'general-settings': {
@@ -26,9 +26,9 @@ const pages = {
    name: 'owners',
   },
  },
- 'hotel-information': {
-  hotels: {
-   name: 'hotels',
+ config: {
+  'sms-panel-config': {
+   name: 'sms-panel-config',
   },
  },
 } as const;
