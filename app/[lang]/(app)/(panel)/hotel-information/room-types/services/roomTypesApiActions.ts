@@ -44,7 +44,7 @@ function getRoomType({
  roomTypeID,
  signal,
 }: {
- signal: AbortSignal;
+ signal?: AbortSignal;
  roomTypeID: number;
 }) {
  return axios.get<RoomType>(`${roomTypesBasePath}/${roomTypeID}`, {
