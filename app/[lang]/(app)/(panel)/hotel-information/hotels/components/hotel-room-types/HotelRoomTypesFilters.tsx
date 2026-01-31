@@ -210,6 +210,8 @@ export default function HotelRoomTypesFilters({
           onValueChange={({ floatValue }) =>
            onChange(floatValue || floatValue === 0 ? floatValue : '')
           }
+          decimalScale={0}
+          allowLeadingZeros={false}
           customInput={InputGroupInput}
          />
         </InputGroup>

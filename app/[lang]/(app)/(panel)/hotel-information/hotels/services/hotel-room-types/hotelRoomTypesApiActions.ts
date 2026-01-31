@@ -17,7 +17,7 @@ interface HotelRoomType {
 }
 
 type SaveHotelRoomTypePackage = {
- mainData: Omit<HotelRoomType, 'hotelName' | 'roomTypeName' | 'dictionay'>;
+ mainData: Omit<HotelRoomType, 'hotelName' | 'roomTypeName' | 'dictionary'>;
  dictionaryData: Pick<Dictionary, 'id' | 'defaultValue'> &
   Partial<Omit<Dictionary, 'id' | 'defaultValue'>>;
 };

@@ -33,7 +33,7 @@ import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { IoIosWarning } from 'react-icons/io';
 import { type RoomTypesDictionary } from '@/internalization/app/dictionaries/hotel-information/room-types/dictionary';
-// import NewHotelOperator from '../../components/hotel-operators/NewHotelOperator';
+import NewHotelRoomType from '../../components/hotel-room-types/NewHotelRoomType';
 
 export default function HotelRoomTypeConfigProvider({
  children,
@@ -163,15 +163,14 @@ export default function HotelRoomTypeConfigProvider({
  return (
   <hotelRoomTypeContext.Provider value={ctx}>
    <FormProvider {...hotelRoomTypeUseForm}>{children}</FormProvider>
-   {/*<NewHotelOperator
-    open={showAddOperator}
-    setOpen={setShowAddOperator}
-    operatorID={selectedOperatorID}
-    realPersonDic={realPersonDic}
-    companyDic={companyDic}
-    hotelID={hotelID}
+   <NewHotelRoomType
+    open={showAddRoomType}
+    setOpen={setShowAddRoomType}
     dic={dic}
-   />*/}
+    roomTypeID={selectedRoomTypeID}
+    hotelID={hotelID}
+    roomTypesDic={roomTypesDic}
+   />
    <Dialog
     open={showRemoveRoomTypeConfirm}
     onOpenChange={(newValue) => setShowRemoveRoomTypeConfirm(newValue)}

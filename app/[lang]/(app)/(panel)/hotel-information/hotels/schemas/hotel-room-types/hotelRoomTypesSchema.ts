@@ -11,7 +11,7 @@ const defaultValues: Partial<HotelHotelRoomSchema> = {
 function createHotelRoomTypesSchema({}: { dic: HotelsDictionary }) {
  return z
   .object({
-   name: z.string(),
+   name: z.string().min(1),
    roomType: z
     .object({
      key: z.string(),
