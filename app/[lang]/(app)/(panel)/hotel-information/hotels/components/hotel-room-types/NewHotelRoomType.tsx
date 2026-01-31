@@ -114,7 +114,7 @@ export default function NewHotelRoomType({
  // get data
  const { data, isError, isLoading } = useQuery({
   enabled: !!roomTypeID,
-  queryKey: [roomTypesBasePath, 'roomType', roomTypeID?.toString()],
+  queryKey: [hotelHotelRoomTypeBasePath, 'roomType', roomTypeID?.toString()],
   async queryFn({ signal }) {
    const res = await getHotelRoomType({
     signal,
@@ -388,7 +388,7 @@ export default function NewHotelRoomType({
      dic={roomTypesDic}
      open={showFindRoomType}
      wrapperType={{
-      roomTypeID,
+      roomTypeID: data?.roomTypeID || null,
       onChangeHotel(roomTypeID) {
        setShowFindRoomType(false);
        confirmGetRoomType(roomTypeID);
