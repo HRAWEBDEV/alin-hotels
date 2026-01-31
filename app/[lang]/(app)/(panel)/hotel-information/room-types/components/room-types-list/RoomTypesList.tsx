@@ -4,7 +4,7 @@ import RoomTypesTable from './RoomTypesTable';
 
 export default function RoomTypesList({ dic }: { dic: RoomTypesDictionary }) {
  return (
-  <div className='relative grid lg:grid-cols-[13.5rem_1fr] grow overflow-hidden'>
+  <div className='relative grid lg:grid-cols-[13.5rem_1fr] grow overflow-hidden mx-auto w-[min(100%,60rem)]'>
    <RoomTypesFilters dic={dic} />
    <RoomTypesTable dic={dic} />
   </div>
